@@ -271,3 +271,6 @@ _Pvt_Extensions
 *.exe
 *.out
 *.app
+
+# Game Expansion
+game_log.txt

@@ -60,6 +60,9 @@
     <ClCompile Include="Source\Expansion\dataio.cpp">
       <Filter>Expansion</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Expansion\log.cpp">
+      <Filter>Expansion</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -96,6 +99,9 @@
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Expansion\dataio.h">
+      <Filter>Expansion</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expansion\log.h">
       <Filter>Expansion</Filter>
     </ClInclude>
   </ItemGroup>

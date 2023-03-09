@@ -14,6 +14,9 @@
     <Filter Include="MyGame">
       <UniqueIdentifier>{0c798913-b7d2-4e26-8241-0f83266cd626}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Expansion">
+      <UniqueIdentifier>{6a4b43e9-aef2-4e3b-b9f2-a56618e2d120}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RES\GAME.RC2">
@@ -54,6 +57,12 @@
     <ClCompile Include="Source\Game\mygame_run.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Expansion\dataio.cpp">
+      <Filter>Expansion</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Expansion\log.cpp">
+      <Filter>Expansion</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -88,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="Source\Game\config.h">
       <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expansion\dataio.h">
+      <Filter>Expansion</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expansion\log.h">
+      <Filter>Expansion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

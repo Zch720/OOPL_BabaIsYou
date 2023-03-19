@@ -1,15 +1,15 @@
-#pragma once
+ï»¿#pragma once
 
 /*
-ªì©l¤Æ log
+åˆå§‹åŒ– log
 */
 void logInit();
 
 /*
-¿é¥X log °T®§¡G
-	info ¤@¯ë°T®§
-	warning Äµ§i°T®§
-	error ¿ù»~°T®§
+è¼¸å‡º log è¨Šæ¯ï¼š
+	info ä¸€èˆ¬è¨Šæ¯
+	warning è­¦å‘Šè¨Šæ¯
+	error éŒ¯èª¤è¨Šæ¯
 */
 void logInfo(const char *message);
 void logWarning(const char *message);

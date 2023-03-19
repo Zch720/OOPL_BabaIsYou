@@ -63,6 +63,27 @@
     <ClCompile Include="Source\Expansion\log.cpp">
       <Filter>Expansion</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\gameobject_id.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\property_id.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\gameobject_properties.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\gameobject_properties_manager.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\level_manager.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\gameobject.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\gameobject_type.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -103,6 +124,27 @@
     </ClInclude>
     <ClInclude Include="Source\Expansion\log.h">
       <Filter>Expansion</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\gameobject_id.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\property_id.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\gameobject_properties.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\gameobject_properties_manager.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\level_manager.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\gameobject.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\gameobject_type.h">
+      <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

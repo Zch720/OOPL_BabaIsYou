@@ -10,15 +10,24 @@ class Gameobject {
 private:
 	game_framework::CMovingBitmap texture;
 	GameobjectId gameobjectId;
+	GameobjectType gameobjectType;
 
 	int textureSize = 0;
 	double textureFactor = 1;
+	CPoint textureOriginPosition;
 	CPoint gameBoardPosition;
 	int direction = 0;
+	int textureStepCount = 0;
 	int remainStep = 0;
 	int undoRemainStep = 0;
 
 	bool isText = false;
+
+	void setTextureColorDir(std::string);
+	void loadTextureStrings(std::vector<std::string>&);
+	void loadCharacterTexture(std::string);
+	void loadTiledTexture(std::string);
+	void loadStaticTexture(std::string);
 
 	void updatePosition();
 	void moveUp();
@@ -34,7 +43,7 @@ private:
 	friend LevelManager;
 
 public:
-	Gameobject(GameobjectId gameobjectId, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize);
+	Gameobject(GameobjectId gameobjectId, std::string colorDir, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize);
 
-	void Show();
+	void Show(int textureCount, int otherCount = 0);
 };

@@ -34,6 +34,8 @@ private:
 	int gameBoardHeight = 1;
 	CPoint textureOriginPosition = CPoint(0, 0);
 	int textureSize;
+	int textureCount = 0;
+	int textureWait = 0;
 
 	bool reachWinObj;
 
@@ -58,6 +60,8 @@ private:
 	void genGameobject(CPoint, GameobjectId);
 
 	bool checkObjectsInBlockHasProp(CPoint, PropId);
+	bool checkObjectsInBlockHasId(CPoint, GameobjectId);
+	int checkObjectConnect(CPoint, GameobjectId);
 
 	void findAllYouObjects();
 	bool checkBlockMoveObjects(CPoint, bool);

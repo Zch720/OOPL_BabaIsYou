@@ -26,6 +26,18 @@ void GameobjectPropsManager::SetGameobjectProp(GameobjectId gameobjectId, PropId
 	propsGroup[gameobjectId].props[propId] = value;
 }
 
+std::string GameobjectPropsManager::GetColorDirName(GameobjectId gameobjectId) {
+	int colorPropId = hasColorProp(gameobjectId);
+
+	/*
+	switch (colorPropId) {
+	default:
+		return "default";
+	}
+	*/
+	return "default";
+}
+
 void GameobjectPropsManager::SetPropWithOtherProp(PropId targetPropId, PropId newPropId, bool value) {
 	for (auto &prop : propsGroup) {
 		if (prop.second.props[targetPropId]) {
@@ -36,4 +48,8 @@ void GameobjectPropsManager::SetPropWithOtherProp(PropId targetPropId, PropId ne
 
 void GameobjectPropsManager::ClearProperties() {
 	propsGroup.clear();
+}
+
+int GameobjectPropsManager::hasColorProp(GameobjectId gameobjectId) {
+	return -1;
 }

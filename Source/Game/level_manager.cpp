@@ -4,6 +4,8 @@
 #include "../Expansion/dataio.h"
 #include "../Expansion/log.h"
 
+#define TEXTURE_WAIT	5
+
 std::vector<std::string> stringSplit(const std::string& str, char delim) {
 	std::vector<std::string> tokens;
 	std::stringstream ss(str);
@@ -28,7 +30,7 @@ int stringToInt(const std::string& str) {
 }
 
 void LevelManager::LoadLevel(int level) {
-	std::string levelSource = loadFile("./resources/test/level/" + intToString(level));
+	std::string levelSource = loadFile("./resources/Level/" + intToString(level));
 	if (levelSource == "") {
 		char message[125];
 		sprintf_s(message, "Can't load level %d source file", level);
@@ -272,9 +274,18 @@ void LevelManager::Show() {
 	for (auto &row : gameBoard) {
 		for (auto &block : row) {
 			for (Gameobject *gameobject : block) {
-				gameobject->Show();
+				if (gameobject->gameobjectType == OBJECT_TYPE_TILED) {
+					gameobject->Show(textureCount, checkObjectConnect(gameobject->gameBoardPosition, gameobject->gameobjectId));
+				}
+				else {
+					gameobject->Show(textureCount);
+				}
 			}
 		}
+	}
+	if (textureWait-- < 0) {
+		textureCount = (textureCount + 1) % 3;
+		textureWait = TEXTURE_WAIT;
 	}
 }
 
@@ -309,7 +320,7 @@ void LevelManager::createGameBoard(std::vector<GameobjectInfo> gameobjectInfos) 
 
 	for (GameobjectInfo &info : gameobjectInfos) {
 		gameBoard[info.position.x][info.position.y].push_back(
-			new Gameobject(info.gameobjectId, info.position, textureOriginPosition, textureSize)
+			new Gameobject(info.gameobjectId, "default", info.position, textureOriginPosition, textureSize)
 		);
 	}
 }
@@ -335,6 +346,33 @@ bool LevelManager::checkObjectsInBlockHasProp(CPoint position, PropId propId) {
 		}
 	}
 	return false;
+}
+
+bool LevelManager::checkObjectsInBlockHasId(CPoint position, GameobjectId gameobjectId) {
+	for (Gameobject *gameobject : gameBoard[position.x][position.y]) {
+		if (gameobject->gameobjectId == gameobjectId) {
+			return true;
+		}
+	}
+	return false;
+}
+
+int LevelManager::checkObjectConnect(CPoint position, GameobjectId gameobjectId) {
+	int result = 0;
+	if (position.x != gameBoardWidth - 1 && checkObjectsInBlockHasId(position + CPoint(1, 0), gameobjectId)) {
+		result += 1;
+	}
+	if (position.y != 0 && checkObjectsInBlockHasId(position - CPoint(0, 1), gameobjectId)) {
+		result += 2;
+	}
+	if (position.x != 0 && checkObjectsInBlockHasId(position - CPoint(1, 0), gameobjectId)) {
+		result += 4;
+	}
+	if (position.y != gameBoardHeight - 1 && checkObjectsInBlockHasId(position + CPoint(0, 1), gameobjectId)) {
+		result += 8;
+	}
+
+	return result;
 }
 
 void LevelManager::setPropsManager() {
@@ -375,7 +413,7 @@ void LevelManager::addGameobject(CPoint position, Gameobject* gameobject) {
 
 void LevelManager::genGameobject(CPoint position, GameobjectId gameobjectId) {
 	gameBoard[position.x][position.y].push_back(
-		new Gameobject(gameobjectId, position, textureOriginPosition, textureSize)
+		new Gameobject(gameobjectId, propsManager.GetColorDirName(gameobjectId), position, textureOriginPosition, textureSize)
 	);
 }
 
@@ -582,14 +620,26 @@ void LevelManager::replaceGameobject(GameobjectId originGameobject, GameobjectId
 		for (auto &block : row) {
 			for (size_t i = 0; i < block.size(); i++) {
 				if (block[i]->gameobjectId == originGameobject) {
-					block.push_back(
-						new Gameobject(
-							convertGameobject,
-							block[i]->gameBoardPosition,
-							textureOriginPosition,
-							textureSize
-						)
+					Gameobject *newGameobject = new Gameobject(
+						convertGameobject,
+						propsManager.GetColorDirName(convertGameobject),
+						block[i]->gameBoardPosition,
+						textureOriginPosition,
+						textureSize
 					);
+					block.push_back(newGameobject);
+					undoBuffer.push_back(UndoInfo{
+						newGameobject,
+						convertGameobject,
+						block[i]->gameBoardPosition,
+						UNDO_ADD
+					});
+					undoBuffer.push_back(UndoInfo{
+						nullptr,
+						originGameobject,
+						block[i]->gameBoardPosition,
+						UNDO_DELETE
+						});
 					delete block[i];
 					block.erase(block.begin() + i);
 				}

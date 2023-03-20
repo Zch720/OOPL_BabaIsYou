@@ -86,7 +86,7 @@ int GetGameobjectByTextObject(GameobjectId gameobjectId) {
 }
 
 std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId) {
-	std::string textureResourcesDir = "./resources/test/sprite/";
+	std::string textureResourcesDir = "./resources/Sprites/";
 
 	switch (gameobjectId) {
 	case GAMEOBJECT_BABA:

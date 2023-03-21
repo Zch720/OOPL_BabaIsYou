@@ -10,15 +10,13 @@ class GameobjectPropsManager {
 private:
 	std::unordered_map<GameobjectId, GameobjectProps> propsGroup;
 
-	int hasColorProp(GameobjectId);
-
 public:
 	GameobjectPropsManager();
 
 	bool GetGameobjectProp(GameobjectId gameobjectId, PropId propId);
 	void SetGameobjectProp(GameobjectId gameobjectId, PropId propId, bool value = true);
 
-	std::string GetColorDirName(GameobjectId gameobjectId);
+	int GetColorProp(GameobjectId);
 
 	void SetPropWithOtherProp(PropId targetPropId, PropId newPropId, bool value = true);
 

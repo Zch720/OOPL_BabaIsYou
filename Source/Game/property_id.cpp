@@ -15,9 +15,21 @@ int GetPropIdByName(std::string propName) {
 	if (propName == "prop_win") {
 		return PROP_WIN;
 	}
+	if (propName == "prop_none") {
+		return PROP_NONE;
+	}
 	
 	char messageBuffer[215];
 	sprintf_s(messageBuffer, "Error when get prop id by prop name. Didn't has property named \"%s\"", propName.c_str());
 	logError(messageBuffer);
 	return -1;
+}
+
+std::string GetColorDirByPropId(PropId propId) {
+	switch (propId) {
+	case PROP_NONE:
+		return "default";
+	default:
+		return "default";
+	}
 }

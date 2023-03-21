@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "level_manager.h"
 #include <sstream>
+#include "texture_manager.h"
 #include "../Expansion/dataio.h"
 #include "../Expansion/log.h"
 
@@ -45,24 +46,35 @@ void LevelManager::LoadLevel(int level) {
 	size_t linesCount = 0;
 
 	if (levelSourceLines[linesCount++] != "[game board size]") {
-		logError("level file format wrong!");
+		logError("level file format wrong! (game board size)");
 	}
 	gameBoardWidth = stringToInt(levelSourceLines[linesCount++]);
 	gameBoardHeight = stringToInt(levelSourceLines[linesCount++]);
 
 	if (levelSourceLines[linesCount++] != "[texture origin position]") {
-		logError("level file format wrong!");
+		logError("level file format wrong! (texture origin position)");
 	}
 	textureOriginPosition.x = stringToInt(levelSourceLines[linesCount++]);
 	textureOriginPosition.y = stringToInt(levelSourceLines[linesCount++]);
 
 	if (levelSourceLines[linesCount++] != "[texture size]") {
-		logError("level file format wrong!");
+		logError("level file format wrong! (texture size)");
 	}
 	textureSize = stringToInt(levelSourceLines[linesCount++]);
 
+	if (levelSourceLines[linesCount++] != "[needed texture]") {
+		logError("level file format wrong! (needed texture)");
+	}
+	TextureManager::Clear();
+	for (; levelSourceLines[linesCount][0] != '['; linesCount++) {
+		std::vector<std::string> texture = stringSplit(levelSourceLines[linesCount], ' ');
+		GameobjectId gameobjectId = static_cast<GameobjectId>(GetGameobjectIdByName(texture[0]));
+		PropId propId = static_cast<PropId>(GetPropIdByName(texture[1]));
+		TextureManager::LoadTexture(gameobjectId, propId, 0);
+	}
+
 	if (levelSourceLines[linesCount++] != "[props]") {
-		logError("level file format wrong!");
+		logError("level file format wrong! (props)");
 	}
 	for (; levelSourceLines[linesCount][0] != '['; linesCount++) {
 		std::vector<std::string> prop = stringSplit(levelSourceLines[linesCount], ' ');
@@ -72,7 +84,7 @@ void LevelManager::LoadLevel(int level) {
 	}
 
 	if (levelSourceLines[linesCount++] != "[objects]") {
-		logError("level file format wrong!");
+		logError("level file format wrong! (objects)");
 	}
 	for (; linesCount < levelSourceLines.size(); linesCount++) {
 		std::vector<std::string> object = stringSplit(levelSourceLines[linesCount], ' ');
@@ -106,11 +118,11 @@ void LevelManager::MoveUp() {
 	undoBuffer.clear();
 	UndoInfo undoInfo = {};
 	for (Gameobject *gameobject : waitToMoveObjects) {
-		undoInfo.gameobject = gameobject;
+		undoInfo.gameobjectId = gameobject->gameobjectId;
 		undoInfo.position = gameobject->gameBoardPosition;
 		undoInfo.undoType = UNDO_UP;
 		undoBuffer.push_back(undoInfo);
-		deleteGameobject(gameobject->gameBoardPosition, gameobject);
+		removeGameobject(gameobject->gameBoardPosition, gameobject);
 		gameobject->moveUp();
 		addGameobject(gameobject->gameBoardPosition, gameobject);
 	}
@@ -138,11 +150,11 @@ void LevelManager::MoveDown() {
 	undoBuffer.clear();
 	UndoInfo undoInfo = {};
 	for (Gameobject *gameobject : waitToMoveObjects) {
-		undoInfo.gameobject = gameobject;
+		undoInfo.gameobjectId = gameobject->gameobjectId;
 		undoInfo.position = gameobject->gameBoardPosition;
 		undoInfo.undoType = UNDO_DOWN;
 		undoBuffer.push_back(undoInfo);
-		deleteGameobject(gameobject->gameBoardPosition, gameobject);
+		removeGameobject(gameobject->gameBoardPosition, gameobject);
 		gameobject->moveDown();
 		addGameobject(gameobject->gameBoardPosition, gameobject);
 	}
@@ -170,11 +182,11 @@ void LevelManager::MoveLeft() {
 	undoBuffer.clear();
 	UndoInfo undoInfo = {};
 	for (Gameobject *gameobject : waitToMoveObjects) {
-		undoInfo.gameobject = gameobject;
+		undoInfo.gameobjectId = gameobject->gameobjectId;
 		undoInfo.position = gameobject->gameBoardPosition;
 		undoInfo.undoType = UNDO_LEFT;
 		undoBuffer.push_back(undoInfo);
-		deleteGameobject(gameobject->gameBoardPosition, gameobject);
+		removeGameobject(gameobject->gameBoardPosition, gameobject);
 		gameobject->moveLeft();
 		addGameobject(gameobject->gameBoardPosition, gameobject);
 	}
@@ -202,11 +214,11 @@ void LevelManager::MoveRight() {
 	undoBuffer.clear();
 	UndoInfo undoInfo = {};
 	for (Gameobject *gameobject : waitToMoveObjects) {
-		undoInfo.gameobject = gameobject;
+		undoInfo.gameobjectId = gameobject->gameobjectId;
 		undoInfo.position = gameobject->gameBoardPosition;
 		undoInfo.undoType = UNDO_RIGHT;
 		undoBuffer.push_back(undoInfo);
-		deleteGameobject(gameobject->gameBoardPosition, gameobject);
+		removeGameobject(gameobject->gameBoardPosition, gameobject);
 		gameobject->moveRight();
 		addGameobject(gameobject->gameBoardPosition, gameobject);
 	}
@@ -224,33 +236,60 @@ void LevelManager::Undo() {
 	std::vector<UndoInfo> infos = undoStack.top();
 	undoStack.pop();
 
+	reverse(infos.begin(), infos.end());
+
 	for (UndoInfo &info : infos) {
 		if (info.undoType == UNDO_UP) {
-			deleteGameobject(info.gameobject->gameBoardPosition, info.gameobject);
-			addGameobject(info.position, info.gameobject);
-			info.gameobject->undoUp();
+			Gameobject *undoObject = getGemeobjectInBlockById(info.position - CPoint(0, 1), info.gameobjectId);
+			if (undoObject == nullptr) {
+				logError("level manager undo can't find gameobject");
+			}
+
+			removeGameobject(undoObject->gameBoardPosition, undoObject);
+			addGameobject(info.position, undoObject);
+			undoObject->undoUp();
 		}
 		else if (info.undoType == UNDO_DOWN) {
-			deleteGameobject(info.gameobject->gameBoardPosition, info.gameobject);
-			addGameobject(info.position, info.gameobject);
-			info.gameobject->undoDown();
+			Gameobject *undoObject = getGemeobjectInBlockById(info.position + CPoint(0, 1), info.gameobjectId);
+			if (undoObject == nullptr) {
+				logError("level manager undo can't find gameobject");
+			}
+
+			removeGameobject(undoObject->gameBoardPosition, undoObject);
+			addGameobject(info.position, undoObject);
+			undoObject->undoDown();
 		}
 		else if (info.undoType == UNDO_LEFT) {
-			deleteGameobject(info.gameobject->gameBoardPosition, info.gameobject);
-			addGameobject(info.position, info.gameobject);
-			info.gameobject->undoLeft();
+			Gameobject *undoObject = getGemeobjectInBlockById(info.position - CPoint(1, 0), info.gameobjectId);
+			if (undoObject == nullptr) {
+				logError("level manager undo can't find gameobject");
+			}
+
+			removeGameobject(undoObject->gameBoardPosition, undoObject);
+			addGameobject(info.position, undoObject);
+			undoObject->undoLeft();
 		}
 		else if (info.undoType == UNDO_RIGHT) {
-			deleteGameobject(info.gameobject->gameBoardPosition, info.gameobject);
-			addGameobject(info.position, info.gameobject);
-			info.gameobject->undoRight();
+			Gameobject *undoObject = getGemeobjectInBlockById(info.position + CPoint(1, 0), info.gameobjectId);
+			if (undoObject == nullptr) {
+				logError("level manager undo can't find gameobject");
+			}
+
+			removeGameobject(undoObject->gameBoardPosition, undoObject);
+			addGameobject(info.position, undoObject);
+			undoObject->undoRight();
 		}
 		else if (info.undoType == UNDO_DELETE) {
 			genGameobject(info.position, info.gameobjectId);
 		}
 		else if (info.undoType == UNDO_ADD) {
-			deleteGameobject(info.position, info.gameobject);
-			delete info.gameobject;
+			Gameobject *undoObject = getGemeobjectInBlockById(info.position, info.gameobjectId);
+			if (undoObject == nullptr) {
+				logError("level manager undo can't find gameobject");
+			}
+
+			removeGameobject(info.position, undoObject);
+			delete undoObject;
 		}
 	}
 }
@@ -320,7 +359,7 @@ void LevelManager::createGameBoard(std::vector<GameobjectInfo> gameobjectInfos) 
 
 	for (GameobjectInfo &info : gameobjectInfos) {
 		gameBoard[info.position.x][info.position.y].push_back(
-			new Gameobject(info.gameobjectId, "default", info.position, textureOriginPosition, textureSize)
+			new Gameobject(info.gameobjectId, PROP_NONE, info.position, textureOriginPosition, textureSize)
 		);
 	}
 }
@@ -397,10 +436,19 @@ void LevelManager::setPropsManager() {
 	propsManager.SetPropWithOtherProp(PROP_YOU, PROP_PUSH);
 }
 
-void LevelManager::deleteGameobject(CPoint position, Gameobject* deleteGameobject) {
+Gameobject* LevelManager::getGemeobjectInBlockById(CPoint position, GameobjectId gameobjectId) {
+	for (Gameobject *gameobject : gameBoard[position.x][position.y]) {
+		if (gameobject->gameobjectId == gameobjectId) {
+			return gameobject;
+		}
+	}
+	return nullptr;
+}
+
+void LevelManager::removeGameobject(CPoint position, Gameobject* removeGameobject) {
 	std::vector<Gameobject*> &block = gameBoard[position.x][position.y];
 	for (size_t i = 0; i < block.size(); i++) {
-		if (block[i] == deleteGameobject) {
+		if (block[i] == removeGameobject) {
 			block.erase(block.begin() + i);
 			return;
 		}
@@ -413,7 +461,13 @@ void LevelManager::addGameobject(CPoint position, Gameobject* gameobject) {
 
 void LevelManager::genGameobject(CPoint position, GameobjectId gameobjectId) {
 	gameBoard[position.x][position.y].push_back(
-		new Gameobject(gameobjectId, propsManager.GetColorDirName(gameobjectId), position, textureOriginPosition, textureSize)
+		new Gameobject(
+			gameobjectId,
+			static_cast<PropId>(propsManager.GetColorProp(gameobjectId)),
+			position,
+			textureOriginPosition,
+			textureSize
+		)
 	);
 }
 
@@ -622,24 +676,22 @@ void LevelManager::replaceGameobject(GameobjectId originGameobject, GameobjectId
 				if (block[i]->gameobjectId == originGameobject) {
 					Gameobject *newGameobject = new Gameobject(
 						convertGameobject,
-						propsManager.GetColorDirName(convertGameobject),
+						static_cast<PropId>(propsManager.GetColorProp(convertGameobject)),
 						block[i]->gameBoardPosition,
 						textureOriginPosition,
 						textureSize
 					);
 					block.push_back(newGameobject);
 					undoBuffer.push_back(UndoInfo{
-						newGameobject,
 						convertGameobject,
 						block[i]->gameBoardPosition,
 						UNDO_ADD
 					});
 					undoBuffer.push_back(UndoInfo{
-						nullptr,
 						originGameobject,
 						block[i]->gameBoardPosition,
 						UNDO_DELETE
-						});
+					});
 					delete block[i];
 					block.erase(block.begin() + i);
 				}

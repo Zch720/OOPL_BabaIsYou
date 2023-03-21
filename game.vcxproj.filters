@@ -84,6 +84,9 @@
     <ClCompile Include="Source\Game\gameobject_type.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\texture_manager.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -144,6 +147,9 @@
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\gameobject_type.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\texture_manager.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>

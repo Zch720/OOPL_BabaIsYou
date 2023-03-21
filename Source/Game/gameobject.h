@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Library/gameutil.h"
+#include "property_id.h"
 #include "gameobject_id.h"
 #include "gameobject_type.h"
 
@@ -21,13 +22,7 @@ private:
 	int remainStep = 0;
 	int undoRemainStep = 0;
 
-	bool isText = false;
-
-	void setTextureColorDir(std::string);
-	void loadTextureStrings(std::vector<std::string>&);
-	void loadCharacterTexture(std::string);
-	void loadTiledTexture(std::string);
-	void loadStaticTexture(std::string);
+	void setTextureColor(PropId);
 
 	void updatePosition();
 	void moveUp();
@@ -43,7 +38,7 @@ private:
 	friend LevelManager;
 
 public:
-	Gameobject(GameobjectId gameobjectId, std::string colorDir, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize);
+	Gameobject(GameobjectId gameobjectId, PropId colorPropId, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize);
 
 	void Show(int textureCount, int otherCount = 0);
 };

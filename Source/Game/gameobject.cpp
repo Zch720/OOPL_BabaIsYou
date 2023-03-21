@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "gameobject.h"
+#include "texture_manager.h"
 #include "../Expansion/log.h"
 
 #define MOVE_STEP	4
 
-Gameobject::Gameobject(GameobjectId gameobjectId, std::string colorDir, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize) {
+Gameobject::Gameobject(GameobjectId gameobjectId, PropId colorPropId, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize) {
 	this->gameobjectId = gameobjectId;
 	this->gameBoardPosition = gameBoardPosition;
 	this->textureOriginPosition = textureOriginPosition;
@@ -18,7 +19,12 @@ Gameobject::Gameobject(GameobjectId gameobjectId, std::string colorDir, CPoint g
 	}
 	this->gameobjectType = static_cast<GameobjectType>(gameobjectTypeNum);
 
-	setTextureColorDir(colorDir);
+	texture = TextureManager::GetGameobjecTexture(gameobjectId, colorPropId);
+	
+	CPoint texturePosition = CPoint(textureSize * gameBoardPosition.x, textureSize * gameBoardPosition.y);
+	texturePosition += textureOriginPosition;
+	texture.SetTopLeft(texturePosition.x, texturePosition.y);
+	textureFactor = (double)textureSize / texture.GetWidth();
 }
 
 void Gameobject::Show(int textureCount, int otherCount) {
@@ -37,70 +43,8 @@ void Gameobject::Show(int textureCount, int otherCount) {
 	texture.ShowBitmap(textureFactor);
 }
 
-void Gameobject::setTextureColorDir(std::string colorDir) {
-	std::string textureDir = GetTexturePathByGameobjectId(gameobjectId) + colorDir + "/";
-
-	switch (gameobjectType) {
-	case OBJECT_TYPE_CHARACTER:
-		loadCharacterTexture(textureDir);
-		break;
-	case OBJECT_TYPE_TILED:
-		loadTiledTexture(textureDir);
-		break;
-	case OBJECT_TYPE_STATIC:
-		loadStaticTexture(textureDir);
-		break;
-	}
-}
-
-void Gameobject::loadTextureStrings(std::vector<std::string> &texturePaths) {
-	texture = game_framework::CMovingBitmap();
-
-	texture.LoadBitmapByString(texturePaths, 0x00FF00);
-
-	CPoint texturePosition = CPoint(textureSize * gameBoardPosition.x, textureSize * gameBoardPosition.y);
-	texturePosition += textureOriginPosition;
-	texture.SetTopLeft(texturePosition.x, texturePosition.y);
-	textureFactor = (double)textureSize / texture.GetWidth();
-}
-
-void Gameobject::loadCharacterTexture(std::string textureDir) {
-	std::vector<std::string> texturePaths;
-	char buffer[4];
-
-	for (int directionCode = 0; directionCode < 4; directionCode++) {
-		for (int stepCode = 0; stepCode < 4; stepCode++) {
-			int textureCode = (directionCode << 3) | stepCode;
-			_itoa(textureCode, buffer, 10);
-			texturePaths.push_back(textureDir + buffer + "_1.bmp");
-			texturePaths.push_back(textureDir + buffer + "_2.bmp");
-			texturePaths.push_back(textureDir + buffer + "_3.bmp");
-		}
-	}
-	loadTextureStrings(texturePaths);
-}
-
-void Gameobject::loadTiledTexture(std::string textureDir) {
-	std::vector<std::string> texturePaths;
-	char buffer[4];
-
-	for (int connectCode = 0; connectCode < 15; connectCode++) {
-		_itoa(connectCode, buffer, 10);
-		texturePaths.push_back(textureDir + buffer + "_1.bmp");
-		texturePaths.push_back(textureDir + buffer + "_2.bmp");
-		texturePaths.push_back(textureDir + buffer + "_3.bmp");
-	}
-	loadTextureStrings(texturePaths);
-}
-
-void Gameobject::loadStaticTexture(std::string textureDir) {
-	std::vector<std::string> texturePaths;
-
-	texturePaths.push_back(textureDir + "0_1.bmp");
-	texturePaths.push_back(textureDir + "0_2.bmp");
-	texturePaths.push_back(textureDir + "0_3.bmp");
-
-	loadTextureStrings(texturePaths);
+void Gameobject::setTextureColor(PropId colorPropId) {
+	texture = TextureManager::GetGameobjecTexture(gameobjectId, colorPropId);
 }
 
 void Gameobject::updatePosition() {

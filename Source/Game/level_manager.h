@@ -21,7 +21,6 @@ private:
 		UNDO_DELETE
 	};
 	struct UndoInfo {
-		Gameobject* gameobject;
 		GameobjectId gameobjectId;
 		CPoint position;
 		UndoType undoType;
@@ -55,7 +54,8 @@ private:
 	void resetMoveableRecord();
 	void setPropsManager();
 
-	void deleteGameobject(CPoint, Gameobject*);
+	Gameobject* getGemeobjectInBlockById(CPoint, GameobjectId);
+	void removeGameobject(CPoint, Gameobject*);
 	void addGameobject(CPoint, Gameobject*);
 	void genGameobject(CPoint, GameobjectId);
 

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "log.h"
 #include <fstream>
 #include <strsafe.h>
@@ -10,20 +10,20 @@ std::ofstream logFile;
 void logInit() {
 	struct stat logFileInfo;
 
-	// ¦pªG¦³ÂÂªº log ÀÉ®×¡A«h§R°£
+	// å¦‚æœæœ‰èˆŠçš„ log æª”æ¡ˆï¼Œå‰‡åˆªé™¤
 	if (stat(LOG_FILENAME, &logFileInfo) == 0) {
 		remove(LOG_FILENAME);
 	}
 }
 
 void logMessage(const char *typeMessage, const char *message) {
-	// ¥H¦b³Ì«á¥[¤J¤å¦rªº¼Ò¦¡¡A¶}±ÒÀÉ®×
+	// ä»¥åœ¨æœ€å¾ŒåŠ å…¥æ–‡å­—çš„æ¨¡å¼ï¼Œé–‹å•Ÿæª”æ¡ˆ
 	logFile.open(LOG_FILENAME, std::ios_base::app);
 
-	// ¿é¥X°T®§
+	// è¼¸å‡ºè¨Šæ¯
 	logFile << typeMessage << message << '\n';
 
-	// Ãö³¬ÀÉ®×
+	// é—œé–‰æª”æ¡ˆ
 	logFile.close();
 }
 
@@ -35,4 +35,5 @@ void logWarning(const char *message) {
 }
 void logError(const char *message) {
 	logMessage("[ERROR]: ", message);
+	exit(-1);
 }

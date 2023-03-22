@@ -41,6 +41,8 @@ private:
 	std::vector<std::pair<GameobjectId, PropId>> defaultProps;
 	std::vector<std::pair<GameobjectId, GameobjectId>> additionProps;
 
+	std::unordered_set<Gameobject*> connectedText;
+
 	std::vector<std::vector<int>> moveableRecord;
 	std::unordered_set<Gameobject*> hasYouPropObjects;
 	std::unordered_set<Gameobject*> waitToMoveObjects;
@@ -53,6 +55,7 @@ private:
 	void createMoveableRecord();
 	void resetMoveableRecord();
 	void setPropsManager();
+	void updateGameobjectsColor();
 
 	Gameobject* getGemeobjectInBlockById(CPoint, GameobjectId);
 	void removeGameobject(CPoint, Gameobject*);
@@ -78,7 +81,7 @@ private:
 	Gameobject* getNounTextObject(CPoint);
 	Gameobject* getPropTextObject(CPoint);
 	void getAllDescriptions();
-	void checkDescription_is(CPoint);
+	bool checkDescription_is(CPoint);
 	void replaceGameobject(GameobjectId, GameobjectId);
 	void updateProps();
 

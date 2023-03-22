@@ -5,7 +5,7 @@
 
 #define MOVE_STEP	4
 
-Gameobject::Gameobject(GameobjectId gameobjectId, PropId colorPropId, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize) {
+Gameobject::Gameobject(GameobjectId gameobjectId, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize) {
 	this->gameobjectId = gameobjectId;
 	this->gameBoardPosition = gameBoardPosition;
 	this->textureOriginPosition = textureOriginPosition;
@@ -18,13 +18,6 @@ Gameobject::Gameobject(GameobjectId gameobjectId, PropId colorPropId, CPoint gam
 		logError(message);
 	}
 	this->gameobjectType = static_cast<GameobjectType>(gameobjectTypeNum);
-
-	texture = TextureManager::GetGameobjecTexture(gameobjectId, colorPropId);
-	
-	CPoint texturePosition = CPoint(textureSize * gameBoardPosition.x, textureSize * gameBoardPosition.y);
-	texturePosition += textureOriginPosition;
-	texture.SetTopLeft(texturePosition.x, texturePosition.y);
-	textureFactor = (double)textureSize / texture.GetWidth();
 }
 
 void Gameobject::Show(int textureCount, int otherCount) {
@@ -38,6 +31,11 @@ void Gameobject::Show(int textureCount, int otherCount) {
 		// otherCount is connect status
 		texture.SetFrameIndexOfBitmap(otherCount * 3 + textureCount);
 	}
+	else if (gameobjectType == OBJECT_TYPE_TEXT) {
+		// otherCount is text is dark or light
+		//texture.SetFrameIndexOfBitmap(textureCount);
+		texture.SetFrameIndexOfBitmap(otherCount * 3 + textureCount);
+	}
 
 	updatePosition();
 	texture.ShowBitmap(textureFactor);
@@ -45,6 +43,11 @@ void Gameobject::Show(int textureCount, int otherCount) {
 
 void Gameobject::setTextureColor(PropId colorPropId) {
 	texture = TextureManager::GetGameobjecTexture(gameobjectId, colorPropId);
+
+	CPoint texturePosition = CPoint(textureSize * gameBoardPosition.x, textureSize * gameBoardPosition.y);
+	texturePosition += textureOriginPosition;
+	texture.SetTopLeft(texturePosition.x, texturePosition.y);
+	textureFactor = (double)textureSize / texture.GetWidth();
 }
 
 void Gameobject::updatePosition() {

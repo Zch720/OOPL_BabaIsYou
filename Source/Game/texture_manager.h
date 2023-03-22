@@ -13,6 +13,7 @@ private:
 	static void loadCharacterTexture(GameobjectId, PropId, int);
 	static void loadTiledTexture(GameobjectId, PropId, int);
 	static void loadStaticTexture(GameobjectId, PropId, int);
+	static void loadTextTexture(GameobjectId, PropId, int);
 
 public:
 	static void LoadTexture(GameobjectId gameobjectId, PropId propId, int world);

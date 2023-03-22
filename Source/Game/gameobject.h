@@ -38,7 +38,7 @@ private:
 	friend LevelManager;
 
 public:
-	Gameobject(GameobjectId gameobjectId, PropId colorPropId, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize);
+	Gameobject(GameobjectId gameobjectId, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize);
 
 	void Show(int textureCount, int otherCount = 0);
 };

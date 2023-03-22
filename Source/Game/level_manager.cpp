@@ -99,6 +99,8 @@ void LevelManager::LoadLevel(int level) {
 
 	updateProps();
 
+	updateGameobjectsColor();
+
 	reachWinObj = false;
 }
 
@@ -313,8 +315,17 @@ void LevelManager::Show() {
 	for (auto &row : gameBoard) {
 		for (auto &block : row) {
 			for (Gameobject *gameobject : block) {
+				if (gameobject->remainStep != 0 || gameobject->undoRemainStep != 0) continue;
 				if (gameobject->gameobjectType == OBJECT_TYPE_TILED) {
 					gameobject->Show(textureCount, checkObjectConnect(gameobject->gameBoardPosition, gameobject->gameobjectId));
+				}
+				else if (gameobject->gameobjectType == OBJECT_TYPE_TEXT) {
+					if (connectedText.find(gameobject) != connectedText.end()) {
+						gameobject->Show(textureCount, 1);
+					}
+					else {
+						gameobject->Show(textureCount, 0);
+					}
 				}
 				else {
 					gameobject->Show(textureCount);
@@ -322,6 +333,29 @@ void LevelManager::Show() {
 			}
 		}
 	}
+
+	for (auto &row : gameBoard) {
+		for (auto &block : row) {
+			for (Gameobject *gameobject : block) {
+				if (gameobject->remainStep == 0 && gameobject->undoRemainStep == 0) continue;
+				if (gameobject->gameobjectType == OBJECT_TYPE_TILED) {
+					gameobject->Show(textureCount, checkObjectConnect(gameobject->gameBoardPosition, gameobject->gameobjectId));
+				}
+				else if (gameobject->gameobjectType == OBJECT_TYPE_TEXT) {
+					if (connectedText.find(gameobject) != connectedText.end()) {
+						gameobject->Show(textureCount, 1);
+					}
+					else {
+						gameobject->Show(textureCount, 0);
+					}
+				}
+				else {
+					gameobject->Show(textureCount);
+				}
+			}
+		}
+	}
+
 	if (textureWait-- < 0) {
 		textureCount = (textureCount + 1) % 3;
 		textureWait = TEXTURE_WAIT;
@@ -359,7 +393,7 @@ void LevelManager::createGameBoard(std::vector<GameobjectInfo> gameobjectInfos) 
 
 	for (GameobjectInfo &info : gameobjectInfos) {
 		gameBoard[info.position.x][info.position.y].push_back(
-			new Gameobject(info.gameobjectId, PROP_NONE, info.position, textureOriginPosition, textureSize)
+			new Gameobject(info.gameobjectId, info.position, textureOriginPosition, textureSize)
 		);
 	}
 }
@@ -374,6 +408,21 @@ void LevelManager::resetMoveableRecord() {
 	for (auto &row : moveableRecord) {
 		for (int &val : row) {
 			val = -1;
+		}
+	}
+}
+
+void LevelManager::updateGameobjectsColor() {
+	for (auto &row : gameBoard) {
+		for (auto &block : row) {
+			for (Gameobject *gameobject : block) {
+				if (gameobject->gameobjectType == OBJECT_TYPE_TEXT) {
+					gameobject->setTextureColor(static_cast<PropId>(propsManager.GetColorProp(gameobject->gameobjectId)));
+				}
+				else {
+					gameobject->setTextureColor(static_cast<PropId>(propsManager.GetColorProp(gameobject->gameobjectId)));
+				}
+			}
 		}
 	}
 }
@@ -460,15 +509,9 @@ void LevelManager::addGameobject(CPoint position, Gameobject* gameobject) {
 }
 
 void LevelManager::genGameobject(CPoint position, GameobjectId gameobjectId) {
-	gameBoard[position.x][position.y].push_back(
-		new Gameobject(
-			gameobjectId,
-			static_cast<PropId>(propsManager.GetColorProp(gameobjectId)),
-			position,
-			textureOriginPosition,
-			textureSize
-		)
-	);
+	Gameobject *gameobject = new Gameobject(gameobjectId, position, textureOriginPosition, textureSize);
+	gameBoard[position.x][position.y].push_back(gameobject);
+	gameobject->setTextureColor(static_cast<PropId>(gameobjectId));
 }
 
 void LevelManager::findAllYouObjects() {
@@ -633,14 +676,17 @@ void LevelManager::getAllDescriptions() {
 		for (int j = 0; j < gameBoardWidth; j++) {
 			for (size_t k = 0; k < gameBoard[i][j].size(); k++) {
 				if (gameBoard[i][j][k]->gameobjectId == GAMEOBJECT_TEXT_IS) {
-					checkDescription_is(CPoint(i, j));
+					if (checkDescription_is(CPoint(i, j))) {
+						connectedText.insert(gameBoard[i][j][k]);
+					}
 				}
 			}
 		}
 	}
 }
 
-void LevelManager::checkDescription_is(CPoint position) {
+bool LevelManager::checkDescription_is(CPoint position) {
+	bool result = false;
 	if (position.x != 0 && position.x != gameBoardWidth - 1) {
 		Gameobject* main_noun = getNounTextObject(position - CPoint(1, 0));
 		Gameobject* sub_noun = getNounTextObject(position + CPoint(1, 0));
@@ -648,9 +694,15 @@ void LevelManager::checkDescription_is(CPoint position) {
 
 		if (main_noun && sub_noun) {
 			additionProps.push_back(make_pair(main_noun->gameobjectId, sub_noun->gameobjectId));
+			connectedText.insert(main_noun);
+			connectedText.insert(sub_noun);
+			result = true;
 		}
 		else if (main_noun && prop) {
 			additionProps.push_back(make_pair(main_noun->gameobjectId, prop->gameobjectId));
+			connectedText.insert(main_noun);
+			connectedText.insert(prop);
+			result = true;
 		}
 	}
 	if (position.y != 0 && position.y != gameBoardHeight - 1) {
@@ -660,11 +712,19 @@ void LevelManager::checkDescription_is(CPoint position) {
 
 		if (main_noun && sub_noun) {
 			additionProps.push_back(make_pair(main_noun->gameobjectId, sub_noun->gameobjectId));
+			connectedText.insert(main_noun);
+			connectedText.insert(sub_noun);
+			result = true;
 		}
 		else if (main_noun && prop) {
 			additionProps.push_back(make_pair(main_noun->gameobjectId, prop->gameobjectId));
+			connectedText.insert(main_noun);
+			connectedText.insert(prop);
+			result = true;
 		}
 	}
+
+	return result;
 }
 
 void LevelManager::replaceGameobject(GameobjectId originGameobject, GameobjectId convertGameobject) {
@@ -676,11 +736,11 @@ void LevelManager::replaceGameobject(GameobjectId originGameobject, GameobjectId
 				if (block[i]->gameobjectId == originGameobject) {
 					Gameobject *newGameobject = new Gameobject(
 						convertGameobject,
-						static_cast<PropId>(propsManager.GetColorProp(convertGameobject)),
 						block[i]->gameBoardPosition,
 						textureOriginPosition,
 						textureSize
 					);
+					newGameobject->setTextureColor(static_cast<PropId>(propsManager.GetColorProp(convertGameobject)));
 					block.push_back(newGameobject);
 					undoBuffer.push_back(UndoInfo{
 						convertGameobject,
@@ -701,6 +761,7 @@ void LevelManager::replaceGameobject(GameobjectId originGameobject, GameobjectId
 }
 
 void LevelManager::updateProps() {
+	connectedText.clear();
 	getAllDescriptions();
 	setPropsManager();
 }

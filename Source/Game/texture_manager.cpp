@@ -12,6 +12,10 @@ void TextureManager::LoadTexture(GameobjectId gameobjectId, PropId colorPropId, 
 		logError(message);
 	}
 
+	char message[125];
+	sprintf_s(message, "loading texture of %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
+	logInfo(message);
+
 	switch (static_cast<GameobjectType>(typeNum)) {
 	case OBJECT_TYPE_CHARACTER:
 		loadCharacterTexture(gameobjectId, colorPropId, world);
@@ -22,14 +26,19 @@ void TextureManager::LoadTexture(GameobjectId gameobjectId, PropId colorPropId, 
 	case OBJECT_TYPE_STATIC:
 		loadStaticTexture(gameobjectId, colorPropId, world);
 		break;
+	case OBJECT_TYPE_TEXT:
+		loadTextTexture(gameobjectId, colorPropId, world);
 	}
+
+	sprintf_s(message, "loaded texture of %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
+	logInfo(message);
 }
 void TextureManager::Clear() {
 	textures.clear();
 }
 
 void TextureManager::loadCharacterTexture(GameobjectId gameobjectId, PropId colorPropId, int world) {
-	std::string textureDir = GetTexturePathByGameobjectId(gameobjectId) + GetColorDirByPropId(colorPropId) + "/";
+	std::string textureDir = GetTexturePathByGameobjectId(gameobjectId) + "0/" + GetColorDirByPropId(colorPropId) + "/";
 	game_framework::CMovingBitmap texture;
 	std::vector<std::string> texturePaths;
 
@@ -88,7 +97,7 @@ void TextureManager::loadCharacterTexture(GameobjectId gameobjectId, PropId colo
 	textures[textureKey] = texture;
 }
 void TextureManager::loadTiledTexture(GameobjectId gameobjectId, PropId colorPropId, int world) {
-	std::string textureDir = GetTexturePathByGameobjectId(gameobjectId) + GetColorDirByPropId(colorPropId) + "/";
+	std::string textureDir = GetTexturePathByGameobjectId(gameobjectId) + "0/" + GetColorDirByPropId(colorPropId) + "/";
 	game_framework::CMovingBitmap texture;
 	std::vector<std::string> texturePaths;
 
@@ -147,7 +156,7 @@ void TextureManager::loadTiledTexture(GameobjectId gameobjectId, PropId colorPro
 	textures[textureKey] = texture;
 }
 void TextureManager::loadStaticTexture(GameobjectId gameobjectId, PropId colorPropId, int world) {
-	std::string textureDir = GetTexturePathByGameobjectId(gameobjectId) + GetColorDirByPropId(colorPropId) + "/";
+	std::string textureDir = GetTexturePathByGameobjectId(gameobjectId) + "0/" + GetColorDirByPropId(colorPropId) + "/";
 	game_framework::CMovingBitmap texture;
 	std::vector<std::string> texturePaths;
 
@@ -161,7 +170,32 @@ void TextureManager::loadStaticTexture(GameobjectId gameobjectId, PropId colorPr
 	textures[textureKey] = texture;
 }
 
+void TextureManager::loadTextTexture(GameobjectId gameobjectId, PropId colorPropId, int world) {
+	std::string textureDir = GetTexturePathByGameobjectId(gameobjectId) + "0/";
+	game_framework::CMovingBitmap texture;
+	std::vector<std::string> texturePaths;
+
+	texturePaths.push_back(textureDir + "dark/0_1.bmp");
+	texturePaths.push_back(textureDir + "dark/0_2.bmp");
+	texturePaths.push_back(textureDir + "dark/0_3.bmp");
+	texturePaths.push_back(textureDir + "light/0_1.bmp");
+	texturePaths.push_back(textureDir + "light/0_2.bmp");
+	texturePaths.push_back(textureDir + "light/0_3.bmp");
+
+	texture.LoadBitmapByString(texturePaths, 0x00FF00);
+
+	uint64_t textureKey = ((uint64_t)gameobjectId << 32) | colorPropId;
+	textures[textureKey] = texture;
+}
+
 game_framework::CMovingBitmap TextureManager::GetGameobjecTexture(GameobjectId gameobjectId, PropId colorPropId) {
 	uint64_t textureKey = ((uint64_t)gameobjectId << 32) | colorPropId;
+
+	if (textures.find(textureKey) == textures.end()) {
+		char message[125];
+		sprintf_s(message, "didn't load texture for %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
+		logError(message);
+	}
+
 	return textures[textureKey];
 }

@@ -11,6 +11,8 @@ int GetGameobjectTypeById(int gameobjectId) {
 		return OBJECT_TYPE_TILED;
 
 	case GAMEOBJECT_FLAG:
+		return OBJECT_TYPE_STATIC;
+
 	case GAMEOBJECT_TEXT_IS:
 	case GAMEOBJECT_TEXT_BABA:
 	case GAMEOBJECT_TEXT_WALL:
@@ -19,7 +21,7 @@ int GetGameobjectTypeById(int gameobjectId) {
 	case GAMEOBJECT_TEXT_PUSH:
 	case GAMEOBJECT_TEXT_STOP:
 	case GAMEOBJECT_TEXT_WIN:
-		return OBJECT_TYPE_STATIC;
+		return OBJECT_TYPE_TEXT;
 
 	default:
 		return -1;

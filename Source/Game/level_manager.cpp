@@ -294,6 +294,9 @@ void LevelManager::Undo() {
 			delete undoObject;
 		}
 	}
+
+	updateProps();
+	checkAllOverlapProp();
 }
 
 bool LevelManager::IsMoving() {

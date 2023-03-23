@@ -1,5 +1,7 @@
 #pragma once
 
+#include "gameobject_id.h"
+
 enum GameobjectType {
 	OBJECT_TYPE_CHARACTER,
 	OBJECT_TYPE_STATIC,
@@ -7,4 +9,4 @@ enum GameobjectType {
 	OBJECT_TYPE_TEXT
 };
 
-int GetGameobjectTypeById(int gameobjectId);
+int GetGameobjectTypeById(GameobjectId gameobjectId);

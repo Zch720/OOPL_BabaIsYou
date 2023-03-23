@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "gameobject_properties_manager.h"
+#include "../Expansion/log.h"
 
 int GetPropIdFromTextGameobject(GameobjectId gameobjectId) {
 	switch (gameobjectId) {
@@ -40,4 +41,13 @@ void GameobjectPropsManager::SetPropWithOtherProp(PropId targetPropId, PropId ne
 
 void GameobjectPropsManager::ClearProperties() {
 	propsGroup.clear();
+}
+
+void GameobjectPropsManager::ClearPropertiesWithoutTextPush() {
+	for (auto propInfo = propsGroup.begin(); propInfo != propsGroup.end(); propInfo++) {
+		propInfo->second.props.clear();
+		if (IsTextObject(propInfo->first)) {
+			propInfo->second.props[PROP_PUSH] = true;
+		}
+	}
 }

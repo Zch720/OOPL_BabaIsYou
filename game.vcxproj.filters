@@ -87,6 +87,9 @@
     <ClCompile Include="Source\Game\texture_manager.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Expansion\string_proc.cpp">
+      <Filter>Expansion</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Source\Game\texture_manager.h">
       <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expansion\string_proc.h">
+      <Filter>Expansion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

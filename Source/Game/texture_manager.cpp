@@ -12,10 +12,6 @@ void TextureManager::LoadTexture(GameobjectId gameobjectId, PropId colorPropId, 
 		logError(message);
 	}
 
-	char message[125];
-	sprintf_s(message, "loading texture of %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
-	logInfo(message);
-
 	switch (static_cast<GameobjectType>(typeNum)) {
 	case OBJECT_TYPE_CHARACTER:
 		loadCharacterTexture(gameobjectId, colorPropId, world);
@@ -30,6 +26,7 @@ void TextureManager::LoadTexture(GameobjectId gameobjectId, PropId colorPropId, 
 		loadTextTexture(gameobjectId, colorPropId, world);
 	}
 
+	char message[125];
 	sprintf_s(message, "loaded texture of %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
 	logInfo(message);
 }

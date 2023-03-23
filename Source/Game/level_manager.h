@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <unordered_set>
 #include <stack>
@@ -7,85 +7,102 @@
 
 class LevelManager {
 private:
-	struct GameobjectInfo {
+	struct GameobjectCreateInfo {
 		GameobjectId gameobjectId;
 		CPoint position;
 	};
 
 	enum UndoType {
-		UNDO_UP,
-		UNDO_DOWN,
-		UNDO_RIGHT,
-		UNDO_LEFT,
-		UNDO_ADD,
-		UNDO_DELETE
+		UNDO_MOVE_UP,
+		UNDO_MOVE_DOWN,
+		UNDO_MOVE_LEFT,
+		UNDO_MOVE_RIGHT,
+		UNDO_DELETE,
+		UNDO_GEN
 	};
 	struct UndoInfo {
+		UndoType type;
 		GameobjectId gameobjectId;
+		Direction direction;
 		CPoint position;
-		UndoType undoType;
 	};
 
-	GameobjectPropsManager propsManager;
+	const int TEXTURE_ANIMATION_WAIT_TIME = 5;
+
+	// game board status
 	std::vector<std::vector<std::vector<Gameobject*>>> gameBoard;
-
 	int gameBoardWidth = 0;
-	int gameBoardHeight = 1;
-	CPoint textureOriginPosition = CPoint(0, 0);
-	int textureSize;
-	int textureCount = 0;
-	int textureWait = 0;
+	int gameBoardHeight = 0;
 
-	bool reachWinObj;
+	// game status
+	bool touchWinObject = false;
 
-	std::vector<std::pair<GameobjectId, PropId>> defaultProps;
-	std::vector<std::pair<GameobjectId, GameobjectId>> additionProps;
+	// texture status
+	unordered_set<Gameobject*> connectedTextObject;
+	CPoint textureOrigionPosition = CPoint(0, 0);
+	int textureSize = 0;
+	int textureAnimationCount = 0;
+	int nextTextureWaitTime = 0;
 
-	std::unordered_set<Gameobject*> connectedText;
+	// properties status
+	GameobjectPropsManager propsManager;
+	std::vector<std::pair<GameobjectId, GameobjectId>> descriptionProps;
 
-	std::vector<std::vector<int>> moveableRecord;
-	std::unordered_set<Gameobject*> hasYouPropObjects;
-	std::unordered_set<Gameobject*> waitToMoveObjects;
+	// move status
+	std::vector<std::vector<int8_t>> blockMoveableRecord;
+	std::unordered_set<Gameobject*> moveableGameobjects;
 
+	// undo status
+	std::stack<std::vector<UndoInfo>> undoRecord;
 	std::vector<UndoInfo> undoBuffer;
-	std::stack<std::vector<UndoInfo>> undoStack;
 
+	
+	// basic actions
 	void clearLevel();
-	void createGameBoard(std::vector<GameobjectInfo>);
-	void createMoveableRecord();
-	void resetMoveableRecord();
-	void setPropsManager();
-	void updateGameobjectsColor();
+	int getWorld(int);
+	void createGameboard(std::vector<GameobjectCreateInfo>);
+	void createBlockMoveableRecord();
+	void resetBlockMoveableRecord();
 
-	Gameobject* getGemeobjectInBlockById(CPoint, GameobjectId);
-	void removeGameobject(CPoint, Gameobject*);
-	void addGameobject(CPoint, Gameobject*);
+	// game board process
+	bool checkHasGameobjectInBlock(CPoint, GameobjectId);
+	int getGameobjectConnectStatus(Gameobject*);
+	Gameobject* findGameobjectInBlockById(CPoint, GameobjectId);
+	std::unordered_set<Gameobject*> findAllYouGameobject();
 	void genGameobject(CPoint, GameobjectId);
+	void deleteGameobject(Gameobject*);
+	void addGameobject(CPoint, Gameobject*);
+	void removeGameobject(Gameobject*);
+	void replaceGameobject(GameobjectId, GameobjectId);
+	void updateGameobjectTextureColor();
 
-	bool checkObjectsInBlockHasProp(CPoint, PropId);
-	bool checkObjectsInBlockHasId(CPoint, GameobjectId);
-	int checkObjectConnect(CPoint, GameobjectId);
-
-	void findAllYouObjects();
-	bool checkBlockMoveObjects(CPoint, bool);
+	// check block moveable;
+	bool checkMoveableObjects(CPoint, bool);
 	bool checkMoveUp(CPoint);
 	bool checkMoveDown(CPoint);
 	bool checkMoveLeft(CPoint);
 	bool checkMoveRight(CPoint);
 
-	void checkAllOverlapProp();
-	void checkOverlap_YouWin();
+	// prop process
+	bool checkHasPropInBlock(CPoint, PropId);
 	bool checkPropOverlap(PropId, PropId);
-	bool checkPropInSameBlock(CPoint, PropId, PropId);
-	
-	Gameobject* getNounTextObject(CPoint);
-	Gameobject* getPropTextObject(CPoint);
-	void getAllDescriptions();
-	bool checkDescription_is(CPoint);
-	void replaceGameobject(GameobjectId, GameobjectId);
+	bool checkBlockPropOverlap(CPoint, PropId, PropId);
+	void checkAllOverlapProp();
+	void checkOverlapProp_You_Win();
+	void loadTextObjectsPushProp(std::unordered_set<GameobjectId>);
 	void updateProps();
+	void updatePropsManager();
+
+	// description process
+	Gameobject* getNounTextObjectInBlock(CPoint);
+	Gameobject* getPropTextObjectInBlock(CPoint);
+	void getAllDescriptions();
+	void checkDescription_is(Gameobject*);
 
 public:
+	LevelManager();
+	~LevelManager();
+
 	void LoadLevel(int level);
 
 	void MoveUp();

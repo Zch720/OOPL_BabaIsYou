@@ -3,156 +3,139 @@
 #include "texture_manager.h"
 #include "../Expansion/log.h"
 
-#define MOVE_STEP	4
-
-Gameobject::Gameobject(GameobjectId gameobjectId, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize) {
+Gameobject::Gameobject(const GameobjectId gameobjectId, const CPoint gameBoardPosition, const int textureSize) {
 	this->gameobjectId = gameobjectId;
 	this->gameBoardPosition = gameBoardPosition;
-	this->textureOriginPosition = textureOriginPosition;
 	this->textureSize = textureSize;
-
-	int gameobjectTypeNum = GetGameobjectTypeById(gameobjectId);
-	if (gameobjectTypeNum == -1) {
-		char message[125];
-		sprintf_s(message, "gameobject id %d can't turn to gameobject type.", gameobjectId);
-		logError(message);
-	}
-	this->gameobjectType = static_cast<GameobjectType>(gameobjectTypeNum);
+	this->gameobjectType = static_cast<GameobjectType>(GetGameobjectTypeById(gameobjectId));
 }
 
-void Gameobject::Show(int textureCount, int otherCount) {
-	if (gameobjectType == OBJECT_TYPE_STATIC) {
-		texture.SetFrameIndexOfBitmap(textureCount);
-	}
-	else if (gameobjectType == OBJECT_TYPE_CHARACTER) {
-		texture.SetFrameIndexOfBitmap(((direction << 2) + textureStepCount) * 3 + textureCount);
-	}
-	else if (gameobjectType == OBJECT_TYPE_TILED) {
-		// otherCount is connect status
-		texture.SetFrameIndexOfBitmap(otherCount * 3 + textureCount);
-	}
-	else if (gameobjectType == OBJECT_TYPE_TEXT) {
-		// otherCount is text is dark or light
-		//texture.SetFrameIndexOfBitmap(textureCount);
-		texture.SetFrameIndexOfBitmap(otherCount * 3 + textureCount);
-	}
+void Gameobject::setTextureWithColor(const CPoint textureOriginPosition, const PropId colorPropId) {
+	if (colorPropId == textureColorPropId && textureSetted) return;
 
-	updatePosition();
-	texture.ShowBitmap(textureFactor);
-}
-
-void Gameobject::setTextureColor(PropId colorPropId) {
-	texture = TextureManager::GetGameobjecTexture(gameobjectId, colorPropId);
+	textureColorPropId = colorPropId;
+	texture = TextureManager::GetGameobjecTexture(gameobjectId, textureColorPropId);
 
 	CPoint texturePosition = CPoint(textureSize * gameBoardPosition.x, textureSize * gameBoardPosition.y);
 	texturePosition += textureOriginPosition;
 	texture.SetTopLeft(texturePosition.x, texturePosition.y);
-	textureFactor = (double)textureSize / texture.GetWidth();
+	
+	textureFatcor = (double)textureSize / texture.GetWidth();
+
+	textureSetted = true;
+}
+
+/*
+	OBJECT_TYPE_CHARACTER: no otherInformation
+	OBJECT_TYPE_STATIC: no otherInformation
+	OBJECT_TYPE_TILED: otherInformation denote gameobject connect status
+	OBJECT_TYPE_TEXT: otherInformation denote text is dark(0) or light(1)
+*/
+void Gameobject::show(const int textureCount, const int otherInformation) {
+	switch (gameobjectType) {
+	case OBJECT_TYPE_CHARACTER:
+		texture.SetFrameIndexOfBitmap(((textureDirection << 2) + characterTextureStep) * 3 + textureCount);
+		break;
+	case OBJECT_TYPE_STATIC:
+		texture.SetFrameIndexOfBitmap(textureCount);
+		break;
+	case OBJECT_TYPE_TILED:
+	case OBJECT_TYPE_TEXT:
+		texture.SetFrameIndexOfBitmap(otherInformation * 3 + textureCount);
+		break;
+	}
+
+	updatePosition();
+	
+	texture.ShowBitmap(textureFatcor);
 }
 
 void Gameobject::updatePosition() {
-	if (remainStep != 0) {
+	if (moveRemainStep != 0) {
 		int left = texture.GetLeft();
 		int top = texture.GetTop();
 		int moveDistance = textureSize / MOVE_STEP;
-		if (remainStep <= textureSize % MOVE_STEP) {
+		if (moveRemainStep <= textureSize % MOVE_STEP) {
 			moveDistance++;
 		}
 
-		if (direction == 0) {
-			left += moveDistance;
-		}
-		else if (direction == 1) {
+		switch (moveDirection) {
+		case DIRECTION_UP:
 			top -= moveDistance;
-		}
-		else if (direction == 2) {
-			left -= moveDistance;
-		}
-		else if (direction == 3) {
+			break;
+		case DIRECTION_DOWN:
 			top += moveDistance;
-		}
-		
-		texture.SetTopLeft(left, top);
-		remainStep--;
-	}
-	if (undoRemainStep != 0) {
-		int left = texture.GetLeft();
-		int top = texture.GetTop();
-		int moveDistance = textureSize / MOVE_STEP;
-		if (undoRemainStep <= textureSize % MOVE_STEP) {
-			moveDistance++;
-		}
-
-		if (direction == 0) {
+			break;
+		case DIRECTION_LEFT:
 			left -= moveDistance;
-		}
-		else if (direction == 1) {
-			top += moveDistance;
-		}
-		else if (direction == 2) {
+			break;
+		case DIRECTION_RIGHT:
 			left += moveDistance;
-		}
-		else if (direction == 3) {
-			top -= moveDistance;
+			break;
 		}
 
 		texture.SetTopLeft(left, top);
-		undoRemainStep--;
+		moveRemainStep--;
 	}
 }
 
 void Gameobject::moveUp() {
-	direction = 1;
-	remainStep = MOVE_STEP;
+	moveDirection = DIRECTION_UP;
+	textureDirection = DIRECTION_UP;
 	gameBoardPosition.y -= 1;
-	textureStepCount = (textureStepCount + 1) & 3;
+	moveRemainStep = MOVE_STEP;
+	characterTextureStep = (characterTextureStep + 1) & 3;
 }
-
 void Gameobject::moveDown() {
-	direction = 3;
-	remainStep = MOVE_STEP;
+	moveDirection = DIRECTION_DOWN;
+	textureDirection = DIRECTION_DOWN;
 	gameBoardPosition.y += 1;
-	textureStepCount = (textureStepCount + 1) & 3;
+	moveRemainStep = MOVE_STEP;
+	characterTextureStep = (characterTextureStep + 1) & 3;
 }
-
 void Gameobject::moveLeft() {
-	direction = 2;
-	remainStep = MOVE_STEP;
+	moveDirection = DIRECTION_LEFT;
+	textureDirection = DIRECTION_LEFT;
 	gameBoardPosition.x -= 1;
-	textureStepCount = (textureStepCount + 1) & 3;
+	moveRemainStep = MOVE_STEP;
+	characterTextureStep = (characterTextureStep + 1) & 3;
 }
-
 void Gameobject::moveRight() {
-	direction = 0;
-	remainStep = MOVE_STEP;
+	moveDirection = DIRECTION_RIGHT;
+	textureDirection = DIRECTION_RIGHT;
 	gameBoardPosition.x += 1;
-	textureStepCount = (textureStepCount + 1) & 3;
+	moveRemainStep = MOVE_STEP;
+	characterTextureStep = (characterTextureStep + 1) & 3;
 }
 
-void Gameobject::undoUp() {
-	direction = 1;
-	undoRemainStep = MOVE_STEP;
+/*
+	direction denote origion gameobject direction
+*/
+void Gameobject::undoUp(Direction direction) {
+	moveDirection = DIRECTION_DOWN;
+	textureDirection = direction;
 	gameBoardPosition.y += 1;
-	textureStepCount = (textureStepCount + 3) & 3;
+	moveRemainStep = MOVE_STEP;
+	characterTextureStep = (characterTextureStep + 3) & 3;
 }
-
-void Gameobject::undoDown() {
-	direction = 3;
-	undoRemainStep = MOVE_STEP;
+void Gameobject::undoDown(Direction direction) {
+	moveDirection = DIRECTION_UP;
+	textureDirection = direction;
 	gameBoardPosition.y -= 1;
-	textureStepCount = (textureStepCount + 3) & 3;
+	moveRemainStep = MOVE_STEP;
+	characterTextureStep = (characterTextureStep + 3) & 3;
 }
-
-void Gameobject::undoLeft() {
-	direction = 2;
-	undoRemainStep = MOVE_STEP;
+void Gameobject::undoLeft(Direction direction) {
+	moveDirection = DIRECTION_RIGHT;
+	textureDirection = direction;
 	gameBoardPosition.x += 1;
-	textureStepCount = (textureStepCount + 3) & 3;
+	moveRemainStep = MOVE_STEP;
+	characterTextureStep = (characterTextureStep + 3) & 3;
 }
-
-void Gameobject::undoRight() {
-	direction = 0;
-	undoRemainStep = MOVE_STEP;
+void Gameobject::undoRight(Direction direction) {
+	moveDirection = DIRECTION_LEFT;
+	textureDirection = direction;
 	gameBoardPosition.x -= 1;
-	textureStepCount = (textureStepCount + 3) & 3;
+	moveRemainStep = MOVE_STEP;
+	characterTextureStep = (characterTextureStep + 3) & 3;
 }

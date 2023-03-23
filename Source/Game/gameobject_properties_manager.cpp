@@ -12,6 +12,14 @@ int GetPropIdFromTextGameobject(GameobjectId gameobjectId) {
 		return PROP_STOP;
 	case GAMEOBJECT_TEXT_WIN:
 		return PROP_WIN;
+	case GAMEOBJECT_TEXT_SINK:
+		return PROP_SINK;
+	case GAMEOBJECT_TEXT_DEFEAT:
+		return PROP_DEFEAT;
+	case GAMEOBJECT_TEXT_HOT:
+		return PROP_HOT;
+	case GAMEOBJECT_TEXT_MELT:
+		return PROP_MELT;
 	default:
 		return -1;
 	}

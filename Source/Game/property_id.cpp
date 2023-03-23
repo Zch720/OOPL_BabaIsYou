@@ -15,6 +15,15 @@ int GetPropIdByName(std::string propName) {
 	if (propName == "prop_win") {
 		return PROP_WIN;
 	}
+	if (propName == "prop_sink") {
+		return PROP_SINK;
+	}
+	if (propName == "prop_defeat") {
+		return PROP_DEFEAT;
+	}
+	if (propName == "prop_melt") {
+		return PROP_MELT;
+	}
 	if (propName == "prop_none") {
 		return PROP_NONE;
 	}

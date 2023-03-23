@@ -16,6 +16,9 @@ void TextureManager::LoadTexture(GameobjectId gameobjectId, PropId colorPropId, 
 	case OBJECT_TYPE_CHARACTER:
 		loadCharacterTexture(gameobjectId, colorPropId, world);
 		break;
+	case OBJECT_TYPE_DIRECTIONAL:
+		loadDirectionalTexture(gameobjectId, colorPropId, world);
+		break;
 	case OBJECT_TYPE_TILED:
 		loadTiledTexture(gameobjectId, colorPropId, world);
 		break;
@@ -91,6 +94,29 @@ void TextureManager::loadCharacterTexture(GameobjectId gameobjectId, PropId colo
 	texture.LoadBitmapByString(texturePaths, 0x00FF00);
 
 	uint64_t textureKey = ((uint64_t)gameobjectId << 32) | colorPropId;
+	textures[textureKey] = texture;
+}
+void TextureManager::loadDirectionalTexture(GameobjectId gameobjectId, PropId colorPropId, int world) {
+	std::string textureDir = GetTexturePathByGameobjectId(gameobjectId) + "0/" + GetColorDirByPropId(colorPropId) + "/";
+	game_framework::CMovingBitmap texture;
+	std::vector<std::string> texturePaths;
+
+	texturePaths.push_back(textureDir + "0_1.bmp");
+	texturePaths.push_back(textureDir + "0_2.bmp");
+	texturePaths.push_back(textureDir + "0_3.bmp");
+	texturePaths.push_back(textureDir + "8_1.bmp");
+	texturePaths.push_back(textureDir + "8_2.bmp");
+	texturePaths.push_back(textureDir + "8_3.bmp");
+	texturePaths.push_back(textureDir + "16_1.bmp");
+	texturePaths.push_back(textureDir + "16_2.bmp");
+	texturePaths.push_back(textureDir + "16_3.bmp");
+	texturePaths.push_back(textureDir + "24_1.bmp");
+	texturePaths.push_back(textureDir + "24_2.bmp");
+	texturePaths.push_back(textureDir + "24_3.bmp");
+
+	texture.LoadBitmapByString(texturePaths, 0x00FF00);
+
+	uint64_t textureKey = ((uint64_t)gameobjectId << 32) + colorPropId;
 	textures[textureKey] = texture;
 }
 void TextureManager::loadTiledTexture(GameobjectId gameobjectId, PropId colorPropId, int world) {

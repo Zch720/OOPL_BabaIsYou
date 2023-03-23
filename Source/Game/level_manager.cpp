@@ -66,7 +66,8 @@ void LevelManager::LoadLevel(int level) {
 		gameobjectCreateInfos.push_back(
 			GameobjectCreateInfo{
 				gameobjectId,
-				CPoint(stringToInt(objectInfo[1]), stringToInt(objectInfo[2]))
+				CPoint(stringToInt(objectInfo[1]), stringToInt(objectInfo[2])),
+				static_cast<Direction>(stringToInt(objectInfo[3]))
 			}
 		);
 	}
@@ -283,7 +284,7 @@ void LevelManager::Undo() {
 			addGameobject(undoObject->gameBoardPosition, undoObject);
 		}
 		else if (info.type == UNDO_DELETE) {
-			genGameobject(info.position, info.gameobjectId);
+			genGameobject(info.position, info.gameobjectId, false);
 		}
 		else if (info.type == UNDO_GEN) {
 			Gameobject *undoObject = findGameobjectInBlockById(info.position, info.gameobjectId);
@@ -291,7 +292,7 @@ void LevelManager::Undo() {
 				logError("can't find undo gameobject");
 			}
 
-			deleteGameobject(undoObject);
+			deleteGameobject(undoObject, false);
 		}
 	}
 
@@ -313,7 +314,6 @@ bool LevelManager::IsMoving() {
 	}
 	return false;
 }
-
 bool LevelManager::IsWin() {
 	return touchWinObject;
 }
@@ -392,11 +392,9 @@ void LevelManager::clearLevel() {
 	}
 	blockMoveableRecord.clear();
 }
-
 int LevelManager::getWorld(int level) {
 	return 0;
 }
-
 void LevelManager::createGameboard(std::vector<GameobjectCreateInfo> createInfos) {
 	for (int i = 0; i < gameBoardWidth; i++) {
 		std::vector<std::vector<Gameobject*>> col;
@@ -412,18 +410,16 @@ void LevelManager::createGameboard(std::vector<GameobjectCreateInfo> createInfos
 			sprintf_s(message, "%s at (%d, %d) create failed, out of range", GetGameobjectNameById(info.gameobjectId).c_str(), info.position.x, info.position.y);
 			logError(message);
 		}
-		gameBoard[info.position.x][info.position.y].push_back(
-			new Gameobject(info.gameobjectId, info.position, textureSize)
-		);
+		Gameobject *gameobject = new Gameobject(info.gameobjectId, info.position, textureSize);
+		gameobject->textureDirection = info.textureDirection;
+		gameBoard[info.position.x][info.position.y].push_back(gameobject);
 	}
 }
-
 void LevelManager::createBlockMoveableRecord() {
 	for (int i = 0; i < gameBoardWidth; i++) {
 		blockMoveableRecord.push_back(std::vector<int8_t>(gameBoardHeight, 0));
 	}
 }
-
 void LevelManager::resetBlockMoveableRecord() {
 	for (auto &col : blockMoveableRecord) {
 		for (int8_t &val : col) {
@@ -441,7 +437,6 @@ bool LevelManager::checkHasGameobjectInBlock(CPoint position, GameobjectId gameo
 	}
 	return false;
 }
-
 int LevelManager::getGameobjectConnectStatus(Gameobject* gameobject) {
 	GameobjectId gameobjectId = gameobject->gameobjectId;
 	CPoint position = gameobject->gameBoardPosition;
@@ -462,7 +457,6 @@ int LevelManager::getGameobjectConnectStatus(Gameobject* gameobject) {
 
 	return result;
 }
-
 Gameobject* LevelManager::findGameobjectInBlockById(CPoint position, GameobjectId gameobjectId) {
 	for (Gameobject *gameobject : gameBoard[position.x][position.y]) {
 		if (gameobject->gameobjectId == gameobjectId) {
@@ -471,7 +465,14 @@ Gameobject* LevelManager::findGameobjectInBlockById(CPoint position, GameobjectI
 	}
 	return nullptr;
 }
-
+Gameobject* LevelManager::findGameobjectInBlockByProp(CPoint position, PropId propId) {
+	for (Gameobject *gameobject : gameBoard[position.x][position.y]) {
+		if (propsManager.GetGameobjectProp(gameobject->gameobjectId, propId)) {
+			return gameobject;
+		}
+	}
+	return nullptr;
+}
 std::unordered_set<Gameobject*> LevelManager::findAllYouGameobject() {
 	std::unordered_set<Gameobject*> result;
 
@@ -487,21 +488,40 @@ std::unordered_set<Gameobject*> LevelManager::findAllYouGameobject() {
 
 	return result;
 }
-
-void LevelManager::genGameobject(CPoint position , GameobjectId gameobjectId) {
+void LevelManager::genGameobject(CPoint position , GameobjectId gameobjectId, bool addToBuffer) {
 	Gameobject *gameobject = new Gameobject(gameobjectId, position, textureSize);
 	gameBoard[position.x][position.y].push_back(gameobject);
 	gameobject->setTextureWithColor(
 		textureOrigionPosition,
 		static_cast<PropId>(propsManager.GetColorProp(gameobjectId))
 	);
+	if (addToBuffer) {
+		undoBuffer.push_back(
+			UndoInfo{
+				UNDO_GEN,
+				gameobjectId,
+				DIRECTION_RIGHT,
+				position
+			}
+		);
+	}
 }
-
-void LevelManager::deleteGameobject(Gameobject* gameobject) {
+void LevelManager::deleteGameobject(Gameobject* gameobject, bool addToBuffer) {
 	CPoint position = gameobject->gameBoardPosition;
 	std::vector<Gameobject*> &block = gameBoard[position.x][position.y];
 	for (size_t i = 0; i < block.size(); i++) {
 		if (block[i] == gameobject) {
+			if (addToBuffer) {
+				undoBuffer.push_back(
+					UndoInfo{
+						UNDO_DELETE,
+						gameobject->gameobjectId,
+						gameobject->textureDirection,
+						gameobject->gameBoardPosition
+					}
+				);
+			}
+
 			delete gameobject;
 			block.erase(block.begin() + i);
 			return;
@@ -509,11 +529,9 @@ void LevelManager::deleteGameobject(Gameobject* gameobject) {
 	}
 	logWarning("one of gameobject can't delete");
 }
-
 void LevelManager::addGameobject(CPoint position, Gameobject* gameobject) {
 	gameBoard[position.x][position.y].push_back(gameobject);
 }
-
 void LevelManager::removeGameobject(Gameobject* gameobject) {
 	CPoint position = gameobject->gameBoardPosition;
 	std::vector<Gameobject*> &block = gameBoard[position.x][position.y];
@@ -525,7 +543,6 @@ void LevelManager::removeGameobject(Gameobject* gameobject) {
 	}
 	logWarning("one of gameobject can't remove");
 }
-
 void LevelManager::replaceGameobject(GameobjectId originGameobjectId, GameobjectId convertGameobjectId) {
 	if (originGameobjectId == convertGameobjectId) return;
 
@@ -533,22 +550,6 @@ void LevelManager::replaceGameobject(GameobjectId originGameobjectId, Gameobject
 		for (auto &block : col) {
 			for (auto gameobject = block.begin(); gameobject != block.end();) {
 				if ((*gameobject)->gameobjectId == originGameobjectId) {
-					undoBuffer.push_back(
-						UndoInfo{
-							UNDO_DELETE,
-							originGameobjectId,
-							(*gameobject)->textureDirection,
-							(*gameobject)->gameBoardPosition
-						}
-					);
-					undoBuffer.push_back(
-						UndoInfo{
-							UNDO_GEN,
-							convertGameobjectId,
-							DIRECTION_RIGHT,
-							(*gameobject)->gameBoardPosition
-						}
-					);
 					genGameobject((*gameobject)->gameBoardPosition, convertGameobjectId);
 					deleteGameobject((*gameobject));
 				}
@@ -559,7 +560,6 @@ void LevelManager::replaceGameobject(GameobjectId originGameobjectId, Gameobject
 		}
 	}
 }
-
 void LevelManager::updateGameobjectTextureColor() {
 	for (auto &col : gameBoard) {
 		for (auto &block : col) {
@@ -590,7 +590,6 @@ bool LevelManager::checkMoveableObjects(CPoint position, bool aheadBlockMoveable
 	//moveableGameobjects.insert(moveableBuffer.begin(), moveableBuffer.end());
 	return blockMoveableRecord[position.x][position.y] = 1;
 }
-
 bool LevelManager::checkMoveUp(CPoint position) {
 	if (position.y == -1) return false;
 	if (blockMoveableRecord[position.x][position.y] != -1) {
@@ -612,7 +611,6 @@ bool LevelManager::checkMoveUp(CPoint position) {
 	blockMoveableRecord[position.x][position.y] = checkMoveableObjects(position, aheadBlockMoveable);
 	return blockMoveableRecord[position.x][position.y];
 }
-
 bool LevelManager::checkMoveDown(CPoint position) {
 	if (position.y == gameBoardHeight) return false;
 	if (blockMoveableRecord[position.x][position.y] != -1) {
@@ -635,7 +633,6 @@ bool LevelManager::checkMoveDown(CPoint position) {
 
 	return blockMoveableRecord[position.x][position.y];
 }
-
 bool LevelManager::checkMoveLeft(CPoint position) {
 	if (position.x == -1) return false;
 	if (blockMoveableRecord[position.x][position.y] != -1) {
@@ -657,7 +654,6 @@ bool LevelManager::checkMoveLeft(CPoint position) {
 	blockMoveableRecord[position.x][position.y] = checkMoveableObjects(position, aheadBlockMoveable);
 	return blockMoveableRecord[position.x][position.y];
 }
-
 bool LevelManager::checkMoveRight(CPoint position) {
 	if (position.x == gameBoardWidth) return false;
 	if (blockMoveableRecord[position.x][position.y] != -1) {
@@ -689,7 +685,6 @@ bool LevelManager::checkHasPropInBlock(CPoint position , PropId propId) {
 	}
 	return false;
 }
-
 bool LevelManager::checkPropOverlap(PropId propId1, PropId propId2) {
 	for (int i = 0; i < gameBoardWidth; i++) {
 		for (int j = 0; j < gameBoardHeight; j++) {
@@ -700,7 +695,6 @@ bool LevelManager::checkPropOverlap(PropId propId1, PropId propId2) {
 	}
 	return false;
 }
-
 bool LevelManager::checkBlockPropOverlap(CPoint position, PropId propId1, PropId propId2) {
 	bool hasProp1 = false;
 	bool hasProp2 = false;
@@ -710,15 +704,56 @@ bool LevelManager::checkBlockPropOverlap(CPoint position, PropId propId1, PropId
 	}
 	return hasProp1 && hasProp2;
 }
-
 void LevelManager::checkAllOverlapProp() {
-	checkOverlapProp_You_Win();
-}
+	checkOverlapPropFull_You_Win();
 
-void LevelManager::checkOverlapProp_You_Win() {
+	for (int i = 0; i < gameBoardWidth; i++) {
+		for (int j = 0; j < gameBoardHeight; j++) {
+			CPoint position(i, j);
+
+			checkOverlapPropBlock_Sink(position);
+			checkOverlapPropBlock_Defeat_You(position);
+			checkOverlapPropBlock_Hot_Melt(position);
+		}
+	}
+}
+void LevelManager::checkOverlapPropFull_You_Win() {
 	touchWinObject = checkPropOverlap(PROP_YOU, PROP_WIN);
 }
+void LevelManager::checkOverlapPropBlock_Sink(CPoint position) {
+	Gameobject *sinkGameobject = findGameobjectInBlockByProp(position, PROP_SINK);
+	if (!sinkGameobject) return;
 
+	Gameobject *pushGameobject = findGameobjectInBlockByProp(position, PROP_PUSH);
+	if (pushGameobject) {
+		deleteGameobject(sinkGameobject);
+		deleteGameobject(pushGameobject);
+		return;
+	}
+
+	Gameobject *youGameobject = findGameobjectInBlockByProp(position, PROP_YOU);
+	if (youGameobject) {
+		deleteGameobject(sinkGameobject);
+		deleteGameobject(youGameobject);
+	}
+}
+void LevelManager::checkOverlapPropBlock_Defeat_You(CPoint position) {
+	Gameobject *defeatGameobject = findGameobjectInBlockByProp(position, PROP_DEFEAT);
+	Gameobject *youGameobject = findGameobjectInBlockByProp(position, PROP_YOU);
+
+	if (defeatGameobject && youGameobject) {
+		deleteGameobject(youGameobject);
+	}
+}
+void LevelManager::checkOverlapPropBlock_Hot_Melt(CPoint position) {
+	Gameobject *hotGameobject = findGameobjectInBlockByProp(position, PROP_HOT);
+	Gameobject *meltGameobject = findGameobjectInBlockByProp(position, PROP_MELT);
+
+	if (hotGameobject && meltGameobject) {
+		deleteGameobject(hotGameobject);
+		deleteGameobject(meltGameobject);
+	}
+}
 void LevelManager::loadTextObjectsPushProp(std::unordered_set<GameobjectId> gameobjectIds) {
 	for (GameobjectId id : gameobjectIds) {
 		if (IsTextObject(id)) {
@@ -726,13 +761,11 @@ void LevelManager::loadTextObjectsPushProp(std::unordered_set<GameobjectId> game
 		}
 	}
 }
-
 void LevelManager::updateProps() {
 	connectedTextObject.clear();
 	getAllDescriptions();
 	updatePropsManager();
 }
-
 void LevelManager::updatePropsManager() {
 	propsManager.ClearPropertiesWithoutTextPush();
 
@@ -760,7 +793,6 @@ Gameobject* LevelManager::getNounTextObjectInBlock(CPoint position) {
 	}
 	return nullptr;
 }
-
 Gameobject* LevelManager::getPropTextObjectInBlock(CPoint position) {
 	for (Gameobject *gameobject : gameBoard[position.x][position.y]) {
 		if (IsPropTextObject(gameobject->gameobjectId))
@@ -768,7 +800,6 @@ Gameobject* LevelManager::getPropTextObjectInBlock(CPoint position) {
 	}
 	return nullptr;
 }
-
 void LevelManager::getAllDescriptions() {
 	descriptionProps.clear();
 
@@ -782,7 +813,6 @@ void LevelManager::getAllDescriptions() {
 		}
 	}
 }
-
 void LevelManager::checkDescription_is(Gameobject* gameobject) {
 	CPoint position = gameobject->gameBoardPosition;
 

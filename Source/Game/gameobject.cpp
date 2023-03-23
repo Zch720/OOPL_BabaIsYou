@@ -27,6 +27,7 @@ void Gameobject::setTextureWithColor(const CPoint textureOriginPosition, const P
 
 /*
 	OBJECT_TYPE_CHARACTER: no otherInformation
+	OBJECT_TYPE_DIRECTIONAL: no otherInformation
 	OBJECT_TYPE_STATIC: no otherInformation
 	OBJECT_TYPE_TILED: otherInformation denote gameobject connect status
 	OBJECT_TYPE_TEXT: otherInformation denote text is dark(0) or light(1)
@@ -35,6 +36,9 @@ void Gameobject::show(const int textureCount, const int otherInformation) {
 	switch (gameobjectType) {
 	case OBJECT_TYPE_CHARACTER:
 		texture.SetFrameIndexOfBitmap(((textureDirection << 2) + characterTextureStep) * 3 + textureCount);
+		break;
+	case OBJECT_TYPE_DIRECTIONAL:
+		texture.SetFrameIndexOfBitmap(textureDirection * 3 + textureCount);
 		break;
 	case OBJECT_TYPE_STATIC:
 		texture.SetFrameIndexOfBitmap(textureCount);

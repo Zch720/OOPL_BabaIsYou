@@ -10,6 +10,7 @@ private:
 	struct GameobjectCreateInfo {
 		GameobjectId gameobjectId;
 		CPoint position;
+		Direction textureDirection;
 	};
 
 	enum UndoType {
@@ -68,9 +69,10 @@ private:
 	bool checkHasGameobjectInBlock(CPoint, GameobjectId);
 	int getGameobjectConnectStatus(Gameobject*);
 	Gameobject* findGameobjectInBlockById(CPoint, GameobjectId);
+	Gameobject* findGameobjectInBlockByProp(CPoint, PropId);
 	std::unordered_set<Gameobject*> findAllYouGameobject();
-	void genGameobject(CPoint, GameobjectId);
-	void deleteGameobject(Gameobject*);
+	void genGameobject(CPoint, GameobjectId, bool addToBuffer = true);
+	void deleteGameobject(Gameobject*, bool addToBuffer= true);
 	void addGameobject(CPoint, Gameobject*);
 	void removeGameobject(Gameobject*);
 	void replaceGameobject(GameobjectId, GameobjectId);
@@ -88,7 +90,10 @@ private:
 	bool checkPropOverlap(PropId, PropId);
 	bool checkBlockPropOverlap(CPoint, PropId, PropId);
 	void checkAllOverlapProp();
-	void checkOverlapProp_You_Win();
+	void checkOverlapPropFull_You_Win();
+	void checkOverlapPropBlock_Sink(CPoint);
+	void checkOverlapPropBlock_Defeat_You(CPoint);
+	void checkOverlapPropBlock_Hot_Melt(CPoint);
 	void loadTextObjectsPushProp(std::unordered_set<GameobjectId>);
 	void updateProps();
 	void updatePropsManager();

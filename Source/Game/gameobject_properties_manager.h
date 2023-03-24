@@ -21,4 +21,5 @@ public:
 	void SetPropWithOtherProp(PropId targetPropId, PropId newPropId, bool value = true);
 
 	void ClearProperties();
+	void ClearPropertiesWithoutTextPush();
 };

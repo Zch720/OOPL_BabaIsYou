@@ -7,38 +7,58 @@
 
 class LevelManager;
 
+enum Direction {
+	DIRECTION_RIGHT = 0,
+	DIRECTION_UP = 1,
+	DIRECTION_LEFT = 2,
+	DIRECTION_DOWN = 3
+};
+
 class Gameobject {
 private:
+	friend LevelManager;
+
+	const int MOVE_STEP = 4;
+
 	game_framework::CMovingBitmap texture;
 	GameobjectId gameobjectId;
 	GameobjectType gameobjectType;
-
-	int textureSize = 0;
-	double textureFactor = 1;
-	CPoint textureOriginPosition;
 	CPoint gameBoardPosition;
-	int direction = 0;
-	int textureStepCount = 0;
-	int remainStep = 0;
-	int undoRemainStep = 0;
 
-	void setTextureColor(PropId);
+	bool textureSetted = false;
+	int textureSize = 0;
+	double textureFatcor = 1;
+	PropId textureColorPropId = PROP_NONE;
+	Direction textureDirection = DIRECTION_RIGHT;
+
+	Direction moveDirection = DIRECTION_RIGHT;
+	int characterTextureStep = 0;
+	int moveRemainStep = 0;
+
+	Gameobject(const GameobjectId gameobjectId, const CPoint gameBoardPosition, const int textureSize);
+
+	void setTextureWithColor(const CPoint textureOriginPosition, const PropId colorPropId);
+
+	/*
+		OBJECT_TYPE_CHARACTER: no otherInformation
+		OBJECT_TYPE_STATIC: no otherInformation
+		OBJECT_TYPE_TILED: otherInformation denote gameobject connect status
+		OBJECT_TYPE_TEXT: otherInformation denote text is dark(0) or light(1)
+	*/
+	void show(const int textureCount, const int otherInformation = 0);
 
 	void updatePosition();
+
 	void moveUp();
 	void moveDown();
 	void moveLeft();
 	void moveRight();
 
-	void undoUp();
-	void undoDown();
-	void undoLeft();
-	void undoRight();
-
-	friend LevelManager;
-
-public:
-	Gameobject(GameobjectId gameobjectId, PropId colorPropId, CPoint gameBoardPosition, CPoint textureOriginPosition, int textureSize);
-
-	void Show(int textureCount, int otherCount = 0);
+	/*
+		direction denote origion gameobject direction
+	*/
+	void undoUp(Direction direction);
+	void undoDown(Direction direction);
+	void undoLeft(Direction direction);
+	void undoRight(Direction direction);
 };

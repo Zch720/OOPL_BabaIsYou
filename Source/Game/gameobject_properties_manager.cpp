@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "gameobject_properties_manager.h"
+#include "../Expansion/log.h"
 
 int GetPropIdFromTextGameobject(GameobjectId gameobjectId) {
 	switch (gameobjectId) {
@@ -11,6 +12,14 @@ int GetPropIdFromTextGameobject(GameobjectId gameobjectId) {
 		return PROP_STOP;
 	case GAMEOBJECT_TEXT_WIN:
 		return PROP_WIN;
+	case GAMEOBJECT_TEXT_SINK:
+		return PROP_SINK;
+	case GAMEOBJECT_TEXT_DEFEAT:
+		return PROP_DEFEAT;
+	case GAMEOBJECT_TEXT_HOT:
+		return PROP_HOT;
+	case GAMEOBJECT_TEXT_MELT:
+		return PROP_MELT;
 	default:
 		return -1;
 	}
@@ -40,4 +49,13 @@ void GameobjectPropsManager::SetPropWithOtherProp(PropId targetPropId, PropId ne
 
 void GameobjectPropsManager::ClearProperties() {
 	propsGroup.clear();
+}
+
+void GameobjectPropsManager::ClearPropertiesWithoutTextPush() {
+	for (auto propInfo = propsGroup.begin(); propInfo != propsGroup.end(); propInfo++) {
+		propInfo->second.props.clear();
+		if (IsTextObject(propInfo->first)) {
+			propInfo->second.props[PROP_PUSH] = true;
+		}
+	}
 }

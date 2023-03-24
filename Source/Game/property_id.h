@@ -4,10 +4,15 @@
 
 enum PropId: int {
 	PROP_NONE,
+
 	PROP_YOU,
 	PROP_PUSH,
 	PROP_STOP,
-	PROP_WIN
+	PROP_WIN,
+	PROP_SINK,
+	PROP_DEFEAT,
+	PROP_HOT,
+	PROP_MELT
 };
 
 int GetPropIdByName(std::string propName);

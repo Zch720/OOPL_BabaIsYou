@@ -2,13 +2,16 @@
 #include "dataio.h"
 #include <exception>
 #include <fstream>
+#include "log.h"
 
 std::string loadFile(std::string filepath) {
 	std::ifstream inputFile(filepath);
 
 	// 如果無法存取檔案，回傳空字串
 	if (!inputFile) {
-		return "";
+		char message[125];
+		sprintf_s(message, "can't load file '%s'", filepath.c_str());
+		logError(message);
 	}
 
 	try {
@@ -23,7 +26,7 @@ std::string loadFile(std::string filepath) {
 
 		// 取得實際讀取字元數量
 		dataLength = (int)inputFile.gcount();
-		data[dataLength] = 0;
+		data[dataLength] = '\0';
 
 		// 關閉檔案
 		inputFile.close();
@@ -34,6 +37,9 @@ std::string loadFile(std::string filepath) {
 		// 關閉檔案
 		inputFile.close();
 
+		char message[125];
+		sprintf_s(message, "can't load file '%s'", filepath.c_str());
+		logError(message);
 		return "";
 	}
 }
@@ -43,7 +49,9 @@ bool saveFile(std::string filepath, std::string data) {
 
 	// 如果無法開啟檔案，回傳 false
 	if (!outputFile) {
-		return false;
+		char message[125];
+		sprintf_s(message, "can't save file '%s'", filepath.c_str());
+		logError(message);
 	}
 
 	try {
@@ -60,6 +68,9 @@ bool saveFile(std::string filepath, std::string data) {
 		// 關閉檔案
 		outputFile.close();
 
+		char message[125];
+		sprintf_s(message, "can't save file '%s'", filepath.c_str());
+		logError(message);
 		return false;
 	}
 }

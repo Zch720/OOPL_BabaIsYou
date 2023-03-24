@@ -252,6 +252,7 @@
     <ClCompile Include="Source\Game\gameobject_properties_manager.cpp" />
     <ClCompile Include="Source\Game\gameobject_type.cpp" />
     <ClCompile Include="Source\Game\level_manager.cpp" />
+    <ClCompile Include="Source\Game\mainpage.cpp" />
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="Source\Game\gameobject_properties_manager.h" />
     <ClInclude Include="Source\Game\gameobject_type.h" />
     <ClInclude Include="Source\Game\level_manager.h" />
+    <ClInclude Include="Source\Game\mainpage.h" />
     <ClInclude Include="Source\Game\mygame.h" />
     <ClInclude Include="Source\Game\property_id.h" />
     <ClInclude Include="Source\Game\texture_manager.h" />

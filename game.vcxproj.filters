@@ -90,6 +90,9 @@
     <ClCompile Include="Source\Expansion\string_proc.cpp">
       <Filter>Expansion</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\mainpage.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="Source\Expansion\string_proc.h">
       <Filter>Expansion</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\mainpage.h">
+      <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Library/gameutil.h"
+#include "../../Library/gameutil.h"
 #include "property_id.h"
 #include "gameobject_id.h"
 #include "gameobject_type.h"

@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "texture_manager.h"
-#include "../Expansion/log.h"
+#include "../../Expansion/log.h"
 
 std::unordered_map<uint64_t, game_framework::CMovingBitmap> TextureManager::textures = std::unordered_map<uint64_t, game_framework::CMovingBitmap>();
 

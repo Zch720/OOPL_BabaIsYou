@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "gameobject_type.h"
-#include "../Expansion/log.h"
+#include "../../Expansion/log.h"
 
 int GetGameobjectTypeById(GameobjectId gameobjectId) {
 	switch (gameobjectId) {

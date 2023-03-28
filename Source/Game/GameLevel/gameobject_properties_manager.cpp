@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "gameobject_properties_manager.h"
-#include "../Expansion/log.h"
+#include "../../Expansion/log.h"
 
 int GetPropIdFromTextGameobject(GameobjectId gameobjectId) {
 	switch (gameobjectId) {

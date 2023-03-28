@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "gameobject_id.h"
-#include "../Expansion/log.h"
+#include "../../Expansion/log.h"
 
 GameobjectId GAMEOBJECT_RECORD_TEXT_BEGIN = GAMEOBJECT_TEXT_IS;
 GameobjectId GAMEOBJECT_RECORD_NOUN_TEXT_BEGIN = GAMEOBJECT_TEXT_BABA;

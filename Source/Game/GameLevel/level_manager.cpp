@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #include "level_manager.h"
 #include "texture_manager.h"
-#include "../Expansion/dataio.h"
-#include "../Expansion/string_proc.h"
-#include "../Expansion/log.h"
+#include "../../Expansion/dataio.h"
+#include "../../Expansion/string_proc.h"
+#include "../../Expansion/log.h"
 
 
 LevelManager::LevelManager() {}
@@ -284,7 +284,8 @@ void LevelManager::Undo() {
 			addGameobject(undoObject->gameBoardPosition, undoObject);
 		}
 		else if (info.type == UNDO_DELETE) {
-			genGameobject(info.position, info.gameobjectId, false);
+			Gameobject *newGameobject = genGameobject(info.position, info.gameobjectId, false);
+			newGameobject->textureDirection = info.direction;
 		}
 		else if (info.type == UNDO_GEN) {
 			Gameobject *undoObject = findGameobjectInBlockById(info.position, info.gameobjectId);
@@ -488,7 +489,7 @@ std::unordered_set<Gameobject*> LevelManager::findAllYouGameobject() {
 
 	return result;
 }
-void LevelManager::genGameobject(CPoint position , GameobjectId gameobjectId, bool addToBuffer) {
+Gameobject* LevelManager::genGameobject(CPoint position , GameobjectId gameobjectId, bool addToBuffer) {
 	Gameobject *gameobject = new Gameobject(gameobjectId, position, textureSize);
 	gameBoard[position.x][position.y].push_back(gameobject);
 	gameobject->setTextureWithColor(
@@ -505,6 +506,7 @@ void LevelManager::genGameobject(CPoint position , GameobjectId gameobjectId, bo
 			}
 		);
 	}
+	return gameobject;
 }
 void LevelManager::deleteGameobject(Gameobject* gameobject, bool addToBuffer) {
 	CPoint position = gameobject->gameBoardPosition;
@@ -712,9 +714,24 @@ void LevelManager::checkAllOverlapProp() {
 			CPoint position(i, j);
 
 			checkOverlapPropBlock_Sink(position);
-			checkOverlapPropBlock_Defeat_You(position);
-			checkOverlapPropBlock_Hot_Melt(position);
+			deleteOverlapPropSecond(position, PROP_DEFEAT, PROP_YOU);
+			deleteOverlapPropBoth(position, PROP_HOT, PROP_MELT);
 		}
+	}
+}
+void LevelManager::deleteOverlapPropBoth(CPoint position, PropId propId1, PropId propId2) {
+	Gameobject *gameobject1 = findGameobjectInBlockByProp(position, propId1);
+	Gameobject *gameobject2 = findGameobjectInBlockByProp(position, propId2);
+	if (gameobject1 && gameobject2) {
+		deleteGameobject(gameobject1);
+		deleteGameobject(gameobject2);
+	}
+}
+void LevelManager::deleteOverlapPropSecond(CPoint position, PropId propId1, PropId propId2) {
+	Gameobject *gameobject1 = findGameobjectInBlockByProp(position, propId1);
+	Gameobject *gameobject2 = findGameobjectInBlockByProp(position, propId2);
+	if (gameobject1 && gameobject2) {
+		deleteGameobject(gameobject2);
 	}
 }
 void LevelManager::checkOverlapPropFull_You_Win() {
@@ -724,34 +741,12 @@ void LevelManager::checkOverlapPropBlock_Sink(CPoint position) {
 	Gameobject *sinkGameobject = findGameobjectInBlockByProp(position, PROP_SINK);
 	if (!sinkGameobject) return;
 
-	Gameobject *pushGameobject = findGameobjectInBlockByProp(position, PROP_PUSH);
-	if (pushGameobject) {
-		deleteGameobject(sinkGameobject);
-		deleteGameobject(pushGameobject);
-		return;
-	}
-
-	Gameobject *youGameobject = findGameobjectInBlockByProp(position, PROP_YOU);
-	if (youGameobject) {
-		deleteGameobject(sinkGameobject);
-		deleteGameobject(youGameobject);
-	}
-}
-void LevelManager::checkOverlapPropBlock_Defeat_You(CPoint position) {
-	Gameobject *defeatGameobject = findGameobjectInBlockByProp(position, PROP_DEFEAT);
-	Gameobject *youGameobject = findGameobjectInBlockByProp(position, PROP_YOU);
-
-	if (defeatGameobject && youGameobject) {
-		deleteGameobject(youGameobject);
-	}
-}
-void LevelManager::checkOverlapPropBlock_Hot_Melt(CPoint position) {
-	Gameobject *hotGameobject = findGameobjectInBlockByProp(position, PROP_HOT);
-	Gameobject *meltGameobject = findGameobjectInBlockByProp(position, PROP_MELT);
-
-	if (hotGameobject && meltGameobject) {
-		deleteGameobject(hotGameobject);
-		deleteGameobject(meltGameobject);
+	for (Gameobject *gameobject : gameBoard[position.x][position.y]) {
+		if (!propsManager.GetGameobjectProp(gameobject->gameobjectId, PROP_SINK)) {
+			deleteGameobject(gameobject);
+			deleteGameobject(sinkGameobject);
+			return;
+		}
 	}
 }
 void LevelManager::loadTextObjectsPushProp(std::unordered_set<GameobjectId> gameobjectIds) {

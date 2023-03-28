@@ -71,7 +71,7 @@ private:
 	Gameobject* findGameobjectInBlockById(CPoint, GameobjectId);
 	Gameobject* findGameobjectInBlockByProp(CPoint, PropId);
 	std::unordered_set<Gameobject*> findAllYouGameobject();
-	void genGameobject(CPoint, GameobjectId, bool addToBuffer = true);
+	Gameobject* genGameobject(CPoint, GameobjectId, bool addToBuffer = true);
 	void deleteGameobject(Gameobject*, bool addToBuffer= true);
 	void addGameobject(CPoint, Gameobject*);
 	void removeGameobject(Gameobject*);
@@ -92,8 +92,8 @@ private:
 	void checkAllOverlapProp();
 	void checkOverlapPropFull_You_Win();
 	void checkOverlapPropBlock_Sink(CPoint);
-	void checkOverlapPropBlock_Defeat_You(CPoint);
-	void checkOverlapPropBlock_Hot_Melt(CPoint);
+	void deleteOverlapPropBoth(CPoint, PropId, PropId);
+	void deleteOverlapPropSecond(CPoint, PropId, PropId);
 	void loadTextObjectsPushProp(std::unordered_set<GameobjectId>);
 	void updateProps();
 	void updatePropsManager();

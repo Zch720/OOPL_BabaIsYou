@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "gameobject.h"
 #include "texture_manager.h"
-#include "../Expansion/log.h"
+#include "../../Expansion/log.h"
 
 Gameobject::Gameobject(const GameobjectId gameobjectId, const CPoint gameBoardPosition, const int textureSize) {
 	this->gameobjectId = gameobjectId;

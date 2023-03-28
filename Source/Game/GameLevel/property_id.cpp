@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "property_id.h"
-#include "../Expansion/log.h"
+#include "../../Expansion/log.h"
 
 int GetPropIdByName(std::string propName) {
 	if (propName == "prop_you") {

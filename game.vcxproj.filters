@@ -17,6 +17,9 @@
     <Filter Include="Expansion">
       <UniqueIdentifier>{6a4b43e9-aef2-4e3b-b9f2-a56618e2d120}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyGame\UI">
+      <UniqueIdentifier>{4455226f-8274-4625-aeb2-f33306977071}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RES\GAME.RC2">
@@ -90,8 +93,8 @@
     <ClCompile Include="Source\Expansion\string_proc.cpp">
       <Filter>Expansion</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\mainpage.cpp">
-      <Filter>MyGame</Filter>
+    <ClCompile Include="Source\Game\UI\button.cpp">
+      <Filter>MyGame\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,8 +164,8 @@
     <ClInclude Include="Source\Expansion\string_proc.h">
       <Filter>Expansion</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\mainpage.h">
-      <Filter>MyGame</Filter>
+    <ClInclude Include="Source\Game\UI\button.h">
+      <Filter>MyGame\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

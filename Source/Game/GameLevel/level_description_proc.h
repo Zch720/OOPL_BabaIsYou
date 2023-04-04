@@ -12,8 +12,8 @@ private:
 	static std::vector<GameobjectIdPair> descriptionProps;
 	static GameobjectSet connectedTextObjects;
 
-	static Gameobject* getNounTextInBlock(CPoint);
-	static Gameobject* getPropTextInBlock(CPoint);
+	static Gameobject* getNounTextInBlock(Point);
+	static Gameobject* getPropTextInBlock(Point);
 	static void checkOperatorIs();
 	static void checkOperatorIsHorizontal(Gameobject* gameobject);
 	static void checkOperatorIsVertical(Gameobject* gameobject);

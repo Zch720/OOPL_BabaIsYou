@@ -13,7 +13,7 @@ vector2d<Block> LevelData::gameboard = vector2d<Block>();
 int LevelData::gameboardWidth = 0;
 int LevelData::gameboardHeight = 0;
 
-CPoint LevelData::textureOrigionPosition = CPoint(0, 0);
+Point LevelData::textureOrigionPosition = Point(0, 0);
 int LevelData::textureSize = 0;
 
 bool LevelData::touchWinObject = 0;
@@ -71,7 +71,7 @@ void LevelData::LoadLevel(int level) {
 		gameobjectCreateInfos.push_back(
 			GameobjectCreateInfo{
 				gameobjectId,
-				CPoint(stringToInt(objectInfo[1]), stringToInt(objectInfo[2])),
+				Point(stringToInt(objectInfo[1]), stringToInt(objectInfo[2])),
 				static_cast<Direction>(stringToInt(objectInfo[3]))
 			}
 		);
@@ -101,7 +101,7 @@ void LevelData::createGameboard(std::vector<GameobjectCreateInfo> createInfos) {
 	for (int i = 0; i < gameboardWidth; i++) {
 		std::vector<Block> col;
 		for (int j = 0; j < gameboardHeight; j++) {
-			col.push_back(Block(CPoint(i, j)));
+			col.push_back(Block(Point(i, j)));
 		}
 		gameboard.push_back(col);
 	}

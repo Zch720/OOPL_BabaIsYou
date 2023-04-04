@@ -1,8 +1,9 @@
 #pragma once
 
-#include "gameobject.h"
 #include <stack>
 #include <vector>
+#include "../../Expansion/point.h"
+#include "gameobject.h"
 
 class UndoProc {
 public:
@@ -20,7 +21,7 @@ private:
 		UndoType type;
 		GameobjectId id;
 		Direction direction;
-		CPoint position;
+		Point position;
 	};
 
 	static std::vector<UndoInfo> undoBuffer;

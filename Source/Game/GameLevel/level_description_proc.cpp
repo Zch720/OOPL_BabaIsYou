@@ -27,16 +27,16 @@ void DescriptionProc::UpdatePropFromDescription() {
 	GetAllDescription();
 }
 
-Gameobject* DescriptionProc::getNounTextInBlock(CPoint position) {
-	for (Gameobject *gameobject : LevelData::gameboard[position.x][position.y]) {
+Gameobject* DescriptionProc::getNounTextInBlock(Point position) {
+	for (Gameobject *gameobject : LevelData::gameboard[position]) {
 		if (IsNounTextObject(gameobject->gameobjectId)) {
 			return gameobject;
 		}
 	}
 	return nullptr;
 }
-Gameobject* DescriptionProc::getPropTextInBlock(CPoint position) {
-	for (Gameobject *gameobject : LevelData::gameboard[position.x][position.y]) {
+Gameobject* DescriptionProc::getPropTextInBlock(Point position) {
+	for (Gameobject *gameobject : LevelData::gameboard[position]) {
 		if (IsPropTextObject(gameobject->gameobjectId)) {
 			return gameobject;
 		}
@@ -56,13 +56,13 @@ void DescriptionProc::checkOperatorIs() {
 	}
 }
 void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
-	CPoint position = gameobject->gameBoardPosition;
+	Point position = gameobject->gameBoardPosition;
 
 	if (position.x == 0 || position.x == LevelData::gameboardWidth) return;
 
-	Gameobject *mainNoun = getNounTextInBlock(position - CPoint(1, 0));
-	Gameobject *subNoun = getNounTextInBlock(position + CPoint(1, 0));
-	Gameobject *prop = getPropTextInBlock(position + CPoint(1, 0));
+	Gameobject *mainNoun = getNounTextInBlock(position.Left());
+	Gameobject *subNoun = getNounTextInBlock(position.Right());
+	Gameobject *prop = getPropTextInBlock(position.Right());
 
 	if (mainNoun && subNoun) {
 		descriptionProps.push_back(std::make_pair(mainNoun->gameobjectId, subNoun->gameobjectId));
@@ -78,13 +78,13 @@ void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
 	}
 }
 void DescriptionProc::checkOperatorIsVertical(Gameobject *gameobject) {
-	CPoint position = gameobject->gameBoardPosition;
+	Point position = gameobject->gameBoardPosition;
 
 	if (position.y == 0 || position.y == LevelData::gameboardHeight) return;
 
-	Gameobject *mainNoun = getNounTextInBlock(position - CPoint(0, 1));
-	Gameobject *subNoun = getNounTextInBlock(position + CPoint(0, 1));
-	Gameobject *prop = getPropTextInBlock(position + CPoint(0, 1));
+	Gameobject *mainNoun = getNounTextInBlock(position.Up());
+	Gameobject *subNoun = getNounTextInBlock(position.Down());
+	Gameobject *prop = getPropTextInBlock(position.Down());
 
 	if (mainNoun && subNoun) {
 		descriptionProps.push_back(std::make_pair(mainNoun->gameobjectId, subNoun->gameobjectId));

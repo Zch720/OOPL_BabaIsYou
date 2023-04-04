@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #include <vector>
 
@@ -7,7 +8,7 @@ public:
 	std::vector<T>& operator[](const int index) {
 		return this->_Myfirst()[index];
 	}
-	T& operator[](const CPoint position) {
+	T& operator[](const POINT position) {
 		return this->_Myfirst()[position.x][position.y];
 	}
 };

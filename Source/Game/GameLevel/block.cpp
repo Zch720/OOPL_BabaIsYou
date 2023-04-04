@@ -11,13 +11,17 @@ std::vector<Gameobject*>::iterator Block::end() {
 	return blockObjects.end();
 }
 
-Block::Block(CPoint position) : gameboardPosition(position) {}
+Block::Block(Point position) : gameboardPosition(position) {}
 
 size_t Block::GetSize() {
 	return blockObjects.size();
 }
-CPoint Block::GetPosition() {
+Point Block::GetPosition() {
 	return gameboardPosition;
+}
+
+bool Block::IsEmpty() {
+	return blockObjects.empty();
 }
 
 Gameobject* Block::operator[](const int index) {

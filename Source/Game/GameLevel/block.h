@@ -1,12 +1,13 @@
 #pragma once
 
 #include <vector>
+#include "../../Expansion/point.h"
 #include "gameobject.h"
 
 class Block {
 private:
 	std::vector<Gameobject*> blockObjects;
-	CPoint gameboardPosition;
+	Point gameboardPosition;
 
 	void sortBlockObjects();
 
@@ -16,10 +17,12 @@ public:
 	void clear();
 
 public:
-	Block(CPoint position);
+	Block(Point position);
 
 	size_t GetSize();
-	CPoint GetPosition();
+	Point GetPosition();
+
+	bool IsEmpty();
 
 	Gameobject* operator[](const int index);
 

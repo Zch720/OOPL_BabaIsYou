@@ -34,7 +34,7 @@ void UndoProc::Undo() {
 		if (info.type == UNDO_MOVE_UP) {
 			Gameobject *undoObject =
 				GameboardProc::FindGameobjectByIdInBlock(
-					info.position - CPoint(0, 1),
+					info.position.Up(),
 					info.id
 				);
 			if (undoObject == nullptr) {
@@ -48,7 +48,7 @@ void UndoProc::Undo() {
 		else if (info.type == UNDO_MOVE_DOWN) {
 			Gameobject *undoObject =
 				GameboardProc::FindGameobjectByIdInBlock(
-					info.position + CPoint(0, 1),
+					info.position.Down(),
 					info.id
 				);
 			if (undoObject == nullptr) {
@@ -62,7 +62,7 @@ void UndoProc::Undo() {
 		else if (info.type == UNDO_MOVE_LEFT) {
 			Gameobject *undoObject =
 				GameboardProc::FindGameobjectByIdInBlock(
-					info.position - CPoint(1, 0),
+					info.position.Left(),
 					info.id
 				);
 			if (undoObject == nullptr) {
@@ -76,7 +76,7 @@ void UndoProc::Undo() {
 		else if (info.type == UNDO_MOVE_RIGHT) {
 			Gameobject *undoObject =
 				GameboardProc::FindGameobjectByIdInBlock(
-					info.position + CPoint(1, 0),
+					info.position.Right(),
 					info.id
 				);
 			if (undoObject == nullptr) {

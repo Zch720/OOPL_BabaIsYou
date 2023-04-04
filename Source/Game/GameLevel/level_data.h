@@ -2,13 +2,14 @@
 
 #include "gameobject.h"
 #include "block.h"
+#include "../../Expansion/point.h"
 #include "../../Expansion/vector2d.hpp"
 
 class LevelData {
 private:
 	struct GameobjectCreateInfo {
 		GameobjectId gameobjectId;
-		CPoint position;
+		Point position;
 		Direction textureDirection;
 	};
 	
@@ -23,7 +24,7 @@ public:
 	static int gameboardWidth;
 	static int gameboardHeight;
 
-	static CPoint textureOrigionPosition;
+	static Point textureOrigionPosition;
 	static int textureSize;
 
 	static bool touchWinObject;

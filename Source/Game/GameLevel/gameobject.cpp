@@ -3,14 +3,14 @@
 #include "texture_manager.h"
 #include "../../Expansion/log.h"
 
-Gameobject::Gameobject(const GameobjectId gameobjectId, const CPoint gameBoardPosition, const int textureSize) {
+Gameobject::Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition, const int textureSize) {
 	this->gameobjectId = gameobjectId;
 	this->gameBoardPosition = gameBoardPosition;
 	this->textureSize = textureSize;
 	this->gameobjectType = static_cast<GameobjectType>(GetGameobjectTypeById(gameobjectId));
 }
 
-void Gameobject::setTextureWithColor(const CPoint textureOriginPosition, const PropId colorPropId) {
+void Gameobject::setTextureWithColor(const Point textureOriginPosition, const PropId colorPropId) {
 	if (colorPropId == textureColorPropId && textureSetted) return;
 
 	textureColorPropId = colorPropId;

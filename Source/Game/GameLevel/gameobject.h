@@ -5,8 +5,6 @@
 #include "gameobject_id.h"
 #include "gameobject_type.h"
 
-class LevelManager;
-
 enum Direction {
 	DIRECTION_RIGHT = 0,
 	DIRECTION_UP = 1,
@@ -15,9 +13,7 @@ enum Direction {
 };
 
 class Gameobject {
-private:
-	friend LevelManager;
-
+public:
 	const int MOVE_STEP = 4;
 
 	game_framework::CMovingBitmap texture;

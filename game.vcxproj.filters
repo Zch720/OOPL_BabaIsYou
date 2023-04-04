@@ -99,6 +99,27 @@
     <ClCompile Include="Source\Game\GameLevel\texture_manager.cpp">
       <Filter>MyGame\GameLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_data.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_description_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\block.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_move_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_undo_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_property_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_gameboard_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -169,6 +190,30 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GameLevel\texture_manager.h">
       <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_data.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_description_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\block.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_move_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_undo_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_property_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_gameboard_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expansion\vector2d.hpp">
+      <Filter>Expansion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

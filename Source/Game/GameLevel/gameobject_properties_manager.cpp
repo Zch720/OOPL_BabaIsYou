@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "gameobject_properties_manager.h"
 #include "../../Expansion/log.h"
 
@@ -25,7 +25,8 @@ int GetPropIdFromTextGameobject(GameobjectId gameobjectId) {
 	}
 }
 
-GameobjectPropsManager::GameobjectPropsManager() {}
+std::unordered_map<GameobjectId, GameobjectProps>
+	GameobjectPropsManager::propsGroup =std::unordered_map<GameobjectId, GameobjectProps>();
 
 bool GameobjectPropsManager::GetGameobjectProp(GameobjectId gameobjectId, PropId propId) {
 	return propsGroup[gameobjectId].props[propId];
@@ -52,10 +53,10 @@ void GameobjectPropsManager::ClearProperties() {
 }
 
 void GameobjectPropsManager::ClearPropertiesWithoutTextPush() {
-	for (auto propInfo = propsGroup.begin(); propInfo != propsGroup.end(); propInfo++) {
-		propInfo->second.props.clear();
-		if (IsTextObject(propInfo->first)) {
-			propInfo->second.props[PROP_PUSH] = true;
+	for (auto &prop : propsGroup) {
+		prop.second.props.clear();
+		if (IsTextObject(prop.first)) {
+			prop.second.props[PROP_PUSH] = true;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <unordered_map>
 #include "gameobject_id.h"
@@ -8,18 +8,16 @@ int GetPropIdFromTextGameobject(GameobjectId gameobjectId);
 
 class GameobjectPropsManager {
 private:
-	std::unordered_map<GameobjectId, GameobjectProps> propsGroup;
+	static std::unordered_map<GameobjectId, GameobjectProps> propsGroup;
 
 public:
-	GameobjectPropsManager();
+	static bool GetGameobjectProp(GameobjectId gameobjectId, PropId propId);
+	static void SetGameobjectProp(GameobjectId gameobjectId, PropId propId, bool value = true);
 
-	bool GetGameobjectProp(GameobjectId gameobjectId, PropId propId);
-	void SetGameobjectProp(GameobjectId gameobjectId, PropId propId, bool value = true);
+	static int GetColorProp(GameobjectId gameobjectId);
 
-	int GetColorProp(GameobjectId);
+	static void SetPropWithOtherProp(PropId targetPropId, PropId newPropId, bool value = true);
 
-	void SetPropWithOtherProp(PropId targetPropId, PropId newPropId, bool value = true);
-
-	void ClearProperties();
-	void ClearPropertiesWithoutTextPush();
+	static void ClearProperties();
+	static void ClearPropertiesWithoutTextPush();
 };

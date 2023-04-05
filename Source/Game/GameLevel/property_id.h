@@ -12,7 +12,9 @@ enum PropId: int {
 	PROP_SINK,
 	PROP_DEFEAT,
 	PROP_HOT,
-	PROP_MELT
+	PROP_MELT,
+	PROP_SHUT,
+	PROP_OPEN
 };
 
 int GetPropIdByName(std::string propName);

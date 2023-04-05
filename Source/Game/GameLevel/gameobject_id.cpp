@@ -6,7 +6,7 @@ GameobjectId GAMEOBJECT_RECORD_TEXT_BEGIN = GAMEOBJECT_TEXT_IS;
 GameobjectId GAMEOBJECT_RECORD_NOUN_TEXT_BEGIN = GAMEOBJECT_TEXT_BABA;
 GameobjectId GAMEOBJECT_RECORD_NOUN_TEXT_END = GAMEOBJECT_TEXT_GRASS;
 GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_BEGIN = GAMEOBJECT_TEXT_YOU;
-GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_END = GAMEOBJECT_TEXT_MELT;
+GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_END = GAMEOBJECT_TEXT_OPEN;
 
 int GetGameobjectIdByName(std::string gameobjectName) {
 	if (gameobjectName == "gameobject_baba") {
@@ -87,6 +87,12 @@ int GetGameobjectIdByName(std::string gameobjectName) {
 	if (gameobjectName == "gameobject_text_melt") {
 		return GAMEOBJECT_TEXT_MELT;
 	}
+	if (gameobjectName == "gameobject_text_shut") {
+		return GAMEOBJECT_TEXT_SHUT;
+	}
+	if (gameobjectName == "gameobject_text_open") {
+		return GAMEOBJECT_TEXT_OPEN;
+	}
 
 	char messageBuffer[215];
 	sprintf_s(messageBuffer, "Error when get gameobject id by gameobject name. Didn't has gameobject named \"%s\"", gameobjectName.c_str());
@@ -149,6 +155,10 @@ std::string GetGameobjectNameById(GameobjectId gameobjectId) {
 		return "gameobject_text_hot";
 	case GAMEOBJECT_TEXT_MELT:
 		return "gameobject_text_melt";
+	case GAMEOBJECT_TEXT_SHUT:
+		return "gameobject_text_shut";
+	case GAMEOBJECT_TEXT_OPEN:
+		return "gameobject_text_open";
 
 	default:
 		char message[125];
@@ -245,6 +255,10 @@ std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId) {
 		return textureResourcesDir + "text_hot/";
 	case GAMEOBJECT_TEXT_MELT:
 		return textureResourcesDir + "text_melt/";
+	case GAMEOBJECT_TEXT_SHUT:
+		return textureResourcesDir + "text_shut/";
+	case GAMEOBJECT_TEXT_OPEN:
+		return textureResourcesDir + "text_open/";
 
 	default:
 		char message[125];

@@ -39,6 +39,8 @@ int GetGameobjectTypeById(GameobjectId gameobjectId) {
 	case GAMEOBJECT_TEXT_DEFEAT:
 	case GAMEOBJECT_TEXT_HOT:
 	case GAMEOBJECT_TEXT_MELT:
+	case GAMEOBJECT_TEXT_SHUT:
+	case GAMEOBJECT_TEXT_OPEN:
 		return OBJECT_TYPE_TEXT;
 
 	default:

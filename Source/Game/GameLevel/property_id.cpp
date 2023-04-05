@@ -24,6 +24,12 @@ int GetPropIdByName(std::string propName) {
 	if (propName == "prop_melt") {
 		return PROP_MELT;
 	}
+	if (propName == "prop_shut") {
+		return PROP_SHUT;
+	}
+	if (propName == "ptop_open") {
+		return PROP_OPEN;
+	}
 	if (propName == "prop_none") {
 		return PROP_NONE;
 	}

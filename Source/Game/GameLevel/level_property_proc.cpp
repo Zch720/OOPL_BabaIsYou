@@ -24,6 +24,7 @@ void PropertyProc::CheckAllOverlapProp() {
 			checkOverlapPropBlock_Sink(position);
 			deleteOverlapPropSecond(position, PROP_DEFEAT, PROP_YOU);
 			deleteOverlapPropBoth(position, PROP_HOT, PROP_MELT);
+			deleteOverlapPropBoth(position, PROP_SHUT, PROP_OPEN);
 		}
 	}
 }
@@ -107,6 +108,7 @@ void PropertyProc::deleteOverlapPropBoth(Point position, PropId propId1, PropId 
 	Gameobject *gameobject1 = GameboardProc::FindGameobjectByPropInBlock(position, propId1);
 	Gameobject *gameobject2 = GameboardProc::FindGameobjectByPropInBlock(position, propId2);
 	if (gameobject1 && gameobject2) {
+		GameboardProc::DeleteGameobject(gameobject1);
 		GameboardProc::DeleteGameobject(gameobject2);
 	}
 }
@@ -114,7 +116,6 @@ void PropertyProc::deleteOverlapPropSecond(Point position, PropId propId1, PropI
 	Gameobject *gameobject1 = GameboardProc::FindGameobjectByPropInBlock(position, propId1);
 	Gameobject *gameobject2 = GameboardProc::FindGameobjectByPropInBlock(position, propId2);
 	if (gameobject1 && gameobject2) {
-		GameboardProc::DeleteGameobject(gameobject1);
 		GameboardProc::DeleteGameobject(gameobject2);
 	}
 }

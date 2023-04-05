@@ -20,6 +20,10 @@ int GetPropIdFromTextGameobject(GameobjectId gameobjectId) {
 		return PROP_HOT;
 	case GAMEOBJECT_TEXT_MELT:
 		return PROP_MELT;
+	case GAMEOBJECT_TEXT_SHUT:
+		return PROP_SHUT;
+	case GAMEOBJECT_TEXT_OPEN:
+		return PROP_OPEN;
 	default:
 		return -1;
 	}
@@ -58,6 +62,9 @@ void GameobjectPropsManager::SetPropWithOtherProp(PropId targetPropId, PropId ne
 }
 
 bool GameobjectPropsManager::CheckPropCanBeOffset(PropId propId1, PropId propId2) {
+	if ((propId1 == PROP_SHUT && propId2 == PROP_OPEN) || (propId1 == PROP_OPEN && propId2 == PROP_SHUT)) {
+		return true;
+	}
 	return false;
 }
 bool GameobjectPropsManager::CheckPropCanBeOffset(GameobjectId gameobjectId1, GameobjectId gameobjectId2) {

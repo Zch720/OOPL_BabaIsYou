@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "gameobject_properties_manager.h"
 #include "level_gameboard_proc.h"
 #include "level_data.h"
 //#include "level_undo_proc.h"
@@ -50,4 +51,17 @@ Gameobject* GameboardProc::FindGameobjectByIdInBlock(Point position, GameobjectI
 }
 Gameobject* GameboardProc::FindGameobjectByPropInBlock(Point position, PropId propId) {
 	return LevelData::gameboard[position].FindGameobjectByProp(propId);
+}
+std::unordered_set<PropId> GameboardProc::GetAllPropsInBlock(Point position) {
+	std::unordered_set<PropId> result, buffer;
+	
+	if (position.x < 0 || LevelData::gameboardWidth <= position.x || position.y < 0 || LevelData::gameboardHeight <= position.y) {
+		return result;
+	}
+
+	for (Gameobject *gameobject : LevelData::gameboard[position]) {
+		buffer = GameobjectPropsManager::GetAllGameobjectProps(gameobject->gameobjectId);
+		result.insert(buffer.begin(), buffer.end());
+	}
+	return result;
 }

@@ -21,6 +21,7 @@ bool LevelData::touchWinObject = 0;
 void LevelData::LoadLevel(int level) {
 	Clear();
 	level = level;
+	getWorld(level);
 
 	char formatWrongMessage[128];
 	sprintf_s(formatWrongMessage, "level %d source file format wrong", level);
@@ -28,7 +29,6 @@ void LevelData::LoadLevel(int level) {
 	std::string levelSource = loadFile("./resources/level/" + intToString(level));
 	std::vector<std::string> levelSourceLines = stringSplit(levelSource, '\n');
 	std::vector<GameobjectCreateInfo> gameobjectCreateInfos;
-	//int world = getWorld(level);
 
 	size_t linesCount = 0;
 
@@ -94,7 +94,11 @@ void LevelData::Clear() {
 }
 
 void LevelData::getWorld(int level) {
-	world = 0;
+	if (level >= 2000) {
+		world = -1;
+	} else {
+		world = 0;
+	}
 }
 
 void LevelData::createGameboard(std::vector<GameobjectCreateInfo> createInfos) {

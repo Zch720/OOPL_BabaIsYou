@@ -1,5 +1,6 @@
 #pragma once
 
+#include <unordered_set>
 #include "gameobject.h"
 
 class GameboardProc {
@@ -14,4 +15,5 @@ public:
 	static bool HasGameobjectIdInBlock(Point position, GameobjectId gameobjectId);
 	static Gameobject* FindGameobjectByIdInBlock(Point position, GameobjectId gameobjectId);
 	static Gameobject* FindGameobjectByPropInBlock(Point position, PropId propId);
+	static std::unordered_set<PropId> GetAllPropsInBlock(Point position);
 };

@@ -245,6 +245,7 @@
     </ClCompile>
     <ClCompile Include="Source\Expansion\dataio.cpp" />
     <ClCompile Include="Source\Expansion\log.cpp" />
+    <ClCompile Include="Source\Expansion\point.cpp" />
     <ClCompile Include="Source\Expansion\string_proc.cpp" />
     <ClCompile Include="Source\Game\GameLevel\block.cpp" />
     <ClCompile Include="Source\Game\GameLevel\gameobject.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="Source\Core\StdAfx.h" />
     <ClInclude Include="Source\Expansion\dataio.h" />
     <ClInclude Include="Source\Expansion\log.h" />
+    <ClInclude Include="Source\Expansion\point.h" />
     <ClInclude Include="Source\Expansion\string_proc.h" />
     <ClInclude Include="Source\Expansion\vector2d.hpp" />
     <ClInclude Include="Source\Game\config.h" />

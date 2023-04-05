@@ -120,6 +120,9 @@
     <ClCompile Include="Source\Game\GameLevel\level_gameboard_proc.cpp">
       <Filter>MyGame\GameLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Expansion\point.cpp">
+      <Filter>Expansion</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -213,6 +216,9 @@
       <Filter>MyGame\GameLevel</Filter>
     </ClInclude>
     <ClInclude Include="Source\Expansion\vector2d.hpp">
+      <Filter>Expansion</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expansion\point.h">
       <Filter>Expansion</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,7 +16,7 @@ private:
 	static std::unordered_set<Gameobject*> findAllYouObject();
 
 	static void resetBlockMoveableRecord();
-	static bool checkBlockMoveable(Point, bool);
+	static bool checkBlockMoveable(Point, std::unordered_set<PropId>, bool);
 	static bool checkMoveUp(Point);
 	static bool checkMoveDown(Point);
 	static bool checkMoveLeft(Point);

@@ -58,7 +58,7 @@ void DescriptionProc::checkOperatorIs() {
 void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
 	Point position = gameobject->gameBoardPosition;
 
-	if (position.x == 0 || position.x == LevelData::gameboardWidth) return;
+	if (position.x == 0 || position.x == LevelData::gameboardWidth - 1) return;
 
 	Gameobject *mainNoun = getNounTextInBlock(position.Left());
 	Gameobject *subNoun = getNounTextInBlock(position.Right());
@@ -80,7 +80,7 @@ void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
 void DescriptionProc::checkOperatorIsVertical(Gameobject *gameobject) {
 	Point position = gameobject->gameBoardPosition;
 
-	if (position.y == 0 || position.y == LevelData::gameboardHeight) return;
+	if (position.y == 0 || position.y == LevelData::gameboardHeight - 1) return;
 
 	Gameobject *mainNoun = getNounTextInBlock(position.Up());
 	Gameobject *subNoun = getNounTextInBlock(position.Down());

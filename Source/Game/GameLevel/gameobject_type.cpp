@@ -21,6 +21,7 @@ int GetGameobjectTypeById(GameobjectId gameobjectId) {
 		return OBJECT_TYPE_STATIC;
 
 	case GAMEOBJECT_TEXT_IS:
+	case GAMEOBJECT_TEXT_AND:
 
 	case GAMEOBJECT_TEXT_BABA:
 	case GAMEOBJECT_TEXT_WALL:

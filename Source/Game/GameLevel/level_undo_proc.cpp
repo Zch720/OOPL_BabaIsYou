@@ -30,6 +30,8 @@ void UndoProc::Undo() {
 	undoBuffer = undoStack.top();
 	undoStack.pop();
 
+	std::reverse(undoBuffer.begin(), undoBuffer.end());
+
 	for (UndoInfo &info : undoBuffer) {
 		if (info.type == UNDO_MOVE_UP) {
 			Gameobject *undoObject =

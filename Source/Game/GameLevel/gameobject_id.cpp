@@ -3,6 +3,8 @@
 #include "../../Expansion/log.h"
 
 GameobjectId GAMEOBJECT_RECORD_TEXT_BEGIN = GAMEOBJECT_TEXT_IS;
+GameobjectId GAMEOBJECT_RECORD_OPERATOR_TEXT_BEGIN = GAMEOBJECT_TEXT_IS;
+GameobjectId GAMEOBJECT_RECORD_OPERATOR_TEXT_END = GAMEOBJECT_TEXT_AND;
 GameobjectId GAMEOBJECT_RECORD_NOUN_TEXT_BEGIN = GAMEOBJECT_TEXT_BABA;
 GameobjectId GAMEOBJECT_RECORD_NOUN_TEXT_END = GAMEOBJECT_TEXT_GRASS;
 GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_BEGIN = GAMEOBJECT_TEXT_YOU;
@@ -36,6 +38,9 @@ int GetGameobjectIdByName(std::string gameobjectName) {
 
 	if (gameobjectName == "gameobject_text_is") {
 		return GAMEOBJECT_TEXT_IS;
+	}
+	if (gameobjectName == "gameobject_text_and") {
+		return GAMEOBJECT_TEXT_AND;
 	}
 
 	if (gameobjectName == "gameobject_text_baba") {
@@ -121,6 +126,8 @@ std::string GetGameobjectNameById(GameobjectId gameobjectId) {
 
 	case GAMEOBJECT_TEXT_IS:
 		return "gameobject_text_is";
+	case GAMEOBJECT_TEXT_AND:
+		return "gameobject_text_and";
 
 	case GAMEOBJECT_TEXT_BABA:
 		return "gameobject_text_baba";
@@ -221,6 +228,8 @@ std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId) {
 
 	case GAMEOBJECT_TEXT_IS:
 		return textureResourcesDir + "text_is/";
+	case GAMEOBJECT_TEXT_AND:
+		return textureResourcesDir + "text_and/";
 
 	case GAMEOBJECT_TEXT_BABA:
 		return textureResourcesDir + "text_baba/";
@@ -275,4 +284,8 @@ bool IsNounTextObject(GameobjectId gameobjectId) {
 bool IsPropTextObject(GameobjectId gameobjectId) {
 	return GAMEOBJECT_RECORD_PROP_TEXT_BEGIN <= gameobjectId
 		&& gameobjectId <= GAMEOBJECT_RECORD_PROP_TEXT_END;
+}
+bool IsOperatorTextObject(GameobjectId gameobjectId) {
+	return GAMEOBJECT_RECORD_OPERATOR_TEXT_BEGIN <= gameobjectId
+		&& gameobjectId <= GAMEOBJECT_RECORD_OPERATOR_TEXT_END;
 }

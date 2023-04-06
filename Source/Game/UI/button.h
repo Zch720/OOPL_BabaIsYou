@@ -14,6 +14,7 @@ private:
 
 	ButtonOnClickFunc onClickFunc = nullptr;
 
+	bool isActivity = false;
 	bool isHover = false;
 	bool isClicked = false;
 	int clickedTextureShowCount = 0;
@@ -23,6 +24,12 @@ private:
 
 public:
 	Button();
+	
+	/*
+		設定按鈕是否使用
+		activity: 按鈕活動狀態
+	*/
+	void SetActivity(bool activity);
 
 	/*
 		設定按鈕圖片
@@ -56,6 +63,11 @@ public:
 		position: 滑鼠位置
 	*/
 	void CheckMouseMove(CPoint position);
+
+	/*
+		按下按鈕
+	*/
+	void Click();
 
 	/*
 		顯示按鈕

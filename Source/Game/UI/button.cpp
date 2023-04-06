@@ -10,6 +10,10 @@
 
 Button::Button() {}
 
+void Button::SetActivity(bool activity) {
+	isActivity = activity;
+}
+
 void Button::SetButtonTexture(CPoint centerPosition, std::vector<std::string> texturePaths) {
 	texture.LoadBitmapByString(texturePaths, 0x00FF00);
 	texture.SetFrameIndexOfBitmap(DEFAULT_TEXTURE_INDEX);
@@ -32,6 +36,7 @@ void Button::SetOnClickFunc(ButtonOnClickFunc func) {
 }
 
 void Button::CheckMouseClick(CPoint position) {
+	if (!isActivity) return;
 	if (!isLoaded) return;
 
 	if (isClicked = checkMouseOverlap(position)) {
@@ -40,6 +45,7 @@ void Button::CheckMouseClick(CPoint position) {
 	}
 }
 void Button::CheckMouseMove(CPoint position) {
+	if (!isActivity) return;
 	if (!isLoaded) return;
 	if (isClicked) return;
 
@@ -48,6 +54,12 @@ void Button::CheckMouseMove(CPoint position) {
 	}
 	else {
 		texture.SetFrameIndexOfBitmap(DEFAULT_TEXTURE_INDEX);
+	}
+}
+
+void Button::Click() {
+	if (onClickFunc) {
+		onClickFunc();
 	}
 }
 

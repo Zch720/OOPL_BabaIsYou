@@ -262,6 +262,8 @@
     <ClCompile Include="Source\Game\GameLevel\level_undo_proc.cpp" />
     <ClCompile Include="Source\Game\GameLevel\property_id.cpp" />
     <ClCompile Include="Source\Game\GameLevel\texture_manager.cpp" />
+    <ClCompile Include="Source\Game\MainPage\mainpage.cpp" />
+    <ClCompile Include="Source\Game\Map\map.cpp" />
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />
@@ -300,6 +302,8 @@
     <ClInclude Include="Source\Game\GameLevel\level_undo_proc.h" />
     <ClInclude Include="Source\Game\GameLevel\property_id.h" />
     <ClInclude Include="Source\Game\GameLevel\texture_manager.h" />
+    <ClInclude Include="Source\Game\MainPage\mainpage.h" />
+    <ClInclude Include="Source\Game\Map\map.h" />
     <ClInclude Include="Source\Game\mygame.h" />
     <ClInclude Include="Source\Game\UI\button.h" />
     <ClInclude Include="Source\Library\audio.h" />

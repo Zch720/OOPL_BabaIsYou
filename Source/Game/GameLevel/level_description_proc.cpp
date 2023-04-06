@@ -4,28 +4,84 @@
 #include "level_gameboard_proc.h"
 #include "gameobject_properties_manager.h"
 
-std::vector<DescriptionProc::GameobjectIdPair>
-	DescriptionProc::descriptionProps = std::vector<DescriptionProc::GameobjectIdPair>();
+std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>
+	DescriptionProc::descriptionProps = std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>();
+std::stack<std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>>
+	DescriptionProc::descriptionStack = std::stack<std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>>();
 DescriptionProc::GameobjectSet
 	DescriptionProc::connectedTextObjects = DescriptionProc::GameobjectSet();
+DescriptionProc::GameobjectSet
+	DescriptionProc::cannotUseTextObjects = DescriptionProc::GameobjectSet();
 
 std::vector<DescriptionProc::GameobjectIdPair> DescriptionProc::GetDescriptionProps() {
-	return descriptionProps;
+	std::vector<DescriptionProc::GameobjectIdPair> result;
+
+	for (auto &prop : descriptionProps) {
+		result.push_back(std::make_pair(prop.second[0]->gameobjectId, prop.second[1]->gameobjectId));
+	}
+
+	return result;
 }
 DescriptionProc::GameobjectSet DescriptionProc::GetConnectedTextObjects() {
 	return connectedTextObjects;
 }
 
+void DescriptionProc::Undo() {
+	if (descriptionStack.empty()) return;
+	descriptionProps = descriptionStack.top();
+	descriptionStack.pop();
+}
+
 void DescriptionProc::Clear() {
 	descriptionProps.clear();
 	connectedTextObjects.clear();
+	while (!descriptionStack.empty()) {
+		descriptionStack.pop();
+	}
 }
 void DescriptionProc::GetAllDescription() {
+	descriptionStack.push(descriptionProps);
 	descriptionProps.clear();
 	checkOperatorIs();
+
+	for (auto it = descriptionProps.begin(); it != descriptionProps.end(); it++) {
+		if (IsNounTextObject(it->second[1]->gameobjectId)) {
+			GameobjectId preConvertObject = getPreviousDescriptionConvertNoneGameobject(it->first);
+			if (preConvertObject == it->second[1]->gameobjectId) {
+				continue;
+			}
+			if (getDescriptionConvertNounGameobjectCount(it->first) != 1) {
+				cannotUseTextObjects.insert(it->second.begin(), it->second.end());
+				it = descriptionProps.erase(it);
+				if (it != descriptionProps.begin()) {
+					it--;
+				}
+			} 
+		}
+	}
 }
 void DescriptionProc::UpdatePropFromDescription() {
 	GetAllDescription();
+}
+
+GameobjectId DescriptionProc::getPreviousDescriptionConvertNoneGameobject(GameobjectId gameobjectId) {
+	auto gameobjectIdRange = descriptionStack.top().equal_range(gameobjectId);
+	for (auto it = gameobjectIdRange.first; it != gameobjectIdRange.second; it++) {
+		if (IsNounTextObject(it->second[1]->gameobjectId)) {
+			return it->second[1]->gameobjectId;
+		}
+	}
+	return GAMEOBJECT_NONE;
+}
+int DescriptionProc::getDescriptionConvertNounGameobjectCount(GameobjectId gameobjectId) {
+	int result = 0;
+	auto gameobjectIdRange = descriptionProps.equal_range(gameobjectId);
+	for (auto it = gameobjectIdRange.first; it != gameobjectIdRange.second; it++) {
+		if (IsNounTextObject(it->second[1]->gameobjectId)) {
+			result++;
+		}
+	}
+	return result;
 }
 
 Gameobject* DescriptionProc::getNounTextInBlock(Point position) {
@@ -47,11 +103,10 @@ Gameobject* DescriptionProc::getPropTextInBlock(Point position) {
 void DescriptionProc::checkOperatorIs() {
 	for (auto &col : LevelData::gameboard) {
 		for (Block &block : col) {
-			for (Gameobject *gameobject : block) {
-				if (gameobject->gameobjectId == GAMEOBJECT_TEXT_IS) {
-					checkOperatorIsHorizontal(gameobject);
-					checkOperatorIsVertical(gameobject);
-				}
+			Gameobject *operatorIs = GameboardProc::FindGameobjectByIdInBlock(block.GetPosition(), GAMEOBJECT_TEXT_IS);
+			if (operatorIs) {
+				checkOperatorIsHorizontal(operatorIs);
+				checkOperatorIsVertical(operatorIs);
 			}
 		}
 	}
@@ -61,24 +116,9 @@ void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
 
 	if (position.x == 0 || position.x == LevelData::gameboardWidth - 1) return;
 
-	//Gameobject *mainNoun = getNounTextInBlock(position.Left());
-	//Gameobject *subNoun = getNounTextInBlock(position.Right());
-	//Gameobject *prop = getPropTextInBlock(position.Right());
 	std::unordered_map<Gameobject*, bool> mainObjects = checkMainObjectHorizontal(position.Left());
 	std::unordered_map<Gameobject*, bool> subObjects = checkSubObjectHorizontal(position.Right());
 
-	//if (mainNoun && subNoun) {
-	//	descriptionProps.push_back(std::make_pair(mainNoun->gameobjectId, subNoun->gameobjectId));
-	//	connectedTextObjects.insert(gameobject);
-	//	connectedTextObjects.insert(mainNoun);
-	//	connectedTextObjects.insert(subNoun);
-	//}
-	//if (mainNoun && prop) {
-	//	descriptionProps.push_back(std::make_pair(mainNoun->gameobjectId, prop->gameobjectId));
-	//	connectedTextObjects.insert(gameobject);
-	//	connectedTextObjects.insert(mainNoun);
-	//	connectedTextObjects.insert(prop);
-	//}
 	if (!mainObjects.empty() && !subObjects.empty()) {
 		connectedTextObjects.insert(gameobject);
 		for (auto object : mainObjects) {
@@ -89,14 +129,16 @@ void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
 		}
 	}
 
+	std::vector<Gameobject*> objects(3, nullptr);
 	for (auto mainObject : mainObjects) {
 		for (auto subObject : subObjects) {
 			bool mainObjectIsOperator = IsOperatorTextObject(mainObject.first->gameobjectId);
 			bool subObjectIsOperator = IsOperatorTextObject(subObject.first->gameobjectId);
 			if (!mainObjectIsOperator && !subObjectIsOperator) {
-				descriptionProps.push_back(
-					std::make_pair(mainObject.first->gameobjectId, subObject.first->gameobjectId)
-				);
+				objects[0] = mainObject.first;
+				objects[1] = subObject.first;
+				objects[2] = gameobject;
+				descriptionProps.insert(std::make_pair(mainObject.first->gameobjectId, objects));
 			}
 		}
 	}
@@ -106,24 +148,9 @@ void DescriptionProc::checkOperatorIsVertical(Gameobject *gameobject) {
 
 	if (position.y == 0 || position.y == LevelData::gameboardHeight - 1) return;
 
-	//Gameobject *mainNoun = getNounTextInBlock(position.Up());
-	//Gameobject *subNoun = getNounTextInBlock(position.Down());
-	//Gameobject *prop = getPropTextInBlock(position.Down());
-	std::unordered_map<Gameobject*, bool> mainObjects = checkMainObjectVertical(position.Left());
-	std::unordered_map<Gameobject*, bool> subObjects = checkSubObjectVertical(position.Right());
+	std::unordered_map<Gameobject*, bool> mainObjects = checkMainObjectVertical(position.Up());
+	std::unordered_map<Gameobject*, bool> subObjects = checkSubObjectVertical(position.Down());
 
-	//if (mainNoun && subNoun) {
-	//	descriptionProps.push_back(std::make_pair(mainNoun->gameobjectId, subNoun->gameobjectId));
-	//	connectedTextObjects.insert(gameobject);
-	//	connectedTextObjects.insert(mainNoun);
-	//	connectedTextObjects.insert(subNoun);
-	//}
-	//if (mainNoun && prop) {
-	//	descriptionProps.push_back(std::make_pair(mainNoun->gameobjectId, prop->gameobjectId));
-	//	connectedTextObjects.insert(gameobject);
-	//	connectedTextObjects.insert(mainNoun);
-	//	connectedTextObjects.insert(prop);
-	//}
 	if (!mainObjects.empty() && !subObjects.empty()) {
 		connectedTextObjects.insert(gameobject);
 		for (auto object : mainObjects) {
@@ -133,15 +160,17 @@ void DescriptionProc::checkOperatorIsVertical(Gameobject *gameobject) {
 			connectedTextObjects.insert(object.first);
 		}
 	}
-
+	
+	std::vector<Gameobject*> objects(3, nullptr);
 	for (auto mainObject : mainObjects) {
 		for (auto subObject : subObjects) {
 			bool mainObjectIsOperator = IsOperatorTextObject(mainObject.first->gameobjectId);
 			bool subObjectIsOperator = IsOperatorTextObject(subObject.first->gameobjectId);
 			if (!mainObjectIsOperator && !subObjectIsOperator) {
-				descriptionProps.push_back(
-					std::make_pair(mainObject.first->gameobjectId, subObject.first->gameobjectId)
-				);
+				objects[0] = mainObject.first;
+				objects[1] = subObject.first;
+				objects[2] = gameobject;
+				descriptionProps.insert(std::make_pair(mainObject.first->gameobjectId, objects));
 			}
 		}
 	}

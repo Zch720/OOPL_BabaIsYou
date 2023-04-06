@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stack>
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
@@ -10,8 +11,13 @@ private:
 	typedef std::pair<GameobjectId, GameobjectId> GameobjectIdPair;
 	typedef std::unordered_set<Gameobject*> GameobjectSet;
 
-	static std::vector<GameobjectIdPair> descriptionProps;
+	static std::unordered_multimap<GameobjectId, std::vector<Gameobject*>> descriptionProps;
+	static std::stack<std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>> descriptionStack;
 	static GameobjectSet connectedTextObjects;
+	static GameobjectSet cannotUseTextObjects;
+
+	static GameobjectId getPreviousDescriptionConvertNoneGameobject(GameobjectId);
+	static int getDescriptionConvertNounGameobjectCount(GameobjectId);
 
 	static Gameobject* getNounTextInBlock(Point);
 	static Gameobject* getPropTextInBlock(Point);
@@ -28,6 +34,7 @@ public:
 	static std::unordered_set<Gameobject*> GetConnectedTextObjects();
 
 	static void Clear();
+	static void Undo();
 	static void GetAllDescription();
 	static void UpdatePropFromDescription();
 };

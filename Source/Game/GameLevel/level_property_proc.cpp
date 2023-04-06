@@ -49,6 +49,7 @@ void PropertyProc::UpdatePropsManager() {
 		int propIdNum = GetPropIdFromTextGameobject(prop.second);
 		if (propIdNum == -1) {
 			GameobjectId convertGameobject = static_cast<GameobjectId>(GetGameobjectByTextObject(prop.second));
+			if (gameobjectId == convertGameobject) continue;
 			for (auto &col : LevelData::gameboard) {
 				for (Block &block : col) {
 					for (size_t i = 0; i < block.GetSize(); i++) {

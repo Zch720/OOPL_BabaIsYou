@@ -82,10 +82,7 @@ void LevelManager::MoveRight() {
 }
 void LevelManager::Undo() {
 	UndoProc::Undo();
-	DescriptionProc::GetAllDescription();
-	PropertyProc::UpdatePropsManager();
-	PropertyProc::CheckAllOverlapProp();
-	GameboardProc::UpdateGameobjectTextureColor();
+	DescriptionProc::Undo();
 }
 
 bool LevelManager::IsMoving() {

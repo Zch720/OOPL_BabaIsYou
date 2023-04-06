@@ -23,6 +23,12 @@
     <Filter Include="MyGame\GameLevel">
       <UniqueIdentifier>{d630fe20-2e59-4c96-b144-4fdbc0f497ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyGame\MainPage">
+      <UniqueIdentifier>{d64b8e18-7d9e-4c19-95dd-e0d96277a448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGame\Map">
+      <UniqueIdentifier>{7131b12d-c002-476d-b825-fca0c0628a04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RES\GAME.RC2">
@@ -123,6 +129,12 @@
     <ClCompile Include="Source\Expansion\point.cpp">
       <Filter>Expansion</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\MainPage\mainpage.cpp">
+      <Filter>MyGame\MainPage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Map\map.cpp">
+      <Filter>MyGame\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -220,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="Source\Expansion\point.h">
       <Filter>Expansion</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MainPage\mainpage.h">
+      <Filter>MyGame\MainPage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Map\map.h">
+      <Filter>MyGame\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

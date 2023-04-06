@@ -274,6 +274,4 @@ _Pvt_Extensions
 
 # Game Expansion
 game_log.txt
-
-resources/sprites/*.png
-resources/map/*
+Resources/Sprites/*/-1/

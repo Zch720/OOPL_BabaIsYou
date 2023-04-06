@@ -15,6 +15,7 @@ enum GameobjectId {
 	GAMEOBJECT_WALL,
 
 	GAMEOBJECT_TEXT_IS,
+	GAMEOBJECT_TEXT_AND,
 
 	GAMEOBJECT_TEXT_BABA,
 	GAMEOBJECT_TEXT_WALL,
@@ -32,7 +33,9 @@ enum GameobjectId {
 	GAMEOBJECT_TEXT_DEFEAT,
 	GAMEOBJECT_TEXT_HOT,
 	GAMEOBJECT_TEXT_PUSH,
-	GAMEOBJECT_TEXT_MELT
+	GAMEOBJECT_TEXT_MELT,
+	GAMEOBJECT_TEXT_SHUT,
+	GAMEOBJECT_TEXT_OPEN
 };
 
 int GetGameobjectIdByName(std::string gameobjectName);
@@ -43,3 +46,4 @@ std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId);
 bool IsTextObject(GameobjectId gameobjectId);
 bool IsNounTextObject(GameobjectId gameobjectId);
 bool IsPropTextObject(GameobjectId gameobjectId);
+bool IsOperatorTextObject(GameobjectId gameobjectId);

@@ -20,6 +20,9 @@
     <Filter Include="MyGame\UI">
       <UniqueIdentifier>{4455226f-8274-4625-aeb2-f33306977071}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyGame\GameLevel">
+      <UniqueIdentifier>{d630fe20-2e59-4c96-b144-4fdbc0f497ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RES\GAME.RC2">
@@ -66,35 +69,59 @@
     <ClCompile Include="Source\Expansion\log.cpp">
       <Filter>Expansion</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\gameobject_id.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\property_id.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\gameobject_properties.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\gameobject_properties_manager.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\level_manager.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\gameobject.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\gameobject_type.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\texture_manager.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Expansion\string_proc.cpp">
       <Filter>Expansion</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\UI\button.cpp">
       <Filter>MyGame\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\gameobject.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\gameobject_id.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\gameobject_properties.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\gameobject_properties_manager.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\gameobject_type.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_manager.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\property_id.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\texture_manager.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_data.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_description_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\block.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_move_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_undo_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_property_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\level_gameboard_proc.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Expansion\point.cpp">
+      <Filter>Expansion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,35 +164,62 @@
     <ClInclude Include="Source\Expansion\log.h">
       <Filter>Expansion</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\gameobject_id.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\property_id.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\gameobject_properties.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\gameobject_properties_manager.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\level_manager.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\gameobject.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\gameobject_type.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\texture_manager.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Expansion\string_proc.h">
       <Filter>Expansion</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\UI\button.h">
       <Filter>MyGame\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\gameobject.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\gameobject_id.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\gameobject_properties.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\gameobject_properties_manager.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\gameobject_type.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_manager.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\property_id.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\texture_manager.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_data.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_description_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\block.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_move_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_undo_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_property_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\level_gameboard_proc.h">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expansion\vector2d.hpp">
+      <Filter>Expansion</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expansion\point.h">
+      <Filter>Expansion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

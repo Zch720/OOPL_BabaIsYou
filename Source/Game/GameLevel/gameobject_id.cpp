@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "gameobject_id.h"
-#include "../Expansion/log.h"
+#include "../../Expansion/log.h"
 
 GameobjectId GAMEOBJECT_RECORD_TEXT_BEGIN = GAMEOBJECT_TEXT_IS;
+GameobjectId GAMEOBJECT_RECORD_OPERATOR_TEXT_BEGIN = GAMEOBJECT_TEXT_IS;
+GameobjectId GAMEOBJECT_RECORD_OPERATOR_TEXT_END = GAMEOBJECT_TEXT_AND;
 GameobjectId GAMEOBJECT_RECORD_NOUN_TEXT_BEGIN = GAMEOBJECT_TEXT_BABA;
 GameobjectId GAMEOBJECT_RECORD_NOUN_TEXT_END = GAMEOBJECT_TEXT_GRASS;
 GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_BEGIN = GAMEOBJECT_TEXT_YOU;
-GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_END = GAMEOBJECT_TEXT_MELT;
+GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_END = GAMEOBJECT_TEXT_OPEN;
 
 int GetGameobjectIdByName(std::string gameobjectName) {
 	if (gameobjectName == "gameobject_baba") {
@@ -36,6 +38,9 @@ int GetGameobjectIdByName(std::string gameobjectName) {
 
 	if (gameobjectName == "gameobject_text_is") {
 		return GAMEOBJECT_TEXT_IS;
+	}
+	if (gameobjectName == "gameobject_text_and") {
+		return GAMEOBJECT_TEXT_AND;
 	}
 
 	if (gameobjectName == "gameobject_text_baba") {
@@ -87,6 +92,12 @@ int GetGameobjectIdByName(std::string gameobjectName) {
 	if (gameobjectName == "gameobject_text_melt") {
 		return GAMEOBJECT_TEXT_MELT;
 	}
+	if (gameobjectName == "gameobject_text_shut") {
+		return GAMEOBJECT_TEXT_SHUT;
+	}
+	if (gameobjectName == "gameobject_text_open") {
+		return GAMEOBJECT_TEXT_OPEN;
+	}
 
 	char messageBuffer[215];
 	sprintf_s(messageBuffer, "Error when get gameobject id by gameobject name. Didn't has gameobject named \"%s\"", gameobjectName.c_str());
@@ -115,6 +126,8 @@ std::string GetGameobjectNameById(GameobjectId gameobjectId) {
 
 	case GAMEOBJECT_TEXT_IS:
 		return "gameobject_text_is";
+	case GAMEOBJECT_TEXT_AND:
+		return "gameobject_text_and";
 
 	case GAMEOBJECT_TEXT_BABA:
 		return "gameobject_text_baba";
@@ -149,6 +162,10 @@ std::string GetGameobjectNameById(GameobjectId gameobjectId) {
 		return "gameobject_text_hot";
 	case GAMEOBJECT_TEXT_MELT:
 		return "gameobject_text_melt";
+	case GAMEOBJECT_TEXT_SHUT:
+		return "gameobject_text_shut";
+	case GAMEOBJECT_TEXT_OPEN:
+		return "gameobject_text_open";
 
 	default:
 		char message[125];
@@ -211,6 +228,8 @@ std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId) {
 
 	case GAMEOBJECT_TEXT_IS:
 		return textureResourcesDir + "text_is/";
+	case GAMEOBJECT_TEXT_AND:
+		return textureResourcesDir + "text_and/";
 
 	case GAMEOBJECT_TEXT_BABA:
 		return textureResourcesDir + "text_baba/";
@@ -245,6 +264,10 @@ std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId) {
 		return textureResourcesDir + "text_hot/";
 	case GAMEOBJECT_TEXT_MELT:
 		return textureResourcesDir + "text_melt/";
+	case GAMEOBJECT_TEXT_SHUT:
+		return textureResourcesDir + "text_shut/";
+	case GAMEOBJECT_TEXT_OPEN:
+		return textureResourcesDir + "text_open/";
 
 	default:
 		char message[125];
@@ -261,4 +284,8 @@ bool IsNounTextObject(GameobjectId gameobjectId) {
 bool IsPropTextObject(GameobjectId gameobjectId) {
 	return GAMEOBJECT_RECORD_PROP_TEXT_BEGIN <= gameobjectId
 		&& gameobjectId <= GAMEOBJECT_RECORD_PROP_TEXT_END;
+}
+bool IsOperatorTextObject(GameobjectId gameobjectId) {
+	return GAMEOBJECT_RECORD_OPERATOR_TEXT_BEGIN <= gameobjectId
+		&& gameobjectId <= GAMEOBJECT_RECORD_OPERATOR_TEXT_END;
 }

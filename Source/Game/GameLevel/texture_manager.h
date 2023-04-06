@@ -4,7 +4,7 @@
 #include "property_id.h"
 #include "gameobject_id.h"
 #include "gameobject_type.h"
-#include "../Library/gameutil.h"
+#include "../../Library/gameutil.h"
 
 class TextureManager {
 private:

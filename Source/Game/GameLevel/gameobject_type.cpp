@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "gameobject_type.h"
-#include "../Expansion/log.h"
+#include "../../Expansion/log.h"
 
 int GetGameobjectTypeById(GameobjectId gameobjectId) {
 	switch (gameobjectId) {
@@ -21,6 +21,7 @@ int GetGameobjectTypeById(GameobjectId gameobjectId) {
 		return OBJECT_TYPE_STATIC;
 
 	case GAMEOBJECT_TEXT_IS:
+	case GAMEOBJECT_TEXT_AND:
 
 	case GAMEOBJECT_TEXT_BABA:
 	case GAMEOBJECT_TEXT_WALL:
@@ -39,6 +40,8 @@ int GetGameobjectTypeById(GameobjectId gameobjectId) {
 	case GAMEOBJECT_TEXT_DEFEAT:
 	case GAMEOBJECT_TEXT_HOT:
 	case GAMEOBJECT_TEXT_MELT:
+	case GAMEOBJECT_TEXT_SHUT:
+	case GAMEOBJECT_TEXT_OPEN:
 		return OBJECT_TYPE_TEXT;
 
 	default:

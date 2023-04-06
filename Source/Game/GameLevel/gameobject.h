@@ -1,11 +1,10 @@
 #pragma once
 
-#include "../Library/gameutil.h"
+#include "../../Library/gameutil.h"
+#include "../../Expansion/point.h"
 #include "property_id.h"
 #include "gameobject_id.h"
 #include "gameobject_type.h"
-
-class LevelManager;
 
 enum Direction {
 	DIRECTION_RIGHT = 0,
@@ -15,15 +14,13 @@ enum Direction {
 };
 
 class Gameobject {
-private:
-	friend LevelManager;
-
+public:
 	const int MOVE_STEP = 4;
 
 	game_framework::CMovingBitmap texture;
 	GameobjectId gameobjectId;
 	GameobjectType gameobjectType;
-	CPoint gameBoardPosition;
+	Point gameBoardPosition;
 
 	bool textureSetted = false;
 	int textureSize = 0;
@@ -35,9 +32,9 @@ private:
 	int characterTextureStep = 0;
 	int moveRemainStep = 0;
 
-	Gameobject(const GameobjectId gameobjectId, const CPoint gameBoardPosition, const int textureSize);
+	Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition, const int textureSize);
 
-	void setTextureWithColor(const CPoint textureOriginPosition, const PropId colorPropId);
+	void setTextureWithColor(const Point textureOriginPosition, const PropId colorPropId);
 
 	/*
 		OBJECT_TYPE_CHARACTER: no otherInformation

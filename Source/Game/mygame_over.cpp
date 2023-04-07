@@ -19,11 +19,15 @@ CGameStateOver::CGameStateOver(CGame *g): CGameState(g)
 
 void CGameStateOver::OnMove()
 {
-	GotoGameState(GAME_STATE_INIT);
 }
 
 void CGameStateOver::OnBeginState()
 {
+}
+
+void CGameStateOver::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	exit(0);
 }
 
 void CGameStateOver::OnInit()
@@ -33,13 +37,7 @@ void CGameStateOver::OnInit()
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
 	ShowInitProgress(66, "Initialize...");	// 接個前一個狀態的進度，此處進度視為66%
-	//
-	// 開始載入資料
-	//
-	Sleep(1000);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-	//
-	// 最終進度為100%
-	//
+
 	ShowInitProgress(100, "OK!");
 
 	Sleep(1000);
@@ -47,5 +45,11 @@ void CGameStateOver::OnInit()
 
 void CGameStateOver::OnShow()
 {
+	CDC *pDC = CDDraw::GetBackCDC();
 
+	CTextDraw::ChangeFontLog(pDC, 45, "微軟黑正體", 0xFFFFFF);
+	
+	CTextDraw::Print(pDC, 650, 480, "press any key to leave");
+
+	CDDraw::ReleaseBackCDC();
 }

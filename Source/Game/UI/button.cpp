@@ -31,6 +31,10 @@ void Button::SetButtonTexture(CPoint centerPosition, std::string defaultTextureP
 	isLoaded = true;
 }
 
+void Button::SetButtonText(std::string text) {
+	buttonText = text;
+}
+
 void Button::SetOnClickFunc(ButtonOnClickFunc func) {
 	onClickFunc = func;
 }
@@ -63,7 +67,7 @@ void Button::Click() {
 	}
 }
 
-void Button::Show() {
+void Button::ShowImage() {
 	texture.SetTopLeft(
 		buttonCenterPosition.x - texture.GetWidth() / 2,
 		buttonCenterPosition.y - texture.GetHeight() / 2
@@ -88,4 +92,13 @@ void Button::updateButtonStatus() {
 			onClickFunc();
 		}
 	}
+}
+
+void Button::ShowText(CDC *pDC) {
+	game_framework::CTextDraw::Print(
+		pDC,
+		buttonCenterPosition.x - texture.GetWidth() / 2,
+		buttonCenterPosition.y - texture.GetHeight() / 2,
+		buttonText
+	);
 }

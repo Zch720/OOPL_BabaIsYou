@@ -11,6 +11,7 @@ private:
 	game_framework::CMovingBitmap texture;
 	CPoint buttonCenterPosition;
 	bool isLoaded = false;
+	std::string buttonText;
 
 	ButtonOnClickFunc onClickFunc = nullptr;
 
@@ -47,6 +48,8 @@ public:
 	*/
 	void SetButtonTexture(CPoint centerPosition, std::string defaultTexturePath, std::string hoverTexturePath, std::string clickedTexturePath);
 
+	void SetButtonText(std::string text);
+	
 	/*
 		設定按下後動作
 		func: 按下動作函式的函式指標
@@ -70,7 +73,12 @@ public:
 	void Click();
 
 	/*
-		顯示按鈕
+		顯示按鈕圖片
 	*/
-	void Show();
+	void ShowImage();
+
+	/*
+		顯示按鈕文字
+	*/
+	void ShowText(CDC *pDC);
 };

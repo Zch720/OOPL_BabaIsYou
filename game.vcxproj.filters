@@ -135,6 +135,12 @@
     <ClCompile Include="Source\Game\Map\map.cpp">
       <Filter>MyGame\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Map\map_object.cpp">
+      <Filter>MyGame\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Map\map_object_id.cpp">
+      <Filter>MyGame\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -237,6 +243,12 @@
       <Filter>MyGame\MainPage</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Map\map.h">
+      <Filter>MyGame\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Map\map_object.h">
+      <Filter>MyGame\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Map\map_object_id.h">
       <Filter>MyGame\Map</Filter>
     </ClInclude>
   </ItemGroup>

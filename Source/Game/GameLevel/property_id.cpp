@@ -34,9 +34,7 @@ int GetPropIdByName(std::string propName) {
 		return PROP_NONE;
 	}
 	
-	char messageBuffer[215];
-	sprintf_s(messageBuffer, "Error when get prop id by prop name. Didn't has property named \"%s\"", propName.c_str());
-	logError(messageBuffer);
+	Log::LogError("Error when get prop id by prop name. Didn't has property named \"%s\"", propName.c_str());
 	return -1;
 }
 

@@ -9,9 +9,7 @@ std::string loadFile(std::string filepath) {
 
 	// 如果無法存取檔案，回傳空字串
 	if (!inputFile) {
-		char message[125];
-		sprintf_s(message, "can't load file '%s'", filepath.c_str());
-		logError(message);
+		Log::LogError("can't load file '%s'", filepath.c_str());
 	}
 
 	try {
@@ -37,9 +35,7 @@ std::string loadFile(std::string filepath) {
 		// 關閉檔案
 		inputFile.close();
 
-		char message[125];
-		sprintf_s(message, "can't load file '%s'", filepath.c_str());
-		logError(message);
+		Log::LogError("can't load file '%s'", filepath.c_str());
 		return "";
 	}
 }
@@ -49,9 +45,7 @@ bool saveFile(std::string filepath, std::string data) {
 
 	// 如果無法開啟檔案，回傳 false
 	if (!outputFile) {
-		char message[125];
-		sprintf_s(message, "can't save file '%s'", filepath.c_str());
-		logError(message);
+		Log::LogError("can't save file '%s'", filepath.c_str());
 	}
 
 	try {
@@ -68,9 +62,7 @@ bool saveFile(std::string filepath, std::string data) {
 		// 關閉檔案
 		outputFile.close();
 
-		char message[125];
-		sprintf_s(message, "can't save file '%s'", filepath.c_str());
-		logError(message);
+		Log::LogError("can't save file '%s'", filepath.c_str());
 		return false;
 	}
 }

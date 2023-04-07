@@ -23,9 +23,6 @@ void LevelData::LoadLevel(int level) {
 	level = level;
 	getWorld(level);
 
-	char formatWrongMessage[128];
-	sprintf_s(formatWrongMessage, "level %d source file format wrong", level);
-
 	std::string levelSource = loadFile("./resources/level/" + intToString(level));
 	std::vector<std::string> levelSourceLines = stringSplit(levelSource, '\n');
 	std::vector<GameobjectCreateInfo> gameobjectCreateInfos;
@@ -33,24 +30,24 @@ void LevelData::LoadLevel(int level) {
 	size_t linesCount = 0;
 
 	if (levelSourceLines[linesCount++] != "[game board size]") {
-		logError(formatWrongMessage);
+		Log::LogError("level %d source file format wrong", level);
 	}
 	gameboardWidth = stringToInt(levelSourceLines[linesCount++]);
 	gameboardHeight = stringToInt(levelSourceLines[linesCount++]);
 
 	if (levelSourceLines[linesCount++] != "[texture origin position]") {
-		logError(formatWrongMessage);
+		Log::LogError("level %d source file format wrong", level);
 	}
 	textureOrigionPosition.x = stringToInt(levelSourceLines[linesCount++]);
 	textureOrigionPosition.y = stringToInt(levelSourceLines[linesCount++]);
 
 	if (levelSourceLines[linesCount++] != "[texture size]") {
-		logError(formatWrongMessage);
+		Log::LogError("level %d source file format wrong", level);
 	}
 	textureSize = stringToInt(levelSourceLines[linesCount++]);
 
 	if (levelSourceLines[linesCount++] != "[needed texture]") {
-		logError(formatWrongMessage);
+		Log::LogError("level %d source file format wrong", level);
 	}
 	TextureManager::Clear();
 	for (; linesCount < levelSourceLines.size() && levelSourceLines[linesCount][0] != '['; linesCount++) {
@@ -62,7 +59,7 @@ void LevelData::LoadLevel(int level) {
 	}
 
 	if (linesCount == levelSourceLines.size() || levelSourceLines[linesCount++] != "[objects]") {
-		logError(formatWrongMessage);
+		Log::LogError("level %d source file format wrong", level);
 	}
 	for (; linesCount < levelSourceLines.size(); linesCount++) {
 		std::vector<std::string> objectInfo = stringSplit(levelSourceLines[linesCount], ' ');
@@ -112,9 +109,7 @@ void LevelData::createGameboard(std::vector<GameobjectCreateInfo> createInfos) {
 
 	for (GameobjectCreateInfo &info : createInfos) {
 		if (gameboardWidth <= info.position.x || gameboardHeight <= info.position.y) {
-			char message[128];
-			sprintf_s(message, "%s at (%d, %d) create failed, out of range", GetGameobjectNameById(info.gameobjectId).c_str(), info.position.x, info.position.y);
-			logError(message);
+			Log::LogError("%s at (%d, %d) create failed, out of range", GetGameobjectNameById(info.gameobjectId).c_str(), info.position.x, info.position.y);
 		}
 		Gameobject *gameobject = gameboard[info.position].GenGameobject(info.gameobjectId);
 		gameobject->textureDirection = info.textureDirection;

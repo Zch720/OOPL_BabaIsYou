@@ -40,7 +40,7 @@ void UndoProc::Undo() {
 					info.id
 				);
 			if (undoObject == nullptr) {
-				logError("can't find undo gameobject.");
+				Log::LogError("can't find undo gameobject.");
 			}
 
 			GameboardProc::RemoveGameobject(undoObject);
@@ -54,7 +54,7 @@ void UndoProc::Undo() {
 					info.id
 				);
 			if (undoObject == nullptr) {
-				logError("can't find undo gameobject.");
+				Log::LogError("can't find undo gameobject.");
 			}
 
 			GameboardProc::RemoveGameobject(undoObject);
@@ -68,7 +68,7 @@ void UndoProc::Undo() {
 					info.id
 				);
 			if (undoObject == nullptr) {
-				logError("can't find undo gameobject.");
+				Log::LogError("can't find undo gameobject.");
 			}
 
 			GameboardProc::RemoveGameobject(undoObject);
@@ -82,7 +82,7 @@ void UndoProc::Undo() {
 					info.id
 				);
 			if (undoObject == nullptr) {
-				logError("can't find undo gameobject.");
+				Log::LogError("can't find undo gameobject.");
 			}
 
 			GameboardProc::RemoveGameobject(undoObject);
@@ -100,7 +100,7 @@ void UndoProc::Undo() {
 					info.id
 				);
 			if (undoObject == nullptr) {
-				logError("can't find undo gameobject.");
+				Log::LogError("can't find undo gameobject.");
 			}
 
 			GameboardProc::DeleteGameobject(undoObject);

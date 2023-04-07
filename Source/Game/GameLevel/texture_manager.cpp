@@ -8,9 +8,7 @@ std::unordered_map<uint64_t, game_framework::CMovingBitmap> TextureManager::text
 void TextureManager::LoadTexture(GameobjectId gameobjectId, PropId colorPropId, int world) {
 	int typeNum = GetGameobjectTypeById(gameobjectId);
 	if (typeNum == -1) {
-		char message[125];
-		sprintf_s(message, "type of gameobject with id '%d' not found", gameobjectId);
-		logError(message);
+		Log::LogError("type of gameobject with id '%d' not found", gameobjectId);
 	}
 
 	switch (static_cast<GameobjectType>(typeNum)) {
@@ -30,9 +28,7 @@ void TextureManager::LoadTexture(GameobjectId gameobjectId, PropId colorPropId, 
 		loadTextTexture(gameobjectId, colorPropId, world);
 	}
 
-	char message[125];
-	sprintf_s(message, "loaded texture of %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
-	logInfo(message);
+	Log::LogInfo("loaded texture of %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
 }
 void TextureManager::Clear() {
 	textures.clear();
@@ -216,9 +212,7 @@ game_framework::CMovingBitmap TextureManager::GetGameobjecTexture(GameobjectId g
 	uint64_t textureKey = ((uint64_t)gameobjectId << 32) | colorPropId;
 
 	if (textures.find(textureKey) == textures.end()) {
-		char message[125];
-		sprintf_s(message, "didn't load texture for %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
-		logError(message);
+		Log::LogError("didn't load texture for %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
 	}
 
 	return textures[textureKey];

@@ -99,9 +99,7 @@ int GetGameobjectIdByName(std::string gameobjectName) {
 		return GAMEOBJECT_TEXT_OPEN;
 	}
 
-	char messageBuffer[215];
-	sprintf_s(messageBuffer, "Error when get gameobject id by gameobject name. Didn't has gameobject named \"%s\"", gameobjectName.c_str());
-	logError(messageBuffer);
+	Log::LogError("Error when get gameobject id by gameobject name. Didn't has gameobject named \"%s\"", gameobjectName.c_str());
 	return -1;
 }
 
@@ -168,9 +166,7 @@ std::string GetGameobjectNameById(GameobjectId gameobjectId) {
 		return "gameobject_text_open";
 
 	default:
-		char message[125];
-		sprintf_s(message, "can't get gameobject name by id %d", gameobjectId);
-		logError(message);
+		Log::LogError("can't get gameobject name by id %d", gameobjectId);
 		return "";
 	}
 }
@@ -198,9 +194,7 @@ int GetGameobjectByTextObject(GameobjectId gameobjectId) {
 	case GAMEOBJECT_TEXT_GRASS:
 		return GAMEOBJECT_GRASS;
 	default:
-		char message[125];
-		sprintf_s(message, "can't get gameobject of text %s", GetGameobjectNameById(gameobjectId).c_str());
-		logError(message);
+		Log::LogError("can't get gameobject of text %s", GetGameobjectNameById(gameobjectId).c_str());
 		return -1;
 	}
 }
@@ -270,9 +264,7 @@ std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId) {
 		return textureResourcesDir + "text_open/";
 
 	default:
-		char message[125];
-		sprintf_s(message, "can't get %s texture directory", GetGameobjectNameById(gameobjectId).c_str());
-		logError(message);
+		Log::LogError("can't get %s texture directory", GetGameobjectNameById(gameobjectId).c_str());
 		return "";
 	}
 }

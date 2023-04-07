@@ -45,9 +45,7 @@ int GetGameobjectTypeById(GameobjectId gameobjectId) {
 		return OBJECT_TYPE_TEXT;
 
 	default:
-		char message[125];
-		sprintf_s(message, "%s didn't has gameobject type", GetGameobjectNameById(gameobjectId).c_str());
-		logError(message);
+		Log::LogError("%s didn't has gameobject type", GetGameobjectNameById(gameobjectId).c_str());
 		return -1;
 	}
 }

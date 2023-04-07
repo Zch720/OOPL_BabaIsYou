@@ -19,14 +19,10 @@ void Log::LogDebugMessage(const char *outputFormat, ...) {
 
 	size_t messageSize = vsnprintf(NULL, 0, outputFormat, va) + 1;
 	char *message = new char[messageSize];
-	char *messageWithNewLine = new char[messageSize + 1];
 	vsprintf_s(message, messageSize, outputFormat, va);
-	sprintf_s(messageWithNewLine, messageSize + 1, "%s\n", message);
-	logMessage(messageWithNewLine);
-	OutputDebugString(messageWithNewLine);
+	OutputDebugString(message);
 	
 	delete[] message;
-	delete[] messageWithNewLine;
 	va_end(va);
 }
 
@@ -82,7 +78,7 @@ void Log::LogError(const char *outputFormat, ...) {
 	char *message = new char[messageSize];
 	char *messageWithTag = new char[messageSize + 10];
 	vsprintf_s(message, messageSize, outputFormat, va);
-	sprintf_s(messageWithTag, messageSize + 10, "[INFO]: %s\n", message);
+	sprintf_s(messageWithTag, messageSize + 10, "[ERROR]: %s\n", message);
 	logMessage(messageWithTag);
 	OutputDebugString(messageWithTag);
 	

@@ -40,12 +40,19 @@ void MainPage::StartScreenInit() {
 	startScreenLine.SetAnimation(250, false);
 
 	continuePlaying.SetButtonTexture(CPoint(960, 525) , {"Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	continuePlaying.SetButtonText("CONTINUE PLAYING");
 	startTheGame.SetButtonTexture(CPoint(600, 650), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	startTheGame.SetButtonText("START THE GAME");
 	playLevel.SetButtonTexture(CPoint(1320, 650), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	playLevel.SetButtonText("PLAY LEVELS");
 	levelEditor.SetButtonTexture(CPoint(600, 750), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	levelEditor.SetButtonText("LEVEL EDITOR");
 	settings.SetButtonTexture(CPoint(1320, 750), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	settings.SetButtonText("SETTINGS");
 	credits.SetButtonTexture(CPoint(600, 850), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	credits.SetButtonText("CREDITS");
 	exitTheGame.SetButtonTexture(CPoint(1320, 850), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	exitTheGame.SetButtonText("EXIT THE GAME");
 
 	chooser.LoadBitmapByString({ "Resources/mainpage/startscreen/chooser1.bmp", "Resources/mainpage/startscreen/chooser2.bmp" , "Resources/mainpage/startscreen/chooser3.bmp" }, 0x00FF00);
 	chooser.SetTopLeft(575, 484);
@@ -129,7 +136,7 @@ void MainPage::SwitchCheck() {
 	exitTheGame.SetActivity(true);
 }
 
-void MainPage::Show() {
+void MainPage::ShowImage() {
 	if (!screenSwitch) {
 		standbyBackgroung.ShowBitmap();
 	}
@@ -137,13 +144,25 @@ void MainPage::Show() {
 		startScreenTitle.ShowBitmap();
 		startScreenLine.ShowBitmap();
 		chooser.ShowBitmap();
-		continuePlaying.Show();
-		startTheGame.Show();
-		playLevel.Show();
-		levelEditor.Show();
-		settings.Show();
-		credits.Show();
-		exitTheGame.Show();
+		continuePlaying.ShowImage();
+		startTheGame.ShowImage();
+		playLevel.ShowImage();
+		levelEditor.ShowImage();
+		settings.ShowImage();
+		credits.ShowImage();
+		exitTheGame.ShowImage();
 	}
 
+}
+
+void MainPage::ShowText(CDC *pDC) {
+	if (screenSwitch == true) {
+		continuePlaying.ShowText(pDC);
+		startTheGame.ShowText(pDC);
+		playLevel.ShowText(pDC);
+		levelEditor.ShowText(pDC);
+		settings.ShowText(pDC);
+		credits.ShowText(pDC);
+		exitTheGame.ShowText(pDC);
+	}
 }

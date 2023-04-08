@@ -149,14 +149,14 @@ bool MoveProc::checkMoveUp(Point position) {
 		return blockMoveableRecord[position];
 	}
 
-	if (LevelData::gameboard[position].IsEmpty()) {
-		return blockMoveableRecord[position] = 1;
-	}
-
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
 		bool stopProp = GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_STOP);
 		bool pushProp = GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_PUSH);
 		if (stopProp && !pushProp) return blockMoveableRecord[position] = 0;
+	}
+
+	if (!LevelData::gameboard[position].HasMoveableGameobject()) {
+		return blockMoveableRecord[position] = 1;
 	}
 
 	bool aheadBlockMoveable = checkMoveUp(position.Up());
@@ -169,14 +169,14 @@ bool MoveProc::checkMoveDown(Point position) {
 		return blockMoveableRecord[position];
 	}
 
-	if (LevelData::gameboard[position].IsEmpty()) {
-		return blockMoveableRecord[position] = 1;
-	}
-
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
 		bool stopProp = GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_STOP);
 		bool pushProp = GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_PUSH);
 		if (stopProp && !pushProp) return blockMoveableRecord[position] = 0;
+	}
+
+	if (!LevelData::gameboard[position].HasMoveableGameobject()) {
+		return blockMoveableRecord[position] = 1;
 	}
 
 	bool aheadBlockMoveable = checkMoveDown(position.Down());
@@ -189,14 +189,14 @@ bool MoveProc::checkMoveLeft(Point position) {
 		return blockMoveableRecord[position];
 	}
 
-	if (LevelData::gameboard[position].IsEmpty()) {
-		return blockMoveableRecord[position] = 1;
-	}
-
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
 		bool stopProp = GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_STOP);
 		bool pushProp = GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_PUSH);
 		if (stopProp && !pushProp) return blockMoveableRecord[position] = 0;
+	}
+
+	if (!LevelData::gameboard[position].HasMoveableGameobject()) {
+		return blockMoveableRecord[position] = 1;
 	}
 
 	bool aheadBlockMoveable = checkMoveLeft(position.Left());
@@ -209,14 +209,14 @@ bool MoveProc::checkMoveRight(Point position) {
 		return blockMoveableRecord[position];
 	}
 
-	if (LevelData::gameboard[position].IsEmpty()) {
-		return blockMoveableRecord[position] = 1;
-	}
-
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
 		bool stopProp = GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_STOP);
 		bool pushProp = GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_PUSH);
 		if (stopProp && !pushProp) return blockMoveableRecord[position] = 0;
+	}
+
+	if (!LevelData::gameboard[position].HasMoveableGameobject()) {
+		return blockMoveableRecord[position] = 1;
 	}
 
 	bool aheadBlockMoveable = checkMoveRight(position.Right());

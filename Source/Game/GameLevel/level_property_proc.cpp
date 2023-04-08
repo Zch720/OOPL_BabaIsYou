@@ -23,7 +23,7 @@ void PropertyProc::CheckAllOverlapProp() {
 
 			checkOverlapPropBlock_Sink(position);
 			deleteOverlapPropSecond(position, PROP_DEFEAT, PROP_YOU);
-			deleteOverlapPropBoth(position, PROP_HOT, PROP_MELT);
+			deleteOverlapPropSecond(position, PROP_HOT, PROP_MELT);
 			deleteOverlapPropBoth(position, PROP_SHUT, PROP_OPEN);
 		}
 	}

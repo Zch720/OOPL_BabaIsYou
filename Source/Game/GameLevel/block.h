@@ -32,6 +32,7 @@ public:
 	void RemoveGameobject(Gameobject* gameobject);
 
 	bool HasGameobjectId(GameobjectId gameobjectId);
+	bool HasMoveableGameobject();
 	Gameobject* FindGameobjectById(GameobjectId gameobjectId);
 	Gameobject* FindGameobjectByProp(PropId propId);
 

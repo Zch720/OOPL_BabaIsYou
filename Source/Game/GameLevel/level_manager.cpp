@@ -38,7 +38,11 @@ void LevelManager::MoveUp() {
 	PropertyProc::CheckAllOverlapProp();
 	GameboardProc::UpdateGameobjectTextureColor();
 
-	UndoProc::AddBufferToStack();
+	if (!UndoProc::AddBufferToStack()) {
+		DescriptionProc::Undo();
+		PropertyProc::UpdatePropsManager();
+		GameboardProc::UpdateGameobjectTextureColor();
+	}
 }
 void LevelManager::MoveDown() {
 	if (LevelData::touchWinObject) return;
@@ -51,7 +55,11 @@ void LevelManager::MoveDown() {
 	PropertyProc::CheckAllOverlapProp();
 	GameboardProc::UpdateGameobjectTextureColor();
 
-	UndoProc::AddBufferToStack();
+	if (!UndoProc::AddBufferToStack()) {
+		DescriptionProc::Undo();
+		PropertyProc::UpdatePropsManager();
+		GameboardProc::UpdateGameobjectTextureColor();
+	}
 }
 void LevelManager::MoveLeft() {
 	if (LevelData::touchWinObject) return;
@@ -64,7 +72,11 @@ void LevelManager::MoveLeft() {
 	PropertyProc::CheckAllOverlapProp();
 	GameboardProc::UpdateGameobjectTextureColor();
 
-	UndoProc::AddBufferToStack();
+	if (!UndoProc::AddBufferToStack()) {
+		DescriptionProc::Undo();
+		PropertyProc::UpdatePropsManager();
+		GameboardProc::UpdateGameobjectTextureColor();
+	}
 }
 void LevelManager::MoveRight() {
 	if (LevelData::touchWinObject) return;
@@ -77,7 +89,11 @@ void LevelManager::MoveRight() {
 	PropertyProc::CheckAllOverlapProp();
 	GameboardProc::UpdateGameobjectTextureColor();
 
-	UndoProc::AddBufferToStack();
+	if (!UndoProc::AddBufferToStack()) {
+		DescriptionProc::Undo();
+		PropertyProc::UpdatePropsManager();
+		GameboardProc::UpdateGameobjectTextureColor();
+	}
 }
 void LevelManager::Undo() {
 	UndoProc::Undo();

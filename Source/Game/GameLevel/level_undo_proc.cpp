@@ -19,9 +19,10 @@ void UndoProc::AddUndo(UndoType type, Gameobject *gameobject) {
 	});
 }
 
-void UndoProc::AddBufferToStack() {
-	if (undoBuffer.size() == 0) return;
+bool UndoProc::AddBufferToStack() {
+	if (undoBuffer.size() == 0) return false;
 	undoStack.push(undoBuffer);
+	return true;
 }
 
 void UndoProc::Undo() {

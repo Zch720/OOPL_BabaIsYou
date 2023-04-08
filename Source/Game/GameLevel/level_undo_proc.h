@@ -30,7 +30,7 @@ private:
 public:
 	static void ClearBuffer();
 	static void AddUndo(UndoType type, Gameobject *gameobject);
-	static void AddBufferToStack();
+	static bool AddBufferToStack();
 
 	static void Undo();
 };

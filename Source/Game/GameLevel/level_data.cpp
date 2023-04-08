@@ -9,6 +9,7 @@
 int LevelData::world = 0;
 int LevelData::level = 0;
 
+game_framework::CMovingBitmap LevelData::background = game_framework::CMovingBitmap();
 vector2d<Block> LevelData::gameboard = vector2d<Block>();
 int LevelData::gameboardWidth = 0;
 int LevelData::gameboardHeight = 0;
@@ -22,6 +23,9 @@ void LevelData::LoadLevel(int level) {
 	Clear();
 	level = level;
 	getWorld(level);
+
+	background = game_framework::CMovingBitmap();
+	background.LoadBitmapByString({ "./resources/LevelBackground/" + intToString(level) + ".bmp" });
 
 	std::string levelSource = loadFile("./resources/level/" + intToString(level));
 	std::vector<std::string> levelSourceLines = stringSplit(levelSource, '\n');

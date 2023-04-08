@@ -20,6 +20,7 @@ public:
 	static int world;
 	static int level;
 
+	static game_framework::CMovingBitmap background;
 	static vector2d<Block> gameboard;
 	static int gameboardWidth;
 	static int gameboardHeight;

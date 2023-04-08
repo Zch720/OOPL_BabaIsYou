@@ -16,7 +16,6 @@
 LevelManager::LevelManager() {}
 LevelManager::~LevelManager() {
 	LevelData::Clear();
-	//clearLevel();
 }
 
 void LevelManager::LoadLevel(int level) {
@@ -104,6 +103,8 @@ bool LevelManager::IsWin() {
 }
 
 void LevelManager::Show() {
+	LevelData::background.ShowBitmap();
+
 	std::unordered_set<Gameobject*> connectedTextObjects = DescriptionProc::GetConnectedTextObjects();
 
 	// show gameobject didn't move

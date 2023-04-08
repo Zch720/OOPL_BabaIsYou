@@ -10,8 +10,12 @@ std::stack<std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>>
 	DescriptionProc::descriptionStack = std::stack<std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>>();
 DescriptionProc::GameobjectSet
 	DescriptionProc::connectedTextObjects = DescriptionProc::GameobjectSet();
+std::stack<DescriptionProc::GameobjectSet>
+	DescriptionProc::connectedTextObjectsStack = std::stack<DescriptionProc::GameobjectSet>();
 DescriptionProc::GameobjectSet
 	DescriptionProc::cannotUseTextObjects = DescriptionProc::GameobjectSet();
+std::stack<DescriptionProc::GameobjectSet>
+	DescriptionProc::cannotUseTextObjectsStack = std::stack<DescriptionProc::GameobjectSet>();
 
 std::vector<DescriptionProc::GameobjectIdPair> DescriptionProc::GetDescriptionProps() {
 	std::vector<DescriptionProc::GameobjectIdPair> result;
@@ -27,9 +31,13 @@ DescriptionProc::GameobjectSet DescriptionProc::GetConnectedTextObjects() {
 }
 
 void DescriptionProc::Undo() {
-	if (descriptionStack.empty()) return;
+	if (descriptionStack.size() < 2) return;
 	descriptionProps = descriptionStack.top();
 	descriptionStack.pop();
+	connectedTextObjects = connectedTextObjectsStack.top();
+	connectedTextObjectsStack.pop();
+	cannotUseTextObjects = cannotUseTextObjectsStack.top();
+	cannotUseTextObjectsStack.pop();
 }
 
 void DescriptionProc::Clear() {
@@ -41,7 +49,13 @@ void DescriptionProc::Clear() {
 }
 void DescriptionProc::GetAllDescription() {
 	descriptionStack.push(descriptionProps);
+	connectedTextObjectsStack.push(connectedTextObjects);
+	cannotUseTextObjectsStack.push(cannotUseTextObjects);
+
 	descriptionProps.clear();
+	connectedTextObjects.clear();
+	cannotUseTextObjects.clear();
+
 	checkOperatorIs();
 
 	for (auto it = descriptionProps.begin(); it != descriptionProps.end(); it++) {

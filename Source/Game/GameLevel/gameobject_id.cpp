@@ -11,91 +11,100 @@ GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_BEGIN = GAMEOBJECT_TEXT_YOU;
 GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_END = GAMEOBJECT_TEXT_OPEN;
 
 int GetGameobjectIdByName(std::string gameobjectName) {
-	if (gameobjectName == "gameobject_baba") {
+	if (gameobjectName == "baba") {
 		return GAMEOBJECT_BABA;
 	}
-	if (gameobjectName == "gameobject_wall") {
+	if (gameobjectName == "wall") {
 		return GAMEOBJECT_WALL;
 	}
-	if (gameobjectName == "gameobject_flag") {
+	if (gameobjectName == "flag") {
 		return GAMEOBJECT_FLAG;
 	}
-	if (gameobjectName == "gameobject_rock") {
+	if (gameobjectName == "rock") {
 		return GAMEOBJECT_ROCK;
 	}
-	if (gameobjectName == "gameobject_water") {
+	if (gameobjectName == "water") {
 		return GAMEOBJECT_WATER;
 	}
-	if (gameobjectName == "gameobject_skull") {
+	if (gameobjectName == "skull") {
 		return GAMEOBJECT_SKULL;
 	}
-	if (gameobjectName == "gameobject_lava") {
+	if (gameobjectName == "lava") {
 		return GAMEOBJECT_LAVA;
 	}
-	if (gameobjectName == "gameobject_grass") {
+	if (gameobjectName == "grass") {
 		return GAMEOBJECT_GRASS;
 	}
+	if (gameobjectName == "tile") {
+		return GAMEOBJECT_TILE;
+	}
+	if (gameobjectName == "flower") {
+		return GAMEOBJECT_FLOWER;
+	}
+	if (gameobjectName == "brick") {
+		return GAMEOBJECT_BRICK;
+	}
 
-	if (gameobjectName == "gameobject_text_is") {
+	if (gameobjectName == "text_is") {
 		return GAMEOBJECT_TEXT_IS;
 	}
-	if (gameobjectName == "gameobject_text_and") {
+	if (gameobjectName == "text_and") {
 		return GAMEOBJECT_TEXT_AND;
 	}
 
-	if (gameobjectName == "gameobject_text_baba") {
+	if (gameobjectName == "text_baba") {
 		return GAMEOBJECT_TEXT_BABA;
 	}
-	if (gameobjectName == "gameobject_text_wall") {
+	if (gameobjectName == "text_wall") {
 		return GAMEOBJECT_TEXT_WALL;
 	}
-	if (gameobjectName == "gameobject_text_flag") {
+	if (gameobjectName == "text_flag") {
 		return GAMEOBJECT_TEXT_FLAG;
 	}
-	if (gameobjectName == "gameobject_text_rock") {
+	if (gameobjectName == "text_rock") {
 		return GAMEOBJECT_TEXT_ROCK;
 	}
-	if (gameobjectName == "gameobject_text_water") {
+	if (gameobjectName == "text_water") {
 		return GAMEOBJECT_TEXT_WATER;
 	}
-	if (gameobjectName == "gameobject_text_skull") {
+	if (gameobjectName == "text_skull") {
 		return GAMEOBJECT_TEXT_SKULL;
 	}
-	if (gameobjectName == "gameobject_text_lava") {
+	if (gameobjectName == "text_lava") {
 		return GAMEOBJECT_TEXT_LAVA;
 	}
-	if (gameobjectName == "gameobject_text_grass") {
+	if (gameobjectName == "text_grass") {
 		return GAMEOBJECT_TEXT_GRASS;
 	}
 
-	if (gameobjectName == "gameobject_text_you") {
+	if (gameobjectName == "text_you") {
 		return GAMEOBJECT_TEXT_YOU;
 	}
-	if (gameobjectName == "gameobject_text_push") {
+	if (gameobjectName == "text_push") {
 		return GAMEOBJECT_TEXT_PUSH;
 	}
-	if (gameobjectName == "gameobject_text_stop") {
+	if (gameobjectName == "text_stop") {
 		return GAMEOBJECT_TEXT_STOP;
 	}
-	if (gameobjectName == "gameobject_text_win") {
+	if (gameobjectName == "text_win") {
 		return GAMEOBJECT_TEXT_WIN;
 	}
-	if (gameobjectName == "gameobject_text_sink") {
+	if (gameobjectName == "text_sink") {
 		return GAMEOBJECT_TEXT_SINK;
 	}
-	if (gameobjectName == "gameobject_text_defeat") {
+	if (gameobjectName == "text_defeat") {
 		return GAMEOBJECT_TEXT_DEFEAT;
 	}
-	if (gameobjectName == "gameobject_text_hot") {
+	if (gameobjectName == "text_hot") {
 		return GAMEOBJECT_TEXT_HOT;
 	}
-	if (gameobjectName == "gameobject_text_melt") {
+	if (gameobjectName == "text_melt") {
 		return GAMEOBJECT_TEXT_MELT;
 	}
-	if (gameobjectName == "gameobject_text_shut") {
+	if (gameobjectName == "text_shut") {
 		return GAMEOBJECT_TEXT_SHUT;
 	}
-	if (gameobjectName == "gameobject_text_open") {
+	if (gameobjectName == "text_open") {
 		return GAMEOBJECT_TEXT_OPEN;
 	}
 
@@ -106,64 +115,70 @@ int GetGameobjectIdByName(std::string gameobjectName) {
 std::string GetGameobjectNameById(GameobjectId gameobjectId) {
 	switch (gameobjectId) {
 	case GAMEOBJECT_BABA:
-		return "gameobject_baba";
+		return "baba";
 	case GAMEOBJECT_WALL:
-		return "gameobject_wall";
+		return "wall";
 	case GAMEOBJECT_FLAG:
-		return "gameobject_flag";
+		return "flag";
 	case GAMEOBJECT_ROCK:
-		return "gameobject_rock";
+		return "rock";
 	case GAMEOBJECT_WATER:
-		return "gameobject_water";
+		return "water";
 	case GAMEOBJECT_SKULL:
-		return "gameobject_skull";
+		return "skull";
 	case GAMEOBJECT_LAVA:
-		return "gameobject_lava";
+		return "lava";
 	case GAMEOBJECT_GRASS:
-		return "gameobject_grass";
+		return "grass";
+	case GAMEOBJECT_TILE:
+		return "tile";
+	case GAMEOBJECT_FLOWER:
+		return "flower";
+	case GAMEOBJECT_BRICK:
+		return "brick";
 
 	case GAMEOBJECT_TEXT_IS:
-		return "gameobject_text_is";
+		return "text_is";
 	case GAMEOBJECT_TEXT_AND:
-		return "gameobject_text_and";
+		return "text_and";
 
 	case GAMEOBJECT_TEXT_BABA:
-		return "gameobject_text_baba";
+		return "text_baba";
 	case GAMEOBJECT_TEXT_WALL:
-		return "gameobject_text_wall";
+		return "text_wall";
 	case GAMEOBJECT_TEXT_FLAG:
-		return "gameobject_text_flag";
+		return "text_flag";
 	case GAMEOBJECT_TEXT_ROCK:
-		return "gameobject_text_rock";
+		return "text_rock";
 	case GAMEOBJECT_TEXT_WATER:
-		return "gameobject_text_water";
+		return "text_water";
 	case GAMEOBJECT_TEXT_SKULL:
-		return "gameobject_text_skull";
+		return "text_skull";
 	case GAMEOBJECT_TEXT_LAVA:
-		return "gameobject_text_lava";
+		return "text_lava";
 	case GAMEOBJECT_TEXT_GRASS:
-		return "gameobject_text_grass";
+		return "text_grass";
 
 	case GAMEOBJECT_TEXT_YOU:
-		return "gameobject_text_you";
+		return "text_you";
 	case GAMEOBJECT_TEXT_PUSH:
-		return "gameobject_text_push";
+		return "text_push";
 	case GAMEOBJECT_TEXT_STOP:
-		return "gameobject_text_stop";
+		return "text_stop";
 	case GAMEOBJECT_TEXT_WIN:
-		return "gameobject_text_win";
+		return "text_win";
 	case GAMEOBJECT_TEXT_SINK:
-		return "gameobject_text_sink";
+		return "text_sink";
 	case GAMEOBJECT_TEXT_DEFEAT:
-		return "gameobject_text_defeat";
+		return "text_defeat";
 	case GAMEOBJECT_TEXT_HOT:
-		return "gameobject_text_hot";
+		return "text_hot";
 	case GAMEOBJECT_TEXT_MELT:
-		return "gameobject_text_melt";
+		return "text_melt";
 	case GAMEOBJECT_TEXT_SHUT:
-		return "gameobject_text_shut";
+		return "text_shut";
 	case GAMEOBJECT_TEXT_OPEN:
-		return "gameobject_text_open";
+		return "text_open";
 
 	default:
 		Log::LogError("can't get gameobject name by id %d", gameobjectId);
@@ -219,6 +234,12 @@ std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId) {
 		return textureResourcesDir + "lava/";
 	case GAMEOBJECT_GRASS:
 		return textureResourcesDir + "grass/";
+	case GAMEOBJECT_TILE:
+		return textureResourcesDir + "tile/";
+	case GAMEOBJECT_FLOWER:
+		return textureResourcesDir + "flower/";
+	case GAMEOBJECT_BRICK:
+		return textureResourcesDir + "brick/";
 
 	case GAMEOBJECT_TEXT_IS:
 		return textureResourcesDir + "text_is/";

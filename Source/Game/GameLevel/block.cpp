@@ -75,6 +75,13 @@ bool Block::HasGameobjectId(GameobjectId gameobjectId) {
 	}
 	return false;
 }
+bool Block::HasMoveableGameobject() {
+	for (Gameobject *gameobject : blockObjects) {
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_YOU)) return true;
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_PUSH)) return true;
+	}
+	return false;
+}
 Gameobject* Block::FindGameobjectById(GameobjectId gameobjectId) {
 	for (auto gameobject = blockObjects.rbegin(); gameobject != blockObjects.rend(); gameobject++) {
 		if ((*gameobject)->gameobjectId == gameobjectId) {

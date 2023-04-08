@@ -1,0 +1,90 @@
+[game board size]
+24
+14
+[texture origin position]
+312
+162
+[texture size]
+54
+[needed texture]
+baba prop_none
+rock prop_none
+skull prop_none
+flag prop_none
+text_is prop_none
+text_flag prop_none
+text_baba prop_none
+text_rock prop_none
+text_skull prop_none
+text_win prop_none
+text_you prop_none
+text_push prop_none
+text_defeat prop_none
+[objects]
+baba 6 12 0
+rock 6 8 0
+rock 6 9 0
+rock 6 10 0
+skull 5 7 3
+skull 5 8 3
+skull 5 9 3
+skull 4 9 3
+skull 3 9 3
+skull 3 10 3
+skull 3 11 3
+skull 3 12 3
+skull 3 13 3
+skull 7 7 3
+skull 7 8 3
+skull 7 9 3
+skull 8 9 3
+skull 9 9 3
+skull 9 10 3
+skull 9 11 3
+skull 9 12 3
+skull 9 13 3
+skull 13 3 3
+skull 14 3 3
+skull 15 3 3
+skull 16 3 3
+skull 17 3 3
+skull 18 3 3
+skull 19 3 3
+skull 20 3 3
+skull 21 3 3
+skull 21 4 3
+skull 21 5 3
+skull 21 6 3
+skull 21 7 3
+skull 21 8 3
+skull 21 9 3
+skull 21 10 3
+skull 21 11 3
+skull 20 11 3
+skull 19 11 3
+skull 18 11 3
+skull 17 11 3
+skull 16 11 3
+skull 15 11 3
+skull 14 11 3
+skull 13 11 3
+skull 13 10 3
+skull 13 9 3
+skull 13 8 3
+skull 13 7 3
+skull 13 6 3
+skull 13 5 3
+skull 13 4 3
+flag 18 9 0
+text_is 1 0 0
+text_is 1 1 0
+text_is 3 5 0
+text_is 15 6 0
+text_flag 0 0 0
+text_baba 0 1 0
+text_rock 2 5 0
+text_skull 15 5 0
+text_win 2 0 0
+text_you 2 1 0
+text_push 4 5 0
+text_defeat 15 7 0

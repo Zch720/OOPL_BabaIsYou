@@ -1,0 +1,90 @@
+[game board size]
+24
+14
+[texture origin position]
+312
+162
+[texture size]
+54
+[needed texture]
+baba prop_none
+wall prop_none
+grass prop_none
+flag prop_none
+text_is prop_none
+text_baba prop_none
+text_flag prop_none
+text_grass prop_none
+text_you prop_none
+text_win prop_none
+text_stop prop_none
+[objects]
+baba 9 7 3
+wall 5 2 0
+wall 6 2 0
+wall 7 2 0
+wall 8 2 0
+wall 9 2 0
+wall 10 2 0
+wall 11 2 0
+wall 12 2 0
+wall 13 2 0
+wall 14 2 0
+wall 15 2 0
+wall 16 2 0
+wall 17 2 0
+wall 18 2 0
+wall 18 3 0
+wall 18 4 0
+wall 18 5 0
+wall 18 6 0
+wall 18 7 0
+wall 18 8 0
+wall 18 9 0
+wall 18 10 0
+wall 18 11 0
+wall 17 11 0
+wall 16 11 0
+wall 15 11 0
+wall 14 11 0
+wall 13 11 0
+wall 12 11 0
+wall 11 11 0
+wall 10 11 0
+wall 9 11 0
+wall 8 11 0
+wall 7 11 0
+wall 6 11 0
+wall 5 11 0
+wall 5 10 0
+wall 5 9 0
+wall 5 8 0
+wall 5 7 0
+wall 5 6 0
+wall 5 5 0
+wall 5 4 0
+wall 5 3 0
+grass 10 3 0
+grass 6 5 0
+grass 13 5 0
+grass 14 6 0
+grass 16 6 0
+grass 12 7 0
+grass 15 7 0
+grass 17 7 0
+grass 6 8 0
+grass 12 8 0
+grass 7 9 0
+grass 12 9 0
+grass 15 9 0
+grass 10 10 0
+grass 13 10 0
+flag 16 4 0
+text_is 8 4 0
+text_is 23 7 0
+text_baba 7 4 0
+text_flag 14 8 0
+text_grass 23 6 0
+text_you 9 4 0
+text_win 16 8 0
+text_stop 23 8 0

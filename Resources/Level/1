@@ -2,15 +2,16 @@
 24
 18
 [texture origin position]
-0
-0
+312
+54
 [texture size]
-50
+54
 [needed texture]
 baba prop_none
 wall prop_none
 grass prop_none
 flag prop_none
+tile prop_none
 text_is prop_none
 text_baba prop_none
 text_wall prop_none
@@ -64,9 +65,11 @@ wall 12 10 0
 wall 13 10 0
 wall 14 10 0
 wall 15 10 0
-wall 6 9 0
-wall 6 8 0
-wall 6 7 0
+wall 5 10 0
+wall 5 9 0
+wall 5 8 0
+wall 5 7 0
+wall 5 6 0
 wall 6 6 0
 wall 7 6 0
 wall 8 6 0
@@ -81,13 +84,24 @@ grass 18 4 0
 grass 20 7 0
 grass 1 8 0
 grass 2 9 0
-grass 21 11 0
-grass 20 12 0
 grass 21 12 0
+grass 20 13 0
+grass 21 13 0
 grass 2 15 0
 grass 19 16 0
-flag 10 8 0
-text_is 10 4 0
+flag 11 8 0
+tile 6 7 0
+tile 7 7 0
+tile 8 7 0
+tile 9 7 0
+tile 6 8 0
+tile 8 8 0
+tile 9 8 0
+tile 6 9 0
+tile 7 9 0
+tile 8 9 0
+tile 9 9 0
+text_is 11 4 0
 text_is 6 13 0
 text_is 11 13 0
 text_baba 6 12 0

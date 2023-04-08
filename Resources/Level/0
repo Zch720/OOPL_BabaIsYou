@@ -2,15 +2,16 @@
 33
 18
 [texture origin position]
-0
-0
+70
+54
 [texture size]
-55
+54
 [needed texture]
 baba prop_none
 wall prop_none
 flag prop_none
 rock prop_none
+tile prop_none
 text_is prop_none
 text_baba prop_none
 text_wall prop_none
@@ -48,6 +49,34 @@ flag 20 10 0
 rock 16 9 0
 rock 16 10 0
 rock 16 11 0
+tile 11 9 0
+tile 12 9 0
+tile 13 9 0
+tile 14 9 0
+tile 15 9 0
+tile 17 9 0
+tile 18 9 0
+tile 19 9 0
+tile 20 9 0
+tile 21 9 0
+tile 11 10 0
+tile 13 10 0
+tile 14 10 0
+tile 15 10 0
+tile 17 10 0
+tile 18 10 0
+tile 19 10 0
+tile 21 10 0
+tile 11 11 0
+tile 12 11 0
+tile 13 11 0
+tile 14 11 0
+tile 15 11 0
+tile 17 11 0
+tile 18 11 0
+tile 19 11 0
+tile 20 11 0
+tile 21 11 0
 text_is 12 6 0
 text_is 12 14 0
 text_is 20 6 0

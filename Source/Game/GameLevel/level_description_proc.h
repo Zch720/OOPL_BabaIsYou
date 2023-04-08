@@ -7,16 +7,27 @@
 #include "gameobject.h"
 
 class DescriptionProc {
+public:
+	struct TextObjectInfo {
+		GameobjectId id;
+		Point position;
+
+		bool operator==(const TextObjectInfo &other) const;
+		bool operator<(const TextObjectInfo &other);
+
+		size_t operator()(const TextObjectInfo &infoToHash) const;
+	};
+
 private:
 	typedef std::pair<GameobjectId, GameobjectId> GameobjectIdPair;
-	typedef std::unordered_set<Gameobject*> GameobjectSet;
+	typedef std::unordered_set<TextObjectInfo> TextObjectInfoSet;
 
-	static std::unordered_multimap<GameobjectId, std::vector<Gameobject*>> descriptionProps;
-	static std::stack<std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>> descriptionStack;
-	static GameobjectSet connectedTextObjects;
-	static std::stack<GameobjectSet> connectedTextObjectsStack;
-	static GameobjectSet cannotUseTextObjects;
-	static std::stack<GameobjectSet> cannotUseTextObjectsStack;
+	static std::unordered_multimap<GameobjectId, std::vector<TextObjectInfo>> descriptionProps;
+	static std::stack<std::unordered_multimap<GameobjectId, std::vector<TextObjectInfo>>> descriptionStack;
+	static TextObjectInfoSet connectedTextObjects;
+	static std::stack<TextObjectInfoSet> connectedTextObjectsStack;
+	static TextObjectInfoSet cannotUseTextObjects;
+	static std::stack<TextObjectInfoSet> cannotUseTextObjectsStack;
 
 	static GameobjectId getPreviousDescriptionConvertNoneGameobject(GameobjectId);
 	static int getDescriptionConvertNounGameobjectCount(GameobjectId);

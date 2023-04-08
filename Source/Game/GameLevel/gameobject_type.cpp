@@ -14,10 +14,13 @@ int GetGameobjectTypeById(GameobjectId gameobjectId) {
 	case GAMEOBJECT_WATER:
 	case GAMEOBJECT_LAVA:
 	case GAMEOBJECT_GRASS:
+	case GAMEOBJECT_BRICK:
 		return OBJECT_TYPE_TILED;
 
 	case GAMEOBJECT_ROCK:
 	case GAMEOBJECT_FLAG:
+	case GAMEOBJECT_TILE:
+	case GAMEOBJECT_FLOWER:
 		return OBJECT_TYPE_STATIC;
 
 	case GAMEOBJECT_TEXT_IS:

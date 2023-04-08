@@ -35,6 +35,15 @@ int GetGameobjectIdByName(std::string gameobjectName) {
 	if (gameobjectName == "grass") {
 		return GAMEOBJECT_GRASS;
 	}
+	if (gameobjectName == "tile") {
+		return GAMEOBJECT_TILE;
+	}
+	if (gameobjectName == "flower") {
+		return GAMEOBJECT_FLOWER;
+	}
+	if (gameobjectName == "brick") {
+		return GAMEOBJECT_BRICK;
+	}
 
 	if (gameobjectName == "text_is") {
 		return GAMEOBJECT_TEXT_IS;
@@ -121,6 +130,12 @@ std::string GetGameobjectNameById(GameobjectId gameobjectId) {
 		return "lava";
 	case GAMEOBJECT_GRASS:
 		return "grass";
+	case GAMEOBJECT_TILE:
+		return "tile";
+	case GAMEOBJECT_FLOWER:
+		return "flower";
+	case GAMEOBJECT_BRICK:
+		return "brick";
 
 	case GAMEOBJECT_TEXT_IS:
 		return "text_is";
@@ -219,6 +234,12 @@ std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId) {
 		return textureResourcesDir + "lava/";
 	case GAMEOBJECT_GRASS:
 		return textureResourcesDir + "grass/";
+	case GAMEOBJECT_TILE:
+		return textureResourcesDir + "tile/";
+	case GAMEOBJECT_FLOWER:
+		return textureResourcesDir + "flower/";
+	case GAMEOBJECT_BRICK:
+		return textureResourcesDir + "brick/";
 
 	case GAMEOBJECT_TEXT_IS:
 		return textureResourcesDir + "text_is/";

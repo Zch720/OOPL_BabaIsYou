@@ -84,6 +84,9 @@ void Gameobject::updatePosition() {
 }
 
 void Gameobject::moveUp() {
+	while (moveRemainStep != 0) {
+		updatePosition();
+	}
 	moveDirection = DIRECTION_UP;
 	textureDirection = DIRECTION_UP;
 	gameBoardPosition.y -= 1;
@@ -91,6 +94,9 @@ void Gameobject::moveUp() {
 	characterTextureStep = (characterTextureStep + 1) & 3;
 }
 void Gameobject::moveDown() {
+	while (moveRemainStep != 0) {
+		updatePosition();
+	}
 	moveDirection = DIRECTION_DOWN;
 	textureDirection = DIRECTION_DOWN;
 	gameBoardPosition.y += 1;
@@ -98,6 +104,9 @@ void Gameobject::moveDown() {
 	characterTextureStep = (characterTextureStep + 1) & 3;
 }
 void Gameobject::moveLeft() {
+	while (moveRemainStep != 0) {
+		updatePosition();
+	}
 	moveDirection = DIRECTION_LEFT;
 	textureDirection = DIRECTION_LEFT;
 	gameBoardPosition.x -= 1;
@@ -105,6 +114,9 @@ void Gameobject::moveLeft() {
 	characterTextureStep = (characterTextureStep + 1) & 3;
 }
 void Gameobject::moveRight() {
+	while (moveRemainStep != 0) {
+		updatePosition();
+	}
 	moveDirection = DIRECTION_RIGHT;
 	textureDirection = DIRECTION_RIGHT;
 	gameBoardPosition.x += 1;
@@ -116,6 +128,9 @@ void Gameobject::moveRight() {
 	direction denote origion gameobject direction
 */
 void Gameobject::undoUp(Direction direction) {
+	while (moveRemainStep != 0) {
+		updatePosition();
+	}
 	moveDirection = DIRECTION_DOWN;
 	textureDirection = direction;
 	gameBoardPosition.y += 1;
@@ -123,6 +138,9 @@ void Gameobject::undoUp(Direction direction) {
 	characterTextureStep = (characterTextureStep + 3) & 3;
 }
 void Gameobject::undoDown(Direction direction) {
+	while (moveRemainStep != 0) {
+		updatePosition();
+	}
 	moveDirection = DIRECTION_UP;
 	textureDirection = direction;
 	gameBoardPosition.y -= 1;
@@ -130,6 +148,9 @@ void Gameobject::undoDown(Direction direction) {
 	characterTextureStep = (characterTextureStep + 3) & 3;
 }
 void Gameobject::undoLeft(Direction direction) {
+	while (moveRemainStep != 0) {
+		updatePosition();
+	}
 	moveDirection = DIRECTION_RIGHT;
 	textureDirection = direction;
 	gameBoardPosition.x += 1;
@@ -137,6 +158,9 @@ void Gameobject::undoLeft(Direction direction) {
 	characterTextureStep = (characterTextureStep + 3) & 3;
 }
 void Gameobject::undoRight(Direction direction) {
+	while (moveRemainStep != 0) {
+		updatePosition();
+	}
 	moveDirection = DIRECTION_LEFT;
 	textureDirection = direction;
 	gameBoardPosition.x -= 1;

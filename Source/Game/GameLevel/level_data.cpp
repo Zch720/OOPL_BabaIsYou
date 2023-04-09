@@ -97,8 +97,10 @@ void LevelData::Clear() {
 void LevelData::getWorld(int level) {
 	if (level >= 2000) {
 		world = -1;
-	} else {
+	} else if (level <= 12) {
 		world = 0;
+	} else if (level <= 27) {
+		world = 1;
 	}
 }
 

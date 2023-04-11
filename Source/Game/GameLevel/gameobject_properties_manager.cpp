@@ -24,6 +24,8 @@ int GetPropIdFromTextGameobject(GameobjectId gameobjectId) {
 		return PROP_SHUT;
 	case GAMEOBJECT_TEXT_OPEN:
 		return PROP_OPEN;
+	case GAMEOBJECT_TEXT_MOVE:
+		return PROP_MOVE;
 	default:
 		return -1;
 	}

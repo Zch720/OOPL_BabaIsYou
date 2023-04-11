@@ -15,7 +15,6 @@ int LevelData::gameboardWidth = 0;
 int LevelData::gameboardHeight = 0;
 
 Point LevelData::textureOrigionPosition = Point(0, 0);
-int LevelData::textureSize = 0;
 
 bool LevelData::touchWinObject = 0;
 
@@ -48,7 +47,7 @@ void LevelData::LoadLevel(int level) {
 	if (levelSourceLines[linesCount++] != "[texture size]") {
 		Log::LogError("level %d source file format wrong", level);
 	}
-	textureSize = stringToInt(levelSourceLines[linesCount++]);
+	TextureManager::textureSize = stringToInt(levelSourceLines[linesCount++]);
 
 	if (levelSourceLines[linesCount++] != "[needed texture]") {
 		Log::LogError("level %d source file format wrong", level);

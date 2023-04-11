@@ -3,10 +3,9 @@
 #include "texture_manager.h"
 #include "../../Expansion/log.h"
 
-Gameobject::Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition, const int textureSize) {
+Gameobject::Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition) {
 	this->gameobjectId = gameobjectId;
 	this->gameBoardPosition = gameBoardPosition;
-	this->textureSize = textureSize;
 	this->gameobjectType = static_cast<GameobjectType>(GetGameobjectTypeById(gameobjectId));
 }
 
@@ -16,11 +15,9 @@ void Gameobject::setTextureWithColor(const Point textureOriginPosition, const Pr
 	textureColorPropId = colorPropId;
 	texture = TextureManager::GetGameobjecTexture(gameobjectId, textureColorPropId);
 
-	CPoint texturePosition = CPoint(textureSize * gameBoardPosition.x, textureSize * gameBoardPosition.y);
+	CPoint texturePosition = CPoint(TextureManager::textureSize * gameBoardPosition.x, TextureManager::textureSize * gameBoardPosition.y);
 	texturePosition += textureOriginPosition;
 	texture.SetTopLeft(texturePosition.x, texturePosition.y);
-	
-	textureFatcor = (double)textureSize / texture.GetWidth();
 
 	textureSetted = true;
 }
@@ -51,15 +48,17 @@ void Gameobject::show(const int textureCount, const int otherInformation) {
 
 	updatePosition();
 	
-	texture.ShowBitmap(textureFatcor);
+	texture.ShowBitmap();
 }
 
 void Gameobject::updatePosition() {
 	if (moveRemainStep != 0) {
+		Log::LogDebugMessage("texture size: %d\n", TextureManager::textureSize);
+
 		int left = texture.GetLeft();
 		int top = texture.GetTop();
-		int moveDistance = textureSize / MOVE_STEP;
-		if (moveRemainStep <= textureSize % MOVE_STEP) {
+		int moveDistance = TextureManager::textureSize / MOVE_STEP;
+		if (moveRemainStep <= TextureManager::textureSize % MOVE_STEP) {
 			moveDistance++;
 		}
 

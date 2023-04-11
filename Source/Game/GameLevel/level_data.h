@@ -26,7 +26,6 @@ public:
 	static int gameboardHeight;
 
 	static Point textureOrigionPosition;
-	static int textureSize;
 
 	static bool touchWinObject;
 

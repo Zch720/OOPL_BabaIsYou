@@ -36,7 +36,7 @@ void Block::clear() {
 }
 
 Gameobject* Block::GenGameobject(GameobjectId gameobjectId) {
-	Gameobject* gameobject = new Gameobject(gameobjectId, gameboardPosition, LevelData::textureSize);
+	Gameobject* gameobject = new Gameobject(gameobjectId, gameboardPosition);
 	blockObjects.push_back(gameobject);
 	gameobject->setTextureWithColor(
 		LevelData::textureOrigionPosition,

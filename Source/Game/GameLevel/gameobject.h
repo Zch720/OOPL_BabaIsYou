@@ -23,8 +23,6 @@ public:
 	Point gameBoardPosition;
 
 	bool textureSetted = false;
-	int textureSize = 0;
-	double textureFatcor = 1;
 	PropId textureColorPropId = PROP_NONE;
 	Direction textureDirection = DIRECTION_RIGHT;
 
@@ -32,7 +30,7 @@ public:
 	int characterTextureStep = 0;
 	int moveRemainStep = 0;
 
-	Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition, const int textureSize);
+	Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition);
 
 	void setTextureWithColor(const Point textureOriginPosition, const PropId colorPropId);
 

@@ -54,10 +54,11 @@ void PropertyProc::UpdatePropsManager() {
 				for (Block &block : col) {
 					for (size_t i = 0; i < block.GetSize(); i++) {
 						if (block[i]->gameobjectId == gameobjectId) {
+							Gameobject *originGameobject = block[i];
 							Gameobject *replaceGameobject = block.GenGameobject(convertGameobject);
 							UndoProc::AddUndo(UndoProc::UNDO_GEN, replaceGameobject);
-							UndoProc::AddUndo(UndoProc::UNDO_DELETE, block[i]);
-							block.DeleteGameobject(block[i]);
+							UndoProc::AddUndo(UndoProc::UNDO_DELETE, originGameobject);
+							block.DeleteGameobject(originGameobject);
 							i--;
 						}
 					}

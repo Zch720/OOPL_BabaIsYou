@@ -18,6 +18,7 @@ public:
 	const int MOVE_STEP = 4;
 
 	game_framework::CMovingBitmap texture;
+	game_framework::CMovingBitmap textCrossed;
 	GameobjectId gameobjectId;
 	GameobjectType gameobjectType;
 	Point gameBoardPosition;

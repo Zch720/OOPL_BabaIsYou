@@ -26,8 +26,8 @@ private:
 	static std::stack<std::unordered_multimap<GameobjectId, std::vector<TextObjectInfo>>> descriptionStack;
 	static TextObjectInfoSet connectedTextObjects;
 	static std::stack<TextObjectInfoSet> connectedTextObjectsStack;
-	static TextObjectInfoSet cannotUseTextObjects;
-	static std::stack<TextObjectInfoSet> cannotUseTextObjectsStack;
+	static TextObjectInfoSet usableTextObjects;
+	static std::stack<TextObjectInfoSet> usableTextObjectsStack;
 
 	static GameobjectId getPreviousDescriptionConvertNoneGameobject(GameobjectId);
 	static int getDescriptionConvertNounGameobjectCount(GameobjectId);
@@ -45,6 +45,7 @@ private:
 public:
 	static std::vector<GameobjectIdPair> GetDescriptionProps();
 	static std::unordered_set<Gameobject*> GetConnectedTextObjects();
+	static std::unordered_set<Gameobject*> GetUnusableTextObjects();
 
 	static void Clear();
 	static void Undo();

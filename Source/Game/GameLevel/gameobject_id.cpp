@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "gameobject_id.h"
+#include <unordered_map>
 #include "../../Expansion/log.h"
 
 GameobjectId GAMEOBJECT_RECORD_TEXT_BEGIN = GAMEOBJECT_TEXT_IS;
@@ -11,6 +12,9 @@ GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_BEGIN = GAMEOBJECT_TEXT_YOU;
 GameobjectId GAMEOBJECT_RECORD_PROP_TEXT_END = GAMEOBJECT_TEXT_MOVE;
 
 int GetGameobjectIdByName(std::string gameobjectName) {
+	if (gameobjectName == "crossed") {
+		return GAMEOBJECT_CROSSED;
+	}
 	if (gameobjectName == "baba") {
 		return GAMEOBJECT_BABA;
 	}
@@ -183,6 +187,8 @@ int GetGameobjectIdByName(std::string gameobjectName) {
 
 std::string GetGameobjectNameById(GameobjectId gameobjectId) {
 	switch (gameobjectId) {
+	case GAMEOBJECT_CROSSED:
+		return "crossed";
 	case GAMEOBJECT_BABA:
 		return "baba";
 	case GAMEOBJECT_WALL:
@@ -347,6 +353,74 @@ int GetGameobjectByTextObject(GameobjectId gameobjectId) {
 		Log::LogError("can't get gameobject of text %s", GetGameobjectNameById(gameobjectId).c_str());
 		return -1;
 	}
+}
+
+std::unordered_map<GameobjectId, int8_t> gameobjectZIndex = {
+	{GAMEOBJECT_WATER, 2},
+	{GAMEOBJECT_LAVA, 2},
+	{GAMEOBJECT_TILE, 4},
+	{GAMEOBJECT_ICE, 9},
+	{GAMEOBJECT_GRASS, 10},
+	{GAMEOBJECT_BRICK, 10},
+	{GAMEOBJECT_FLOWER, 12},
+	{GAMEOBJECT_BUBBLE, 12},
+	{GAMEOBJECT_WALL, 14},
+	{GAMEOBJECT_HEDGE, 14},
+	{GAMEOBJECT_ALGAE, 15},
+	{GAMEOBJECT_DOOR, 15},
+	{GAMEOBJECT_ROCK, 16},
+	{GAMEOBJECT_STAR, 16},
+	{GAMEOBJECT_LOVE, 16},
+	{GAMEOBJECT_PILLAR, 16},
+	{GAMEOBJECT_KEY, 16},
+	{GAMEOBJECT_FLAG, 17},
+	{GAMEOBJECT_SKULL, 17},
+	{GAMEOBJECT_JELLY, 17},
+	{GAMEOBJECT_CRAB, 17},
+	{GAMEOBJECT_BABA, 18},
+	{GAMEOBJECT_KEKE, 18},
+	{GAMEOBJECT_TEXT_IS, 20},
+	{GAMEOBJECT_TEXT_AND, 20},
+	{GAMEOBJECT_TEXT_BABA, 20},
+	{GAMEOBJECT_TEXT_WALL, 20},
+	{GAMEOBJECT_TEXT_FLAG, 20},
+	{GAMEOBJECT_TEXT_ROCK, 20},
+	{GAMEOBJECT_TEXT_WATER, 20},
+	{GAMEOBJECT_TEXT_SKULL, 20},
+	{GAMEOBJECT_TEXT_LAVA, 20},
+	{GAMEOBJECT_TEXT_GRASS, 20},
+	{GAMEOBJECT_TEXT_JELLY, 20},
+	{GAMEOBJECT_TEXT_ALGAE, 20},
+	{GAMEOBJECT_TEXT_CRAB, 20},
+	{GAMEOBJECT_TEXT_STAR, 20},
+	{GAMEOBJECT_TEXT_KEKE, 20},
+	{GAMEOBJECT_TEXT_LOVE, 20},
+	{GAMEOBJECT_TEXT_PILLAR, 20},
+	{GAMEOBJECT_TEXT_KEY, 20},
+	{GAMEOBJECT_TEXT_DOOR, 20},
+	{GAMEOBJECT_TEXT_HEDGE, 20},
+	{GAMEOBJECT_TEXT_YOU, 20},
+	{GAMEOBJECT_TEXT_STOP, 20},
+	{GAMEOBJECT_TEXT_WIN, 20},
+	{GAMEOBJECT_TEXT_SINK, 20},
+	{GAMEOBJECT_TEXT_DEFEAT, 20},
+	{GAMEOBJECT_TEXT_HOT, 20},
+	{GAMEOBJECT_TEXT_PUSH, 20},
+	{GAMEOBJECT_TEXT_MELT, 20},
+	{GAMEOBJECT_TEXT_SHUT, 20},
+	{GAMEOBJECT_TEXT_SHUT, 20},
+	{GAMEOBJECT_TEXT_OPEN, 20},
+	{GAMEOBJECT_TEXT_MOVE, 20},
+	{GAMEOBJECT_CROSSED, 21}
+};
+
+int GetGameobjectZIndex(GameobjectId gameobjectId) {
+	if (gameobjectZIndex.find(gameobjectId) != gameobjectZIndex.end()) {
+		return gameobjectZIndex[gameobjectId];
+	}
+
+	Log::LogError("can't find gameobject %s z-index", GetGameobjectNameById(gameobjectId).c_str());
+	return -1;
 }
 
 std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId) {

@@ -7,6 +7,7 @@ Gameobject::Gameobject(const GameobjectId gameobjectId, const Point gameBoardPos
 	this->gameobjectId = gameobjectId;
 	this->gameBoardPosition = gameBoardPosition;
 	this->gameobjectType = static_cast<GameobjectType>(GetGameobjectTypeById(gameobjectId));
+	textCrossed = TextureManager::GetGameobjecTexture(GAMEOBJECT_CROSSED, PROP_NONE);
 }
 
 void Gameobject::setTextureWithColor(const Point textureOriginPosition, const PropId colorPropId) {
@@ -27,34 +28,42 @@ void Gameobject::setTextureWithColor(const Point textureOriginPosition, const Pr
 	OBJECT_TYPE_DIRECTIONAL: no otherInformation
 	OBJECT_TYPE_STATIC: no otherInformation
 	OBJECT_TYPE_TILED: otherInformation denote gameobject connect status
-	OBJECT_TYPE_TEXT: otherInformation denote text is dark(0) or light(1)
+	OBJECT_TYPE_TEXT: first bit in otherInformation denote text is dark(0) or light(1), second bit in otherInformation denote text is useable(0 or 1)
 */
 void Gameobject::show(const int textureCount, const int otherInformation) {
 	switch (gameobjectType) {
 	case OBJECT_TYPE_CHARACTER:
 		texture.SetFrameIndexOfBitmap(((textureDirection << 2) + characterTextureStep) * 3 + textureCount);
+		texture.ShowBitmap();
 		break;
 	case OBJECT_TYPE_DIRECTIONAL:
 		texture.SetFrameIndexOfBitmap(textureDirection * 3 + textureCount);
+		texture.ShowBitmap();
 		break;
 	case OBJECT_TYPE_STATIC:
 		texture.SetFrameIndexOfBitmap(textureCount);
+		texture.ShowBitmap();
 		break;
 	case OBJECT_TYPE_TILED:
-	case OBJECT_TYPE_TEXT:
 		texture.SetFrameIndexOfBitmap(otherInformation * 3 + textureCount);
+		texture.ShowBitmap();
+		break;
+	case OBJECT_TYPE_TEXT:
+		texture.SetFrameIndexOfBitmap((otherInformation & 0b1) * 3 + textureCount);
+		texture.ShowBitmap();
+		if (otherInformation & 0b10) {
+			textCrossed.SetFrameIndexOfBitmap(textureCount);
+			textCrossed.SetTopLeft(texture.GetLeft(), texture.GetTop());
+			textCrossed.ShowBitmap();
+		}
 		break;
 	}
 
 	updatePosition();
-	
-	texture.ShowBitmap();
 }
 
 void Gameobject::updatePosition() {
 	if (moveRemainStep != 0) {
-		Log::LogDebugMessage("texture size: %d\n", TextureManager::textureSize);
-
 		int left = texture.GetLeft();
 		int top = texture.GetTop();
 		int moveDistance = TextureManager::textureSize / MOVE_STEP;

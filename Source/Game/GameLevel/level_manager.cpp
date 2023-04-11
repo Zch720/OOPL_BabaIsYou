@@ -143,6 +143,7 @@ void LevelManager::Show() {
 	LevelData::background.ShowBitmap();
 
 	std::unordered_set<Gameobject*> connectedTextObjects = DescriptionProc::GetConnectedTextObjects();
+	std::unordered_set<Gameobject*> unusableTextObjects = DescriptionProc::GetUnusableTextObjects();
 
 	// show gameobject didn't move
 	for (auto &col : LevelData::gameboard) {
@@ -153,12 +154,14 @@ void LevelManager::Show() {
 					gameobject->show(textureAnimationCount, GameboardProc::GetGameobjectConnectStatus(gameobject));
 				}
 				else if (gameobject->gameobjectType == OBJECT_TYPE_TEXT) {
+					int otherInfo = 0;
 					if (connectedTextObjects.find(gameobject) != connectedTextObjects.end()) {
-						gameobject->show(textureAnimationCount, 1);
+						otherInfo |= 0b1;
 					}
-					else {
-						gameobject->show(textureAnimationCount, 0);
+					if (unusableTextObjects.find(gameobject) != unusableTextObjects.end()) {
+						otherInfo |= 0b10;
 					}
+					gameobject->show(textureAnimationCount, otherInfo);
 				}
 				else {
 					gameobject->show(textureAnimationCount);

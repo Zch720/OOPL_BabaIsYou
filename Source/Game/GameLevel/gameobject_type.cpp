@@ -33,6 +33,7 @@ int GetGameobjectTypeById(GameobjectId gameobjectId) {
 	case GAMEOBJECT_KEY:
 	case GAMEOBJECT_DOOR:
 	case GAMEOBJECT_BUBBLE:
+	case GAMEOBJECT_CROSSED:
 		return OBJECT_TYPE_STATIC;
 
 	case GAMEOBJECT_TEXT_IS:

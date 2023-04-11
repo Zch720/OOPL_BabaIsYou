@@ -21,9 +21,9 @@ DescriptionProc::TextObjectInfoSet
 std::stack<DescriptionProc::TextObjectInfoSet>
 	DescriptionProc::connectedTextObjectsStack = std::stack<DescriptionProc::TextObjectInfoSet>();
 DescriptionProc::TextObjectInfoSet
-	DescriptionProc::cannotUseTextObjects = DescriptionProc::TextObjectInfoSet();
+	DescriptionProc::usableTextObjects = DescriptionProc::TextObjectInfoSet();
 std::stack<DescriptionProc::TextObjectInfoSet>
-	DescriptionProc::cannotUseTextObjectsStack = std::stack<DescriptionProc::TextObjectInfoSet>();
+	DescriptionProc::usableTextObjectsStack = std::stack<DescriptionProc::TextObjectInfoSet>();
 
 bool DescriptionProc::TextObjectInfo::operator==(const TextObjectInfo &other) const {
 	return id == other.id && position.x == other.position.x && position.y == other.position.y;
@@ -48,11 +48,24 @@ std::vector<DescriptionProc::GameobjectIdPair> DescriptionProc::GetDescriptionPr
 	return result;
 }
 std::unordered_set<Gameobject*> DescriptionProc::GetConnectedTextObjects() {
-	//return connectedTextObjects;
 	std::unordered_set<Gameobject*> result;
 
 	for (TextObjectInfo info : connectedTextObjects) {
 		result.insert(GameboardProc::FindGameobjectByIdInBlock(info.position, info.id));
+	}
+
+	return result;
+}
+std::unordered_set<Gameobject*> DescriptionProc::GetUnusableTextObjects() {
+	std::unordered_set<Gameobject*> result;
+
+	/*for (TextObjectInfo info : unusableTextObjects) {
+		result.insert(GameboardProc::FindGameobjectByIdInBlock(info.position, info.id));
+	}*/
+	for (TextObjectInfo info : connectedTextObjects) {
+		if (usableTextObjects.find(info) == usableTextObjects.end()) {
+			result.insert(GameboardProc::FindGameobjectByIdInBlock(info.position, info.id));
+		}
 	}
 
 	return result;
@@ -64,8 +77,8 @@ void DescriptionProc::Undo() {
 	descriptionStack.pop();
 	connectedTextObjects = connectedTextObjectsStack.top();
 	connectedTextObjectsStack.pop();
-	cannotUseTextObjects = cannotUseTextObjectsStack.top();
-	cannotUseTextObjectsStack.pop();
+	usableTextObjects = usableTextObjectsStack.top();
+	usableTextObjectsStack.pop();
 }
 
 void DescriptionProc::Clear() {
@@ -78,11 +91,11 @@ void DescriptionProc::Clear() {
 void DescriptionProc::GetAllDescription() {
 	descriptionStack.push(descriptionProps);
 	connectedTextObjectsStack.push(connectedTextObjects);
-	cannotUseTextObjectsStack.push(cannotUseTextObjects);
+	usableTextObjectsStack.push(usableTextObjects);
 
 	descriptionProps.clear();
 	connectedTextObjects.clear();
-	cannotUseTextObjects.clear();
+	usableTextObjects.clear();
 
 	checkOperatorIs();
 
@@ -90,15 +103,20 @@ void DescriptionProc::GetAllDescription() {
 		if (IsNounTextObject(it->second[1].id)) {
 			GameobjectId preConvertObject = getPreviousDescriptionConvertNoneGameobject(it->first);
 			if (preConvertObject == it->second[1].id) {
+				usableTextObjects.insert(it->second.begin(), it->second.end());
 				continue;
 			}
 			if (getDescriptionConvertNounGameobjectCount(it->first) != 1) {
-				cannotUseTextObjects.insert(it->second.begin(), it->second.end());
+				//unusableTextObjects.insert(it->second.begin(), it->second.end());
 				it = descriptionProps.erase(it);
 				if (it != descriptionProps.begin()) {
 					it--;
 				}
-			} 
+			} else {
+				usableTextObjects.insert(it->second.begin(), it->second.end());
+			}
+		} else {
+			usableTextObjects.insert(it->second.begin(), it->second.end());
 		}
 	}
 }

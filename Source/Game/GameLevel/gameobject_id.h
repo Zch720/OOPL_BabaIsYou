@@ -5,6 +5,7 @@
 enum GameobjectId {
 	GAMEOBJECT_NONE,
 
+	GAMEOBJECT_CROSSED,
 	GAMEOBJECT_BABA,
 	GAMEOBJECT_FLAG,
 	GAMEOBJECT_ROCK,
@@ -67,6 +68,7 @@ enum GameobjectId {
 int GetGameobjectIdByName(std::string gameobjectName);
 std::string GetGameobjectNameById(GameobjectId gameobjectId);
 int GetGameobjectByTextObject(GameobjectId gameobjectId);
+int GetGameobjectZIndex(GameobjectId gameobjectId);
 std::string GetTexturePathByGameobjectId(GameobjectId gameobjectId);
 
 bool IsTextObject(GameobjectId gameobjectId);

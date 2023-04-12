@@ -10,12 +10,13 @@ void UndoProc::ClearBuffer() {
 	undoBuffer.clear();
 }
 
-void UndoProc::AddUndo(UndoType type, Gameobject *gameobject) {
+void UndoProc::AddUndo(UndoType type, Gameobject *gameobject, int otherInfo) {
 	undoBuffer.push_back(UndoInfo{
 		type,
 		gameobject->gameobjectId,
 		gameobject->textureDirection,
-		gameobject->gameBoardPosition
+		gameobject->gameBoardPosition,
+		otherInfo
 	});
 }
 
@@ -32,7 +33,8 @@ void UndoProc::Undo() {
 	undoStack.pop();
 
 	std::reverse(undoBuffer.begin(), undoBuffer.end());
-
+	
+	GameboardProc::ResetGameobjectsReplaceRecord();
 	for (UndoInfo &info : undoBuffer) {
 		if (info.type == UNDO_MOVE_UP) {
 			Gameobject *undoObject =
@@ -105,6 +107,17 @@ void UndoProc::Undo() {
 			}
 
 			GameboardProc::DeleteGameobject(undoObject);
+		}
+		else if (info.type == UNDO_REPLACE) {
+			Gameobject *undoObject =
+				GameboardProc::FindGameobjectByIdInBlock(
+					info.position,
+					info.id
+				);
+			if (undoObject == nullptr) {
+				Log::LogError("can't find undo gameobject.");
+			}
+			undoObject->replace(static_cast<GameobjectId>(info.otherInfo));
 		}
 	}
 }

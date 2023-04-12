@@ -36,6 +36,15 @@ void GameboardProc::AddGameobject(Gameobject* gameobject) {
 void GameboardProc::RemoveGameobject(Gameobject* gameobject) {
 	LevelData::gameboard[gameobject->gameBoardPosition].RemoveGameobject(gameobject);
 }
+void GameboardProc::ResetGameobjectsReplaceRecord() {
+	for (auto &col : LevelData::gameboard) {
+		for (Block &block : col) {
+			for (Gameobject *gameobject : block) {
+				gameobject->alreadyReplace = false;
+			}
+		}
+	}
+}
 void GameboardProc::UpdateGameobjectTextureColor() {
 	for (auto &col : LevelData::gameboard) {
 		for (Block &block : col) {

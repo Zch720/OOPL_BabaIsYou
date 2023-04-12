@@ -17,4 +17,5 @@ public:
 	static void CheckAllOverlapProp();
 	static void LoadTextObjectsPushProp();
 	static void UpdatePropsManager();
+	static void UpdateReplaceProp();
 };

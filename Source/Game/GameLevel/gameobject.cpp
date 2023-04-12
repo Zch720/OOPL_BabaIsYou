@@ -10,6 +10,16 @@ Gameobject::Gameobject(const GameobjectId gameobjectId, const Point gameBoardPos
 	textCrossed = TextureManager::GetGameobjecTexture(GAMEOBJECT_CROSSED, PROP_NONE);
 }
 
+bool Gameobject::replace(GameobjectId replaceGameobjectId) {
+	if (alreadyReplace) return false;
+
+	Point texturePosition = {texture.GetLeft(), texture.GetTop()};
+	this->gameobjectId = replaceGameobjectId;
+	this->gameobjectType = static_cast<GameobjectType>(GetGameobjectTypeById(replaceGameobjectId));
+	this->texture = TextureManager::GetGameobjecTexture(replaceGameobjectId, PROP_NONE);
+	this->texture.SetTopLeft(texturePosition.x, texturePosition.y);
+	return alreadyReplace = true;
+}
 void Gameobject::setTextureWithColor(const Point textureOriginPosition, const PropId colorPropId) {
 	if (colorPropId == textureColorPropId && textureSetted) return;
 

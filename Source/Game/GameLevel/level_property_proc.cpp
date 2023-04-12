@@ -43,31 +43,38 @@ void PropertyProc::UpdatePropsManager() {
 	GameobjectPropsManager::ClearPropertiesWithoutTextPush();
 
 	std::vector<std::pair<GameobjectId, GameobjectId>> descriptionProps = DescriptionProc::GetDescriptionProps();
-
+	
 	for (auto &prop : descriptionProps) {
 		GameobjectId gameobjectId = static_cast<GameobjectId>(GetGameobjectByTextObject(prop.first));
 		int propIdNum = GetPropIdFromTextGameobject(prop.second);
-		if (propIdNum == -1) {
-			GameobjectId convertGameobject = static_cast<GameobjectId>(GetGameobjectByTextObject(prop.second));
-			if (gameobjectId == convertGameobject) continue;
+		if (propIdNum != -1) {
+			PropId propId = static_cast<PropId>(propIdNum);
+			GameobjectPropsManager::SetGameobjectProp(gameobjectId, propId);
+		}
+	}
+}
+void PropertyProc::UpdateReplaceProp() {
+	std::vector<std::pair<GameobjectId, GameobjectId>> descriptionProps = DescriptionProc::GetDescriptionProps();
+	
+	GameboardProc::ResetGameobjectsReplaceRecord();
+	for (auto &prop : descriptionProps) {
+		GameobjectId gameobjectId = static_cast<GameobjectId>(GetGameobjectByTextObject(prop.first));
+		int replaceIdNum = GetGameobjectByTextObject(prop.second);
+		if (replaceIdNum != -1) {
+			GameobjectId replace = static_cast<GameobjectId>(GetGameobjectByTextObject(prop.second));
+			if (gameobjectId == replace) continue;
 			for (auto &col : LevelData::gameboard) {
 				for (Block &block : col) {
 					for (size_t i = 0; i < block.GetSize(); i++) {
-						if (block[i]->gameobjectId == gameobjectId) {
-							Gameobject *originGameobject = block[i];
-							Gameobject *replaceGameobject = block.GenGameobject(convertGameobject);
-							UndoProc::AddUndo(UndoProc::UNDO_GEN, replaceGameobject);
-							UndoProc::AddUndo(UndoProc::UNDO_DELETE, originGameobject);
-							block.DeleteGameobject(originGameobject);
-							i--;
+						if ((block[i]->gameobjectId == gameobjectId)) {
+							if (block[i]->replace(replace)) {
+								UndoProc::AddUndo(UndoProc::UNDO_REPLACE, block[i], gameobjectId);
+							}
 						}
 					}
+					block.SortBlockObjects();
 				}
 			}
-		}
-		else {
-			PropId propId = static_cast<PropId>(propIdNum);
-			GameobjectPropsManager::SetGameobjectProp(gameobjectId, propId);
 		}
 	}
 }

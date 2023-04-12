@@ -43,7 +43,7 @@ Gameobject* Block::GenGameobject(GameobjectId gameobjectId) {
 		LevelData::textureOrigionPosition,
 		static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobjectId))
 	);
-	sortBlockObjects();
+	SortBlockObjects();
 	return gameobject;
 }
 void Block::DeleteGameobject(Gameobject* gameobject) {
@@ -57,7 +57,7 @@ void Block::DeleteGameobject(Gameobject* gameobject) {
 }
 void Block::AddGameobject(Gameobject* gameobject) {
 	blockObjects.push_back(gameobject);
-	sortBlockObjects();
+	SortBlockObjects();
 }
 void Block::RemoveGameobject(Gameobject* gameobject) {
 	for (size_t i = 0; i < blockObjects.size(); i++) {
@@ -104,7 +104,7 @@ void Block::UpdateGameobjectColor() {
 
 }
 
-void Block::sortBlockObjects() {
+void Block::SortBlockObjects() {
 	std::sort(blockObjects.begin(), blockObjects.end(),
 		[this](Gameobject *obj1, Gameobject *obj2) {
 			return GetGameobjectZIndex(obj1->gameobjectId) < GetGameobjectZIndex(obj2->gameobjectId);

@@ -24,6 +24,7 @@ public:
 	Point gameBoardPosition;
 
 	bool textureSetted = false;
+	bool alreadyReplace = false;
 	PropId textureColorPropId = PROP_NONE;
 	Direction textureDirection = DIRECTION_RIGHT;
 
@@ -33,6 +34,7 @@ public:
 
 	Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition);
 
+	bool replace(GameobjectId replaceGameobjectId);
 	void setTextureWithColor(const Point textureOriginPosition, const PropId colorPropId);
 
 	/*

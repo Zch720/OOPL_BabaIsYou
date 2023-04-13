@@ -10,9 +10,11 @@ public:
 
 	Point operator+(const POINT point);
 	Point operator-(const POINT point);
+	Point operator*(const int number);
 
 	Point operator+=(const POINT point);
 	Point operator-=(const POINT point);
+	Point operator*=(const int number);
 
 	Point Up();
 	Point Down();

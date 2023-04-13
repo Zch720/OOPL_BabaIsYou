@@ -23,6 +23,9 @@ Point Point::operator+(const POINT point) {
 Point Point::operator-(const POINT point) {
 	return Point(this->x - point.x, this->y - point.y);
 }
+Point Point::operator*(const int number) {
+	return Point(this->x * number, this->y * number);
+}
 
 Point Point::operator+=(const POINT point) {
 	this->x += point.x;
@@ -32,6 +35,11 @@ Point Point::operator+=(const POINT point) {
 Point Point::operator-=(const POINT point) {
 	this->x -= point.x;
 	this->y -= point.y;
+	return *this;
+}
+Point Point::operator*=(const int number) {
+	this->x *= number;
+	this->y *= number;
 	return *this;
 }
 

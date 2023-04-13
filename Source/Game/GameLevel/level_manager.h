@@ -18,6 +18,7 @@ public:
 
 	void LoadLevel(int level);
 
+	void MoveWait();
 	void MoveUp();
 	void MoveDown();
 	void MoveLeft();

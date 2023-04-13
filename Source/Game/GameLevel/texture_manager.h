@@ -17,6 +17,8 @@ private:
 	static void loadTextTexture(GameobjectId, PropId, int);
 
 public:
+	static int textureSize;
+
 	static void LoadTexture(GameobjectId gameobjectId, PropId propId, int world);
 	static void Clear();
 

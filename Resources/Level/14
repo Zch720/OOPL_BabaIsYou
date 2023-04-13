@@ -1,0 +1,179 @@
+[game board size]
+28
+16
+[texture origin position]
+204
+108
+[texture size]
+54
+[needed texture]
+baba prop_none
+algae prop_none
+wall prop_none
+tile prop_none
+jelly prop_none
+crab prop_none
+skull prop_none
+star prop_none
+rock prop_none
+flag prop_none
+text_is prop_none
+text_and prop_none
+text_skull prop_none
+text_star prop_none
+text_wall prop_none
+text_rock prop_none
+text_crab prop_none
+text_baba prop_none
+text_flag prop_none
+text_defeat prop_none
+text_sink prop_none
+text_stop prop_none
+text_push prop_none
+text_you prop_none
+text_win prop_none
+[objects]
+baba 23 8 2
+algae 1 0 0
+algae 21 0 0
+algae 22 0 0
+algae 0 1 0
+algae 25 1 0
+algae 26 2 0
+algae 0 12 0
+algae 25 13 0
+algae 0 14 0
+algae 22 14 0
+algae 23 14 0
+algae 24 14 0
+algae 0 15 0
+algae 1 15 0
+algae 7 15 0
+algae 25 15 0
+wall 10 5 0
+wall 9 5 0
+wall 8 5 0
+wall 8 4 0
+wall 8 3 0
+wall 8 2 0
+wall 9 2 0
+wall 10 2 0
+wall 11 2 0
+wall 12 2 0
+wall 13 2 0
+wall 14 2 0
+wall 15 2 0
+wall 16 2 0
+wall 17 2 0
+wall 18 2 0
+wall 19 2 0
+wall 20 2 0
+wall 20 3 0
+wall 20 4 0
+wall 20 5 0
+wall 20 6 0
+wall 21 6 0
+wall 22 6 0
+wall 23 6 0
+wall 24 6 0
+wall 25 6 0
+wall 25 7 0
+wall 25 8 0
+wall 25 9 0
+wall 25 10 0
+wall 24 10 0
+wall 23 10 0
+wall 22 10 0
+wall 21 10 0
+wall 21 9 0
+wall 21 8 0
+wall 23 7 0
+wall 23 9 0
+wall 20 8 0
+wall 20 9 0
+wall 20 10 0
+wall 20 11 0
+wall 20 12 0
+wall 19 12 0
+wall 18 12 0
+wall 17 12 0
+wall 16 12 0
+wall 15 12 0
+wall 14 12 0
+wall 13 12 0
+wall 12 12 0
+wall 11 12 0
+wall 10 12 0
+wall 9 12 0
+wall 8 12 0
+wall 8 11 0
+wall 8 10 0
+wall 8 9 0
+wall 8 8 0
+wall 8 7 0
+wall 9 7 0
+wall 10 7 0
+wall 7 9 0
+wall 7 10 0
+wall 7 11 0
+wall 7 12 0
+wall 6 12 0
+wall 5 12 0
+wall 5 11 0
+wall 5 10 0
+wall 5 9 0
+wall 4 9 0
+wall 4 8 0
+wall 4 7 0
+wall 4 6 0
+wall 4 5 0
+wall 4 4 0
+wall 4 3 0
+wall 5 3 0
+wall 6 3 0
+wall 7 3 0
+tile 5 5 0
+tile 5 4 0
+tile 6 4 0
+tile 7 4 0
+tile 7 5 0
+tile 5 7 0
+tile 5 8 0
+tile 6 8 0
+tile 7 8 0
+tile 7 7 0
+tile 22 7 0
+tile 22 8 0
+tile 22 9 0
+tile 24 7 0
+tile 24 8 0
+tile 24 9 0
+jelly 24 3 0
+jelly 23 12 0
+jelly 19 14 0
+crab 2 6 3
+skull 8 6 0
+star 10 6 0
+rock 13 9 0
+rock 21 7 0
+flag 3 11 0
+text_is 6 2 0
+text_is 14 5 0
+text_is 22 5 0
+text_is 14 7 0
+text_is 6 10 0
+text_is 3 13 0
+text_and 15 9 0
+text_skull 5 2 0
+text_star 13 5 0
+text_wall 21 5 0
+text_rock 13 7 0
+text_crab 6 6 0
+text_baba 6 9 0
+text_flag 2 13 0
+text_defeat 7 2 0
+text_sink 15 5 0
+text_stop 23 5 0
+text_push 15 7 0
+text_you 6 11 0
+text_win 4 13 0

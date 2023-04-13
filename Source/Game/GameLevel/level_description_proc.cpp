@@ -4,30 +4,71 @@
 #include "level_gameboard_proc.h"
 #include "gameobject_properties_manager.h"
 
-std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>
-	DescriptionProc::descriptionProps = std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>();
-std::stack<std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>>
-	DescriptionProc::descriptionStack = std::stack<std::unordered_multimap<GameobjectId, std::vector<Gameobject*>>>();
-DescriptionProc::GameobjectSet
-	DescriptionProc::connectedTextObjects = DescriptionProc::GameobjectSet();
-std::stack<DescriptionProc::GameobjectSet>
-	DescriptionProc::connectedTextObjectsStack = std::stack<DescriptionProc::GameobjectSet>();
-DescriptionProc::GameobjectSet
-	DescriptionProc::cannotUseTextObjects = DescriptionProc::GameobjectSet();
-std::stack<DescriptionProc::GameobjectSet>
-	DescriptionProc::cannotUseTextObjectsStack = std::stack<DescriptionProc::GameobjectSet>();
+namespace std {
+	template<> struct hash<DescriptionProc::TextObjectInfo> {
+		size_t operator()(const DescriptionProc::TextObjectInfo &info) const noexcept {
+			return info(info);
+		}
+	};
+}
+
+std::unordered_multimap<GameobjectId, std::vector<DescriptionProc::TextObjectInfo>>
+	DescriptionProc::descriptionProps = std::unordered_multimap<GameobjectId, std::vector<DescriptionProc::TextObjectInfo>>();
+std::stack<std::unordered_multimap<GameobjectId, std::vector<DescriptionProc::TextObjectInfo>>>
+	DescriptionProc::descriptionStack = std::stack<std::unordered_multimap<GameobjectId, std::vector<DescriptionProc::TextObjectInfo>>>();
+DescriptionProc::TextObjectInfoSet
+	DescriptionProc::connectedTextObjects = DescriptionProc::TextObjectInfoSet();
+std::stack<DescriptionProc::TextObjectInfoSet>
+	DescriptionProc::connectedTextObjectsStack = std::stack<DescriptionProc::TextObjectInfoSet>();
+DescriptionProc::TextObjectInfoSet
+	DescriptionProc::usableTextObjects = DescriptionProc::TextObjectInfoSet();
+std::stack<DescriptionProc::TextObjectInfoSet>
+	DescriptionProc::usableTextObjectsStack = std::stack<DescriptionProc::TextObjectInfoSet>();
+
+bool DescriptionProc::TextObjectInfo::operator==(const TextObjectInfo &other) const {
+	return id == other.id && position.x == other.position.x && position.y == other.position.y;
+}
+bool DescriptionProc::TextObjectInfo::operator<(const TextObjectInfo &other) {
+	if (id != other.id) return id < other.id;
+	if (position.x != other.position.x) return position.x < other.position.x;
+	return position.y < other.position.y;
+}
+
+size_t DescriptionProc::TextObjectInfo::operator()(const TextObjectInfo &infoToHash) const {
+	return ((uint64_t)infoToHash.id << 32) | ((uint64_t)infoToHash.position.x << 16) | infoToHash.position.y;
+}
 
 std::vector<DescriptionProc::GameobjectIdPair> DescriptionProc::GetDescriptionProps() {
 	std::vector<DescriptionProc::GameobjectIdPair> result;
 
 	for (auto &prop : descriptionProps) {
-		result.push_back(std::make_pair(prop.second[0]->gameobjectId, prop.second[1]->gameobjectId));
+		result.push_back(std::make_pair(prop.second[0].id, prop.second[1].id));
 	}
 
 	return result;
 }
-DescriptionProc::GameobjectSet DescriptionProc::GetConnectedTextObjects() {
-	return connectedTextObjects;
+std::unordered_set<Gameobject*> DescriptionProc::GetConnectedTextObjects() {
+	std::unordered_set<Gameobject*> result;
+
+	for (TextObjectInfo info : connectedTextObjects) {
+		result.insert(GameboardProc::FindGameobjectByIdInBlock(info.position, info.id));
+	}
+
+	return result;
+}
+std::unordered_set<Gameobject*> DescriptionProc::GetUnusableTextObjects() {
+	std::unordered_set<Gameobject*> result;
+
+	/*for (TextObjectInfo info : unusableTextObjects) {
+		result.insert(GameboardProc::FindGameobjectByIdInBlock(info.position, info.id));
+	}*/
+	for (TextObjectInfo info : connectedTextObjects) {
+		if (usableTextObjects.find(info) == usableTextObjects.end()) {
+			result.insert(GameboardProc::FindGameobjectByIdInBlock(info.position, info.id));
+		}
+	}
+
+	return result;
 }
 
 void DescriptionProc::Undo() {
@@ -36,8 +77,8 @@ void DescriptionProc::Undo() {
 	descriptionStack.pop();
 	connectedTextObjects = connectedTextObjectsStack.top();
 	connectedTextObjectsStack.pop();
-	cannotUseTextObjects = cannotUseTextObjectsStack.top();
-	cannotUseTextObjectsStack.pop();
+	usableTextObjects = usableTextObjectsStack.top();
+	usableTextObjectsStack.pop();
 }
 
 void DescriptionProc::Clear() {
@@ -50,27 +91,32 @@ void DescriptionProc::Clear() {
 void DescriptionProc::GetAllDescription() {
 	descriptionStack.push(descriptionProps);
 	connectedTextObjectsStack.push(connectedTextObjects);
-	cannotUseTextObjectsStack.push(cannotUseTextObjects);
+	usableTextObjectsStack.push(usableTextObjects);
 
 	descriptionProps.clear();
 	connectedTextObjects.clear();
-	cannotUseTextObjects.clear();
+	usableTextObjects.clear();
 
 	checkOperatorIs();
 
 	for (auto it = descriptionProps.begin(); it != descriptionProps.end(); it++) {
-		if (IsNounTextObject(it->second[1]->gameobjectId)) {
+		if (IsNounTextObject(it->second[1].id)) {
 			GameobjectId preConvertObject = getPreviousDescriptionConvertNoneGameobject(it->first);
-			if (preConvertObject == it->second[1]->gameobjectId) {
+			if (preConvertObject == it->second[1].id) {
+				usableTextObjects.insert(it->second.begin(), it->second.end());
 				continue;
 			}
 			if (getDescriptionConvertNounGameobjectCount(it->first) != 1) {
-				cannotUseTextObjects.insert(it->second.begin(), it->second.end());
+				//unusableTextObjects.insert(it->second.begin(), it->second.end());
 				it = descriptionProps.erase(it);
 				if (it != descriptionProps.begin()) {
 					it--;
 				}
-			} 
+			} else {
+				usableTextObjects.insert(it->second.begin(), it->second.end());
+			}
+		} else {
+			usableTextObjects.insert(it->second.begin(), it->second.end());
 		}
 	}
 }
@@ -81,8 +127,8 @@ void DescriptionProc::UpdatePropFromDescription() {
 GameobjectId DescriptionProc::getPreviousDescriptionConvertNoneGameobject(GameobjectId gameobjectId) {
 	auto gameobjectIdRange = descriptionStack.top().equal_range(gameobjectId);
 	for (auto it = gameobjectIdRange.first; it != gameobjectIdRange.second; it++) {
-		if (IsNounTextObject(it->second[1]->gameobjectId)) {
-			return it->second[1]->gameobjectId;
+		if (IsNounTextObject(it->second[1].id)) {
+			return it->second[1].id;
 		}
 	}
 	return GAMEOBJECT_NONE;
@@ -91,7 +137,7 @@ int DescriptionProc::getDescriptionConvertNounGameobjectCount(GameobjectId gameo
 	int result = 0;
 	auto gameobjectIdRange = descriptionProps.equal_range(gameobjectId);
 	for (auto it = gameobjectIdRange.first; it != gameobjectIdRange.second; it++) {
-		if (IsNounTextObject(it->second[1]->gameobjectId)) {
+		if (IsNounTextObject(it->second[1].id)) {
 			result++;
 		}
 	}
@@ -134,24 +180,24 @@ void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
 	std::unordered_map<Gameobject*, bool> subObjects = checkSubObjectHorizontal(position.Right());
 
 	if (!mainObjects.empty() && !subObjects.empty()) {
-		connectedTextObjects.insert(gameobject);
+		connectedTextObjects.insert({gameobject->gameobjectId, gameobject->gameBoardPosition});
 		for (auto object : mainObjects) {
-			connectedTextObjects.insert(object.first);
+			connectedTextObjects.insert({object.first->gameobjectId, object.first->gameBoardPosition});
 		}
 		for (auto object : subObjects) {
-			connectedTextObjects.insert(object.first);
+			connectedTextObjects.insert({object.first->gameobjectId, object.first->gameBoardPosition});
 		}
 	}
 
-	std::vector<Gameobject*> objects(3, nullptr);
+	std::vector<TextObjectInfo> objects(3);
 	for (auto mainObject : mainObjects) {
 		for (auto subObject : subObjects) {
 			bool mainObjectIsOperator = IsOperatorTextObject(mainObject.first->gameobjectId);
 			bool subObjectIsOperator = IsOperatorTextObject(subObject.first->gameobjectId);
 			if (!mainObjectIsOperator && !subObjectIsOperator) {
-				objects[0] = mainObject.first;
-				objects[1] = subObject.first;
-				objects[2] = gameobject;
+				objects[0] = { mainObject.first->gameobjectId, mainObject.first->gameBoardPosition };
+				objects[1] = { subObject.first->gameobjectId, subObject.first->gameBoardPosition };
+				objects[2] = { gameobject->gameobjectId, gameobject->gameBoardPosition };
 				descriptionProps.insert(std::make_pair(mainObject.first->gameobjectId, objects));
 			}
 		}
@@ -166,24 +212,24 @@ void DescriptionProc::checkOperatorIsVertical(Gameobject *gameobject) {
 	std::unordered_map<Gameobject*, bool> subObjects = checkSubObjectVertical(position.Down());
 
 	if (!mainObjects.empty() && !subObjects.empty()) {
-		connectedTextObjects.insert(gameobject);
+		connectedTextObjects.insert({ gameobject->gameobjectId, gameobject->gameBoardPosition });
 		for (auto object : mainObjects) {
-			connectedTextObjects.insert(object.first);
+			connectedTextObjects.insert({object.first->gameobjectId, object.first->gameBoardPosition});
 		}
 		for (auto object : subObjects) {
-			connectedTextObjects.insert(object.first);
+			connectedTextObjects.insert({object.first->gameobjectId, object.first->gameBoardPosition});
 		}
 	}
 	
-	std::vector<Gameobject*> objects(3, nullptr);
+	std::vector<TextObjectInfo> objects(3);
 	for (auto mainObject : mainObjects) {
 		for (auto subObject : subObjects) {
 			bool mainObjectIsOperator = IsOperatorTextObject(mainObject.first->gameobjectId);
 			bool subObjectIsOperator = IsOperatorTextObject(subObject.first->gameobjectId);
 			if (!mainObjectIsOperator && !subObjectIsOperator) {
-				objects[0] = mainObject.first;
-				objects[1] = subObject.first;
-				objects[2] = gameobject;
+				objects[0] = { mainObject.first->gameobjectId, mainObject.first->gameBoardPosition };
+				objects[1] = { subObject.first->gameobjectId, subObject.first->gameBoardPosition };
+				objects[2] = { gameobject->gameobjectId, gameobject->gameBoardPosition };
 				descriptionProps.insert(std::make_pair(mainObject.first->gameobjectId, objects));
 			}
 		}

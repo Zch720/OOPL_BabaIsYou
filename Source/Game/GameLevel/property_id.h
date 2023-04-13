@@ -14,7 +14,8 @@ enum PropId: int {
 	PROP_HOT,
 	PROP_MELT,
 	PROP_SHUT,
-	PROP_OPEN
+	PROP_OPEN,
+	PROP_MOVE
 };
 
 int GetPropIdByName(std::string propName);

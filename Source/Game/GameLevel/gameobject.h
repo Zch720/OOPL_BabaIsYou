@@ -18,13 +18,13 @@ public:
 	const int MOVE_STEP = 4;
 
 	game_framework::CMovingBitmap texture;
+	game_framework::CMovingBitmap textCrossed;
 	GameobjectId gameobjectId;
 	GameobjectType gameobjectType;
 	Point gameBoardPosition;
 
 	bool textureSetted = false;
-	int textureSize = 0;
-	double textureFatcor = 1;
+	bool alreadyReplace = false;
 	PropId textureColorPropId = PROP_NONE;
 	Direction textureDirection = DIRECTION_RIGHT;
 
@@ -32,8 +32,9 @@ public:
 	int characterTextureStep = 0;
 	int moveRemainStep = 0;
 
-	Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition, const int textureSize);
+	Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition);
 
+	bool replace(GameobjectId replaceGameobjectId);
 	void setTextureWithColor(const Point textureOriginPosition, const PropId colorPropId);
 
 	/*

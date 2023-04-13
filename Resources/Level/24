@@ -1,0 +1,132 @@
+[game board size]
+24
+18
+[texture origin position]
+312
+54
+[texture size]
+54
+[needed texture]
+baba prop_none
+algae prop_none
+star prop_none
+hedge prop_none
+flag prop_none
+crab prop_none
+door prop_none
+text_is prop_none
+text_and prop_none
+text_hedge prop_none
+text_baba prop_none
+text_flag prop_none
+text_crab prop_none
+text_door prop_none
+text_stop prop_none
+text_win prop_none
+text_defeat prop_none
+text_push prop_none
+text_open prop_none
+text_you prop_none
+text_shut prop_none
+[objects]
+baba 8 12 3
+algae 23 0 0
+algae 2 14 0
+algae 23 16 0
+algae 22 17 0
+algae 23 17 0
+star 19 2 0
+star 1 3 0
+star 17 4 0
+star 20 4 0
+star 18 5 0
+star 2 7 0
+star 11 15 0
+hedge 12 5 0
+hedge 13 5 0
+hedge 14 5 0
+hedge 14 4 0
+hedge 14 3 0
+hedge 14 2 0
+hedge 13 2 0
+hedge 12 2 0
+hedge 11 2 0
+hedge 10 2 0
+hedge 10 3 0
+hedge 10 4 0
+hedge 9 4 0
+hedge 8 4 0
+hedge 8 5 0
+hedge 8 6 0
+hedge 7 6 0
+hedge 6 6 0
+hedge 5 6 0
+hedge 4 6 0
+hedge 4 7 0
+hedge 4 8 0
+hedge 4 9 0
+hedge 4 10 0
+hedge 4 11 0
+hedge 4 12 0
+hedge 4 13 0
+hedge 4 14 0
+hedge 5 14 0
+hedge 6 14 0
+hedge 7 14 0
+hedge 8 14 0
+hedge 9 14 0
+hedge 10 14 0
+hedge 11 14 0
+hedge 12 14 0
+hedge 13 14 0
+hedge 14 14 0
+hedge 15 14 0
+hedge 15 13 0
+hedge 15 12 0
+hedge 16 13 0
+hedge 17 13 0
+hedge 18 13 0
+hedge 19 13 0
+hedge 19 12 0
+hedge 19 11 0
+hedge 19 10 0
+hedge 19 9 0
+hedge 18 9 0
+hedge 17 9 0
+hedge 16 9 0
+hedge 15 10 0
+hedge 15 9 0
+hedge 15 8 0
+hedge 15 7 0
+hedge 15 6 0
+hedge 14 6 0
+hedge 13 6 0
+hedge 12 6 0
+hedge 10 6 0
+flag 6 12 0
+crab 10 12 3
+door 15 11 0
+text_is 1 0 0
+text_is 12 3 0
+text_is 12 4 0
+text_is 10 5 0
+text_is 6 9 0
+text_is 12 10 0
+text_is 1 17 0
+text_is 11 17 0
+text_and 13 17 0
+text_hedge 0 0 0
+text_baba 9 5 0
+text_baba 12 9 0
+text_baba 0 17 0
+text_flag 5 9 0
+text_crab 17 11 0
+text_door 10 17 0
+text_stop 2 0 0
+text_stop 14 17 0
+text_win 13 3 0
+text_defeat 13 4 0
+text_push 7 9 0
+text_open 12 11 0
+text_you 2 17 0
+text_shut 12 17 0

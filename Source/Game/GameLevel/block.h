@@ -9,8 +9,6 @@ private:
 	std::vector<Gameobject*> blockObjects;
 	Point gameboardPosition;
 
-	void sortBlockObjects();
-
 public:
 	std::vector<Gameobject*>::iterator begin();
 	std::vector<Gameobject*>::iterator end();
@@ -30,6 +28,7 @@ public:
 	void DeleteGameobject(Gameobject* gameobject);
 	void AddGameobject(Gameobject* gameobject);
 	void RemoveGameobject(Gameobject* gameobject);
+	void SortBlockObjects();
 
 	bool HasGameobjectId(GameobjectId gameobjectId);
 	bool HasMoveableGameobject();

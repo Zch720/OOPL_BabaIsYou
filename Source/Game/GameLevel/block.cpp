@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "level_data.h"
 #include "gameobject_properties_manager.h"
+#include "../../Expansion/log.h"
 
 std::vector<Gameobject*>::iterator Block::begin() {
 	return blockObjects.begin();
@@ -36,13 +37,13 @@ void Block::clear() {
 }
 
 Gameobject* Block::GenGameobject(GameobjectId gameobjectId) {
-	Gameobject* gameobject = new Gameobject(gameobjectId, gameboardPosition, LevelData::textureSize);
+	Gameobject* gameobject = new Gameobject(gameobjectId, gameboardPosition);
 	blockObjects.push_back(gameobject);
 	gameobject->setTextureWithColor(
 		LevelData::textureOrigionPosition,
 		static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobjectId))
 	);
-	sortBlockObjects();
+	SortBlockObjects();
 	return gameobject;
 }
 void Block::DeleteGameobject(Gameobject* gameobject) {
@@ -56,7 +57,7 @@ void Block::DeleteGameobject(Gameobject* gameobject) {
 }
 void Block::AddGameobject(Gameobject* gameobject) {
 	blockObjects.push_back(gameobject);
-	sortBlockObjects();
+	SortBlockObjects();
 }
 void Block::RemoveGameobject(Gameobject* gameobject) {
 	for (size_t i = 0; i < blockObjects.size(); i++) {
@@ -103,18 +104,10 @@ void Block::UpdateGameobjectColor() {
 
 }
 
-void Block::sortBlockObjects() {
-	sort(blockObjects.begin(), blockObjects.end(),
-		[this](Gameobject* obj1, Gameobject*obj2) {
-			bool obj1_textObj = IsTextObject(obj1->gameobjectId);
-			bool obj2_textObj = IsTextObject(obj2->gameobjectId);
-			if (obj1_textObj ^ obj2_textObj) return obj2_textObj;
-
-			bool obj1_youProp = GameobjectPropsManager::GetGameobjectProp(obj1->gameobjectId, PROP_YOU);
-			bool obj2_youProp = GameobjectPropsManager::GetGameobjectProp(obj2->gameobjectId, PROP_YOU);
-			if (obj1_youProp ^ obj2_youProp) return obj2_youProp;
-
-			return false;
+void Block::SortBlockObjects() {
+	std::sort(blockObjects.begin(), blockObjects.end(),
+		[this](Gameobject *obj1, Gameobject *obj2) {
+			return GetGameobjectZIndex(obj1->gameobjectId) < GetGameobjectZIndex(obj2->gameobjectId);
 		}
 	);
 }

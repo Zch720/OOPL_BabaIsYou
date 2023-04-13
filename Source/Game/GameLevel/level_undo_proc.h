@@ -13,7 +13,8 @@ public:
 		UNDO_MOVE_LEFT,
 		UNDO_MOVE_RIGHT,
 		UNDO_GEN,
-		UNDO_DELETE
+		UNDO_DELETE,
+		UNDO_REPLACE
 	};
 
 private:
@@ -22,6 +23,7 @@ private:
 		GameobjectId id;
 		Direction direction;
 		Point position;
+		int otherInfo;
 	};
 
 	static std::vector<UndoInfo> undoBuffer;
@@ -29,8 +31,8 @@ private:
 
 public:
 	static void ClearBuffer();
-	static void AddUndo(UndoType type, Gameobject *gameobject);
-	static void AddBufferToStack();
+	static void AddUndo(UndoType type, Gameobject *gameobject, int otherInfo = 0);
+	static bool AddBufferToStack();
 
 	static void Undo();
 };

@@ -9,12 +9,12 @@
 int LevelData::world = 0;
 int LevelData::level = 0;
 
+game_framework::CMovingBitmap LevelData::background = game_framework::CMovingBitmap();
 vector2d<Block> LevelData::gameboard = vector2d<Block>();
 int LevelData::gameboardWidth = 0;
 int LevelData::gameboardHeight = 0;
 
 Point LevelData::textureOrigionPosition = Point(0, 0);
-int LevelData::textureSize = 0;
 
 bool LevelData::touchWinObject = 0;
 
@@ -22,6 +22,9 @@ void LevelData::LoadLevel(int level) {
 	Clear();
 	level = level;
 	getWorld(level);
+
+	background = game_framework::CMovingBitmap();
+	background.LoadBitmapByString({ "./resources/LevelBackground/" + intToString(level) + ".bmp" });
 
 	std::string levelSource = loadFile("./resources/level/" + intToString(level));
 	std::vector<std::string> levelSourceLines = stringSplit(levelSource, '\n');
@@ -44,7 +47,7 @@ void LevelData::LoadLevel(int level) {
 	if (levelSourceLines[linesCount++] != "[texture size]") {
 		Log::LogError("level %d source file format wrong", level);
 	}
-	textureSize = stringToInt(levelSourceLines[linesCount++]);
+	TextureManager::textureSize = stringToInt(levelSourceLines[linesCount++]);
 
 	if (levelSourceLines[linesCount++] != "[needed texture]") {
 		Log::LogError("level %d source file format wrong", level);
@@ -57,6 +60,7 @@ void LevelData::LoadLevel(int level) {
 		PropId colorPropId = static_cast<PropId>(GetPropIdByName(textureInfo[1]));
 		TextureManager::LoadTexture(gameobjectId, colorPropId, world);
 	}
+	TextureManager::LoadTexture(GAMEOBJECT_CROSSED, PROP_NONE, world);
 
 	if (linesCount == levelSourceLines.size() || levelSourceLines[linesCount++] != "[objects]") {
 		Log::LogError("level %d source file format wrong", level);
@@ -93,8 +97,10 @@ void LevelData::Clear() {
 void LevelData::getWorld(int level) {
 	if (level >= 2000) {
 		world = -1;
-	} else {
+	} else if (level <= 12) {
 		world = 0;
+	} else if (level <= 27) {
+		world = 1;
 	}
 }
 

@@ -11,6 +11,7 @@ public:
 	static void DeleteGameobject(Gameobject* gameobject);
 	static void AddGameobject(Gameobject* gameobject);
 	static void RemoveGameobject(Gameobject* gameobject);
+	static void ResetGameobjectsReplaceRecord();
 	static void UpdateGameobjectTextureColor();
 	static bool HasGameobjectIdInBlock(Point position, GameobjectId gameobjectId);
 	static Gameobject* FindGameobjectByIdInBlock(Point position, GameobjectId gameobjectId);

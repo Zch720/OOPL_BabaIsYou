@@ -30,6 +30,9 @@ int GetPropIdByName(std::string propName) {
 	if (propName == "ptop_open") {
 		return PROP_OPEN;
 	}
+	if (propName == "prop_move") {
+		return PROP_MOVE;
+	}
 	if (propName == "prop_none") {
 		return PROP_NONE;
 	}

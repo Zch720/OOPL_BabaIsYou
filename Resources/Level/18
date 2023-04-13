@@ -1,0 +1,190 @@
+[game board size]
+28
+16
+[texture origin position]
+204
+108
+[texture size]
+54
+[needed texture]
+baba prop_none
+bubble prop_none
+wall prop_none
+algae prop_none
+tile prop_none
+key prop_none
+door prop_none
+brick prop_none
+rock prop_none
+pillar prop_none
+flag prop_none
+text_is prop_none
+text_baba prop_none
+text_wall prop_none
+text_door prop_none
+text_rock prop_none
+text_key prop_none
+text_flag prop_none
+text_you prop_none
+text_stop prop_none
+text_shut prop_none
+text_open prop_none
+text_push prop_none
+text_win prop_none
+[objects]
+baba 9 7 0
+bubble 13 1 0
+bubble 1 2 0
+bubble 3 6 0
+bubble 26 7 0
+bubble 24 13 0
+wall 11 6 0
+wall 11 5 0
+wall 10 5 0
+wall 9 5 0
+wall 9 4 0
+wall 9 3 0
+wall 9 2 0
+wall 9 1 0
+wall 8 1 0
+wall 7 1 0
+wall 6 1 0
+wall 5 1 0
+wall 5 2 0
+wall 5 3 0
+wall 5 4 0
+wall 5 5 0
+wall 5 6 0
+wall 5 7 0
+wall 5 8 0
+wall 5 9 0
+wall 6 9 0
+wall 7 9 0
+wall 8 9 0
+wall 9 9 0
+wall 10 9 0
+wall 11 9 0
+wall 11 8 0
+wall 6 3 0
+wall 7 3 0
+wall 8 3 0
+wall 6 5 0
+wall 7 5 0
+wall 8 5 0
+wall 16 6 0
+wall 16 5 0
+wall 17 5 0
+wall 17 4 0
+wall 17 3 0
+wall 17 2 0
+wall 17 1 0
+wall 18 1 0
+wall 19 1 0
+wall 20 1 0
+wall 21 1 0
+wall 21 2 0
+wall 21 3 0
+wall 21 4 0
+wall 21 5 0
+wall 22 5 0
+wall 22 6 0
+wall 22 7 0
+wall 22 8 0
+wall 22 9 0
+wall 21 9 0
+wall 21 10 0
+wall 21 11 0
+wall 21 12 0
+wall 21 13 0
+wall 21 14 0
+wall 20 14 0
+wall 19 14 0
+wall 18 14 0
+wall 17 14 0
+wall 17 13 0
+wall 17 12 0
+wall 16 12 0
+wall 16 11 0
+wall 16 10 0
+wall 16 9 0
+wall 16 8 0
+wall 18 3 0
+wall 19 3 0
+wall 20 3 0
+wall 18 5 0
+wall 19 5 0
+wall 20 5 0
+wall 17 9 0
+wall 18 9 0
+wall 20 9 0
+algae 25 0 0
+algae 26 1 0
+algae 27 3 0
+algae 4 14 0
+algae 3 15 0
+tile 6 6 0
+tile 7 6 0
+tile 8 6 0
+tile 9 6 0
+tile 10 6 0
+tile 6 7 0
+tile 7 7 0
+tile 8 7 0
+tile 9 7 0
+tile 10 7 0
+tile 6 8 0
+tile 7 8 0
+tile 8 8 0
+tile 9 8 0
+tile 10 8 0
+key 7 7 0
+key 14 7 0
+door 11 7 0
+door 16 7 0
+door 19 9 0
+brick 12 7 0
+brick 13 7 0
+brick 14 7 0
+brick 15 7 0
+brick 14 8 0
+brick 14 9 0
+brick 14 10 0
+brick 14 11 0
+brick 14 12 0
+brick 14 13 0
+brick 13 13 0
+brick 12 13 0
+brick 11 13 0
+brick 11 14 0
+brick 11 15 0
+brick 0 12 0
+brick 1 12 0
+brick 2 12 0
+brick 0 13 0
+brick 1 13 0
+brick 2 13 0
+rock 13 7 0
+pillar 1 11 0
+pillar 2 14 0
+flag 19 11 0
+text_is 7 2 0
+text_is 7 4 0
+text_is 19 2 0
+text_is 19 4 0
+text_is 10 11 0
+text_is 9 12 0
+text_is 19 13 0
+text_baba 6 2 0
+text_wall 6 4 0
+text_door 18 2 0
+text_door 18 4 0
+text_rock 19 7 0
+text_key 9 11 0
+text_flag 18 13 0
+text_you 8 2 0
+text_stop 8 4 0
+text_stop 20 2 0
+text_shut 20 4 0
+text_open 11 11 0
+text_push 9 13 0
+text_win 20 13 0

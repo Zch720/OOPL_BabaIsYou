@@ -3,7 +3,9 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "gameobject_id.h"
-#include "gameobject_properties.h"
+#include "property_id.h"
+
+typedef std::unordered_map<PropId, bool> GameobjectProps;
 
 int GetPropIdFromTextGameobject(GameobjectId gameobjectId);
 
@@ -26,6 +28,7 @@ public:
 	static bool CheckPropCanBeOffset(GameobjectId gameobjectId, std::vector<GameobjectId> gameobjectIdArray);
 	static bool CheckPropCanBeOffset(GameobjectId gameobjectId, std::unordered_set<PropId> propIdSet);
 	static bool CheckPropCanBeOffset(GameobjectId gameobjectId, std::unordered_set<GameobjectId> gameobjectIdSet);
+	static bool CheckPropCanBeOffset(std::unordered_set<PropId> propIds1, std::unordered_set<PropId> propIds2);
 
 	static void ClearProperties();
 	static void ClearPropertiesWithoutTextPush();

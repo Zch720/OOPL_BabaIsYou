@@ -2,52 +2,39 @@
 #include "gameobject_properties_manager.h"
 #include "../../Expansion/log.h"
 
+std::unordered_map<GameobjectId, PropId> propTextToId = {
+	{GAMEOBJECT_TEXT_YOU, PROP_YOU},
+	{GAMEOBJECT_TEXT_PUSH, PROP_PUSH},
+	{GAMEOBJECT_TEXT_STOP, PROP_STOP},
+	{GAMEOBJECT_TEXT_WIN, PROP_WIN},
+	{GAMEOBJECT_TEXT_SINK, PROP_SINK},
+	{GAMEOBJECT_TEXT_DEFEAT, PROP_DEFEAT},
+	{GAMEOBJECT_TEXT_HOT, PROP_HOT},
+	{GAMEOBJECT_TEXT_MELT, PROP_MELT},
+	{GAMEOBJECT_TEXT_SHUT, PROP_SHUT},
+	{GAMEOBJECT_TEXT_OPEN, PROP_OPEN},
+	{GAMEOBJECT_TEXT_MOVE, PROP_MOVE}
+};
+
 int GetPropIdFromTextGameobject(GameobjectId gameobjectId) {
-	switch (gameobjectId) {
-	case GAMEOBJECT_TEXT_YOU:
-		return PROP_YOU;
-	case GAMEOBJECT_TEXT_PUSH:
-		return PROP_PUSH;
-	case GAMEOBJECT_TEXT_STOP:
-		return PROP_STOP;
-	case GAMEOBJECT_TEXT_WIN:
-		return PROP_WIN;
-	case GAMEOBJECT_TEXT_SINK:
-		return PROP_SINK;
-	case GAMEOBJECT_TEXT_DEFEAT:
-		return PROP_DEFEAT;
-	case GAMEOBJECT_TEXT_HOT:
-		return PROP_HOT;
-	case GAMEOBJECT_TEXT_MELT:
-		return PROP_MELT;
-	case GAMEOBJECT_TEXT_SHUT:
-		return PROP_SHUT;
-	case GAMEOBJECT_TEXT_OPEN:
-		return PROP_OPEN;
-	case GAMEOBJECT_TEXT_MOVE:
-		return PROP_MOVE;
-	default:
-		return -1;
-	}
+	if (propTextToId.find(gameobjectId) == propTextToId.end()) return -1;
+	return propTextToId[gameobjectId];
 }
 
 std::unordered_map<GameobjectId, GameobjectProps>
 	GameobjectPropsManager::propsGroup =std::unordered_map<GameobjectId, GameobjectProps>();
 
 bool GameobjectPropsManager::GetGameobjectProp(GameobjectId gameobjectId, PropId propId) {
-	return propsGroup[gameobjectId].props[propId];
+	return propsGroup[gameobjectId][propId];
 }
 
 void GameobjectPropsManager::SetGameobjectProp(GameobjectId gameobjectId, PropId propId, bool value) {
-	propsGroup[gameobjectId].props[propId] = value;
+	propsGroup[gameobjectId][propId] = value;
 }
 std::unordered_set<PropId> GameobjectPropsManager::GetAllGameobjectProps(GameobjectId gameobjectId) {
 	std::unordered_set<PropId> result;
-	for (auto &propPair : propsGroup[gameobjectId].props) {
-		if (propPair.second) {
-			result.insert(propPair.first);
-		}
-	}
+	for (auto &propPair : propsGroup[gameobjectId])
+		if (propPair.second) result.insert(propPair.first);
 	return result;
 }
 
@@ -57,8 +44,8 @@ int GameobjectPropsManager::GetColorProp(GameobjectId gameobjectId) {
 
 void GameobjectPropsManager::SetPropWithOtherProp(PropId targetPropId, PropId newPropId, bool value) {
 	for (auto &prop : propsGroup) {
-		if (prop.second.props[targetPropId]) {
-			prop.second.props[newPropId] = value;
+		if (prop.second[targetPropId]) {
+			prop.second[newPropId] = value;
 		}
 	}
 }
@@ -73,26 +60,12 @@ bool GameobjectPropsManager::CheckPropCanBeOffset(GameobjectId gameobjectId1, Ga
 	std::unordered_set<PropId> gameobjectProps1 = GetAllGameobjectProps(gameobjectId1);
 	std::unordered_set<PropId> gameobjectProps2 = GetAllGameobjectProps(gameobjectId2);
 
-	for (PropId propId1 : gameobjectProps1) {
-		for (PropId propId2 : gameobjectProps2) {
-			if (CheckPropCanBeOffset(propId1, propId2)) {
-				return true;
-			}
-		}
-	}
-	return false;
+	return CheckPropCanBeOffset(gameobjectProps1, gameobjectProps2);
 }
 bool GameobjectPropsManager::CheckPropCanBeOffset(GameobjectId gameobjectId, std::vector<PropId> propIdArray) {
 	std::unordered_set<PropId> gameobjectProps = GetAllGameobjectProps(gameobjectId);
-
-	for (PropId propId1 : gameobjectProps) {
-		for (PropId propId2 : propIdArray) {
-			if (CheckPropCanBeOffset(propId1, propId2)) {
-				return true;
-			}
-		}
-	}
-	return false;
+	
+	return CheckPropCanBeOffset(gameobjectProps, std::unordered_set<PropId>(propIdArray.begin(), propIdArray.end()));
 }
 bool GameobjectPropsManager::CheckPropCanBeOffset(GameobjectId gameobjectId, std::vector<GameobjectId> gameobjectIdArray) {
 	std::unordered_set<PropId> gameobjectProps1 = GetAllGameobjectProps(gameobjectId);
@@ -102,27 +75,13 @@ bool GameobjectPropsManager::CheckPropCanBeOffset(GameobjectId gameobjectId, std
 		std::unordered_set<PropId> props = GetAllGameobjectProps(gameobjectId);
 		gameobjectProps2.insert(props.begin(), props.end());
 	}
-
-	for (PropId propId1 : gameobjectProps1) {
-		for (PropId propId2 : gameobjectProps2) {
-			if (CheckPropCanBeOffset(propId1, propId2)) {
-				return true;
-			}
-		}
-	}
-	return false;
+	
+	return CheckPropCanBeOffset(gameobjectProps1, gameobjectProps2);
 }
 bool GameobjectPropsManager::CheckPropCanBeOffset(GameobjectId gameobjectId, std::unordered_set<PropId> propIdSet) {
 	std::unordered_set<PropId> gameobjectProps = GetAllGameobjectProps(gameobjectId);
-
-	for (PropId propId1 : gameobjectProps) {
-		for (PropId propId2 : propIdSet) {
-			if (CheckPropCanBeOffset(propId1, propId2)) {
-				return true;
-			}
-		}
-	}
-	return false;
+	
+	return CheckPropCanBeOffset(gameobjectProps, propIdSet);
 }
 bool GameobjectPropsManager::CheckPropCanBeOffset(GameobjectId gameobjectId, std::unordered_set<GameobjectId> gameobjectIdSet) {
 	std::unordered_set<PropId> gameobjectProps1 = GetAllGameobjectProps(gameobjectId);
@@ -133,8 +92,11 @@ bool GameobjectPropsManager::CheckPropCanBeOffset(GameobjectId gameobjectId, std
 		gameobjectProps2.insert(props.begin(), props.end());
 	}
 
-	for (PropId propId1 : gameobjectProps1) {
-		for (PropId propId2 : gameobjectProps2) {
+	return CheckPropCanBeOffset(gameobjectProps1, gameobjectProps2);
+}
+bool GameobjectPropsManager::CheckPropCanBeOffset(std::unordered_set<PropId> propIds1, std::unordered_set<PropId> propIds2) {
+	for (PropId propId1 : propIds1) {
+		for (PropId propId2 : propIds2) {
 			if (CheckPropCanBeOffset(propId1, propId2)) {
 				return true;
 			}
@@ -149,9 +111,9 @@ void GameobjectPropsManager::ClearProperties() {
 
 void GameobjectPropsManager::ClearPropertiesWithoutTextPush() {
 	for (auto &prop : propsGroup) {
-		prop.second.props.clear();
+		prop.second.clear();
 		if (IsTextObject(prop.first)) {
-			prop.second.props[PROP_PUSH] = true;
+			prop.second[PROP_PUSH] = true;
 		}
 	}
 }

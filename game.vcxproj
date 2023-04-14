@@ -250,7 +250,6 @@
     <ClCompile Include="Source\Game\GameLevel\block.cpp" />
     <ClCompile Include="Source\Game\GameLevel\gameobject.cpp" />
     <ClCompile Include="Source\Game\GameLevel\gameobject_id.cpp" />
-    <ClCompile Include="Source\Game\GameLevel\gameobject_properties.cpp" />
     <ClCompile Include="Source\Game\GameLevel\gameobject_properties_manager.cpp" />
     <ClCompile Include="Source\Game\GameLevel\gameobject_type.cpp" />
     <ClCompile Include="Source\Game\GameLevel\level_data.cpp" />
@@ -292,7 +291,6 @@
     <ClInclude Include="Source\Game\GameLevel\block.h" />
     <ClInclude Include="Source\Game\GameLevel\gameobject.h" />
     <ClInclude Include="Source\Game\GameLevel\gameobject_id.h" />
-    <ClInclude Include="Source\Game\GameLevel\gameobject_properties.h" />
     <ClInclude Include="Source\Game\GameLevel\gameobject_properties_manager.h" />
     <ClInclude Include="Source\Game\GameLevel\gameobject_type.h" />
     <ClInclude Include="Source\Game\GameLevel\level_data.h" />

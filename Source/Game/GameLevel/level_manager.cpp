@@ -132,7 +132,7 @@ bool LevelManager::IsMoving() {
 	for (auto &col : LevelData::gameboard) {
 		for (auto &block : col) {
 			for (Gameobject *gameobject : block) {
-				if (gameobject->moveRemainStep != 0) {
+				if (gameobject->IsMoving()) {
 					return true;
 				}
 			}
@@ -154,11 +154,11 @@ void LevelManager::Show() {
 	for (auto &col : LevelData::gameboard) {
 		for (Block &block : col) {
 			for (Gameobject *gameobject : block) {
-				if (gameobject->moveRemainStep != 0) continue;
-				if (gameobject->gameobjectType == OBJECT_TYPE_TILED) {
-					gameobject->show(textureAnimationCount, GameboardProc::GetGameobjectConnectStatus(gameobject));
+				if (gameobject->IsMoving()) continue;
+				if (gameobject->GetInfo().type == OBJECT_TYPE_TILED) {
+					gameobject->Show(GameboardProc::GetGameobjectConnectStatus(gameobject));
 				}
-				else if (gameobject->gameobjectType == OBJECT_TYPE_TEXT) {
+				else if (gameobject->GetInfo().type == OBJECT_TYPE_TEXT) {
 					int otherInfo = 0;
 					if (connectedTextObjects.find(gameobject) != connectedTextObjects.end()) {
 						otherInfo |= 0b1;
@@ -166,10 +166,10 @@ void LevelManager::Show() {
 					if (unusableTextObjects.find(gameobject) != unusableTextObjects.end()) {
 						otherInfo |= 0b10;
 					}
-					gameobject->show(textureAnimationCount, otherInfo);
+					gameobject->Show(otherInfo);
 				}
 				else {
-					gameobject->show(textureAnimationCount);
+					gameobject->Show(textureAnimationCount);
 				}
 			}
 		}
@@ -179,27 +179,29 @@ void LevelManager::Show() {
 	for (auto &col : LevelData::gameboard) {
 		for (Block &block : col) {
 			for (Gameobject *gameobject : block) {
-				if (gameobject->moveRemainStep == 0) continue;
-				if (gameobject->gameobjectType == OBJECT_TYPE_TILED) {
-					gameobject->show(textureAnimationCount, GameboardProc::GetGameobjectConnectStatus(gameobject));
+				if (!gameobject->IsMoving()) continue;
+				if (gameobject->GetInfo().type == OBJECT_TYPE_TILED) {
+					gameobject->Show(GameboardProc::GetGameobjectConnectStatus(gameobject));
 				}
-				else if (gameobject->gameobjectType == OBJECT_TYPE_TEXT) {
+				else if (gameobject->GetInfo().type == OBJECT_TYPE_TEXT) {
 					if (connectedTextObjects.find(gameobject) != connectedTextObjects.end()) {
-						gameobject->show(textureAnimationCount, 1);
+						gameobject->Show(1);
 					}
 					else {
-						gameobject->show(textureAnimationCount, 0);
+						gameobject->Show(0);
 					}
 				}
 				else {
-					gameobject->show(textureAnimationCount);
+					gameobject->Show(textureAnimationCount);
 				}
 			}
 		}
 	}
 
 	if (nextTextureWaitTime-- == 0) {
-		textureAnimationCount = (textureAnimationCount + 1) % 3;
+		LevelData::gameboard.foreach([](Block &block) {
+			for (Gameobject *gameobject : block) gameobject->UpdateTextureCount();
+		});
 		nextTextureWaitTime = 6;
 	}
 }

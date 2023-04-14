@@ -146,7 +146,7 @@ int DescriptionProc::getDescriptionConvertNounGameobjectCount(GameobjectId gameo
 
 Gameobject* DescriptionProc::getNounTextInBlock(Point position) {
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
-		if (IsNounTextObject(gameobject->gameobjectId)) {
+		if (IsNounTextObject(gameobject->GetInfo().id)) {
 			return gameobject;
 		}
 	}
@@ -154,7 +154,7 @@ Gameobject* DescriptionProc::getNounTextInBlock(Point position) {
 }
 Gameobject* DescriptionProc::getPropTextInBlock(Point position) {
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
-		if (IsPropTextObject(gameobject->gameobjectId)) {
+		if (IsPropTextObject(gameobject->GetInfo().id)) {
 			return gameobject;
 		}
 	}
@@ -172,7 +172,7 @@ void DescriptionProc::checkOperatorIs() {
 	}
 }
 void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
-	Point position = gameobject->gameBoardPosition;
+	Point position = gameobject->GetInfo().position;
 
 	if (position.x == 0 || position.x == LevelData::gameboardWidth - 1) return;
 
@@ -180,31 +180,31 @@ void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
 	std::unordered_map<Gameobject*, bool> subObjects = checkSubObjectHorizontal(position.Right());
 
 	if (!mainObjects.empty() && !subObjects.empty()) {
-		connectedTextObjects.insert({gameobject->gameobjectId, gameobject->gameBoardPosition});
+		connectedTextObjects.insert({gameobject->GetInfo().id, gameobject->GetInfo().position});
 		for (auto object : mainObjects) {
-			connectedTextObjects.insert({object.first->gameobjectId, object.first->gameBoardPosition});
+			connectedTextObjects.insert({object.first->GetInfo().id, object.first->GetInfo().position});
 		}
 		for (auto object : subObjects) {
-			connectedTextObjects.insert({object.first->gameobjectId, object.first->gameBoardPosition});
+			connectedTextObjects.insert({object.first->GetInfo().id, object.first->GetInfo().position});
 		}
 	}
 
 	std::vector<TextObjectInfo> objects(3);
 	for (auto mainObject : mainObjects) {
 		for (auto subObject : subObjects) {
-			bool mainObjectIsOperator = IsOperatorTextObject(mainObject.first->gameobjectId);
-			bool subObjectIsOperator = IsOperatorTextObject(subObject.first->gameobjectId);
+			bool mainObjectIsOperator = IsOperatorTextObject(mainObject.first->GetInfo().id);
+			bool subObjectIsOperator = IsOperatorTextObject(subObject.first->GetInfo().id);
 			if (!mainObjectIsOperator && !subObjectIsOperator) {
-				objects[0] = { mainObject.first->gameobjectId, mainObject.first->gameBoardPosition };
-				objects[1] = { subObject.first->gameobjectId, subObject.first->gameBoardPosition };
-				objects[2] = { gameobject->gameobjectId, gameobject->gameBoardPosition };
-				descriptionProps.insert(std::make_pair(mainObject.first->gameobjectId, objects));
+				objects[0] = { mainObject.first->GetInfo().id, mainObject.first->GetInfo().position };
+				objects[1] = { subObject.first->GetInfo().id, subObject.first->GetInfo().position };
+				objects[2] = { gameobject->GetInfo().id, gameobject->GetInfo().position };
+				descriptionProps.insert(std::make_pair(mainObject.first->GetInfo().id, objects));
 			}
 		}
 	}
 }
 void DescriptionProc::checkOperatorIsVertical(Gameobject *gameobject) {
-	Point position = gameobject->gameBoardPosition;
+	Point position = gameobject->GetInfo().position;
 
 	if (position.y == 0 || position.y == LevelData::gameboardHeight - 1) return;
 
@@ -212,25 +212,25 @@ void DescriptionProc::checkOperatorIsVertical(Gameobject *gameobject) {
 	std::unordered_map<Gameobject*, bool> subObjects = checkSubObjectVertical(position.Down());
 
 	if (!mainObjects.empty() && !subObjects.empty()) {
-		connectedTextObjects.insert({ gameobject->gameobjectId, gameobject->gameBoardPosition });
+		connectedTextObjects.insert({ gameobject->GetInfo().id, gameobject->GetInfo().position });
 		for (auto object : mainObjects) {
-			connectedTextObjects.insert({object.first->gameobjectId, object.first->gameBoardPosition});
+			connectedTextObjects.insert({object.first->GetInfo().id, object.first->GetInfo().position});
 		}
 		for (auto object : subObjects) {
-			connectedTextObjects.insert({object.first->gameobjectId, object.first->gameBoardPosition});
+			connectedTextObjects.insert({object.first->GetInfo().id, object.first->GetInfo().position});
 		}
 	}
 	
 	std::vector<TextObjectInfo> objects(3);
 	for (auto mainObject : mainObjects) {
 		for (auto subObject : subObjects) {
-			bool mainObjectIsOperator = IsOperatorTextObject(mainObject.first->gameobjectId);
-			bool subObjectIsOperator = IsOperatorTextObject(subObject.first->gameobjectId);
+			bool mainObjectIsOperator = IsOperatorTextObject(mainObject.first->GetInfo().id);
+			bool subObjectIsOperator = IsOperatorTextObject(subObject.first->GetInfo().id);
 			if (!mainObjectIsOperator && !subObjectIsOperator) {
-				objects[0] = { mainObject.first->gameobjectId, mainObject.first->gameBoardPosition };
-				objects[1] = { subObject.first->gameobjectId, subObject.first->gameBoardPosition };
-				objects[2] = { gameobject->gameobjectId, gameobject->gameBoardPosition };
-				descriptionProps.insert(std::make_pair(mainObject.first->gameobjectId, objects));
+				objects[0] = { mainObject.first->GetInfo().id, mainObject.first->GetInfo().position };
+				objects[1] = { subObject.first->GetInfo().id, subObject.first->GetInfo().position };
+				objects[2] = { gameobject->GetInfo().id, gameobject->GetInfo().position };
+				descriptionProps.insert(std::make_pair(mainObject.first->GetInfo().id, objects));
 			}
 		}
 	}

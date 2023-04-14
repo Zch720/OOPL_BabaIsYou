@@ -118,6 +118,6 @@ void LevelData::createGameboard(std::vector<GameobjectCreateInfo> createInfos) {
 			Log::LogError("%s at (%d, %d) create failed, out of range", GetGameobjectNameById(info.gameobjectId).c_str(), info.position.x, info.position.y);
 		}
 		Gameobject *gameobject = gameboard[info.position].GenGameobject(info.gameobjectId);
-		gameobject->textureDirection = info.textureDirection;
+		gameobject->SetTextureDirection(info.textureDirection);
 	}
 }

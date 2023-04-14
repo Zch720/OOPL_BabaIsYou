@@ -5,8 +5,8 @@
 //#include "level_undo_proc.h"
 
 int GameboardProc::GetGameobjectConnectStatus(Gameobject *gameobject) {
-	GameobjectId gameobjectId = gameobject->gameobjectId;
-	Point position = gameobject->gameBoardPosition;
+	GameobjectId gameobjectId = gameobject->GetInfo().id;
+	Point position = gameobject->GetInfo().position;
 	int result = 0;
 
 	if (position.x == LevelData::gameboardWidth - 1 || HasGameobjectIdInBlock(position.Right(), gameobjectId)) {
@@ -28,19 +28,19 @@ Gameobject* GameboardProc::GenGameobject(Point position, GameobjectId gameobject
 	return LevelData::gameboard[position].GenGameobject(gameobjectId);
 }
 void GameboardProc::DeleteGameobject(Gameobject* gameobject) {
-	LevelData::gameboard[gameobject->gameBoardPosition].DeleteGameobject(gameobject);
+	LevelData::gameboard[gameobject->GetInfo().position].DeleteGameobject(gameobject);
 }
 void GameboardProc::AddGameobject(Gameobject* gameobject) {
-	LevelData::gameboard[gameobject->gameBoardPosition].AddGameobject(gameobject);
+	LevelData::gameboard[gameobject->GetInfo().position].AddGameobject(gameobject);
 }
 void GameboardProc::RemoveGameobject(Gameobject* gameobject) {
-	LevelData::gameboard[gameobject->gameBoardPosition].RemoveGameobject(gameobject);
+	LevelData::gameboard[gameobject->GetInfo().position].RemoveGameobject(gameobject);
 }
 void GameboardProc::ResetGameobjectsReplaceRecord() {
 	for (auto &col : LevelData::gameboard) {
 		for (Block &block : col) {
 			for (Gameobject *gameobject : block) {
-				gameobject->alreadyReplace = false;
+				gameobject->SetReplace(false);
 			}
 		}
 	}
@@ -69,7 +69,7 @@ std::unordered_set<PropId> GameboardProc::GetAllPropsInBlock(Point position) {
 	}
 
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
-		buffer = GameobjectPropsManager::GetAllGameobjectProps(gameobject->gameobjectId);
+		buffer = GameobjectPropsManager::GetAllGameobjectProps(gameobject->GetInfo().id);
 		result.insert(buffer.begin(), buffer.end());
 	}
 	return result;

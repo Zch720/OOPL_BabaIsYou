@@ -8,7 +8,7 @@
 
 bool PropertyProc::CheckHasPropInBlock(Point position, PropId propId) {
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, propId)) {
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, propId)) {
 			return true;
 		}
 	}
@@ -32,8 +32,8 @@ void PropertyProc::LoadTextObjectsPushProp() {
 	for (auto &col : LevelData::gameboard) {
 		for (auto &block : col) {
 			for (Gameobject *gameobject : block) {
-				if (IsTextObject(gameobject->gameobjectId)) {
-					GameobjectPropsManager::SetGameobjectProp(gameobject->gameobjectId, PROP_PUSH);
+				if (IsTextObject(gameobject->GetInfo().id)) {
+					GameobjectPropsManager::SetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH);
 				}
 			}
 		}
@@ -66,8 +66,8 @@ void PropertyProc::UpdateReplaceProp() {
 			for (auto &col : LevelData::gameboard) {
 				for (Block &block : col) {
 					for (size_t i = 0; i < block.GetSize(); i++) {
-						if ((block[i]->gameobjectId == gameobjectId)) {
-							if (block[i]->replace(replace)) {
+						if ((block[i]->GetInfo().id == gameobjectId)) {
+							if (block[i]->Replace(replace)) {
 								UndoProc::AddUndo(UndoProc::UNDO_REPLACE, block[i], gameobjectId);
 							}
 						}
@@ -93,8 +93,8 @@ bool PropertyProc::checkBlockPropOverlap(Point position, PropId propId1, PropId 
 	bool hasProp1 = false;
 	bool hasProp2 = false;
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
-		hasProp1 |= GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, propId1);
-		hasProp2 |= GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, propId2);
+		hasProp1 |= GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, propId1);
+		hasProp2 |= GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, propId2);
 	}
 	return hasProp1 && hasProp2;
 }
@@ -106,7 +106,7 @@ void PropertyProc::checkOverlapPropBlock_Sink(Point position) {
 	if (!sinkGameobject) return;
 
 	for (Gameobject *gameobject : LevelData::gameboard[position]) {
-		if (!GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_SINK)) {
+		if (!GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_SINK)) {
 			UndoProc::AddUndo(UndoProc::UNDO_DELETE, gameobject);
 			GameboardProc::DeleteGameobject(gameobject);
 			UndoProc::AddUndo(UndoProc::UNDO_DELETE, sinkGameobject);

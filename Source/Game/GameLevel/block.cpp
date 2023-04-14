@@ -39,7 +39,7 @@ void Block::clear() {
 Gameobject* Block::GenGameobject(GameobjectId gameobjectId) {
 	Gameobject* gameobject = new Gameobject(gameobjectId, gameboardPosition);
 	blockObjects.push_back(gameobject);
-	gameobject->setTextureWithColor(
+	gameobject->SetTexture(
 		LevelData::textureOrigionPosition,
 		static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobjectId))
 	);
@@ -70,7 +70,7 @@ void Block::RemoveGameobject(Gameobject* gameobject) {
 
 bool Block::HasGameobjectId(GameobjectId gameobjectId) {
 	for (Gameobject *gameobject : blockObjects) {
-		if (gameobject->gameobjectId == gameobjectId) {
+		if (gameobject->GetInfo().id == gameobjectId) {
 			return true;
 		}
 	}
@@ -78,14 +78,14 @@ bool Block::HasGameobjectId(GameobjectId gameobjectId) {
 }
 bool Block::HasMoveableGameobject() {
 	for (Gameobject *gameobject : blockObjects) {
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_YOU)) return true;
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_PUSH)) return true;
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_YOU)) return true;
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH)) return true;
 	}
 	return false;
 }
 Gameobject* Block::FindGameobjectById(GameobjectId gameobjectId) {
 	for (auto gameobject = blockObjects.rbegin(); gameobject != blockObjects.rend(); gameobject++) {
-		if ((*gameobject)->gameobjectId == gameobjectId) {
+		if ((*gameobject)->GetInfo().id == gameobjectId) {
 			return (*gameobject);
 		}
 	}
@@ -93,7 +93,7 @@ Gameobject* Block::FindGameobjectById(GameobjectId gameobjectId) {
 }
 Gameobject* Block::FindGameobjectByProp(PropId propId) {
 	for (Gameobject *gameobject : blockObjects) {
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, propId)) {
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, propId)) {
 			return gameobject;
 		}
 	}
@@ -107,7 +107,7 @@ void Block::UpdateGameobjectColor() {
 void Block::SortBlockObjects() {
 	std::sort(blockObjects.begin(), blockObjects.end(),
 		[this](Gameobject *obj1, Gameobject *obj2) {
-			return GetGameobjectZIndex(obj1->gameobjectId) < GetGameobjectZIndex(obj2->gameobjectId);
+			return GetGameobjectZIndex(obj1->GetInfo().id) < GetGameobjectZIndex(obj2->GetInfo().id);
 		}
 	);
 }

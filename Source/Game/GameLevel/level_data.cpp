@@ -47,20 +47,20 @@ void LevelData::LoadLevel(int level) {
 	if (levelSourceLines[linesCount++] != "[texture size]") {
 		Log::LogError("level %d source file format wrong", level);
 	}
-	TextureManager::textureSize = stringToInt(levelSourceLines[linesCount++]);
+	int textureSize = stringToInt(levelSourceLines[linesCount++]);
+	TextureManager::SetDirInfo(world, textureSize);
 
 	if (levelSourceLines[linesCount++] != "[needed texture]") {
 		Log::LogError("level %d source file format wrong", level);
 	}
-	TextureManager::Clear();
 	for (; linesCount < levelSourceLines.size() && levelSourceLines[linesCount][0] != '['; linesCount++) {
 		std::vector<std::string> textureInfo = stringSplit(levelSourceLines[linesCount], ' ');
 
 		GameobjectId gameobjectId = static_cast<GameobjectId>(GetGameobjectIdByName(textureInfo[0]));
 		PropId colorPropId = static_cast<PropId>(GetPropIdByName(textureInfo[1]));
-		TextureManager::LoadTexture(gameobjectId, colorPropId, world);
+		TextureManager::LoadTexture(gameobjectId, colorPropId);
 	}
-	TextureManager::LoadTexture(GAMEOBJECT_CROSSED, PROP_NONE, world);
+	TextureManager::LoadTexture(GAMEOBJECT_CROSSED, PROP_NONE);
 
 	if (linesCount == levelSourceLines.size() || levelSourceLines[linesCount++] != "[objects]") {
 		Log::LogError("level %d source file format wrong", level);

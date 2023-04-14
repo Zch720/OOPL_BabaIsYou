@@ -8,19 +8,23 @@
 
 class TextureManager {
 private:
+	static int world;
+	static int textureSize;
+	static std::string worldTextureDir;
 	static std::unordered_map<uint64_t, game_framework::CMovingBitmap> textures;
 
-	static void loadCharacterTexture(GameobjectId, PropId, int);
-	static void loadDirectionalTexture(GameobjectId, PropId, int);
-	static void loadTiledTexture(GameobjectId, PropId, int);
-	static void loadStaticTexture(GameobjectId, PropId, int);
-	static void loadTextTexture(GameobjectId, PropId, int);
+	static uint64_t getTexturesKey(GameobjectId gameobjectId, PropId propId);
+	static std::string getTextureDirWithColor(GameobjectId, PropId);
+	static std::string getTextureDirWithoutColor(GameobjectId, PropId);
+
+	static game_framework::CMovingBitmap loadTexture(std::string, std::vector<std::string>&);
 
 public:
-	static int textureSize;
+	static int GetTextureSize();
 
-	static void LoadTexture(GameobjectId gameobjectId, PropId propId, int world);
-	static void Clear();
+	static void SetDirInfo(int world, int textureSize);
+
+	static void LoadTexture(GameobjectId gameobjectId, PropId propId);
 
 	static game_framework::CMovingBitmap GetGameobjecTexture(GameobjectId gameobjectId, PropId colorPropId);
 };

@@ -19,6 +19,7 @@ LevelManager::~LevelManager() {
 }
 
 void LevelManager::LoadLevel(int level) {
+	UndoProc::Clear();
 	LevelData::LoadLevel(level);
 	MoveProc::CreateBlockMoveableRecord();
 	PropertyProc::LoadTextObjectsPushProp();

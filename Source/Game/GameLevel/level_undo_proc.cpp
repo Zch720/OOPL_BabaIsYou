@@ -6,6 +6,13 @@
 std::vector<UndoProc::UndoInfo> UndoProc::undoBuffer = std::vector<UndoProc::UndoInfo>();
 std::stack<std::vector<UndoProc::UndoInfo>> UndoProc::undoStack = std::stack<std::vector<UndoProc::UndoInfo>>();
 
+
+void UndoProc::Clear() {
+	undoBuffer.clear();
+	while (!undoStack.empty()) {
+		undoStack.pop();
+	}
+}
 void UndoProc::ClearBuffer() {
 	undoBuffer.clear();
 }
@@ -29,95 +36,80 @@ bool UndoProc::AddBufferToStack() {
 void UndoProc::Undo() {
 	if (undoStack.empty()) return;
 
-	undoBuffer = undoStack.top();
-	undoStack.pop();
-
-	std::reverse(undoBuffer.begin(), undoBuffer.end());
-	
+	getUndoInfosToProcess();
 	GameboardProc::ResetGameobjectsReplaceRecord();
 	for (UndoInfo &info : undoBuffer) {
 		if (info.type == UNDO_MOVE_UP) {
-			Gameobject *undoObject =
-				GameboardProc::FindGameobjectByIdInBlock(
-					info.position.Up(),
-					info.id
-				);
-			if (undoObject == nullptr) {
-				Log::LogError("can't find undo gameobject.");
-			}
-
-			GameboardProc::RemoveGameobject(undoObject);
-			undoObject->UndoUp(info.direction);
-			GameboardProc::AddGameobject(undoObject);
+			undoMoveUp(info);
 		}
 		else if (info.type == UNDO_MOVE_DOWN) {
-			Gameobject *undoObject =
-				GameboardProc::FindGameobjectByIdInBlock(
-					info.position.Down(),
-					info.id
-				);
-			if (undoObject == nullptr) {
-				Log::LogError("can't find undo gameobject.");
-			}
-
-			GameboardProc::RemoveGameobject(undoObject);
-			undoObject->UndoDown(info.direction);
-			GameboardProc::AddGameobject(undoObject);
+			undoMoveDown(info);
 		}
 		else if (info.type == UNDO_MOVE_LEFT) {
-			Gameobject *undoObject =
-				GameboardProc::FindGameobjectByIdInBlock(
-					info.position.Left(),
-					info.id
-				);
-			if (undoObject == nullptr) {
-				Log::LogError("can't find undo gameobject.");
-			}
-
-			GameboardProc::RemoveGameobject(undoObject);
-			undoObject->UndoLeft(info.direction);
-			GameboardProc::AddGameobject(undoObject);
+			undoMoveLeft(info);
 		}
 		else if (info.type == UNDO_MOVE_RIGHT) {
-			Gameobject *undoObject =
-				GameboardProc::FindGameobjectByIdInBlock(
-					info.position.Right(),
-					info.id
-				);
-			if (undoObject == nullptr) {
-				Log::LogError("can't find undo gameobject.");
-			}
-
-			GameboardProc::RemoveGameobject(undoObject);
-			undoObject->UndoRight(info.direction);
-			GameboardProc::AddGameobject(undoObject);
+			undoMoveRight(info);
 		}
 		else if (info.type == UNDO_DELETE) {
-			Gameobject *newGameobject = GameboardProc::GenGameobject(info.position, info.id);
-			newGameobject->SetTextureDirection(info.direction);
+			undoDelete(info);
 		}
 		else if (info.type == UNDO_GEN) {
-			Gameobject *undoObject =
-				GameboardProc::FindGameobjectByIdInBlock(
-					info.position,
-					info.id
-				);
-			if (undoObject == nullptr) {
-				Log::LogError("can't find undo gameobject.");
-			}
-
-			GameboardProc::DeleteGameobject(undoObject);
+			undoGen(info);
 		}
 		else if (info.type == UNDO_REPLACE) {
-			Gameobject *undoObject =
-				GameboardProc::FindGameobjectByIdInBlock(
-					info.position,
-					info.id
-				);
-			if (undoObject == nullptr) {
-				Log::LogError("can't find undo gameobject.");
-			}
-			undoObject->Replace(static_cast<GameobjectId>(info.otherInfo));
+			undoReplace(info);
 		}
 	}
+}
+
+void UndoProc::getUndoInfosToProcess() {
+	undoBuffer = undoStack.top();
+	undoStack.pop();
+	std::reverse(undoBuffer.begin(), undoBuffer.end());
+}
+
+Gameobject* UndoProc::getUndoObject(Point position, GameobjectId gameobjectId) {
+	Gameobject *undoObject = GameboardProc::FindGameobjectByIdInBlock(position, gameobjectId);
+	if (undoObject == nullptr) {
+		Log::LogError("can't find undo gameobject.");
+	}
+	return undoObject;
+}
+
+void UndoProc::undoMoveUp(UndoInfo info) {
+	Gameobject *undoObject = getUndoObject(info.position.Up(), info.id);
+	GameboardProc::RemoveGameobject(undoObject);
+	undoObject->UndoUp(info.direction);
+	GameboardProc::AddGameobject(undoObject);
+}
+void UndoProc::undoMoveDown(UndoInfo info) {
+	Gameobject *undoObject = getUndoObject(info.position.Down(), info.id);
+	GameboardProc::RemoveGameobject(undoObject);
+	undoObject->UndoDown(info.direction);
+	GameboardProc::AddGameobject(undoObject);
+}
+void UndoProc::undoMoveLeft(UndoInfo info) {
+	Gameobject *undoObject = getUndoObject(info.position.Left(), info.id);
+	GameboardProc::RemoveGameobject(undoObject);
+	undoObject->UndoLeft(info.direction);
+	GameboardProc::AddGameobject(undoObject);
+}
+void UndoProc::undoMoveRight(UndoInfo info) {
+	Gameobject *undoObject = getUndoObject(info.position.Right(), info.id);
+	GameboardProc::RemoveGameobject(undoObject);
+	undoObject->UndoRight(info.direction);
+	GameboardProc::AddGameobject(undoObject);
+}
+void UndoProc::undoGen(UndoInfo info) {
+	Gameobject *undoObject = getUndoObject(info.position, info.id);
+	GameboardProc::DeleteGameobject(undoObject);
+}
+void UndoProc::undoDelete(UndoInfo info) {
+	Gameobject *newGameobject = GameboardProc::GenGameobject(info.position, info.id);
+	newGameobject->SetTextureDirection(info.direction);
+}
+void UndoProc::undoReplace(UndoInfo info) {
+	Gameobject *undoObject = getUndoObject(info.position, info.id);
+	undoObject->Replace(static_cast<GameobjectId>(info.otherInfo));
 }

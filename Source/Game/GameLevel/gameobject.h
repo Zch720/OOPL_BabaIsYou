@@ -56,7 +56,7 @@ public:
 	void SetTextureDirection(Direction direction);
 
 	bool Replace(GameobjectId replaceGameobjectId);
-	void SetTexture(Point textureOriginPosition, PropId colorPropId);
+	void SetTexture(PropId colorPropId);
 
 	/*
 		OBJECT_TYPE_CHARACTER: no otherInformation

@@ -7,7 +7,7 @@
 #include "gameobject_properties_manager.h"
 
 bool PropertyProc::CheckHasPropInBlock(Point position, PropId propId) {
-	for (Gameobject *gameobject : LevelData::gameboard[position]) {
+	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
 		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, propId)) {
 			return true;
 		}
@@ -17,8 +17,8 @@ bool PropertyProc::CheckHasPropInBlock(Point position, PropId propId) {
 void PropertyProc::CheckAllOverlapProp() {
 	checkOverlapPropFull_You_Win();
 
-	for (int i = 0; i < LevelData::gameboardWidth; i++) {
-		for (int j = 0; j < LevelData::gameboardHeight; j++) {
+	for (int i = 0; i < LevelData::GetGameboardWidth(); i++) {
+		for (int j = 0; j < LevelData::GetGameboardHeight(); j++) {
 			Point position(i, j);
 
 			checkOverlapPropBlock_Sink(position);
@@ -29,7 +29,7 @@ void PropertyProc::CheckAllOverlapProp() {
 	}
 }
 void PropertyProc::LoadTextObjectsPushProp() {
-	for (auto &col : LevelData::gameboard) {
+	for (auto &col : LevelData::Gameboard) {
 		for (auto &block : col) {
 			for (Gameobject *gameobject : block) {
 				if (IsTextObject(gameobject->GetInfo().id)) {
@@ -63,7 +63,7 @@ void PropertyProc::UpdateReplaceProp() {
 		if (replaceIdNum != -1) {
 			GameobjectId replace = static_cast<GameobjectId>(GetGameobjectByTextObject(prop.second));
 			if (gameobjectId == replace) continue;
-			for (auto &col : LevelData::gameboard) {
+			for (auto &col : LevelData::Gameboard) {
 				for (Block &block : col) {
 					for (size_t i = 0; i < block.GetSize(); i++) {
 						if ((block[i]->GetInfo().id == gameobjectId)) {
@@ -80,8 +80,8 @@ void PropertyProc::UpdateReplaceProp() {
 }
 
 bool PropertyProc::checkPropOverlap(PropId propId1, PropId propId2) {
-	for (int i = 0; i < LevelData::gameboardWidth; i++) {
-		for (int j = 0; j < LevelData::gameboardHeight; j++) {
+	for (int i = 0; i < LevelData::GetGameboardWidth(); i++) {
+		for (int j = 0; j < LevelData::GetGameboardHeight(); j++) {
 			if (checkBlockPropOverlap(Point(i, j), propId1, propId2)) {
 				return true;
 			}
@@ -92,20 +92,20 @@ bool PropertyProc::checkPropOverlap(PropId propId1, PropId propId2) {
 bool PropertyProc::checkBlockPropOverlap(Point position, PropId propId1, PropId propId2) {
 	bool hasProp1 = false;
 	bool hasProp2 = false;
-	for (Gameobject *gameobject : LevelData::gameboard[position]) {
+	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
 		hasProp1 |= GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, propId1);
 		hasProp2 |= GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, propId2);
 	}
 	return hasProp1 && hasProp2;
 }
 void PropertyProc::checkOverlapPropFull_You_Win() {
-	LevelData::touchWinObject = checkPropOverlap(PROP_YOU, PROP_WIN);
+	LevelData::SetTouchWin(checkPropOverlap(PROP_YOU, PROP_WIN));
 }
 void PropertyProc::checkOverlapPropBlock_Sink(Point position) {
 	Gameobject *sinkGameobject = GameboardProc::FindGameobjectByPropInBlock(position, PROP_SINK);
 	if (!sinkGameobject) return;
 
-	for (Gameobject *gameobject : LevelData::gameboard[position]) {
+	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
 		if (!GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_SINK)) {
 			UndoProc::AddUndo(UndoProc::UNDO_DELETE, gameobject);
 			GameboardProc::DeleteGameobject(gameobject);

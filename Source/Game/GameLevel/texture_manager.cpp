@@ -7,6 +7,7 @@
 
 int TextureManager::world = -1;
 int TextureManager::textureSize = 0;
+Point TextureManager::textureOriginPosition = Point();
 std::string TextureManager::worldTextureDir = "";
 std::unordered_map<uint64_t, game_framework::CMovingBitmap> TextureManager::textures = std::unordered_map<uint64_t, game_framework::CMovingBitmap>();
 
@@ -63,6 +64,14 @@ std::vector<std::string> textTextureFiles = {
 
 int TextureManager::GetTextureSize() {
 	return TextureManager::textureSize;
+}
+void TextureManager::SetTextureOriginPosition(int x, int y) {
+	textureOriginPosition.x = x;
+	textureOriginPosition.y = y;
+}
+
+Point TextureManager::GetTextureOriginPosition() {
+	return textureOriginPosition;
 }
 
 void TextureManager::SetDirInfo(int world, int textureSize) {

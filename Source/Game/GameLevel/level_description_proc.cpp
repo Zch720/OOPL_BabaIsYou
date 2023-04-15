@@ -145,7 +145,7 @@ int DescriptionProc::getDescriptionConvertNounGameobjectCount(GameobjectId gameo
 }
 
 Gameobject* DescriptionProc::getNounTextInBlock(Point position) {
-	for (Gameobject *gameobject : LevelData::gameboard[position]) {
+	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
 		if (IsNounTextObject(gameobject->GetInfo().id)) {
 			return gameobject;
 		}
@@ -153,7 +153,7 @@ Gameobject* DescriptionProc::getNounTextInBlock(Point position) {
 	return nullptr;
 }
 Gameobject* DescriptionProc::getPropTextInBlock(Point position) {
-	for (Gameobject *gameobject : LevelData::gameboard[position]) {
+	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
 		if (IsPropTextObject(gameobject->GetInfo().id)) {
 			return gameobject;
 		}
@@ -161,7 +161,7 @@ Gameobject* DescriptionProc::getPropTextInBlock(Point position) {
 	return nullptr;
 }
 void DescriptionProc::checkOperatorIs() {
-	for (auto &col : LevelData::gameboard) {
+	for (auto &col : LevelData::Gameboard) {
 		for (Block &block : col) {
 			Gameobject *operatorIs = GameboardProc::FindGameobjectByIdInBlock(block.GetPosition(), GAMEOBJECT_TEXT_IS);
 			if (operatorIs) {
@@ -174,7 +174,7 @@ void DescriptionProc::checkOperatorIs() {
 void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
 	Point position = gameobject->GetInfo().position;
 
-	if (position.x == 0 || position.x == LevelData::gameboardWidth - 1) return;
+	if (position.x == 0 || position.x == LevelData::GetGameboardWidth() - 1) return;
 
 	std::unordered_map<Gameobject*, bool> mainObjects = checkMainObjectHorizontal(position.Left());
 	std::unordered_map<Gameobject*, bool> subObjects = checkSubObjectHorizontal(position.Right());
@@ -206,7 +206,7 @@ void DescriptionProc::checkOperatorIsHorizontal(Gameobject *gameobject) {
 void DescriptionProc::checkOperatorIsVertical(Gameobject *gameobject) {
 	Point position = gameobject->GetInfo().position;
 
-	if (position.y == 0 || position.y == LevelData::gameboardHeight - 1) return;
+	if (position.y == 0 || position.y == LevelData::GetGameboardHeight() - 1) return;
 
 	std::unordered_map<Gameobject*, bool> mainObjects = checkMainObjectVertical(position.Up());
 	std::unordered_map<Gameobject*, bool> subObjects = checkSubObjectVertical(position.Down());
@@ -267,7 +267,7 @@ std::unordered_map<Gameobject*, bool> DescriptionProc::checkSubObjectHorizontal(
 	}
 	
 	Gameobject *operatorAnd = nullptr;
-	if (position.x < LevelData::gameboardWidth - 2) {
+	if (position.x < LevelData::GetGameboardWidth() - 2) {
 		operatorAnd = GameboardProc::FindGameobjectByIdInBlock(position.Right(), GAMEOBJECT_TEXT_AND);
 	}
 	if (operatorAnd) {
@@ -318,7 +318,7 @@ std::unordered_map<Gameobject*, bool> DescriptionProc::checkSubObjectVertical(Po
 	}
 	
 	Gameobject *operatorAnd = nullptr;
-	if (position.y < LevelData::gameboardHeight - 2) {
+	if (position.y < LevelData::GetGameboardHeight() - 2) {
 		operatorAnd = GameboardProc::FindGameobjectByIdInBlock(position.Down(), GAMEOBJECT_TEXT_AND);
 	}
 	if (operatorAnd) {

@@ -28,7 +28,7 @@ void LevelManager::LoadLevel(int level) {
 }
 
 void LevelManager::MoveWait() {
-	if (LevelData::touchWinObject) return;
+	if (LevelData::GetTouchWin()) return;
 	UndoProc::ClearBuffer();
 
 	MoveProc::MoveWait();
@@ -46,7 +46,7 @@ void LevelManager::MoveWait() {
 	}
 }
 void LevelManager::MoveUp() {
-	if (LevelData::touchWinObject) return;
+	if (LevelData::GetTouchWin()) return;
 	UndoProc::ClearBuffer();
 
 	MoveProc::MoveUp();
@@ -65,7 +65,7 @@ void LevelManager::MoveUp() {
 	}
 }
 void LevelManager::MoveDown() {
-	if (LevelData::touchWinObject) return;
+	if (LevelData::GetTouchWin()) return;
 	UndoProc::ClearBuffer();
 
 	MoveProc::MoveDown();
@@ -84,7 +84,7 @@ void LevelManager::MoveDown() {
 	}
 }
 void LevelManager::MoveLeft() {
-	if (LevelData::touchWinObject) return;
+	if (LevelData::GetTouchWin()) return;
 	UndoProc::ClearBuffer();
 
 	MoveProc::MoveLeft();
@@ -103,7 +103,7 @@ void LevelManager::MoveLeft() {
 	}
 }
 void LevelManager::MoveRight() {
-	if (LevelData::touchWinObject) return;
+	if (LevelData::GetTouchWin()) return;
 	UndoProc::ClearBuffer();
 
 	MoveProc::MoveRight();
@@ -129,7 +129,7 @@ void LevelManager::Undo() {
 }
 
 bool LevelManager::IsMoving() {
-	for (auto &col : LevelData::gameboard) {
+	for (auto &col : LevelData::Gameboard) {
 		for (auto &block : col) {
 			for (Gameobject *gameobject : block) {
 				if (gameobject->IsMoving()) {
@@ -141,17 +141,17 @@ bool LevelManager::IsMoving() {
 	return false;
 }
 bool LevelManager::IsWin() {
-	return LevelData::touchWinObject;
+	return LevelData::GetTouchWin();
 }
 
 void LevelManager::Show() {
-	LevelData::background.ShowBitmap();
+	LevelData::ShowBackground();
 
 	std::unordered_set<Gameobject*> connectedTextObjects = DescriptionProc::GetConnectedTextObjects();
 	std::unordered_set<Gameobject*> unusableTextObjects = DescriptionProc::GetUnusableTextObjects();
 
 	// show gameobject didn't move
-	for (auto &col : LevelData::gameboard) {
+	for (auto &col : LevelData::Gameboard) {
 		for (Block &block : col) {
 			for (Gameobject *gameobject : block) {
 				if (gameobject->IsMoving()) continue;
@@ -176,7 +176,7 @@ void LevelManager::Show() {
 	}
 
 	// show gameobject is moving
-	for (auto &col : LevelData::gameboard) {
+	for (auto &col : LevelData::Gameboard) {
 		for (Block &block : col) {
 			for (Gameobject *gameobject : block) {
 				if (!gameobject->IsMoving()) continue;
@@ -199,7 +199,7 @@ void LevelManager::Show() {
 	}
 
 	if (nextTextureWaitTime-- == 0) {
-		LevelData::gameboard.foreach([](Block &block) {
+		LevelData::Gameboard.foreach([](Block &block) {
 			for (Gameobject *gameobject : block) gameobject->UpdateTextureCount();
 		});
 		nextTextureWaitTime = 6;

@@ -39,10 +39,7 @@ void Block::clear() {
 Gameobject* Block::GenGameobject(GameobjectId gameobjectId) {
 	Gameobject* gameobject = new Gameobject(gameobjectId, gameboardPosition);
 	blockObjects.push_back(gameobject);
-	gameobject->SetTexture(
-		LevelData::textureOrigionPosition,
-		static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobjectId))
-	);
+	gameobject->SetTexture(static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobjectId)));
 	SortBlockObjects();
 	return gameobject;
 }
@@ -102,10 +99,7 @@ Gameobject* Block::FindGameobjectByProp(PropId propId) {
 
 void Block::UpdateGameobjectColor() {
 	for (Gameobject *gameobject : blockObjects) {
-		gameobject->SetTexture(
-			LevelData::textureOrigionPosition,
-			static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobject->GetInfo().id))
-		);
+		gameobject->SetTexture(static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobject->GetInfo().id)));
 	}
 }
 

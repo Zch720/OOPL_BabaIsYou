@@ -35,10 +35,10 @@ bool Gameobject::Replace(GameobjectId replaceGameobjectId) {
 	texture.SetTopLeft(texturePosition.x, texturePosition.y);
 	return alreadyReplace = true;
 }
-void Gameobject::SetTexture(const Point textureOriginPosition, const PropId colorPropId) {
+void Gameobject::SetTexture(PropId colorPropId) {
 	if (colorPropId == textureColorPropId && textureSetted) return;
 	
-	Point texturePosition = info.position * TextureManager::GetTextureSize() + textureOriginPosition;
+	Point texturePosition = info.position * TextureManager::GetTextureSize() + TextureManager::GetTextureOriginPosition();
 	textureColorPropId = colorPropId;
 	texture = TextureManager::GetGameobjecTexture(info.id, textureColorPropId);
 	texture.SetTopLeft(texturePosition.x, texturePosition.y);

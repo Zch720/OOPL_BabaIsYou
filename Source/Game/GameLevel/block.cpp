@@ -84,9 +84,9 @@ bool Block::HasMoveableGameobject() {
 	return false;
 }
 Gameobject* Block::FindGameobjectById(GameobjectId gameobjectId) {
-	for (auto gameobject = blockObjects.rbegin(); gameobject != blockObjects.rend(); gameobject++) {
-		if ((*gameobject)->GetInfo().id == gameobjectId) {
-			return (*gameobject);
+	for (auto gameobjectIt = blockObjects.rbegin(); gameobjectIt != blockObjects.rend(); gameobjectIt++) {
+		if ((*gameobjectIt)->GetInfo().id == gameobjectId) {
+			return (*gameobjectIt);
 		}
 	}
 	return nullptr;
@@ -101,13 +101,18 @@ Gameobject* Block::FindGameobjectByProp(PropId propId) {
 }
 
 void Block::UpdateGameobjectColor() {
-
+	for (Gameobject *gameobject : blockObjects) {
+		gameobject->SetTexture(
+			LevelData::textureOrigionPosition,
+			static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobject->GetInfo().id))
+		);
+	}
 }
 
+auto GameobjectCmp = [](Gameobject *object1, Gameobject *object2) {
+	return GetGameobjectZIndex(object1->GetInfo().id) < GetGameobjectZIndex(object2->GetInfo().id);
+};
+
 void Block::SortBlockObjects() {
-	std::sort(blockObjects.begin(), blockObjects.end(),
-		[this](Gameobject *obj1, Gameobject *obj2) {
-			return GetGameobjectZIndex(obj1->GetInfo().id) < GetGameobjectZIndex(obj2->GetInfo().id);
-		}
-	);
+	std::sort(blockObjects.begin(), blockObjects.end(), GameobjectCmp);
 }

@@ -2,7 +2,11 @@
 #include "gameobject_properties_manager.h"
 #include "level_gameboard_proc.h"
 #include "level_data.h"
-//#include "level_undo_proc.h"
+
+#define RIGHT_CONNECTED		0b1
+#define UP_CONNECTED		0b10
+#define LEFT_CONNECTED		0b100
+#define DOWN_CONNECTED		0b1000
 
 int GameboardProc::GetGameobjectConnectStatus(Gameobject *gameobject) {
 	GameobjectId gameobjectId = gameobject->GetInfo().id;
@@ -10,16 +14,16 @@ int GameboardProc::GetGameobjectConnectStatus(Gameobject *gameobject) {
 	int result = 0;
 
 	if (position.x == LevelData::GetGameboardWidth() - 1 || HasGameobjectIdInBlock(position.Right(), gameobjectId)) {
-		result |= 0b1;
+		result |= RIGHT_CONNECTED;
 	}
 	if (position.y == 0 || HasGameobjectIdInBlock(position.Up(), gameobjectId)) {
-		result |= 0b10;
+		result |= UP_CONNECTED;
 	}
 	if (position.x == 0 || HasGameobjectIdInBlock(position.Left(), gameobjectId)) {
-		result |= 0b100;
+		result |= LEFT_CONNECTED;
 	}
 	if (position.y == LevelData::GetGameboardHeight() - 1 || HasGameobjectIdInBlock(position.Down(), gameobjectId)) {
-		result |= 0b1000;
+		result |= DOWN_CONNECTED;
 	}
 	return result;
 }
@@ -37,20 +41,16 @@ void GameboardProc::RemoveGameobject(Gameobject* gameobject) {
 	LevelData::Gameboard[gameobject->GetInfo().position].RemoveGameobject(gameobject);
 }
 void GameboardProc::ResetGameobjectsReplaceRecord() {
-	for (auto &col : LevelData::Gameboard) {
-		for (Block &block : col) {
-			for (Gameobject *gameobject : block) {
-				gameobject->SetReplace(false);
-			}
+	LevelData::Gameboard.foreach([](Block &block) {
+		for (Gameobject *gameobject : block) {
+			gameobject->SetReplace(false);
 		}
-	}
+	});
 }
 void GameboardProc::UpdateGameobjectTextureColor() {
-	for (auto &col : LevelData::Gameboard) {
-		for (Block &block : col) {
-			block.UpdateGameobjectColor();
-		}
-	}
+	LevelData::Gameboard.foreach([](Block &block) {
+		block.UpdateGameobjectColor();
+	});
 }
 bool GameboardProc::HasGameobjectIdInBlock(Point position, GameobjectId gameobjectId) {
 	return LevelData::Gameboard[position].HasGameobjectId(gameobjectId);
@@ -64,7 +64,7 @@ Gameobject* GameboardProc::FindGameobjectByPropInBlock(Point position, PropId pr
 std::unordered_set<PropId> GameboardProc::GetAllPropsInBlock(Point position) {
 	std::unordered_set<PropId> result, buffer;
 	
-	if (position.x < 0 || LevelData::GetGameboardWidth() <= position.x || position.y < 0 || LevelData::GetGameboardHeight() <= position.y) {
+	if (!LevelData::IsPointInGameboard(position)) {
 		return result;
 	}
 

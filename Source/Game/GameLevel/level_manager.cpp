@@ -20,10 +20,11 @@ LevelManager::~LevelManager() {
 
 void LevelManager::LoadLevel(int level) {
 	UndoProc::Clear();
+	DescriptionProc::Clear();
 	LevelData::LoadLevel(level);
 	MoveProc::CreateBlockMoveableRecord();
 	PropertyProc::LoadTextObjectsPushProp();
-	DescriptionProc::GetAllDescription();
+	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
 	GameboardProc::UpdateGameobjectTextureColor();
 }
@@ -34,7 +35,7 @@ void LevelManager::MoveWait() {
 
 	MoveProc::MoveWait();
 	
-	DescriptionProc::GetAllDescription();
+	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
 	PropertyProc::UpdateReplaceProp();
 	PropertyProc::CheckAllOverlapProp();
@@ -53,7 +54,7 @@ void LevelManager::MoveUp() {
 	MoveProc::MoveUp();
 	MoveProc::MoveWait();
 	
-	DescriptionProc::GetAllDescription();
+	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
 	PropertyProc::UpdateReplaceProp();
 	PropertyProc::CheckAllOverlapProp();
@@ -72,7 +73,7 @@ void LevelManager::MoveDown() {
 	MoveProc::MoveDown();
 	MoveProc::MoveWait();
 	
-	DescriptionProc::GetAllDescription();
+	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
 	PropertyProc::UpdateReplaceProp();
 	PropertyProc::CheckAllOverlapProp();
@@ -91,7 +92,7 @@ void LevelManager::MoveLeft() {
 	MoveProc::MoveLeft();
 	MoveProc::MoveWait();
 	
-	DescriptionProc::GetAllDescription();
+	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
 	PropertyProc::UpdateReplaceProp();
 	PropertyProc::CheckAllOverlapProp();
@@ -110,7 +111,7 @@ void LevelManager::MoveRight() {
 	MoveProc::MoveRight();
 	MoveProc::MoveWait();
 	
-	DescriptionProc::GetAllDescription();
+	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
 	PropertyProc::UpdateReplaceProp();
 	PropertyProc::CheckAllOverlapProp();

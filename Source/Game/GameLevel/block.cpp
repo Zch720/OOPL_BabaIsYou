@@ -80,6 +80,14 @@ bool Block::HasMoveableGameobject() {
 	}
 	return false;
 }
+bool Block::HasTextGameobject() {
+	for (Gameobject *gameobject : blockObjects) {
+		if (IsTextObject(gameobject->GetInfo().id)) {
+			return true;
+		}
+	}
+	return false;
+}
 Gameobject* Block::FindGameobjectById(GameobjectId gameobjectId) {
 	for (auto gameobjectIt = blockObjects.rbegin(); gameobjectIt != blockObjects.rend(); gameobjectIt++) {
 		if ((*gameobjectIt)->GetInfo().id == gameobjectId) {

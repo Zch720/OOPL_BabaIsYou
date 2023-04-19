@@ -32,6 +32,7 @@ public:
 
 	bool HasGameobjectId(GameobjectId gameobjectId);
 	bool HasMoveableGameobject();
+	bool HasTextGameobject();
 	Gameobject* FindGameobjectById(GameobjectId gameobjectId);
 	Gameobject* FindGameobjectByProp(PropId propId);
 

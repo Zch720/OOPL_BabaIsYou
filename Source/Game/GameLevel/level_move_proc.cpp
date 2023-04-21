@@ -6,304 +6,274 @@
 #include "level_undo_proc.h"
 #include "gameobject_properties_manager.h"
 
-std::unordered_set<Gameobject*>
-	MoveProc::moveObjectsInGameboard = std::unordered_set<Gameobject*>();
-
-vector2d<int8_t>
-	MoveProc::blockMoveableRecord = vector2d<int8_t>();
-std::unordered_set<Gameobject*>
-	MoveProc::moveableGameobjects = std::unordered_set<Gameobject*>();
+MoveProc::GameobjectSet MoveProc::moveObjectsInGameboard = MoveProc::GameobjectSet();
+vector2d<int8_t> MoveProc::blockMoveableRecord = vector2d<int8_t>();
+MoveProc::GameobjectSet MoveProc::moveableGameobjects = MoveProc::GameobjectSet();
 
 void MoveProc::CreateBlockMoveableRecord() {
-	if (blockMoveableRecord.size() != 0) {
-		for (auto &col : blockMoveableRecord) {
-			col.clear();
-		}
-		blockMoveableRecord.clear();
-	}
-
+	blockMoveableRecord.clear();
 	for (int i = 0; i < LevelData::GetGameboardWidth(); i++) {
 		blockMoveableRecord.push_back(std::vector<int8_t>(LevelData::GetGameboardHeight(), 0));
 	}
 }
 
 void MoveProc::MoveWait() {
-	std::unordered_set<Gameobject*> hasMovePropGameobject = findAllMoveObject();
-
-	resetBlockMoveableRecord();
-	moveableGameobjects.clear();
-
-	for (Gameobject *gameobject : hasMovePropGameobject) {
-		if (gameobject->GetTextureDirection() == DIRECTION_UP) {
-			if (checkMoveUp(gameobject->GetInfo().position.Up())) {
-				moveableGameobjects.insert(gameobject);
-			} else if (checkMoveDown(gameobject->GetInfo().position.Down())) {
-				gameobject->SetTextureDirection(DIRECTION_DOWN);
-				moveableGameobjects.insert(gameobject);
-			}
-		}
-		else if (gameobject->GetTextureDirection() == DIRECTION_DOWN) {
-			if (checkMoveDown(gameobject->GetInfo().position.Down())) {
-				moveableGameobjects.insert(gameobject);
-			} else if (checkMoveUp(gameobject->GetInfo().position.Up())) {
-				gameobject->SetTextureDirection(DIRECTION_UP);
-				moveableGameobjects.insert(gameobject);
-			}
-		}
-		else if (gameobject->GetTextureDirection() == DIRECTION_LEFT) {
-			if (checkMoveLeft(gameobject->GetInfo().position.Left())) {
-				moveableGameobjects.insert(gameobject);
-			} else if (checkMoveRight(gameobject->GetInfo().position.Right())) {
-				gameobject->SetTextureDirection(DIRECTION_RIGHT);
-				moveableGameobjects.insert(gameobject);
-			}
-		}
-		else if (gameobject->GetTextureDirection() == DIRECTION_RIGHT) {
-			if (checkMoveRight(gameobject->GetInfo().position.Right())) {
-				moveableGameobjects.insert(gameobject);
-			} else if (checkMoveLeft(gameobject->GetInfo().position.Left())) {
-				gameobject->SetTextureDirection(DIRECTION_LEFT);
-				moveableGameobjects.insert(gameobject);
-			}
-		}
-	}
-
-	for (Gameobject *gameobject : moveableGameobjects) {
-		if (gameobject->GetTextureDirection() == DIRECTION_UP) {
-			UndoProc::AddUndo(UndoProc::UNDO_MOVE_UP, gameobject);
-			GameboardProc::RemoveGameobject(gameobject);
-			gameobject->MoveUp();
-			GameboardProc::AddGameobject(gameobject);
-		}
-		else if (gameobject->GetTextureDirection() == DIRECTION_DOWN) {
-			UndoProc::AddUndo(UndoProc::UNDO_MOVE_DOWN, gameobject);
-			GameboardProc::RemoveGameobject(gameobject);
-			gameobject->MoveDown();
-			GameboardProc::AddGameobject(gameobject);
-		}
-		else if (gameobject->GetTextureDirection() == DIRECTION_LEFT) {
-			UndoProc::AddUndo(UndoProc::UNDO_MOVE_LEFT, gameobject);
-			GameboardProc::RemoveGameobject(gameobject);
-			gameobject->MoveLeft();
-			GameboardProc::AddGameobject(gameobject);
-		}
-		else if (gameobject->GetTextureDirection() == DIRECTION_RIGHT) {
-			UndoProc::AddUndo(UndoProc::UNDO_MOVE_RIGHT, gameobject);
-			GameboardProc::RemoveGameobject(gameobject);
-			gameobject->MoveRight();
-			GameboardProc::AddGameobject(gameobject);
-		}
-	}
+	GameobjectSet hasMovePropGameobject = findAllMoveObject();
+	resetBuffers();
+	checkMovePropGameobjectsMovable(hasMovePropGameobject);
+	groupOfGameobjectMove(moveableGameobjects);
 }
 void MoveProc::MoveUp() {
-	std::unordered_set<Gameobject*> hasYouPropGameobject = findAllYouObject();
-
-	resetBlockMoveableRecord();
-	moveableGameobjects.clear();
-
-	for (Gameobject *gameobject : hasYouPropGameobject) {
-		if (checkMoveUp(gameobject->GetInfo().position.Up())) {
-			moveableGameobjects.insert(gameobject);
-		}
-	}
-
-	for (Gameobject *gameobject : moveableGameobjects) {
-		UndoProc::AddUndo(UndoProc::UNDO_MOVE_UP, gameobject);
-		GameboardProc::RemoveGameobject(gameobject);
-		gameobject->MoveUp();
-		GameboardProc::AddGameobject(gameobject);
-	}
+	GameobjectSet hasYouPropGameobject = findAllYouObject();
+	resetBuffers();
+	addAvailableMoveUpGroupOfGameobjectToMoveable(hasYouPropGameobject);
+	groupOfGameobjectMove(moveableGameobjects);
 }
 void MoveProc::MoveDown() {
-	std::unordered_set<Gameobject*> hasYouPropGameobject = findAllYouObject();
-
-	resetBlockMoveableRecord();
-	moveableGameobjects.clear();
-
-	for (Gameobject *gameobject : hasYouPropGameobject) {
-		if (checkMoveDown(gameobject->GetInfo().position.Down())) {
-			moveableGameobjects.insert(gameobject);
-		}
-	}
-
-	for (Gameobject *gameobject : moveableGameobjects) {
-		UndoProc::AddUndo(UndoProc::UNDO_MOVE_DOWN, gameobject);
-		GameboardProc::RemoveGameobject(gameobject);
-		gameobject->MoveDown();
-		GameboardProc::AddGameobject(gameobject);
-	}
+	GameobjectSet hasYouPropGameobject = findAllYouObject();
+	resetBuffers();
+	addAvailableMoveDownGroupOfGameobjectToMoveable(hasYouPropGameobject);
+	groupOfGameobjectMove(moveableGameobjects);
 }
 void MoveProc::MoveLeft() {
-	std::unordered_set<Gameobject*> hasYouPropGameobject = findAllYouObject();
-
-	resetBlockMoveableRecord();
-	moveableGameobjects.clear();
-
-	for (Gameobject *gameobject : hasYouPropGameobject) {
-		if (checkMoveLeft(gameobject->GetInfo().position.Left())) {
-			moveableGameobjects.insert(gameobject);
-		}
-	}
-
-	for (Gameobject *gameobject : moveableGameobjects) {
-		UndoProc::AddUndo(UndoProc::UNDO_MOVE_LEFT, gameobject);
-		GameboardProc::RemoveGameobject(gameobject);
-		gameobject->MoveLeft();
-		GameboardProc::AddGameobject(gameobject);
-	}
+	GameobjectSet hasYouPropGameobject = findAllYouObject();
+	resetBuffers();
+	addAvailableMoveLeftGroupOfGameobjectToMoveable(hasYouPropGameobject);
+	groupOfGameobjectMove(moveableGameobjects);
 }
 void MoveProc::MoveRight() {
-	std::unordered_set<Gameobject*> hasYouPropGameobject = findAllYouObject();
+	GameobjectSet hasYouPropGameobject = findAllYouObject();
+	resetBuffers();
+	addAvailableMoveRightGroupOfGameobjectToMoveable(hasYouPropGameobject);
+	groupOfGameobjectMove(moveableGameobjects);
+}
 
+MoveProc::GameobjectSet MoveProc::findAllYouObject() {
+	GameobjectSet result;
+	LevelData::Gameboard.foreach([&](Block &block) {
+		for (Gameobject *gameobject : block) {
+			if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_YOU)) {
+				result.insert(gameobject);
+			}
+		}
+	});
+	return result;
+}
+MoveProc::GameobjectSet MoveProc::findAllMoveObject() {
+	GameobjectSet result;
+	LevelData::Gameboard.foreach([&](Block &block) {
+		for (Gameobject *gameobject : block) {
+			if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_MOVE)) {
+				result.insert(gameobject);
+			}
+		}
+	});
+	return result;
+}
+
+void MoveProc::resetBuffers() {
 	resetBlockMoveableRecord();
 	moveableGameobjects.clear();
-
-	for (Gameobject *gameobject : hasYouPropGameobject) {
-		if (checkMoveRight(gameobject->GetInfo().position.Right())) {
-			moveableGameobjects.insert(gameobject);
-		}
-	}
-
-	for (Gameobject *gameobject : moveableGameobjects) {
-		UndoProc::AddUndo(UndoProc::UNDO_MOVE_RIGHT, gameobject);
-		GameboardProc::RemoveGameobject(gameobject);
-		gameobject->MoveRight();
-		GameboardProc::AddGameobject(gameobject);
+}
+void MoveProc::setGameobjectMoveableWithDirection(Gameobject *gameobject, Direction direction) {
+	gameobject->SetTextureDirection(direction);
+	moveableGameobjects.insert(gameobject);
+}
+void MoveProc::setGroupOfGameobjectMoveableWithDirection(GameobjectSet &gameobjects, Direction direction) {
+	for (Gameobject *gameobject : gameobjects) {
+		setGameobjectMoveableWithDirection(gameobject, direction);
 	}
 }
 
-std::unordered_set<Gameobject*> MoveProc::findAllYouObject() {
-	std::unordered_set<Gameobject*> result;
-	for (auto &col : LevelData::Gameboard) {
-		for (Block &block : col) {
-			for (Gameobject *gameobject : block) {
-				if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_YOU)) {
-					result.insert(gameobject);
-				}
-			}
-		}
-	}
+bool MoveProc::addAvailableMoveUpGameobjectToMoveable(Gameobject *gameobject) {
+	bool result = checkMoveUp(gameobject->GetInfo().position.Up());
+	if (result) setGameobjectMoveableWithDirection(gameobject, DIRECTION_UP);
 	return result;
 }
-std::unordered_set<Gameobject*> MoveProc::findAllMoveObject() {
-	std::unordered_set<Gameobject*> result;
-	for (auto &col : LevelData::Gameboard) {
-		for (Block &block : col) {
-			for (Gameobject *gameobject : block) {
-				if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_MOVE)) {
-					result.insert(gameobject);
-				}
-			}
+bool MoveProc::addAvailableMoveDownGameobjectToMoveable(Gameobject *gameobject) {
+	bool result = checkMoveDown(gameobject->GetInfo().position.Down());
+	if (result) setGameobjectMoveableWithDirection(gameobject, DIRECTION_DOWN);
+	return result;
+}
+bool MoveProc::addAvailableMoveLeftGameobjectToMoveable(Gameobject *gameobject) {
+	bool result = checkMoveLeft(gameobject->GetInfo().position.Left());
+	if (result) setGameobjectMoveableWithDirection(gameobject, DIRECTION_LEFT);
+	return result;
+}
+bool MoveProc::addAvailableMoveRightGameobjectToMoveable(Gameobject *gameobject) {
+	bool result = checkMoveRight(gameobject->GetInfo().position.Right());
+	if (result) setGameobjectMoveableWithDirection(gameobject, DIRECTION_RIGHT);
+	return result;
+}
+
+void MoveProc::addAvailableMoveUpGroupOfGameobjectToMoveable(GameobjectSet &gameobjects) {
+	for (Gameobject *gameobject : gameobjects) {
+		addAvailableMoveUpGameobjectToMoveable(gameobject);
+	}
+}
+void MoveProc::addAvailableMoveDownGroupOfGameobjectToMoveable(GameobjectSet &gameobjects) {
+	for (Gameobject *gameobject : gameobjects) {
+		addAvailableMoveDownGameobjectToMoveable(gameobject);
+	}
+}
+void MoveProc::addAvailableMoveLeftGroupOfGameobjectToMoveable(GameobjectSet &gameobjects) {
+	for (Gameobject *gameobject : gameobjects) {
+		addAvailableMoveLeftGameobjectToMoveable(gameobject);
+	}
+}
+void MoveProc::addAvailableMoveRightGroupOfGameobjectToMoveable(GameobjectSet &gameobjects) {
+	for (Gameobject *gameobject : gameobjects) {
+		addAvailableMoveRightGameobjectToMoveable(gameobject);
+	}
+}
+
+void MoveProc::gameobjectMove(Gameobject *gameobject) {
+	switch (gameobject->GetTextureDirection()) {
+	case DIRECTION_UP:
+		gameobjectMoveUp(gameobject);
+		break;
+	case DIRECTION_DOWN:
+		gameobjectMoveDown(gameobject);
+		break;
+	case DIRECTION_LEFT:
+		gameobjectMoveLeft(gameobject);
+		break;
+	case DIRECTION_RIGHT:
+		gameobjectMoveRight(gameobject);
+		break;
+	}
+}
+void MoveProc::gameobjectMoveUp(Gameobject *gameobject) {
+	UndoProc::AddUndo(UndoProc::UNDO_MOVE_UP, gameobject);
+	GameboardProc::RemoveGameobject(gameobject);
+	gameobject->MoveUp();
+	GameboardProc::AddGameobject(gameobject);
+}
+void MoveProc::gameobjectMoveDown(Gameobject *gameobject) {
+	UndoProc::AddUndo(UndoProc::UNDO_MOVE_DOWN, gameobject);
+	GameboardProc::RemoveGameobject(gameobject);
+	gameobject->MoveDown();
+	GameboardProc::AddGameobject(gameobject);
+}
+void MoveProc::gameobjectMoveLeft(Gameobject *gameobject) {
+	UndoProc::AddUndo(UndoProc::UNDO_MOVE_LEFT, gameobject);
+	GameboardProc::RemoveGameobject(gameobject);
+	gameobject->MoveLeft();
+	GameboardProc::AddGameobject(gameobject);
+}
+void MoveProc::gameobjectMoveRight(Gameobject *gameobject) {
+	UndoProc::AddUndo(UndoProc::UNDO_MOVE_RIGHT, gameobject);
+	GameboardProc::RemoveGameobject(gameobject);
+	gameobject->MoveRight();
+	GameboardProc::AddGameobject(gameobject);
+}
+
+void MoveProc::groupOfGameobjectMove(GameobjectSet &gameobjects) {
+	for (Gameobject* gameobject : gameobjects) {
+		gameobjectMove(gameobject);
+	}
+}
+
+void MoveProc::checkMovePropGameobjectsMovable(GameobjectSet &gameobjects) {
+	for (Gameobject *gameobject : gameobjects) {
+		if (gameobject->GetTextureDirection() == DIRECTION_UP) {
+			if (!addAvailableMoveUpGameobjectToMoveable(gameobject))
+				addAvailableMoveDownGameobjectToMoveable(gameobject);
+		}
+		else if (gameobject->GetTextureDirection() == DIRECTION_DOWN) {
+			if (!addAvailableMoveDownGameobjectToMoveable(gameobject))
+				addAvailableMoveUpGameobjectToMoveable(gameobject);
+		}
+		else if (gameobject->GetTextureDirection() == DIRECTION_LEFT) {
+			if (!addAvailableMoveLeftGameobjectToMoveable(gameobject))
+				addAvailableMoveRightGameobjectToMoveable(gameobject);
+		}
+		else if (gameobject->GetTextureDirection() == DIRECTION_RIGHT) {
+			if (!addAvailableMoveRightGameobjectToMoveable(gameobject))
+				addAvailableMoveLeftGameobjectToMoveable(gameobject);
 		}
 	}
-	return result;
 }
 
 void MoveProc::resetBlockMoveableRecord() {
-	for (auto &col : blockMoveableRecord) {
-		for (int8_t &val : col) {
-			val = -1;
-		}
-	}
+	blockMoveableRecord.foreach([](int8_t &val) {
+		val = -1;
+	});
 }
-bool MoveProc::checkBlockMoveable(Point position, std::unordered_set<PropId> aheadBlockProps, bool aheadBlockMoveable, Direction direction) {
-	std::unordered_set<Gameobject*> blockMoveableObjects;
-
-	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
-		bool pushProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH);
-
-		if (pushProp) {
-			if (!aheadBlockMoveable) {
-				if (!GameobjectPropsManager::CheckPropCanBeOffset(gameobject->GetInfo().id, aheadBlockProps)) {
-					return blockMoveableRecord[position] = 0;
-				}
-			}
-			blockMoveableObjects.insert(gameobject);
-		}
-	}
-	for (Gameobject *gameobject : blockMoveableObjects) {
-		gameobject->SetTextureDirection(direction);
-	}
-	moveableGameobjects.insert(blockMoveableObjects.begin(), blockMoveableObjects.end());
-	return blockMoveableRecord[position] = 1;
-}
-bool MoveProc::checkMoveUp(Point position) {
-	if (position.y < 0) return false;
-	if (blockMoveableRecord[position] != -1) {
-		return blockMoveableRecord[position];
-	}
-
+bool MoveProc::blockMoveable(Point position) {
 	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
 		bool stopProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_STOP);
 		bool pushProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH);
-		if (stopProp && !pushProp) return blockMoveableRecord[position] = 0;
+		bool youProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_YOU);
+		if (stopProp && !pushProp && !youProp) return false;
 	}
+	return true;
+}
+bool MoveProc::checkBlockCanSkip(Point position) {
+	if (blockMoveableRecord[position] == -1 && !blockMoveable(position)) blockMoveableRecord[position] = 0;
+	if (blockMoveableRecord[position] == -1 && !LevelData::Gameboard[position].HasMoveableGameobject()) blockMoveableRecord[position] = 1;
+	if (blockMoveableRecord[position] != -1) return true;
+	return false;
+}
 
-	if (!LevelData::Gameboard[position].HasMoveableGameobject()) {
-		return blockMoveableRecord[position] = 1;
+MoveProc::GameobjectSet MoveProc::getPushObjectInBlock(Point position) {
+	GameobjectSet result;
+	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH)) {
+			result.insert(gameobject);
+		}
 	}
-
-	bool aheadBlockMoveable = checkMoveUp(position.Up());
-	blockMoveableRecord[position] = checkBlockMoveable(position, GameboardProc::GetAllPropsInBlock(position.Up()), aheadBlockMoveable, DIRECTION_UP);
+	return result;
+}
+bool MoveProc::checkGameobjectsMoveable(GameobjectSet &gameobjects, AheadBlockInfo aheadBlockInfo) {
+	for (Gameobject *gameobject : gameobjects) {
+		if (!aheadBlockInfo.moveable && !GameobjectPropsManager::CheckPropCanBeOffset(gameobject->GetInfo().id, aheadBlockInfo.properties)) {
+			return false;
+		}
+	}
+	return true;
+}
+bool MoveProc::checkBlockMoveable(MoveInfo moveInfo, AheadBlockInfo aheadBlockInfo) {
+	GameobjectSet hasPushObjects = getPushObjectInBlock(moveInfo.position);
+	blockMoveableRecord[moveInfo.position] = checkGameobjectsMoveable(hasPushObjects, aheadBlockInfo);
+	if (blockMoveableRecord[moveInfo.position]) {
+		setGroupOfGameobjectMoveableWithDirection(hasPushObjects, moveInfo.direction);
+	}
+	return blockMoveableRecord[moveInfo.position];
+}
+bool MoveProc::checkMoveUp(Point position) {
+	if (!LevelData::IsPointInGameboard(position)) return false;
+	if (checkBlockCanSkip(position)) return blockMoveableRecord[position];
+	
+	MoveInfo moveInfo { position,  DIRECTION_UP };
+	AheadBlockInfo aheadBlockInfo { checkMoveUp(position.Up()), GameboardProc::GetAllPropsInBlock(position.Up()) };
+	blockMoveableRecord[position] = checkBlockMoveable(moveInfo, aheadBlockInfo);
 	return blockMoveableRecord[position];
 }
 bool MoveProc::checkMoveDown(Point position) {
-	if (position.y >= LevelData::GetGameboardHeight()) return false;
-	if (blockMoveableRecord[position] != -1) {
-		return blockMoveableRecord[position];
-	}
-
-	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
-		bool stopProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_STOP);
-		bool pushProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH);
-		if (stopProp && !pushProp) return blockMoveableRecord[position] = 0;
-	}
-
-	if (!LevelData::Gameboard[position].HasMoveableGameobject()) {
-		return blockMoveableRecord[position] = 1;
-	}
-
-	bool aheadBlockMoveable = checkMoveDown(position.Down());
-	blockMoveableRecord[position] = checkBlockMoveable(position, GameboardProc::GetAllPropsInBlock(position.Down()), aheadBlockMoveable, DIRECTION_DOWN);
+	if (!LevelData::IsPointInGameboard(position)) return false;
+	if (checkBlockCanSkip(position)) return blockMoveableRecord[position];
+	
+	MoveInfo moveInfo { position,  DIRECTION_DOWN };
+	AheadBlockInfo aheadBlockInfo { checkMoveDown(position.Down()), GameboardProc::GetAllPropsInBlock(position.Down()) };
+	blockMoveableRecord[position] = checkBlockMoveable(moveInfo, aheadBlockInfo);
 	return blockMoveableRecord[position];
 }
 bool MoveProc::checkMoveLeft(Point position) {
-	if (position.x < 0) return false;
-	if (blockMoveableRecord[position.x][position.y] != -1) {
-		return blockMoveableRecord[position];
-	}
-
-	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
-		bool stopProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_STOP);
-		bool pushProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH);
-		if (stopProp && !pushProp) return blockMoveableRecord[position] = 0;
-	}
-
-	if (!LevelData::Gameboard[position].HasMoveableGameobject()) {
-		return blockMoveableRecord[position] = 1;
-	}
-
-	bool aheadBlockMoveable = checkMoveLeft(position.Left());
-	blockMoveableRecord[position] = checkBlockMoveable(position, GameboardProc::GetAllPropsInBlock(position.Left()), aheadBlockMoveable, DIRECTION_LEFT);
+	if (!LevelData::IsPointInGameboard(position)) return false;
+	if (checkBlockCanSkip(position)) return blockMoveableRecord[position];
+	
+	MoveInfo moveInfo { position,  DIRECTION_LEFT };
+	AheadBlockInfo aheadBlockInfo { checkMoveLeft(position.Left()), GameboardProc::GetAllPropsInBlock(position.Left()) };
+	blockMoveableRecord[position] = checkBlockMoveable(moveInfo, aheadBlockInfo);
 	return blockMoveableRecord[position];
 }
 bool MoveProc::checkMoveRight(Point position) {
-	if (position.x >= LevelData::GetGameboardWidth()) return false;
-	if (blockMoveableRecord[position] != -1) {
-		return blockMoveableRecord[position];
-	}
+	if (!LevelData::IsPointInGameboard(position)) return false;
+	if (checkBlockCanSkip(position)) return blockMoveableRecord[position];
 
-	for (Gameobject *gameobject : LevelData::Gameboard[position]) {
-		bool stopProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_STOP);
-		bool pushProp = GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH);
-		if (stopProp && !pushProp) return blockMoveableRecord[position] = 0;
-	}
-
-	if (!LevelData::Gameboard[position].HasMoveableGameobject()) {
-		return blockMoveableRecord[position] = 1;
-	}
-
-	bool aheadBlockMoveable = checkMoveRight(position.Right());
-	blockMoveableRecord[position] = checkBlockMoveable(position, GameboardProc::GetAllPropsInBlock(position.Right()), aheadBlockMoveable, DIRECTION_RIGHT);
+	MoveInfo moveInfo { position,  DIRECTION_RIGHT };
+	AheadBlockInfo aheadBlockInfo { checkMoveRight(position.Right()), GameboardProc::GetAllPropsInBlock(position.Right()) };
+	blockMoveableRecord[position] = checkBlockMoveable(moveInfo, aheadBlockInfo);
 	return blockMoveableRecord[position];
 }

@@ -16,6 +16,8 @@
 LevelManager::LevelManager() {}
 LevelManager::~LevelManager() {
 	LevelData::Clear();
+	UndoProc::Clear();
+	DescriptionProc::Clear();
 }
 
 void LevelManager::LoadLevel(int level) {
@@ -34,18 +36,8 @@ void LevelManager::MoveWait() {
 	UndoProc::ClearBuffer();
 
 	MoveProc::MoveWait();
-	
-	DescriptionProc::CalculateAllDescription();
-	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateAllReplaceProp();
-	PropertyProc::CheckAllOverlapProp();
-	GameboardProc::UpdateGameobjectTextureColor();
-
-	if (!UndoProc::AddBufferToStack()) {
-		DescriptionProc::Undo();
-		PropertyProc::UpdatePropsManager();
-		GameboardProc::UpdateGameobjectTextureColor();
-	}
+	updateProperties();
+	addUndo();
 }
 void LevelManager::MoveUp() {
 	if (LevelData::GetTouchWin()) return;
@@ -53,18 +45,8 @@ void LevelManager::MoveUp() {
 
 	MoveProc::MoveUp();
 	MoveProc::MoveWait();
-	
-	DescriptionProc::CalculateAllDescription();
-	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateAllReplaceProp();
-	PropertyProc::CheckAllOverlapProp();
-	GameboardProc::UpdateGameobjectTextureColor();
-
-	if (!UndoProc::AddBufferToStack()) {
-		DescriptionProc::Undo();
-		PropertyProc::UpdatePropsManager();
-		GameboardProc::UpdateGameobjectTextureColor();
-	}
+	updateProperties();
+	addUndo();
 }
 void LevelManager::MoveDown() {
 	if (LevelData::GetTouchWin()) return;
@@ -72,18 +54,8 @@ void LevelManager::MoveDown() {
 
 	MoveProc::MoveDown();
 	MoveProc::MoveWait();
-	
-	DescriptionProc::CalculateAllDescription();
-	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateAllReplaceProp();
-	PropertyProc::CheckAllOverlapProp();
-	GameboardProc::UpdateGameobjectTextureColor();
-
-	if (!UndoProc::AddBufferToStack()) {
-		DescriptionProc::Undo();
-		PropertyProc::UpdatePropsManager();
-		GameboardProc::UpdateGameobjectTextureColor();
-	}
+	updateProperties();
+	addUndo();
 }
 void LevelManager::MoveLeft() {
 	if (LevelData::GetTouchWin()) return;
@@ -91,18 +63,8 @@ void LevelManager::MoveLeft() {
 
 	MoveProc::MoveLeft();
 	MoveProc::MoveWait();
-	
-	DescriptionProc::CalculateAllDescription();
-	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateAllReplaceProp();
-	PropertyProc::CheckAllOverlapProp();
-	GameboardProc::UpdateGameobjectTextureColor();
-
-	if (!UndoProc::AddBufferToStack()) {
-		DescriptionProc::Undo();
-		PropertyProc::UpdatePropsManager();
-		GameboardProc::UpdateGameobjectTextureColor();
-	}
+	updateProperties();
+	addUndo();
 }
 void LevelManager::MoveRight() {
 	if (LevelData::GetTouchWin()) return;
@@ -110,18 +72,8 @@ void LevelManager::MoveRight() {
 
 	MoveProc::MoveRight();
 	MoveProc::MoveWait();
-	
-	DescriptionProc::CalculateAllDescription();
-	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateAllReplaceProp();
-	PropertyProc::CheckAllOverlapProp();
-	GameboardProc::UpdateGameobjectTextureColor();
-
-	if (!UndoProc::AddBufferToStack()) {
-		DescriptionProc::Undo();
-		PropertyProc::UpdatePropsManager();
-		GameboardProc::UpdateGameobjectTextureColor();
-	}
+	updateProperties();
+	addUndo();
 }
 void LevelManager::Undo() {
 	UndoProc::Undo();
@@ -131,16 +83,15 @@ void LevelManager::Undo() {
 }
 
 bool LevelManager::IsMoving() {
-	for (auto &col : LevelData::Gameboard) {
-		for (auto &block : col) {
-			for (Gameobject *gameobject : block) {
-				if (gameobject->IsMoving()) {
-					return true;
-				}
+	bool result = false;
+	LevelData::Gameboard.foreach([&](Block &block) {
+		for (Gameobject *gameobject : block) {
+			if (gameobject->IsMoving()) {
+				result = true;
 			}
 		}
-	}
-	return false;
+	});
+	return result;
 }
 bool LevelManager::IsWin() {
 	return LevelData::GetTouchWin();
@@ -150,55 +101,9 @@ void LevelManager::Show() {
 	LevelData::ShowBackground();
 
 	std::unordered_set<Gameobject*> connectedTextObjects = DescriptionProc::GetConnectedTextObjects();
-	std::unordered_set<Gameobject*> unusableTextObjects = DescriptionProc::GetUnusableTextObjects();
-
-	// show gameobject didn't move
-	for (auto &col : LevelData::Gameboard) {
-		for (Block &block : col) {
-			for (Gameobject *gameobject : block) {
-				if (gameobject->IsMoving()) continue;
-				if (gameobject->GetInfo().type == OBJECT_TYPE_TILED) {
-					gameobject->Show(GameboardProc::GetGameobjectConnectStatus(gameobject));
-				}
-				else if (gameobject->GetInfo().type == OBJECT_TYPE_TEXT) {
-					int otherInfo = 0;
-					if (connectedTextObjects.find(gameobject) != connectedTextObjects.end()) {
-						otherInfo |= 0b1;
-					}
-					if (unusableTextObjects.find(gameobject) != unusableTextObjects.end()) {
-						otherInfo |= 0b10;
-					}
-					gameobject->Show(otherInfo);
-				}
-				else {
-					gameobject->Show(textureAnimationCount);
-				}
-			}
-		}
-	}
-
-	// show gameobject is moving
-	for (auto &col : LevelData::Gameboard) {
-		for (Block &block : col) {
-			for (Gameobject *gameobject : block) {
-				if (!gameobject->IsMoving()) continue;
-				if (gameobject->GetInfo().type == OBJECT_TYPE_TILED) {
-					gameobject->Show(GameboardProc::GetGameobjectConnectStatus(gameobject));
-				}
-				else if (gameobject->GetInfo().type == OBJECT_TYPE_TEXT) {
-					if (connectedTextObjects.find(gameobject) != connectedTextObjects.end()) {
-						gameobject->Show(1);
-					}
-					else {
-						gameobject->Show(0);
-					}
-				}
-				else {
-					gameobject->Show(textureAnimationCount);
-				}
-			}
-		}
-	}
+	
+	showNotMovingGameobjects(connectedTextObjects);
+	showMovingGameobjects(connectedTextObjects);
 
 	if (nextTextureWaitTime-- == 0) {
 		LevelData::Gameboard.foreach([](Block &block) {
@@ -206,4 +111,44 @@ void LevelManager::Show() {
 		});
 		nextTextureWaitTime = 6;
 	}
+}
+
+void LevelManager::updateProperties() {
+	DescriptionProc::CalculateAllDescription();
+	PropertyProc::UpdatePropsManager();
+	PropertyProc::UpdateAllReplaceProp();
+	PropertyProc::CheckAllOverlapProp();
+	GameboardProc::UpdateGameobjectTextureColor();
+}
+
+void LevelManager::addUndo() {
+	if (!UndoProc::AddBufferToStack()) {
+		DescriptionProc::Undo();
+		PropertyProc::UpdatePropsManager();
+		GameboardProc::UpdateGameobjectTextureColor();
+	}
+}
+
+void LevelManager::showGameobjects(std::unordered_set<Gameobject*> &connectedTextObjects, CheckCanShowFunc checkCanShow) {
+	LevelData::Gameboard.foreach([&, this] (Block &block) {
+		for (Gameobject *gameobject : block) {
+			if (!checkCanShow(gameobject)) continue;
+			if (gameobject->GetInfo().type == OBJECT_TYPE_TILED) {
+				gameobject->Show(GameboardProc::GetGameobjectConnectStatus(gameobject));
+			}
+			else if (gameobject->GetInfo().type == OBJECT_TYPE_TEXT) {
+				gameobject->Show(connectedTextObjects.find(gameobject) != connectedTextObjects.end());
+			}
+			else {
+				gameobject->Show(textureAnimationCount);
+			}
+		}
+	});
+}
+
+void LevelManager::showNotMovingGameobjects(std::unordered_set<Gameobject*> &connectedTextObjects) {
+	showGameobjects(connectedTextObjects, [](Gameobject* gameobject) { return !gameobject->IsMoving(); });
+}
+void LevelManager::showMovingGameobjects(std::unordered_set<Gameobject*> &connectedTextObjects) {
+	showGameobjects(connectedTextObjects, [](Gameobject* gameobject) { return gameobject->IsMoving(); });
 }

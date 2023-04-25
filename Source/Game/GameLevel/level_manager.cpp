@@ -37,7 +37,7 @@ void LevelManager::MoveWait() {
 	
 	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateReplaceProp();
+	PropertyProc::UpdateAllReplaceProp();
 	PropertyProc::CheckAllOverlapProp();
 	GameboardProc::UpdateGameobjectTextureColor();
 
@@ -56,7 +56,7 @@ void LevelManager::MoveUp() {
 	
 	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateReplaceProp();
+	PropertyProc::UpdateAllReplaceProp();
 	PropertyProc::CheckAllOverlapProp();
 	GameboardProc::UpdateGameobjectTextureColor();
 
@@ -75,7 +75,7 @@ void LevelManager::MoveDown() {
 	
 	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateReplaceProp();
+	PropertyProc::UpdateAllReplaceProp();
 	PropertyProc::CheckAllOverlapProp();
 	GameboardProc::UpdateGameobjectTextureColor();
 
@@ -94,7 +94,7 @@ void LevelManager::MoveLeft() {
 	
 	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateReplaceProp();
+	PropertyProc::UpdateAllReplaceProp();
 	PropertyProc::CheckAllOverlapProp();
 	GameboardProc::UpdateGameobjectTextureColor();
 
@@ -113,7 +113,7 @@ void LevelManager::MoveRight() {
 	
 	DescriptionProc::CalculateAllDescription();
 	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateReplaceProp();
+	PropertyProc::UpdateAllReplaceProp();
 	PropertyProc::CheckAllOverlapProp();
 	GameboardProc::UpdateGameobjectTextureColor();
 

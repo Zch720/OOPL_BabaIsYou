@@ -29,7 +29,19 @@ private:
 	static std::vector<UndoInfo> undoBuffer;
 	static std::stack<std::vector<UndoInfo>> undoStack;
 
+	static void getUndoInfosToProcess();
+
+	static Gameobject* getUndoObject(Point, GameobjectId);
+	static void undoMoveUp(UndoInfo);
+	static void undoMoveDown(UndoInfo);
+	static void undoMoveLeft(UndoInfo);
+	static void undoMoveRight(UndoInfo);
+	static void undoGen(UndoInfo);
+	static void undoDelete(UndoInfo);
+	static void undoReplace(UndoInfo);
+
 public:
+	static void Clear();
 	static void ClearBuffer();
 	static void AddUndo(UndoType type, Gameobject *gameobject, int otherInfo = 0);
 	static bool AddBufferToStack();

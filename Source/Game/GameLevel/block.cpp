@@ -39,10 +39,7 @@ void Block::clear() {
 Gameobject* Block::GenGameobject(GameobjectId gameobjectId) {
 	Gameobject* gameobject = new Gameobject(gameobjectId, gameboardPosition);
 	blockObjects.push_back(gameobject);
-	gameobject->setTextureWithColor(
-		LevelData::textureOrigionPosition,
-		static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobjectId))
-	);
+	gameobject->SetTexture(static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobjectId)));
 	SortBlockObjects();
 	return gameobject;
 }
@@ -70,7 +67,7 @@ void Block::RemoveGameobject(Gameobject* gameobject) {
 
 bool Block::HasGameobjectId(GameobjectId gameobjectId) {
 	for (Gameobject *gameobject : blockObjects) {
-		if (gameobject->gameobjectId == gameobjectId) {
+		if (gameobject->GetInfo().id == gameobjectId) {
 			return true;
 		}
 	}
@@ -78,22 +75,30 @@ bool Block::HasGameobjectId(GameobjectId gameobjectId) {
 }
 bool Block::HasMoveableGameobject() {
 	for (Gameobject *gameobject : blockObjects) {
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_YOU)) return true;
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, PROP_PUSH)) return true;
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_YOU)) return true;
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH)) return true;
+	}
+	return false;
+}
+bool Block::HasTextGameobject() {
+	for (Gameobject *gameobject : blockObjects) {
+		if (IsTextObject(gameobject->GetInfo().id)) {
+			return true;
+		}
 	}
 	return false;
 }
 Gameobject* Block::FindGameobjectById(GameobjectId gameobjectId) {
-	for (auto gameobject = blockObjects.rbegin(); gameobject != blockObjects.rend(); gameobject++) {
-		if ((*gameobject)->gameobjectId == gameobjectId) {
-			return (*gameobject);
+	for (auto gameobjectIt = blockObjects.rbegin(); gameobjectIt != blockObjects.rend(); gameobjectIt++) {
+		if ((*gameobjectIt)->GetInfo().id == gameobjectId) {
+			return (*gameobjectIt);
 		}
 	}
 	return nullptr;
 }
 Gameobject* Block::FindGameobjectByProp(PropId propId) {
 	for (Gameobject *gameobject : blockObjects) {
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->gameobjectId, propId)) {
+		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, propId)) {
 			return gameobject;
 		}
 	}
@@ -101,13 +106,15 @@ Gameobject* Block::FindGameobjectByProp(PropId propId) {
 }
 
 void Block::UpdateGameobjectColor() {
-
+	for (Gameobject *gameobject : blockObjects) {
+		gameobject->SetTexture(static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobject->GetInfo().id)));
+	}
 }
 
+auto GameobjectCmp = [](Gameobject *object1, Gameobject *object2) {
+	return GetGameobjectZIndex(object1->GetInfo().id) < GetGameobjectZIndex(object2->GetInfo().id);
+};
+
 void Block::SortBlockObjects() {
-	std::sort(blockObjects.begin(), blockObjects.end(),
-		[this](Gameobject *obj1, Gameobject *obj2) {
-			return GetGameobjectZIndex(obj1->gameobjectId) < GetGameobjectZIndex(obj2->gameobjectId);
-		}
-	);
+	std::sort(blockObjects.begin(), blockObjects.end(), GameobjectCmp);
 }

@@ -87,9 +87,6 @@
     <ClCompile Include="Source\Game\GameLevel\gameobject_id.cpp">
       <Filter>MyGame\GameLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\GameLevel\gameobject_properties.cpp">
-      <Filter>MyGame\GameLevel</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\GameLevel\gameobject_properties_manager.cpp">
       <Filter>MyGame\GameLevel</Filter>
     </ClCompile>
@@ -192,9 +189,6 @@
       <Filter>MyGame\GameLevel</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameLevel\gameobject_id.h">
-      <Filter>MyGame\GameLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameLevel\gameobject_properties.h">
       <Filter>MyGame\GameLevel</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameLevel\gameobject_properties_manager.h">

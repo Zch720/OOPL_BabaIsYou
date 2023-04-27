@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gameobject_id.h"
 #include "property_id.h"
 #include "../../Expansion/point.h"
 
@@ -11,11 +12,12 @@ private:
 	static void checkOverlapPropBlock_Sink(Point);
 	static void deleteOverlapPropBoth(Point, PropId, PropId);
 	static void deleteOverlapPropSecond(Point, PropId, PropId);
+	static void updateReplaceProp(std::pair<GameobjectId, GameobjectId>&);
 
 public:
 	static bool CheckHasPropInBlock(Point position, PropId propId);
 	static void CheckAllOverlapProp();
 	static void LoadTextObjectsPushProp();
 	static void UpdatePropsManager();
-	static void UpdateReplaceProp();
+	static void UpdateAllReplaceProp();
 };

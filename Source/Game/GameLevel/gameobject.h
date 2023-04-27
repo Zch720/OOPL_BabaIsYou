@@ -13,50 +13,70 @@ enum Direction {
 	DIRECTION_DOWN = 3
 };
 
+struct GameobjectInfo {
+	GameobjectId id;
+	GameobjectType type;
+	Point position;
+};
+
 class Gameobject {
-public:
+private:
 	const int MOVE_STEP = 4;
 
+	GameobjectInfo info;
+	
 	game_framework::CMovingBitmap texture;
 	game_framework::CMovingBitmap textCrossed;
-	GameobjectId gameobjectId;
-	GameobjectType gameobjectType;
-	Point gameBoardPosition;
-
 	bool textureSetted = false;
 	bool alreadyReplace = false;
 	PropId textureColorPropId = PROP_NONE;
 	Direction textureDirection = DIRECTION_RIGHT;
+	int textureCount = 0;
 
 	Direction moveDirection = DIRECTION_RIGHT;
 	int characterTextureStep = 0;
 	int moveRemainStep = 0;
 
-	Gameobject(const GameobjectId gameobjectId, const Point gameBoardPosition);
+	void showCharacterTexture();
+	void showDirectionalTexture();
+	void showStaticTexture();
+	void showTiledTexture(int otherInformation);
+	void showTextTexture(int otherInformation);
 
-	bool replace(GameobjectId replaceGameobjectId);
-	void setTextureWithColor(const Point textureOriginPosition, const PropId colorPropId);
+	int getTextureMoveDistance();
+	void updateTexturePosition();
+
+public:
+	Gameobject(GameobjectId gameobjectId, Point position);
+
+	GameobjectInfo GetInfo();
+	Direction GetTextureDirection();
+
+	void SetReplace(bool value);
+	void SetTextureDirection(Direction direction);
+
+	bool Replace(GameobjectId replaceGameobjectId);
+	void SetTexture(PropId colorPropId);
 
 	/*
 		OBJECT_TYPE_CHARACTER: no otherInformation
+		OBJECT_TYPE_DIRECTIONAL: no otherInformation
 		OBJECT_TYPE_STATIC: no otherInformation
 		OBJECT_TYPE_TILED: otherInformation denote gameobject connect status
 		OBJECT_TYPE_TEXT: otherInformation denote text is dark(0) or light(1)
 	*/
-	void show(const int textureCount, const int otherInformation = 0);
+	void Show(int otherInformation = 0);
+	void UpdateTextureCount();
 
-	void updatePosition();
+	bool IsMoving();
 
-	void moveUp();
-	void moveDown();
-	void moveLeft();
-	void moveRight();
+	void MoveUp();
+	void MoveDown();
+	void MoveLeft();
+	void MoveRight();
 
-	/*
-		direction denote origion gameobject direction
-	*/
-	void undoUp(Direction direction);
-	void undoDown(Direction direction);
-	void undoLeft(Direction direction);
-	void undoRight(Direction direction);
+	void UndoUp(Direction direction);
+	void UndoDown(Direction direction);
+	void UndoLeft(Direction direction);
+	void UndoRight(Direction direction);
 };

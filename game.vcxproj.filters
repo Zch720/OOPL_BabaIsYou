@@ -245,6 +245,9 @@
     <ClInclude Include="Source\Game\Map\map_object_id.h">
       <Filter>MyGame\Map</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Expansion\direction.h">
+      <Filter>Expansion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Core\game.rc">

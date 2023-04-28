@@ -85,6 +85,8 @@ void Log::LogError(const char *outputFormat, ...) {
 	delete[] message;
 	delete[] messageWithTag;
 	va_end(va);
+
+	exit(-1);
 }
 
 void Log::logInit() {

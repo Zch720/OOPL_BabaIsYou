@@ -283,6 +283,7 @@
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\StdAfx.h" />
     <ClInclude Include="Source\Expansion\dataio.h" />
+    <ClInclude Include="Source\Expansion\direction.h" />
     <ClInclude Include="Source\Expansion\log.h" />
     <ClInclude Include="Source\Expansion\point.h" />
     <ClInclude Include="Source\Expansion\string_proc.h" />

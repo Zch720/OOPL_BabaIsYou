@@ -2,16 +2,10 @@
 
 #include "../../Library/gameutil.h"
 #include "../../Expansion/point.h"
+#include "../../Expansion/direction.h"
 #include "property_id.h"
 #include "gameobject_id.h"
 #include "gameobject_type.h"
-
-enum Direction {
-	DIRECTION_RIGHT = 0,
-	DIRECTION_UP = 1,
-	DIRECTION_LEFT = 2,
-	DIRECTION_DOWN = 3
-};
 
 struct GameobjectInfo {
 	GameobjectId id;

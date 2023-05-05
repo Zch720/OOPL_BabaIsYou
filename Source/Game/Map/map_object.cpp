@@ -28,3 +28,31 @@ void Mapobject::LoadTexture(int world, Point textureOrigionPosition) {
 
 	texture.SetAnimation(250, false);
 }
+
+void Mapobject::MoveUp(Point textureOrigionPosition) {
+	mapobjectPosition.y -= 1;
+	Point realPosition = textureOrigionPosition + mapobjectPosition * 54;
+	realPosition.AddOffset(-9, -9);
+	texture.SetTopLeft(realPosition.x, realPosition.y);
+}
+
+void Mapobject::MoveDown(Point textureOrigionPosition) {
+	mapobjectPosition.y += 1;
+	Point realPosition = textureOrigionPosition + mapobjectPosition * 54;
+	realPosition.AddOffset(-9, -9);
+	texture.SetTopLeft(realPosition.x, realPosition.y);
+}
+
+void Mapobject::MoveLeft(Point textureOrigionPosition) {
+	mapobjectPosition.x -= 1;
+	Point realPosition = textureOrigionPosition + mapobjectPosition * 54;
+	realPosition.AddOffset(-9, -9);
+	texture.SetTopLeft(realPosition.x, realPosition.y);
+}
+
+void Mapobject::MoveRight(Point textureOrigionPosition) {
+	mapobjectPosition.x += 1;
+	Point realPosition = textureOrigionPosition + mapobjectPosition * 54;
+	realPosition.AddOffset(-9, -9);
+	texture.SetTopLeft(realPosition.x, realPosition.y);
+}

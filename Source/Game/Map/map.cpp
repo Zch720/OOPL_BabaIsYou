@@ -80,3 +80,63 @@ void Map::Show() {
 	});
 	box.Show();
 }
+
+int  Map::CheckIndex() {
+	Mapobject checkedobject = worldVector[box.mapobjectPosition];
+	if (checkedobject.mapobjectId == NONE) {
+		return -1000;
+	}
+	return checkedobject.levelIndex;
+}
+
+void Map::MoveUp() {
+	if (box.mapobjectPosition.y > 0) {
+		box.mapobjectPosition.y -= 1;
+		if (CheckIndex() != -1000) {
+			box.mapobjectPosition.y += 1;
+			box.MoveUp(textureOrigionPosition);
+		}
+		else {
+			box.mapobjectPosition.y += 1;
+		}
+	}
+}
+
+void Map::MoveDown() {
+	if (box.mapobjectPosition.y < worldVectorHeight - 1) {
+		box.mapobjectPosition.y += 1;
+		if (CheckIndex() != -1000) {
+			box.mapobjectPosition.y -= 1;
+			box.MoveDown(textureOrigionPosition);
+		}
+		else {
+			box.mapobjectPosition.y -= 1;
+		}
+	}
+}
+
+void Map::MoveLeft() {
+	if (box.mapobjectPosition.x > 0) {
+		box.mapobjectPosition.x -= 1;
+		if (CheckIndex() != -1000) {
+			box.mapobjectPosition.x += 1;
+			box.MoveLeft(textureOrigionPosition);
+		}
+		else {
+			box.mapobjectPosition.x += 1;
+		}
+	}
+}
+
+void Map::MoveRight() {
+	if (box.mapobjectPosition.x < worldVectorWidth - 1) {
+		box.mapobjectPosition.x += 1;
+		if (CheckIndex() != -1000) {
+			box.mapobjectPosition.x -= 1;
+			box.MoveRight(textureOrigionPosition);
+		}
+		else {
+			box.mapobjectPosition.x -= 1;
+		}
+	}
+}

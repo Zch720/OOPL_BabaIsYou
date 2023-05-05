@@ -21,5 +21,11 @@ public:
 
 	void LoadWorld(int world);
 	void ClearWorld();
+	int CheckIndex();
 	void Show();
+
+	void MoveUp();
+	void MoveDown();
+	void MoveLeft();
+	void MoveRight();
 };

@@ -6,14 +6,21 @@
 class Mapobject {
 private:
 	game_framework::CMovingBitmap texture;
-	MapobjectId mapobjectId = NONE;
+	int moveStep = 3;
+	
 
 public:
 	Mapobject();
 	Mapobject(MapobjectId mapobjectId, int world);
 
+	MapobjectId mapobjectId = NONE;
 	Point mapobjectPosition;
 	int levelIndex;
+
+	void MoveUp(Point textureOrigionPosition);
+	void MoveDown(Point textureOrigionPosition);
+	void MoveLeft(Point textureOrigionPosition);
+	void MoveRight(Point textureOrigionPosition);
 
 	void LoadTexture(int world, Point textureOrigionPosition);
 	void Show();

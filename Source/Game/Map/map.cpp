@@ -18,6 +18,7 @@ void Map::ClearWorld() {
 void Map::LoadWorld(int world) {
 	ClearWorld();
 
+	worldBackground = CMovingBitmap();
 	worldBackground.LoadBitmapByString({"./resources/map/" + intToString(world) + "/world_background_1.bmp", "resources/map/" + intToString(world) + "/world_background_2.bmp", "resources/map/" + intToString(world) + "/world_background_3.bmp"});
 	worldBackground.SetTopLeft(70, 55);
 	worldBackground.SetAnimation(250, false);

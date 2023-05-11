@@ -19,7 +19,7 @@ level_7 2 9 7
 line_7 3 11 -1
 level_6 3 10 6
 line_13 3 9 -1
-flower 3 5 1005
+flower 3 5 -1
 line_10 3 4 -1
 line_11 3 3 -1
 line_8 3 2 -1
@@ -38,10 +38,10 @@ line_7 6 3 -1
 line_8 6 2 -1
 line_5 7 6 -1
 line_5 7 3 -1
-mountain 8 6 1002
+mountain 8 6 -1
 line_10 8 5 -1
 line_10 8 4 -1
-pillar 8 3 1004
+pillar 8 3 -1
 line_5 9 6 -1
 line_5 9 3 -1
 line_3 10 10 -1
@@ -51,6 +51,6 @@ line_10 10 7 -1
 line_12 10 6 -1
 line_7 10 3 -1
 line_10 10 2 -1
-moon 10 1 1007
-leaf 11 10 1003
-tree 11 3 1006
+moon 10 1 -1
+leaf 11 10 -1
+tree 11 3 -1

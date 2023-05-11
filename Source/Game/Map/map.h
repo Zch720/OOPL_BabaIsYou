@@ -22,6 +22,9 @@ public:
 	void LoadWorld(int world);
 	void ClearWorld();
 	int CheckIndex();
+	Point GetBoxPosition();
+	void SetBoxPosition(Point boxPosition);
+	
 	void Show();
 
 	void MoveUp();

@@ -29,7 +29,7 @@ line_5 4 3 -1
 line_5 5 11 -1
 line_5 5 9 -1
 line_5 5 3 -1
-level_ex1 6 11 11
+level_ex1 6 11 -1
 line_6 6 9 -1
 line_10 6 8 -1
 jelly 6 7 1001

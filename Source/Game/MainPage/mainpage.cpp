@@ -59,6 +59,11 @@ void MainPage::StartScreenInit() {
 	chooser.SetAnimation(250, false);
 }
 
+void MainPage::MainpageInit() {
+	StandbyScreenInit();
+	StartScreenInit();
+}
+
 void MainPage::ChooserMove(int direction) {
 	if (direction == 0) {
 		chooserPoint.y -= 1;

@@ -80,9 +80,57 @@ int GetMapobjectIdByName(std::string mapobjectName) {
 	if (mapobjectName == "level_7") {
 		return LEVEL7;
 	}
+	if (mapobjectName == "level_8") {
+		return LEVEL8;
+	}
+	if (mapobjectName == "level_9") {
+		return LEVEL9;
+	}
+	if (mapobjectName == "level_10") {
+		return LEVEL10;
+	}
+	if (mapobjectName == "level_11") {
+		return LEVEL11;
+	}
+	if (mapobjectName == "level_12") {
+		return LEVEL12;
+	}
+	if (mapobjectName == "level_13") {
+		return LEVEL13;
+	}
+	if (mapobjectName == "level_ex1") {
+		return LEVELEX1;
+	}
+	if (mapobjectName == "level_ex2") {
+		return LEVELEX2;
+	}
+	if (mapobjectName == "level_ex3") {
+		return LEVELEX3;
+	}
 
+	if (mapobjectName == "map") {
+		return MAP;
+	}
 	if (mapobjectName == "jelly") {
 		return JELLY;
+	}
+	if (mapobjectName == "mountain") {
+		return MOUNTAIN;
+	}
+	if (mapobjectName == "leaf") {
+		return LEAF;
+	}
+	if (mapobjectName == "pillar") {
+		return PILLAR;
+	}
+	if (mapobjectName == "flower") {
+		return FLOWER;
+	}
+	if (mapobjectName == "tree") {
+		return TREE;
+	}
+	if (mapobjectName == "moon") {
+		return MOON;
 	}
 
 	Log::LogError("Error when get mapobject id by mapobject name. Didn't has mapobject named \"%s\"", mapobjectName.c_str());
@@ -143,9 +191,41 @@ std::string GetMapobjectNameById(MapobjectId mapobjectId) {
 		return "level_6";
 	case LEVEL7:
 		return "level_7";
+	case LEVEL8:
+		return "level_8";
+	case LEVEL9:
+		return "level_9";
+	case LEVEL10:
+		return "level_10";
+	case LEVEL11:
+		return "level_11";
+	case LEVEL12:
+		return "level_12";
+	case LEVEL13:
+		return "level_13";
+	case LEVELEX1:
+		return "level_ex1";
+	case LEVELEX2:
+		return "level_ex2";
+	case LEVELEX3:
+		return "level_ex3";
 
+	case MAP:
+		return "map";
 	case JELLY:
 		return "jelly";
+	case MOUNTAIN:
+		return "mountain";
+	case LEAF:
+		return "leaf";
+	case PILLAR:
+		return "pillar";
+	case FLOWER:
+		return "flower";
+	case TREE:
+		return "tree";
+	case MOON:
+		return "moon";
 
 	default:
 		Log::LogError("can't get mapobject name by id %d", mapobjectId);

@@ -89,6 +89,14 @@ int  Map::CheckIndex() {
 	return checkedobject.levelIndex;
 }
 
+Point Map::GetBoxPosition() {
+	return box.mapobjectPosition;
+}
+
+void Map::SetBoxPosition(Point boxPosition) {
+	box.mapobjectPosition = boxPosition;
+}
+
 void Map::MoveUp() {
 	if (box.mapobjectPosition.y > 0) {
 		box.mapobjectPosition.y -= 1;

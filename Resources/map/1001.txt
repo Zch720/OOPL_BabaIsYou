@@ -1,0 +1,31 @@
+[game board size]
+10
+10
+[texture origin position]
+610
+325
+[box]
+box 4 9
+[objects]
+level_ex2 0 4 27
+level_ex1 1 4 26
+line_5 2 4 -1
+level_3 3 5 15
+level_5 3 4 17
+map 4 9 1000
+line_10 4 8 -1
+line_10 4 7 -1
+level_1 4 6 13
+level_2 4 5 14
+level_4 4 4 16
+line_9 4 3 -1
+level_7 4 1 19
+level_13 4 0 25
+line_7 5 3 -1
+line_10 5 2 -1
+level_6 5 1 18
+level_10 5 0 22
+level_8 6 3 20
+level_9 7 3 21
+level_11 8 3 23
+level_12 9 3 24

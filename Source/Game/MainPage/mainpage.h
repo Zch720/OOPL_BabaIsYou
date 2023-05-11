@@ -21,6 +21,7 @@ private:
 	static bool screenSwitch;
 
 public:
+	static void MainpageInit();
 	static void StandbyScreenInit();
 	static void StartScreenInit();
 	static void SwitchCheck();

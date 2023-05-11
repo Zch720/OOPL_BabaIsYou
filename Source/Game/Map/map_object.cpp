@@ -20,13 +20,16 @@ Mapobject::Mapobject(MapobjectId mapobjectId, int world) {
 void Mapobject::LoadTexture(int world, Point textureOrigionPosition) {
 	std::string mapobfectPath = "./resources/map/" + intToString(world) + "/" + GetMapobjectNameById(mapobjectId);
 	texture.LoadBitmapByString({ mapobfectPath + "_1.bmp", mapobfectPath + "_2.bmp", mapobfectPath + "_3.bmp" }, 0x00FF00);
+	UpdateBoxPosition(textureOrigionPosition);
+	texture.SetAnimation(250, false);
+}
+
+void Mapobject::UpdateBoxPosition(Point textureOrigionPosition) {
 	Point realPosition = textureOrigionPosition + mapobjectPosition * 54;
 	if (mapobjectId == BOX) {
 		realPosition.AddOffset(-9, -9);
 	}
 	texture.SetTopLeft(realPosition.x, realPosition.y);
-
-	texture.SetAnimation(250, false);
 }
 
 void Mapobject::MoveUp(Point textureOrigionPosition) {

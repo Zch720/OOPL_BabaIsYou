@@ -17,6 +17,8 @@ public:
 	Point mapobjectPosition;
 	int levelIndex;
 
+	void UpdateBoxPosition(Point textureOrigionPosition);
+
 	void MoveUp(Point textureOrigionPosition);
 	void MoveDown(Point textureOrigionPosition);
 	void MoveLeft(Point textureOrigionPosition);

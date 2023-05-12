@@ -38,6 +38,8 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
 
+#include "game_control.h"
+#include <queue>
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -48,6 +50,15 @@ namespace game_framework {
 		AUDIO_DING,				// 0
 		AUDIO_LAKE,				// 1
 		AUDIO_NTUT				// 2
+	};
+
+	enum KeyInputType {
+		INPUT_MOVE_UP,
+		INPUT_MOVE_DOWN,
+		INPUT_MOVE_LEFT,
+		INPUT_MOVE_RIGHT,
+		INPUT_ENTER,
+		INPUT_BACK
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -63,9 +74,10 @@ namespace game_framework {
 		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 	protected:
+		void OnMove();
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		CMovingBitmap logo;								// csie的logo
+		CMovingBitmap logo;	
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -89,6 +101,15 @@ namespace game_framework {
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
+	private:
+		std::queue<KeyInputType> inputBuffer;
+		void clearInputBuffer();							// csie的logo
+		void mainPageInit();
+		void mainPageKeyDown(KeyInputType inputType);
+		void mainPageLeftButtonDown(CPoint point);
+		void mainPageMouseMove(CPoint point);
+		void levelMapKeyDown(KeyInputType inputType);
+		void gameLevelKeyDown(KeyInputType inputType);
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -105,7 +126,9 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		int counter;	// 倒數之計數器
+		void mainPageClear();
+		void mapClear();
+		void gameLevelClear();
 	};
 
 }

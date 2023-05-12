@@ -303,6 +303,7 @@
     <ClInclude Include="Source\Game\GameLevel\level_undo_proc.h" />
     <ClInclude Include="Source\Game\GameLevel\property_id.h" />
     <ClInclude Include="Source\Game\GameLevel\texture_manager.h" />
+    <ClInclude Include="Source\Game\game_control.h" />
     <ClInclude Include="Source\Game\MainPage\mainpage.h" />
     <ClInclude Include="Source\Game\Map\map.h" />
     <ClInclude Include="Source\Game\Map\map_object.h" />

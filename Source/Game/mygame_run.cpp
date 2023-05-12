@@ -122,7 +122,7 @@ void CGameStateRun::OnShow()
 	if (atMainMenu) {
 		MainPage::ShowImage();
 		CDC *pDC = CDDraw::GetBackCDC();
-		CTextDraw::ChangeFontLog(pDC, 40, "BABAmoji", 0xFFFFFF);
+		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0xFFFFFF);
 		MainPage::ShowText(pDC);
 		CDDraw::ReleaseBackCDC();
 	}

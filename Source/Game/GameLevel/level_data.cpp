@@ -71,7 +71,7 @@ void LevelData::checkSourceFileTitle(std::vector<std::string>::iterator &line, s
 }
 
 void LevelData::loadResourceDatas() {
-	std::string sources = loadFile("./resources/level/" + intToString(level));
+	std::string sources = loadFile("./resources/level/" + intToString(level) + ".level");
 	std::vector<std::string> levelResource = stringSplit(sources, '\n');
 	std::vector<std::string>::iterator line = levelResource.begin();
 	loadGameboardSize(line);

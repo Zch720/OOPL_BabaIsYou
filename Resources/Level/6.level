@@ -7,25 +7,25 @@
 [texture size]
 54
 [needed texture]
-baba prop_none
-rock prop_none
-wall prop_none
-grass prop_none
-skull prop_none
-flower prop_none
-brick prop_none
-tile prop_none
-flag prop_none
-text_is prop_none
-text_rock prop_none
-text_skull prop_none
-text_flag prop_none
-text_wall prop_none
-text_baba prop_none
-text_stop prop_none
-text_defeat prop_none
-text_win prop_none
-text_you prop_none
+baba prop_none 0
+rock prop_none 0
+wall prop_none 0
+grass prop_none 0
+skull prop_none 0
+flower prop_none 0
+brick prop_none 0
+tile prop_none 0
+flag prop_none 0
+text_is prop_none 0
+text_rock prop_none 0
+text_skull prop_none 0
+text_flag prop_none 0
+text_wall prop_none 0
+text_baba prop_none 0
+text_stop prop_none 0
+text_defeat prop_none 0
+text_win prop_none 0
+text_you prop_none 0
 [objects]
 baba 8 6 0
 rock 4 0 0

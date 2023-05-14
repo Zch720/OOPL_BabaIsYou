@@ -15,9 +15,14 @@ std::unordered_map<std::string, PropId> propNameId = {
 	{"prop_shut", PROP_SHUT},
 	{"prop_open", PROP_OPEN},
 	{"prop_move", PROP_MOVE},
+	{"prop_red", PROP_RED},
+	{"prop_blue", PROP_BLUE},
+	{"prop_float", PROP_FLOAT},
 };
 std::unordered_map<PropId, std::string> propColorDir = {
-	{PROP_NONE, "default"}
+	{PROP_NONE, "default"},
+	{PROP_RED, "red"},
+	{PROP_BLUE, "blue"},
 };
 
 int GetPropIdByName(std::string propName) {

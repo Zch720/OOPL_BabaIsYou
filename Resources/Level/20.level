@@ -7,21 +7,21 @@
 [texture size]
 54
 [needed texture]
-baba prop_none
-algae prop_none
-star prop_none
-wall prop_none
-tile prop_none
-jelly prop_none
-text_is prop_none
-text_wall prop_none
-text_flag prop_none
-text_baba prop_none
-text_jelly prop_none
-text_stop prop_none
-text_win prop_none
-text_you prop_none
-text_defeat prop_none
+baba prop_none 1
+algae prop_none 1
+star prop_none 1
+wall prop_none 1
+tile prop_none 1
+jelly prop_none 1
+text_is prop_none 1
+text_wall prop_none 1
+text_flag prop_none 1
+text_baba prop_none 1
+text_jelly prop_none 1
+text_stop prop_none 1
+text_win prop_none 1
+text_you prop_none 1
+text_defeat prop_none 1
 [objects]
 baba 9 3 0
 algae 5 0 0

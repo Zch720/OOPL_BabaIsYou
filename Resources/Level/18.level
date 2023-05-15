@@ -7,30 +7,30 @@
 [texture size]
 54
 [needed texture]
-baba prop_none
-bubble prop_none
-wall prop_none
-algae prop_none
-tile prop_none
-key prop_none
-door prop_none
-brick prop_none
-rock prop_none
-pillar prop_none
-flag prop_none
-text_is prop_none
-text_baba prop_none
-text_wall prop_none
-text_door prop_none
-text_rock prop_none
-text_key prop_none
-text_flag prop_none
-text_you prop_none
-text_stop prop_none
-text_shut prop_none
-text_open prop_none
-text_push prop_none
-text_win prop_none
+baba prop_none 1
+bubble prop_none 1
+wall prop_none 1
+algae prop_none 1
+tile prop_none 1
+key prop_none 1
+door prop_none 1
+brick prop_none 1
+rock prop_none 1
+pillar prop_none 1
+flag prop_none 1
+text_is prop_none 1
+text_baba prop_none 1
+text_wall prop_none 1
+text_door prop_none 1
+text_rock prop_none 1
+text_key prop_none 1
+text_flag prop_none 1
+text_you prop_none 1
+text_stop prop_none 1
+text_shut prop_none 1
+text_open prop_none 1
+text_push prop_none 1
+text_win prop_none 1
 [objects]
 baba 9 7 0
 bubble 13 1 0

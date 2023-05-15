@@ -5,11 +5,11 @@
 
 #define REMOVE_COLOR		0x00FF00
 
-int TextureManager::world = -1;
 int TextureManager::textureSize = 0;
 Point TextureManager::textureOriginPosition = Point();
 std::string TextureManager::worldTextureDir = "";
 std::unordered_map<uint64_t, game_framework::CMovingBitmap> TextureManager::textures = std::unordered_map<uint64_t, game_framework::CMovingBitmap>();
+std::unordered_map<GameobjectId, uint8_t> TextureManager::texturesWorld = std::unordered_map<GameobjectId, uint8_t>();
 
 std::vector<std::string> characterTextureFiles = {
 	"0_1.bmp", "0_2.bmp", "0_3.bmp",
@@ -62,8 +62,15 @@ std::vector<std::string> textTextureFiles = {
 };
 
 
+void TextureManager::Reset() {
+	texturesWorld.clear();
+}
+
 int TextureManager::GetTextureSize() {
 	return TextureManager::textureSize;
+}
+void TextureManager::SetTextureSize(int textureSize) {
+	TextureManager::textureSize = textureSize;
 }
 void TextureManager::SetTextureOriginPosition(int x, int y) {
 	textureOriginPosition.x = x;
@@ -74,14 +81,16 @@ Point TextureManager::GetTextureOriginPosition() {
 	return textureOriginPosition;
 }
 
-void TextureManager::SetDirInfo(int world, int textureSize) {
-	TextureManager::world = world;
-	TextureManager::textureSize = textureSize;
+void TextureManager::setWorldDir(int world) {
 	TextureManager::worldTextureDir = intToString(world) + "/" + intToString(textureSize) + "/";
 }
 
-void TextureManager::LoadTexture(GameobjectId gameobjectId, PropId colorPropId) {
-	if (textures.find(getTexturesKey(gameobjectId, colorPropId)) != textures.end()) return;
+void TextureManager::LoadTexture(int world, GameobjectId gameobjectId, PropId colorPropId) {
+	texturesWorld[gameobjectId] = world;
+
+	if (textures.find(getTexturesKey(world, gameobjectId, colorPropId)) != textures.end()) return;
+
+	setWorldDir(world);
 
 	int typeNum = GetGameobjectTypeById(gameobjectId);
 	if (typeNum == -1) {
@@ -90,31 +99,31 @@ void TextureManager::LoadTexture(GameobjectId gameobjectId, PropId colorPropId) 
 
 	switch (static_cast<GameobjectType>(typeNum)) {
 	case OBJECT_TYPE_CHARACTER:
-		textures[getTexturesKey(gameobjectId, colorPropId)] =
+		textures[getTexturesKey(world, gameobjectId, colorPropId)] =
 			loadTexture(getTextureDirWithColor(gameobjectId, colorPropId), characterTextureFiles);
 		break;
 	case OBJECT_TYPE_DIRECTIONAL:
-		textures[getTexturesKey(gameobjectId, colorPropId)] =
+		textures[getTexturesKey(world, gameobjectId, colorPropId)] =
 			loadTexture(getTextureDirWithColor(gameobjectId, colorPropId), directinalTextureFiles);
 		break;
 	case OBJECT_TYPE_TILED:
-		textures[getTexturesKey(gameobjectId, colorPropId)] =
+		textures[getTexturesKey(world, gameobjectId, colorPropId)] =
 			loadTexture(getTextureDirWithColor(gameobjectId, colorPropId), tiledTextureFiles);
 		break;
 	case OBJECT_TYPE_STATIC:
-		textures[getTexturesKey(gameobjectId, colorPropId)] =
+		textures[getTexturesKey(world, gameobjectId, colorPropId)] =
 			loadTexture(getTextureDirWithColor(gameobjectId, colorPropId), staticTextureFiles);
 		break;
 	case OBJECT_TYPE_TEXT:
-		textures[getTexturesKey(gameobjectId, colorPropId)] =
+		textures[getTexturesKey(world, gameobjectId, colorPropId)] =
 			loadTexture(getTextureDirWithoutColor(gameobjectId, colorPropId), textTextureFiles);
 		break;
 	}
 
-	Log::LogInfo("loaded texture of %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
+	Log::LogInfo("loaded texture of %s with prop %d of world %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId, world);
 }
 
-uint64_t TextureManager::getTexturesKey(GameobjectId gameobjectId, PropId propId) {
+uint64_t TextureManager::getTexturesKey(int world, GameobjectId gameobjectId, PropId propId) {
 	return ((uint64_t)world << 48) | ((uint64_t)textureSize << 32) | ((uint64_t)gameobjectId << 16) | propId;
 }
 
@@ -141,10 +150,10 @@ game_framework::CMovingBitmap TextureManager::loadTexture(std::string textureDir
 }
 
 game_framework::CMovingBitmap TextureManager::GetGameobjecTexture(GameobjectId gameobjectId, PropId colorPropId) {
-	auto it = textures.find(getTexturesKey(gameobjectId, colorPropId));
+	auto it = textures.find(getTexturesKey(texturesWorld[gameobjectId], gameobjectId, colorPropId));
 
 	if (it == textures.end()) {
-		Log::LogError("didn't load texture for %s with prop %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId);
+		Log::LogError("didn't load texture for %s with prop %d from world %d", GetGameobjectNameById(gameobjectId).c_str(), colorPropId, texturesWorld[gameobjectId]);
 	}
 
 	return it->second;

@@ -15,14 +15,11 @@ private:
 
 	static game_framework::CMovingBitmap background;
 	
-	static int world;
 	static int level;
 	static int gameboardWidth;
 	static int gameboardHeight;
 
 	static bool touchWinObject;
-
-	static void getWorld(int level);
 
 	static void checkSourceFileTitle(std::vector<std::string>::iterator&, std::string);
 

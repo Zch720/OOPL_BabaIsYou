@@ -6,7 +6,6 @@
 #include "../../Expansion/dataio.h"
 #include "../../Expansion/string_proc.h"
 
-int LevelData::world = 0;
 int LevelData::level = 0;
 
 game_framework::CMovingBitmap LevelData::background = game_framework::CMovingBitmap();
@@ -19,14 +18,12 @@ vector2d<Block> LevelData::Gameboard = vector2d<Block>();
 void LevelData::LoadLevel(int level) {
 	Clear();
 	LevelData::level = level;
-	getWorld(level);
 
 	loadBackground();
 	loadResourceDatas();
 }
 void LevelData::Clear() {
 	Gameboard.clear();
-	world = -1;
 	level = -1;
 	touchWinObject = false;
 }
@@ -56,14 +53,6 @@ bool LevelData::IsPointInGameboard(POINT point) {
 	);
 }
 
-void LevelData::getWorld(int level) {
-	if (level <= 12) {
-		world = 0;
-	} else if (level <= 27) {
-		world = 1;
-	}
-}
-
 void LevelData::checkSourceFileTitle(std::vector<std::string>::iterator &line, std::string title) {
 	if (*line != title) {
 		Log::LogError("level %d source file title wrong, '%s'", level, title);
@@ -71,7 +60,7 @@ void LevelData::checkSourceFileTitle(std::vector<std::string>::iterator &line, s
 }
 
 void LevelData::loadResourceDatas() {
-	std::string sources = loadFile("./resources/level/" + intToString(level));
+	std::string sources = loadFile("./resources/level/" + intToString(level) + ".level");
 	std::vector<std::string> levelResource = stringSplit(sources, '\n');
 	std::vector<std::string>::iterator line = levelResource.begin();
 	loadGameboardSize(line);
@@ -98,17 +87,19 @@ void LevelData::loadTextureOriginPosition(std::vector<std::string>::iterator &li
 void LevelData::loadTextureSize(std::vector<std::string>::iterator &line) {
 	checkSourceFileTitle(line++, "[texture size]");
 	int textureSize = stringToInt(*(line++));
-	TextureManager::SetDirInfo(world, textureSize);
+	TextureManager::SetTextureSize(textureSize);
 }
 void LevelData::loadNeededTextures(std::vector<std::string>::iterator &line) {
 	checkSourceFileTitle(line++, "[needed texture]");
+	TextureManager::Reset();
 	for (; (*line)[0] != '['; line++) {
 		std::vector<std::string> textureInfo = stringSplit(*line, ' ');
 		GameobjectId gameobjectId = static_cast<GameobjectId>(GetGameobjectIdByName(textureInfo[0]));
 		PropId colorPropId = static_cast<PropId>(GetPropIdByName(textureInfo[1]));
-		TextureManager::LoadTexture(gameobjectId, colorPropId);
+		int textureWorld = stringToInt(textureInfo[2]);
+		TextureManager::LoadTexture(textureWorld, gameobjectId, colorPropId);
 	}
-	TextureManager::LoadTexture(GAMEOBJECT_CROSSED, PROP_NONE);
+	TextureManager::LoadTexture(0, GAMEOBJECT_CROSSED, PROP_NONE);
 }
 void LevelData::loadObjects(std::vector<std::string>::iterator &line, std::vector<std::string>::iterator &linesEnd) {
 	checkSourceFileTitle(line++, "[objects]");

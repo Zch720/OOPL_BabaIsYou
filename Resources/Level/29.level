@@ -1,0 +1,95 @@
+[game board size]
+24
+14
+[texture origin position]
+312
+162
+[texture size]
+54
+[needed texture]
+baba prop_none 0
+wall prop_none 0
+tile prop_none 0
+rock prop_none 0
+flag prop_none 0
+text_is prop_none 0
+text_baba prop_none 0
+text_flag prop_none 0
+text_wall prop_none 0
+text_rock prop_none 0
+text_float prop_none 0
+text_you prop_none 0
+text_win prop_none 0
+text_stop prop_none 0
+text_push prop_none 0
+[objects]
+baba 8 7 0
+wall 7 5 0
+wall 8 5 0
+wall 9 5 0
+wall 10 5 0
+wall 11 5 0
+wall 12 5 0
+wall 13 5 0
+wall 14 5 0
+wall 15 5 0
+wall 16 5 0
+wall 17 5 0
+wall 7 9 0
+wall 8 9 0
+wall 9 9 0
+wall 10 9 0
+wall 11 9 0
+wall 12 9 0
+wall 13 9 0
+wall 14 9 0
+wall 15 9 0
+wall 16 9 0
+wall 17 9 0
+tile 7 6 0
+tile 8 6 0
+tile 9 6 0
+tile 10 6 0
+tile 11 6 0
+tile 13 6 0
+tile 14 6 0
+tile 15 6 0
+tile 16 6 0
+tile 17 6 0
+tile 7 7 0
+tile 9 7 0
+tile 10 7 0
+tile 11 7 0
+tile 13 7 0
+tile 14 7 0
+tile 15 7 0
+tile 17 7 0
+tile 7 8 0
+tile 8 8 0
+tile 9 8 0
+tile 10 8 0
+tile 11 8 0
+tile 13 8 0
+tile 14 8 0
+tile 15 8 0
+tile 16 8 0
+tile 17 8 0
+rock 12 6 0
+rock 12 7 0
+rock 12 8 0
+flag 16 7 0
+text_is 1 0 0
+text_is 8 4 0
+text_is 16 4 0
+text_is 8 10 0
+text_is 16 10 0
+text_baba 0 0 0
+text_baba 7 4 0
+text_flag 15 4 0
+text_wall 7 10 0
+text_rock 15 10 0
+text_float 2 0 0
+text_you 9 4 0
+text_win 17 4 0
+text_stop 9 10 0
+text_push 17 10 0

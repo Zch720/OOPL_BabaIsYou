@@ -1,0 +1,93 @@
+[game board size]
+24
+14
+[texture origin position]
+312
+162
+[texture size]
+54
+[needed texture]
+baba prop_none 2
+rose prop_none 2
+violet prop_none 2
+flag prop_none 2
+baba prop_red 2
+rose prop_red 2
+violet prop_red 2
+flag prop_red 2
+baba prop_blue 2
+rose prop_blue 2
+violet prop_blue 2
+flag prop_blue 2
+wall prop_none 2
+text_is prop_none 2
+text_rose prop_none 2
+text_violet prop_none 2
+text_flag prop_none 2
+text_baba prop_none 2
+text_wall prop_none 2
+text_red prop_none 2
+text_blue prop_none 2
+text_win prop_none 2
+text_you prop_none 2
+text_stop prop_none 2
+[objects]
+baba 12 7 2
+rose 18 1 0
+rose 4 2 0
+rose 2 3 0
+rose 11 3 0
+rose 20 3 0
+rose 11 10 0
+rose 3 11 0
+rose 16 11 0
+rose 4 12 0
+violet 9 1 0
+violet 8 2 0
+violet 13 3 0
+violet 1 7 0
+violet 22 11 0
+violet 8 12 0
+violet 21 12 0
+flag 18 7 0
+wall 5 5 0
+wall 4 5 0
+wall 4 6 0
+wall 4 7 0
+wall 5 7 0
+wall 5 8 0
+wall 9 5 0
+wall 9 6 0
+wall 9 7 0
+wall 9 8 0
+wall 16 5 0
+wall 17 5 0
+wall 18 5 0
+wall 19 5 0
+wall 20 5 0
+wall 20 6 0
+wall 20 7 0
+wall 20 8 0
+wall 20 9 0
+wall 19 9 0
+wall 18 9 0
+wall 17 9 0
+wall 16 9 0
+wall 16 8 0
+wall 16 7 0
+wall 16 6 0
+text_is 7 5 0
+text_is 7 6 0
+text_is 7 7 0
+text_is 7 8 0
+text_is 1 13 0
+text_rose 6 5 0
+text_violet 6 6 0
+text_flag 6 7 0
+text_baba 6 8 0
+text_wall 0 13 0
+text_red 8 5 0
+text_blue 8 6 0
+text_win 8 7 0
+text_you 8 8 0
+text_stop 2 13 0

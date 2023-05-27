@@ -126,6 +126,10 @@ void MainPage::SetStartTheGameFunc(ButtonOnClickFunc func) {
 	startTheGame.SetOnClickFunc(func);
 }
 
+void MainPage::SetSettingsFunc(ButtonOnClickFunc func) {
+	settings.SetOnClickFunc(func);
+}
+
 void MainPage::SetExitTheGameFunc(ButtonOnClickFunc func) {
 	exitTheGame.SetOnClickFunc(func);
 }

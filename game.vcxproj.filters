@@ -29,6 +29,9 @@
     <Filter Include="MyGame\Map">
       <UniqueIdentifier>{7131b12d-c002-476d-b825-fca0c0628a04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyGame\Setting">
+      <UniqueIdentifier>{1a390bc6-b3b2-4a35-8f04-7bf9a2e84db6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RES\GAME.RC2">
@@ -143,6 +146,21 @@
     </ClCompile>
     <ClCompile Include="Source\Expansion\direction.cpp">
       <Filter>Expansion</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MainPage\mainpage.cpp">
+      <Filter>MyGame\MainPage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Map\map.cpp">
+      <Filter>MyGame\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Map\map_object.cpp">
+      <Filter>MyGame\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Map\map_object_id.cpp">
+      <Filter>MyGame\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Setting\setting.cpp">
+      <Filter>MyGame\Setting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GameLevel\texture_manager.h">
       <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Setting\setting.h">
+      <Filter>MyGame\Setting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

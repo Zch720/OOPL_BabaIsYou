@@ -270,6 +270,7 @@
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />
+    <ClCompile Include="Source\Game\Setting\setting.cpp" />
     <ClCompile Include="Source\Game\UI\button.cpp" />
     <ClCompile Include="Source\Library\audio.cpp" />
     <ClCompile Include="Source\Library\gamecore.cpp" />
@@ -312,6 +313,7 @@
     <ClInclude Include="Source\Game\Map\map_object.h" />
     <ClInclude Include="Source\Game\Map\map_object_id.h" />
     <ClInclude Include="Source\Game\mygame.h" />
+    <ClInclude Include="Source\Game\Setting\setting.h" />
     <ClInclude Include="Source\Game\UI\button.h" />
     <ClInclude Include="Source\Library\audio.h" />
     <ClInclude Include="Source\Library\gamecore.h" />

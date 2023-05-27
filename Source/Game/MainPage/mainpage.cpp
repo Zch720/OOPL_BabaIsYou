@@ -59,6 +59,11 @@ void MainPage::StartScreenInit() {
 	chooser.SetAnimation(250, false);
 }
 
+void MainPage::MainpageInit() {
+	StandbyScreenInit();
+	StartScreenInit();
+}
+
 void MainPage::ChooserMove(int direction) {
 	if (direction == 0) {
 		chooserPoint.y -= 1;
@@ -119,6 +124,10 @@ void MainPage::SetContieuePlayingFunc(ButtonOnClickFunc func) {
 
 void MainPage::SetStartTheGameFunc(ButtonOnClickFunc func) {
 	startTheGame.SetOnClickFunc(func);
+}
+
+void MainPage::SetSettingsFunc(ButtonOnClickFunc func) {
+	settings.SetOnClickFunc(func);
 }
 
 void MainPage::SetExitTheGameFunc(ButtonOnClickFunc func) {

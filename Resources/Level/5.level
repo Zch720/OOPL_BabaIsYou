@@ -1,0 +1,219 @@
+[game board size]
+33
+18
+[texture origin position]
+70
+54
+[texture size]
+54
+[needed texture]
+baba prop_none 0
+lava prop_none 0
+wall prop_none 0
+rock prop_none 0
+flag prop_none 0
+text_is prop_none 0
+text_wall prop_none 0
+text_baba prop_none 0
+text_rock prop_none 0
+text_lava prop_none 0
+text_flag prop_none 0
+text_stop prop_none 0
+text_you prop_none 0
+text_push prop_none 0
+text_melt prop_none 0
+text_hot prop_none 0
+text_win prop_none 0
+[objects]
+baba 14 1 2
+lava 3 0 0
+lava 4 0 0
+lava 0 1 0
+lava 1 1 0
+lava 2 1 0
+lava 3 1 0
+lava 0 2 0
+lava 1 2 0
+lava 0 3 0
+lava 20 0 0
+lava 21 0 0
+lava 22 0 0
+lava 23 0 0
+lava 24 0 0
+lava 25 0 0
+lava 26 0 0
+lava 19 1 0
+lava 20 1 0
+lava 21 1 0
+lava 22 1 0
+lava 23 1 0
+lava 24 1 0
+lava 25 1 0
+lava 19 2 0
+lava 20 2 0
+lava 21 2 0
+lava 22 2 0
+lava 23 2 0
+lava 24 2 0
+lava 18 3 0
+lava 19 3 0
+lava 20 3 0
+lava 21 3 0
+lava 22 3 0
+lava 23 3 0
+lava 24 3 0
+lava 18 4 0
+lava 19 4 0
+lava 20 4 0
+lava 21 4 0
+lava 22 4 0
+lava 23 4 0
+lava 18 5 0
+lava 19 5 0
+lava 20 5 0
+lava 21 5 0
+lava 22 5 0
+lava 23 5 0
+lava 17 6 0
+lava 18 6 0
+lava 19 6 0
+lava 20 6 0
+lava 21 6 0
+lava 22 6 0
+lava 23 6 0
+lava 17 7 0
+lava 18 7 0
+lava 19 7 0
+lava 20 7 0
+lava 21 7 0
+lava 22 7 0
+lava 17 8 0
+lava 18 8 0
+lava 19 8 0
+lava 20 8 0
+lava 21 8 0
+lava 22 8 0
+lava 16 9 0
+lava 17 9 0
+lava 18 9 0
+lava 19 9 0
+lava 20 9 0
+lava 21 9 0
+lava 22 9 0
+lava 16 10 0
+lava 17 10 0
+lava 18 10 0
+lava 19 10 0
+lava 20 10 0
+lava 21 10 0
+lava 15 11 0
+lava 16 11 0
+lava 17 11 0
+lava 18 11 0
+lava 19 11 0
+lava 20 11 0
+lava 15 12 0
+lava 16 12 0
+lava 17 12 0
+lava 18 12 0
+lava 19 12 0
+lava 20 12 0
+lava 14 13 0
+lava 15 13 0
+lava 16 13 0
+lava 17 13 0
+lava 18 13 0
+lava 19 13 0
+lava 14 14 0
+lava 15 14 0
+lava 16 14 0
+lava 17 14 0
+lava 18 14 0
+lava 13 15 0
+lava 14 15 0
+lava 15 15 0
+lava 16 15 0
+lava 17 15 0
+lava 18 15 0
+lava 12 16 0
+lava 13 16 0
+lava 14 16 0
+lava 15 16 0
+lava 16 16 0
+lava 17 16 0
+lava 11 17 0
+lava 12 17 0
+lava 13 17 0
+lava 14 17 0
+lava 15 17 0
+lava 16 17 0
+lava 17 17 0
+lava 32 15 0
+lava 31 16 0
+lava 32 16 0
+lava 30 17 0
+lava 31 17 0
+lava 32 17 0
+wall 6 0 0
+wall 6 1 0
+wall 6 2 0
+wall 6 3 0
+wall 6 4 0
+wall 6 5 0
+wall 6 6 0
+wall 6 7 0
+wall 7 4 0
+wall 7 6 0
+wall 8 6 0
+wall 9 6 0
+wall 10 6 0
+wall 11 6 0
+wall 12 6 0
+wall 8 7 0
+wall 12 0 0
+wall 16 0 0
+wall 16 1 0
+wall 16 2 0
+wall 16 3 0
+wall 15 3 0
+wall 14 3 0
+wall 13 3 0
+wall 12 2 0
+wall 12 3 0
+wall 12 4 0
+wall 11 4 0
+wall 7 12 0
+wall 11 12 0
+wall 7 13 0
+wall 8 13 0
+wall 9 13 0
+wall 10 13 0
+wall 11 13 0
+wall 11 14 0
+wall 11 15 0
+wall 10 15 0
+wall 9 15 0
+wall 8 15 0
+wall 7 15 0
+wall 7 14 0
+rock 12 5 0
+flag 26 12 0
+text_is 1 0 0
+text_is 9 3 0
+text_is 7 8 0
+text_is 9 12 0
+text_is 9 14 0
+text_is 26 14 0
+text_wall 0 0 0
+text_baba 8 3 0
+text_baba 8 12 0
+text_rock 7 7 0
+text_lava 12 10 0
+text_lava 8 14 0
+text_flag 25 14 0
+text_stop 2 0 0
+text_you 10 3 0
+text_push 7 9 0
+text_melt 10 12 0
+text_hot 10 14 0
+text_win 27 14 0

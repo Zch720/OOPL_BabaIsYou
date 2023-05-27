@@ -1,0 +1,190 @@
+[game board size]
+24
+14
+[texture origin position]
+312
+162
+[texture size]
+54
+[needed texture]
+baba prop_none 2
+pipe prop_none 2
+tile prop_none 2	
+skull prop_none 2
+robot prop_none 2
+grass prop_none 2
+text_is prop_none 2
+text_skull prop_none 2
+text_pipe prop_none 2
+text_baba prop_none 2
+text_robot prop_none 2
+text_defeat prop_none 2
+text_stop prop_none 2
+text_win prop_none 2
+text_you prop_none 2
+text_move prop_none 2
+[objects]
+baba 10 3 0
+pipe 0 3 0
+pipe 1 3 0
+pipe 1 4 0
+pipe 1 5 0
+pipe 1 6 0
+pipe 0 6 0
+pipe 2 4 0
+pipe 2 5 0
+pipe 17 0 0
+pipe 17 1 0
+pipe 18 1 0
+pipe 19 1 0
+pipe 20 1 0
+pipe 21 1 0
+pipe 22 1 0
+pipe 22 2 0
+pipe 22 3 0
+pipe 18 2 0
+pipe 18 3 0
+pipe 18 4 0
+pipe 19 4 0
+pipe 20 4 0
+pipe 21 4 0
+pipe 22 4 0
+pipe 23 4 0
+pipe 19 0 0
+pipe 23 0 0
+pipe 3 2 0
+pipe 3 7 0
+pipe 13 2 0
+pipe 9 11 0
+pipe 17 7 0
+pipe 22 10 0
+tile 2 1 0
+tile 3 1 0
+tile 4 1 0
+tile 4 2 0
+tile 4 3 0
+tile 3 3 0
+tile 2 3 0
+tile 2 2 0
+tile 9 2 0
+tile 10 2 0
+tile 11 2 0
+tile 11 3 0
+tile 11 4 0
+tile 10 4 0
+tile 9 4 0
+tile 9 3 0
+tile 12 1 0
+tile 13 1 0
+tile 14 1 0
+tile 14 2 0
+tile 14 3 0
+tile 13 3 0
+tile 12 3 0
+tile 12 2 0
+tile 8 10 0
+tile 9 10 0
+tile 10 10 0
+tile 10 11 0
+tile 10 12 0
+tile 9 12 0
+tile 8 12 0
+tile 8 11 0
+tile 16 6 0
+tile 17 6 0
+tile 18 6 0
+tile 18 7 0
+tile 18 8 0
+tile 17 8 0
+tile 16 8 0
+tile 16 7 0
+tile 21 9 0
+tile 22 9 0
+tile 23 9 0
+tile 23 10 0
+tile 23 11 0
+tile 22 11 0
+tile 21 11 0
+tile 21 10 0
+skull 4 4 3
+skull 5 4 3
+skull 6 4 3
+skull 7 4 3
+skull 7 5 3
+skull 7 6 3
+skull 7 7 3
+skull 7 8 3
+skull 7 9 3
+skull 7 10 3
+skull 7 11 3
+skull 7 12 3
+skull 7 13 3
+skull 4 5 3
+skull 5 5 3
+skull 6 5 3
+skull 6 6 3
+skull 6 7 3
+skull 6 8 3
+skull 6 9 3
+skull 6 10 3
+skull 6 11 3
+skull 6 12 3
+skull 6 13 3
+robot 3 10 0
+grass 2 6 0
+grass 3 6 0
+grass 4 6 0
+grass 5 6 0
+grass 0 7 0
+grass 1 7 0
+grass 2 7 0
+grass 4 7 0
+grass 5 7 0
+grass 0 8 0
+grass 1 8 0
+grass 2 8 0
+grass 3 8 0
+grass 4 8 0
+grass 5 8 0
+grass 0 9 0
+grass 1 9 0
+grass 2 9 0
+grass 3 9 0
+grass 4 9 0
+grass 5 9 0
+grass 0 10 0
+grass 1 10 0
+grass 2 10 0
+grass 4 10 0
+grass 5 10 0
+grass 0 11 0
+grass 1 11 0
+grass 2 11 0
+grass 3 11 0
+grass 4 11 0
+grass 5 11 0
+grass 0 12 0
+grass 1 12 0
+grass 2 12 0
+grass 3 12 0
+grass 4 12 0
+grass 5 12 0
+grass 0 13 0
+grass 1 13 0
+grass 2 13 0
+grass 3 13 0
+grass 4 13 0
+grass 5 13 0
+text_is 21 0 0
+text_is 23 2 0
+text_is 14 9 0
+text_is 18 11 0
+text_skull 20 0 0
+text_pipe 23 1 0
+text_baba 14 8 0
+text_robot 17 11 0
+text_defeat 22 0 0
+text_stop 23 3 0
+text_win 3 5 0
+text_you 14 10 0
+text_move 19 11 0

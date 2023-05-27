@@ -1,40 +1,54 @@
 #pragma once
 
 #include <vector>
-#include "../../Expansion/point.h"
-#include "gameobject.h"
+#include <functional>
+#include "objects.h"
+
+class LevelData;
 
 class Block {
 private:
-	std::vector<Gameobject*> blockObjects;
-	Point gameboardPosition;
+	POINT blockPosition {0, 0};
+	std::vector<ObjectBase*> objects;
+
+	ObjectBase* GetFirstObjectWithoutFloat();
+	ObjectBase* GetFirstObjectWithoutGenIdWithoutFloat(int genId);
+	ObjectBase* GetFirstObjectWithObjectIdWithoutFloat(ObjectId objectId);
+	ObjectBase* GetFirstObjectWithoutObjectIdWithoutFloat(ObjectId objectId);
+	ObjectBase* GetFirstObjectWithPropertyWithoutFloat(PropertyId propertyId);
+	ObjectBase* GetFirstObjectWithoutPropertyWithoutFloat(PropertyId propertyId);
+	
+	ObjectBase* GetFirstObjectWithFloat();
+	ObjectBase* GetFirstObjectWithoutGenIdWithFloat(int genId);
+	ObjectBase* GetFirstObjectWithObjectIdWithFloat(ObjectId objectId);
+	ObjectBase* GetFirstObjectWithoutObjectIdWithFloat(ObjectId objectId);
+	ObjectBase* GetFirstObjectWithPropertyWithFloat(PropertyId propertyId);
+	ObjectBase* GetFirstObjectWithoutPropertyWithFloat(PropertyId propertyId);
 
 public:
-	std::vector<Gameobject*>::iterator begin();
-	std::vector<Gameobject*>::iterator end();
-	void clear();
+	friend LevelData;
 
-public:
-	Block(Point position);
+	typedef std::function<void(ObjectBase&)> ObjectProcFunc;
 
-	size_t GetSize();
-	Point GetPosition();
+	Block(POINT position);
+	~Block();
 
-	bool IsEmpty();
+	bool IsPropertyOverlap(PropertyId propertyId1, PropertyId propertyId2);
 
-	Gameobject* operator[](const int index);
+	bool HasObjectId(ObjectId objectId);
+	bool HasPropertyIdWithoutFloat(PropertyId propertyId);
+	bool HasPropertyIdWithFloat(PropertyId propertyId);
+	bool HasTextobject();
 
-	Gameobject* GenGameobject(GameobjectId gameobjectId);
-	void DeleteGameobject(Gameobject* gameobject);
-	void AddGameobject(Gameobject* gameobject);
-	void RemoveGameobject(Gameobject* gameobject);
-	void SortBlockObjects();
+	size_t GetObjectsSize();
+	size_t GetObjectsSizeWithFloat();
+	size_t GetObjectsSizeWithoutFloat();
+	ObjectBase* GetTextobject();
+	POINT GetBlockPosition();
+	ObjectBase* GetBlockObject(int genId);
 
-	bool HasGameobjectId(GameobjectId gameobjectId);
-	bool HasMoveableGameobject();
-	bool HasTextGameobject();
-	Gameobject* FindGameobjectById(GameobjectId gameobjectId);
-	Gameobject* FindGameobjectByProp(PropId propId);
+	void AddObject(ObjectBase *object);
+	void RemoveObject(int genId);
 
-	void UpdateGameobjectColor();
+	void foreach(ObjectProcFunc procFunc);
 };

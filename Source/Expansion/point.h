@@ -3,18 +3,23 @@
 class Point : public POINT {
 public:
 	Point();
+	Point(POINT point);
 	Point(int x, int y);
 
 	bool operator==(const POINT point);
 	bool operator!=(const POINT point);
 
+	Point operator=(const POINT point);
+
 	Point operator+(const POINT point);
 	Point operator-(const POINT point);
 	Point operator*(const int number);
+	friend Point operator*(const int number, Point point);
 
 	Point operator+=(const POINT point);
 	Point operator-=(const POINT point);
 	Point operator*=(const int number);
+	friend Point operator*=(const int number, Point point);
 
 	Point Up();
 	Point Down();

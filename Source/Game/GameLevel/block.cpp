@@ -1,120 +1,261 @@
 #include "stdafx.h"
-#include "block.h"
 #include <algorithm>
-#include "level_data.h"
-#include "gameobject_properties_manager.h"
+#include "object_id.h"
+#include "property_manager.h"
+#include "texture_manager.h"
+#include "block.h"
 #include "../../Expansion/log.h"
 
-std::vector<Gameobject*>::iterator Block::begin() {
-	return blockObjects.begin();
-}
-std::vector<Gameobject*>::iterator Block::end() {
-	return blockObjects.end();
+Block::Block(POINT position) {
+	blockPosition = position;
 }
 
-Block::Block(Point position) : gameboardPosition(position) {}
-
-size_t Block::GetSize() {
-	return blockObjects.size();
-}
-Point Block::GetPosition() {
-	return gameboardPosition;
-}
-
-bool Block::IsEmpty() {
-	return blockObjects.empty();
-}
-
-Gameobject* Block::operator[](const int index) {
-	return blockObjects[index];
-}
-
-void Block::clear() {
-	for (Gameobject *gameobject : blockObjects) {
-		delete gameobject;
-	}
-	blockObjects.clear();
-}
-
-Gameobject* Block::GenGameobject(GameobjectId gameobjectId) {
-	Gameobject* gameobject = new Gameobject(gameobjectId, gameboardPosition);
-	blockObjects.push_back(gameobject);
-	gameobject->SetTexture(static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobjectId)));
-	SortBlockObjects();
-	return gameobject;
-}
-void Block::DeleteGameobject(Gameobject* gameobject) {
-	for (size_t i = 0; i < blockObjects.size(); i++) {
-		if (blockObjects[i] == gameobject) {
-			delete gameobject;
-			blockObjects.erase(blockObjects.begin() + i);
-			return;
-		}
-	}
-}
-void Block::AddGameobject(Gameobject* gameobject) {
-	blockObjects.push_back(gameobject);
-	SortBlockObjects();
-}
-void Block::RemoveGameobject(Gameobject* gameobject) {
-	for (size_t i = 0; i < blockObjects.size(); i++) {
-		if (blockObjects[i] == gameobject) {
-			blockObjects.erase(blockObjects.begin() + i);
-			return;
-		}
+Block::~Block() {
+	for (ObjectBase *object : objects) {
+		delete object;
 	}
 }
 
-bool Block::HasGameobjectId(GameobjectId gameobjectId) {
-	for (Gameobject *gameobject : blockObjects) {
-		if (gameobject->GetInfo().id == gameobjectId) {
+bool Block::IsPropertyOverlap(PropertyId propertyId1, PropertyId propertyId2) {
+	bool hasProperty1 = false;
+	bool hasProperty2 = false;
+	bool hasProperty1WithFloat = false;
+	bool hasProperty2WithFloat = false;
+	for (ObjectBase *object : objects) {
+		hasProperty1 |= object -> HasProperty(propertyId1) && (!object -> HasProperty(PROPERTY_FLOAT));
+		hasProperty2 |= object -> HasProperty(propertyId2) && (!object -> HasProperty(PROPERTY_FLOAT));
+		hasProperty1WithFloat |= object -> HasProperty(propertyId1) && object -> HasProperty(PROPERTY_FLOAT);
+		hasProperty2WithFloat |= object -> HasProperty(propertyId2) && object -> HasProperty(PROPERTY_FLOAT);
+	}
+	return (hasProperty1 && hasProperty2) || (hasProperty1WithFloat && hasProperty2WithFloat);
+}
+
+bool Block::HasObjectId(ObjectId objectId) {
+	for (ObjectBase *object : objects) {
+		if (object -> GetObjectId() == objectId) {
 			return true;
 		}
 	}
 	return false;
 }
-bool Block::HasMoveableGameobject() {
-	for (Gameobject *gameobject : blockObjects) {
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_YOU)) return true;
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, PROP_PUSH)) return true;
-	}
-	return false;
-}
-bool Block::HasTextGameobject() {
-	for (Gameobject *gameobject : blockObjects) {
-		if (IsTextObject(gameobject->GetInfo().id)) {
+
+bool Block::HasTextobject() {
+	for (ObjectBase *object : objects) {
+		if (ObjectIdProc::IsTextobjectId(object -> GetObjectId())) {
 			return true;
 		}
 	}
 	return false;
 }
-Gameobject* Block::FindGameobjectById(GameobjectId gameobjectId) {
-	for (auto gameobjectIt = blockObjects.rbegin(); gameobjectIt != blockObjects.rend(); gameobjectIt++) {
-		if ((*gameobjectIt)->GetInfo().id == gameobjectId) {
-			return (*gameobjectIt);
+
+bool Block::HasPropertyIdWithoutFloat(PropertyId propertyId) {
+	for (ObjectBase *object : objects) {
+		if ((object -> HasProperty(propertyId)) && !(object -> HasProperty(PROPERTY_FLOAT))) {
+			return true;
 		}
 	}
-	return nullptr;
+	return false;
 }
-Gameobject* Block::FindGameobjectByProp(PropId propId) {
-	for (Gameobject *gameobject : blockObjects) {
-		if (GameobjectPropsManager::GetGameobjectProp(gameobject->GetInfo().id, propId)) {
-			return gameobject;
+
+bool Block::HasPropertyIdWithFloat(PropertyId propertyId) {
+	for (ObjectBase *object : objects) {
+		if ((object -> HasProperty(propertyId)) && (object -> HasProperty(PROPERTY_FLOAT))) {
+			return true;
 		}
 	}
+	return false;
+}
+
+size_t Block::GetObjectsSize() {
+	return objects.size();
+}
+
+size_t Block::GetObjectsSizeWithFloat() {
+	size_t size = 0;
+	for (ObjectBase *object : objects) {
+		if (object -> HasProperty(PROPERTY_FLOAT)) {
+			size++;
+		}
+	}
+	return size;
+}
+
+size_t Block::GetObjectsSizeWithoutFloat() {
+	size_t size = 0;
+	for (ObjectBase *object : objects) {
+		if (!object -> HasProperty(PROPERTY_FLOAT)) {
+			size++;
+		}
+	}
+	return size;
+}
+
+ObjectBase* Block::GetTextobject() {
+	for (ObjectBase *object : objects) {
+		if (ObjectIdProc::IsTextobjectId(object -> GetObjectId())) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find text object at position (%d, %d)", blockPosition.x, blockPosition.y);
 	return nullptr;
 }
 
-void Block::UpdateGameobjectColor() {
-	for (Gameobject *gameobject : blockObjects) {
-		gameobject->SetTexture(static_cast<PropId>(GameobjectPropsManager::GetColorProp(gameobject->GetInfo().id)));
-	}
+POINT Block::GetBlockPosition() {
+	return blockPosition;
 }
 
-auto GameobjectCmp = [](Gameobject *object1, Gameobject *object2) {
-	return GetGameobjectZIndex(object1->GetInfo().id) < GetGameobjectZIndex(object2->GetInfo().id);
-};
+ObjectBase* Block::GetBlockObject(int genId) {
+	for (ObjectBase *object : objects) {
+		if (object -> GetGenId() == genId) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find object with genId %d at position (%d, %d)", genId, blockPosition.x, blockPosition.y);
+	return nullptr;
+}
 
-void Block::SortBlockObjects() {
-	std::sort(blockObjects.begin(), blockObjects.end(), GameobjectCmp);
+ObjectBase* Block::GetFirstObjectWithoutFloat() {
+	for (ObjectBase *object : objects) {
+		if (!object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find any object at position (%d, %d)", blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithoutGenIdWithoutFloat(int genId) {
+	for (ObjectBase *object : objects) {
+		if (object -> GetGenId() != genId && !object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find object without genId %d at position (%d, %d)", genId, blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithObjectIdWithoutFloat(ObjectId objectId) {
+	for (ObjectBase *object : objects) {
+		if (object -> GetObjectId() == objectId && !object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find object with objectId %s at position (%d, %d)", ObjectIdProc::GetNameById(objectId), blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithoutObjectIdWithoutFloat(ObjectId objectId) {
+	for (ObjectBase *object : objects) {
+		if (object -> GetObjectId() != objectId && !object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find object without objectId %s at position (%d, %d)", ObjectIdProc::GetNameById(objectId), blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithPropertyWithoutFloat(PropertyId propertyId) {
+	for (ObjectBase *object : objects) {
+		if (object -> HasProperty(propertyId) && !object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find object with property %s at position (%d, %d)", PropertyIdProc::GetNameById(propertyId), blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithoutPropertyWithoutFloat(PropertyId propertyId) {
+	for (ObjectBase *object : objects) {
+		if (!object -> HasProperty(propertyId) && !object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find object without property %s at position (%d, %d)", PropertyIdProc::GetNameById(propertyId), blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithFloat() {
+	for (ObjectBase *object : objects) {
+		if (object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find any float object at position (%d, %d)", blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithoutGenIdWithFloat(int genId) {
+	for (ObjectBase *object : objects) {
+		if (object -> GetGenId() != genId && object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find float object without genId %d at position (%d, %d)", genId, blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithObjectIdWithFloat(ObjectId objectId) {
+	if (!PropertyManager::ObjectHasProperty(objectId, PROPERTY_FLOAT)) {
+		Log::LogError("<Block> can't find float object with objectId %s at position (%d, %d)", ObjectIdProc::GetNameById(objectId), blockPosition.x, blockPosition.y);
+		return nullptr;
+	}
+
+	for (ObjectBase *object : objects) {
+		if (object -> GetObjectId() == objectId) {
+			return object;
+		}
+	}
+
+	Log::LogError("<Block> can't find float object with objectId %s at position (%d, %d)", ObjectIdProc::GetNameById(objectId), blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithoutObjectIdWithFloat(ObjectId objectId) {
+	for (ObjectBase *object : objects) {
+		if (object -> GetObjectId() != objectId && object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find float object without objectId %s at position (%d, %d)", ObjectIdProc::GetNameById(objectId), blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithPropertyWithFloat(PropertyId propertyId) {
+	for (ObjectBase *object : objects) {
+		if (object -> HasProperty(propertyId) && object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find float object with property %s at position (%d, %d)", PropertyIdProc::GetNameById(propertyId), blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+ObjectBase* Block::GetFirstObjectWithoutPropertyWithFloat(PropertyId propertyId) {
+	for (ObjectBase *object : objects) {
+		if (!object -> HasProperty(propertyId) && object -> HasProperty(PROPERTY_FLOAT)) {
+			return object;
+		}
+	}
+	Log::LogError("<Block> can't find float object without property %s at position (%d, %d)", PropertyIdProc::GetNameById(propertyId), blockPosition.x, blockPosition.y);
+	return nullptr;
+}
+
+void Block::AddObject(ObjectBase *object) {
+	objects.push_back(object);
+}
+
+void Block::RemoveObject(int genId) {
+	for (size_t i = 0; i < objects.size(); i++) {
+		if (objects[i] -> GetGenId() == genId) {
+			objects.erase(objects.begin() + i);
+			return;
+		}
+	}
+	Log::LogError("<Block> can't find object with genId %d at position (%d, %d)", genId, blockPosition.x, blockPosition.y);
+}
+
+void Block::foreach(ObjectProcFunc procFunc) {
+	for (ObjectBase *object : objects) {
+		procFunc(*object);
+	}
 }

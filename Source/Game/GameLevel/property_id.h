@@ -1,25 +1,35 @@
 #pragma once
 
-#include <string>
+#include <unordered_map>
+#include "game_level_config.h"
 
-enum PropId: int {
-	PROP_NONE,
-
-	PROP_YOU,
-	PROP_PUSH,
-	PROP_STOP,
-	PROP_WIN,
-	PROP_SINK,
-	PROP_DEFEAT,
-	PROP_HOT,
-	PROP_MELT,
-	PROP_SHUT,
-	PROP_OPEN,
-	PROP_MOVE,
-	PROP_RED,
-	PROP_BLUE,
-	PROP_FLOAT,
+enum PropertyId {
+	PROPERTY_NONE = PROPERTY_ID_BEGIN,
+	PROPERTY_YOU,
+	PROPERTY_STOP,
+	PROPERTY_WIN,
+	PROPERTY_PUSH,
+	PROPERTY_SINK,
+	PROPERTY_DEFEAT,
+	PROPERTY_MELT,
+	PROPERTY_HOT,
+	PROPERTY_MOVE,
+	PROPERTY_SHUT,
+	PROPERTY_OPEN,
+	PROPERTY_RED,
+	PROPERTY_BLUE,
+	PROPERTY_FLOAT,
 };
 
-int GetPropIdByName(std::string propName);
-std::string GetColorDirByPropId(PropId propId);
+class PropertyIdProc {
+private:
+	static std::unordered_map<std::string, PropertyId> propertyNameAndId;
+	static std::unordered_map<PropertyId, std::string> propertyColor;
+
+public:
+	static bool IsPropertyId(int id);
+	static bool IsPropertyName(std::string name);
+	static PropertyId GetIdByName(std::string propertyName);
+	static std::string GetNameById(PropertyId propertyId);
+	static std::string GetColorName(PropertyId propertyId);
+};

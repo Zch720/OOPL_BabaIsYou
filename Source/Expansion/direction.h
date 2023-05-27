@@ -7,3 +7,5 @@ enum Direction {
 	DIRECTION_LEFT = 2,
 	DIRECTION_DOWN = 3
 };
+
+Direction GetOppositeDirection(Direction direction);

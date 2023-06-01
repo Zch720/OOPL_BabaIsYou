@@ -243,6 +243,7 @@
     <ClCompile Include="Source\Core\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\Expansion\center_text.cpp" />
     <ClCompile Include="Source\Expansion\dataio.cpp" />
     <ClCompile Include="Source\Expansion\direction.cpp" />
     <ClCompile Include="Source\Expansion\log.cpp" />
@@ -285,6 +286,7 @@
     <ClInclude Include="Source\Core\MainFrm.h" />
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\StdAfx.h" />
+    <ClInclude Include="Source\Expansion\center_text.h" />
     <ClInclude Include="Source\Expansion\dataio.h" />
     <ClInclude Include="Source\Expansion\direction.h" />
     <ClInclude Include="Source\Expansion\log.h" />

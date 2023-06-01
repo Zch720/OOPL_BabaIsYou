@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "button.h"
 #include "../../Expansion/log.h"
+#include "../../Expansion/center_text.h"
 
 #define DEFAULT_TEXTURE_INDEX	0
 #define HOVER_TEXTURE_INDEX		1
@@ -95,10 +96,5 @@ void Button::updateButtonStatus() {
 }
 
 void Button::ShowText(CDC *pDC) {
-	game_framework::CTextDraw::Print(
-		pDC,
-		buttonCenterPosition.x - texture.GetWidth() / 2,
-		buttonCenterPosition.y - texture.GetHeight() / 2,
-		buttonText
-	);
+	CenterTextDraw::Print(pDC, buttonCenterPosition.x, buttonCenterPosition.y, buttonText);
 }

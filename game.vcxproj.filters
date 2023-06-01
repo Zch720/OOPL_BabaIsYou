@@ -159,6 +159,8 @@
     <ClCompile Include="Source\Game\Map\map_object_id.cpp">
       <Filter>MyGame\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Expansion\center_text.cpp">
+      <Filter>Expansion</Filter>
     <ClCompile Include="Source\Game\Setting\setting.cpp">
       <Filter>MyGame\Setting</Filter>
     </ClCompile>
@@ -280,6 +282,9 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Setting\setting.h">
       <Filter>MyGame\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expansion\center_text.h">
+      <Filter>Expansion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

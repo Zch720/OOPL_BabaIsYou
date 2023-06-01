@@ -161,6 +161,7 @@
     </ClCompile>
     <ClCompile Include="Source\Expansion\center_text.cpp">
       <Filter>Expansion</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Game\Setting\setting.cpp">
       <Filter>MyGame\Setting</Filter>
     </ClCompile>

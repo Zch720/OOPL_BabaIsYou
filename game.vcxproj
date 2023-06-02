@@ -250,6 +250,7 @@
     <ClCompile Include="Source\Expansion\point.cpp" />
     <ClCompile Include="Source\Expansion\string_proc.cpp" />
     <ClCompile Include="Source\Game\GameLevel\block.cpp" />
+    <ClCompile Include="Source\Game\GameLevel\effect_object.cpp" />
     <ClCompile Include="Source\Game\GameLevel\level_data.cpp" />
     <ClCompile Include="Source\Game\GameLevel\level_description.cpp" />
     <ClCompile Include="Source\Game\GameLevel\level_display.cpp" />
@@ -296,6 +297,7 @@
     <ClInclude Include="Source\Expansion\vector2d.hpp" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\GameLevel\block.h" />
+    <ClInclude Include="Source\Game\GameLevel\effect_object.h" />
     <ClInclude Include="Source\Game\GameLevel\game_level_config.h" />
     <ClInclude Include="Source\Game\GameLevel\level_data.h" />
     <ClInclude Include="Source\Game\GameLevel\level_description.h" />

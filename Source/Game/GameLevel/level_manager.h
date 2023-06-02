@@ -2,6 +2,9 @@
 
 class LevelManager {
 public:
+	void Init();
+	void Clean();
+
 	void LoadLevel(int level);
 
 	bool IsWin();

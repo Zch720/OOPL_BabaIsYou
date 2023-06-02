@@ -171,6 +171,9 @@
     <ClCompile Include="Source\Game\Pause\pause.cpp">
       <Filter>MyGame\Pause</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\GameLevel\effect_object.cpp">
+      <Filter>MyGame\GameLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Pause\pause.h">
       <Filter>MyGame\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLevel\effect_object.h">
+      <Filter>MyGame\GameLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

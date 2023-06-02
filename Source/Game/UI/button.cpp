@@ -47,10 +47,12 @@ void Button::SetButtonText(std::string text) {
 
 void Button::SetOnClickFunc(ButtonOnClickFunc func) {
 	onClickFunc = func;
+	isLoaded = true;
 }
 
 void Button::CopyButtonTexture(Button &button) {
 	this -> texture = button.texture;
+	isLoaded = true;
 }
 
 void Button::CheckMouseClick(CPoint position) {

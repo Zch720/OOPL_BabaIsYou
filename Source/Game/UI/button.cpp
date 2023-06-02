@@ -21,6 +21,7 @@ void Button::SetButtonCenterPosition(CPoint centerPosition) {
 
 void Button::SetButtonTexture(game_framework::CMovingBitmap texture) {
 	this -> texture = texture;
+	isLoaded = true;
 }
 
 void Button::SetButtonTexture(CPoint centerPosition, std::vector<std::string> texturePaths) {
@@ -51,6 +52,7 @@ void Button::SetOnClickFunc(ButtonOnClickFunc func) {
 
 void Button::CopyButtonTexture(Button &button) {
 	this -> texture = button.texture;
+	isLoaded = true;
 }
 
 void Button::CheckMouseClick(CPoint position) {

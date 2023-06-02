@@ -1,11 +1,20 @@
 #include "stdafx.h"
 #include "level_manager.h"
+#include "effect_object.h"
 #include "level_data.h"
 #include "level_undo.h"
 #include "level_move.h"
 #include "level_description.h"
 #include "level_display.h"
 #include "level_property.h"
+
+void LevelManager::Init() {
+	EffectTextures::Init();
+}
+
+void LevelManager::Clean() {
+	LevelDisplay::AnimationsClear();
+}
 
 void LevelManager::LoadLevel(int level) {
 	LevelData::LoadLevel(level);

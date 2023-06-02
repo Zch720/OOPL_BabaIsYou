@@ -31,6 +31,19 @@ public:
 		activity: 按鈕活動狀態
 	*/
 	void SetActivity(bool activity);
+	
+	/*
+		設定按鈕中心位置
+		centerPosition: 按鈕中心位置
+	*/
+	void SetButtonCenterPosition(CPoint centerPosition);
+
+	/*
+		設定按鈕圖片
+		centerPosition: 按鈕中心位置
+		texture: 按鈕圖片
+	*/
+	void SetButtonTexture(game_framework::CMovingBitmap texture);
 
 	/*
 		設定按鈕圖片
@@ -55,6 +68,12 @@ public:
 		func: 按下動作函式的函式指標
 	*/
 	void SetOnClickFunc(ButtonOnClickFunc func);
+
+	/*
+		複製按鈕圖片
+		button: 要複製的按鈕
+	*/
+	void CopyButtonTexture(Button &button);
 
 	/*
 		檢查滑鼠是否按下按鈕

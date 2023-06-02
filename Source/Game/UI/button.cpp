@@ -15,7 +15,16 @@ void Button::SetActivity(bool activity) {
 	isActivity = activity;
 }
 
+void Button::SetButtonCenterPosition(CPoint centerPosition) {
+	this -> buttonCenterPosition = centerPosition;
+}
+
+void Button::SetButtonTexture(game_framework::CMovingBitmap texture) {
+	this -> texture = texture;
+}
+
 void Button::SetButtonTexture(CPoint centerPosition, std::vector<std::string> texturePaths) {
+	texture = game_framework::CMovingBitmap();
 	texture.LoadBitmapByString(texturePaths, 0x00FF00);
 	texture.SetFrameIndexOfBitmap(DEFAULT_TEXTURE_INDEX);
 
@@ -38,6 +47,10 @@ void Button::SetButtonText(std::string text) {
 
 void Button::SetOnClickFunc(ButtonOnClickFunc func) {
 	onClickFunc = func;
+}
+
+void Button::CopyButtonTexture(Button &button) {
+	this -> texture = button.texture;
 }
 
 void Button::CheckMouseClick(CPoint position) {

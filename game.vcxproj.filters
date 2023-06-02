@@ -32,6 +32,9 @@
     <Filter Include="MyGame\Setting">
       <UniqueIdentifier>{1a390bc6-b3b2-4a35-8f04-7bf9a2e84db6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyGame\Pause">
+      <UniqueIdentifier>{8587ca25-dcb3-4fa1-afb7-bd5442c4b6b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RES\GAME.RC2">
@@ -161,8 +164,12 @@
     </ClCompile>
     <ClCompile Include="Source\Expansion\center_text.cpp">
       <Filter>Expansion</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Game\Setting\setting.cpp">
       <Filter>MyGame\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Pause\pause.cpp">
+      <Filter>MyGame\Pause</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -285,6 +292,9 @@
     </ClInclude>
     <ClInclude Include="Source\Expansion\center_text.h">
       <Filter>Expansion</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Pause\pause.h">
+      <Filter>MyGame\Pause</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

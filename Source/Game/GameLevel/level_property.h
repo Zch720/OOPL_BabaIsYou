@@ -7,6 +7,7 @@ class LevelProperty {
 private:
 	static PropertyManager::ObjectProperties newObjectProperties;
 	static PropertyManager::ObjectsConvert newObjectsConvert;
+	static std::vector<Point> deleteObjectPoints;
 
 	static void propertyPairProcess(std::pair<ObjectId, ObjectId> &propPair);
     static void processGameobject(ObjectId textobjectId, ObjectId convertTextobjectId);
@@ -30,6 +31,8 @@ private:
     static void checkPropertyOpenShut(Block &block);
 
 public:
+	static std::vector<Point> GetDeleteObjectPoints();
+	static void ClearDeleteObjectPoints();
 	static void SetBeginProperties();
     static void SetProperties();
 	static void GameobjectConvert();

@@ -8,12 +8,6 @@ const int PauseLayout::RETURN_TO_MAP_BUTTON_INDEX = 1;
 const int PauseLayout::RESTART_BUTTON_INDEX = 2;
 const int PauseLayout::SETTING_BUTTON_INDEX = 3;
 const int PauseLayout::RETURN_TO_MENU_BUTTON_INDEX = 4;
-const std::string PauseLayout::styleToString[4] = {
-    "default",
-    "water",
-    "island",
-    "ruin",
-};
 const POINT PauseLayout::buttonPosition[5] = {
     POINT{960, 161},
     POINT{960, 215},
@@ -46,14 +40,14 @@ PauseLayout::PauseLayout(Style style, std::string levelTitle, std::vector<std::s
     chooser.SetAnimation(100, false);
     chooser.SetTopLeft(chooserPosition[chooserIndex].x, chooserPosition[chooserIndex].y);
 
-    background.LoadBitmapByString({ "./resources/pause/" + styleToString[style] + "/background.bmp" }, 0x00FF00);
+    background.LoadBitmapByString({ "./resources/pause/" + StyleProc::GetStyleName(style) + "/background.bmp" }, 0x00FF00);
     for (int i = 0; i < 5; i++) {
         buttons[i].SetButtonTexture(
             buttonPosition[i],
             {
-                "./resources/pause/" + styleToString[style] + "/button1.bmp",
-                "./resources/pause/" + styleToString[style] + "/button2.bmp",
-                "./resources/pause/" + styleToString[style] + "/button3.bmp",
+                "./resources/pause/" + StyleProc::GetStyleName(style) + "/button1.bmp",
+                "./resources/pause/" + StyleProc::GetStyleName(style) + "/button2.bmp",
+                "./resources/pause/" + StyleProc::GetStyleName(style) + "/button3.bmp",
             }
         );
         buttons[i].SetButtonText(buttonText[i]);

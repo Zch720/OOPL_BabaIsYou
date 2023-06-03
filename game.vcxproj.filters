@@ -35,6 +35,9 @@
     <Filter Include="MyGame\Pause">
       <UniqueIdentifier>{8587ca25-dcb3-4fa1-afb7-bd5442c4b6b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyGame\CloudAnimation">
+      <UniqueIdentifier>{e489c35b-f619-4cfc-84dd-fbe7658f7aa6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RES\GAME.RC2">
@@ -174,6 +177,12 @@
     <ClCompile Include="Source\Game\GameLevel\effect_object.cpp">
       <Filter>MyGame\GameLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\style.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\CloudAnimation\cloud_animation.cpp">
+      <Filter>MyGame\CloudAnimation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -301,6 +310,12 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GameLevel\effect_object.h">
       <Filter>MyGame\GameLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\style.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\CloudAnimation\cloud_animation.h">
+      <Filter>MyGame\CloudAnimation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

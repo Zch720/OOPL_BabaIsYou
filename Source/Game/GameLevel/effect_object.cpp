@@ -2,33 +2,46 @@
 #include <stdlib.h>
 #include <cmath>
 #include "effect_object.h"
+#include "../../Expansion/point.h"
 
 #define PI acos(-1)
 
 game_framework::CMovingBitmap EffectTextures::winObjectEffectTexture54 = {};
 game_framework::CMovingBitmap EffectTextures::winObjectEffectTexture108 = {};
+game_framework::CMovingBitmap EffectTextures::dispearTexture54 = {};
+game_framework::CMovingBitmap EffectTextures::dispearTexture108 = {};
 
 void EffectTextures::Init() {
-	winObjectEffectTexture54.LoadBitmapByString(
-		{
-			"./resources/effect/win_object/54/1.bmp",
-			"./resources/effect/win_object/54/2.bmp",
-			"./resources/effect/win_object/54/3.bmp",
-			"./resources/effect/win_object/54/4.bmp",
-			"./resources/effect/win_object/54/5.bmp",
-		},
-		0x000000
-	);
-	winObjectEffectTexture108.LoadBitmapByString(
-		{
-			"./resources/effect/win_object/108/1.bmp",
-			"./resources/effect/win_object/108/2.bmp",
-			"./resources/effect/win_object/108/3.bmp",
-			"./resources/effect/win_object/108/4.bmp",
-			"./resources/effect/win_object/108/5.bmp",
-		},
-		0x000000
-	);
+	char filepath[260];
+	std::vector<std::string> paths;
+
+	paths.clear();
+	for (int i = 1; i < 6; i++) {
+		sprintf_s(filepath, 260, "./resources/effect/win_object/54/%d.bmp", i);
+		paths.push_back(filepath);
+	}
+	winObjectEffectTexture54.LoadBitmapByString(paths, 0x000000);
+
+	paths.clear();
+	for (int i = 1; i < 6; i++) {
+		sprintf_s(filepath, 260, "./resources/effect/win_object/108/%d.bmp", i);
+		paths.push_back(filepath);
+	}
+	winObjectEffectTexture108.LoadBitmapByString(paths, 0x000000);
+
+	paths.clear();
+	for (int i = 0; i < 19; i++) {
+		sprintf_s(filepath, 260, "./resources/effect/dispear/54/%d.bmp", i);
+		paths.push_back(filepath);
+	}
+	dispearTexture54.LoadBitmapByString(paths, 0x000000);
+	
+	paths.clear();
+	for (int i = 0; i < 19; i++) {
+		sprintf_s(filepath, 260, "./resources/effect/dispear/108/%d.bmp", i);
+		paths.push_back(filepath);
+	}
+	dispearTexture108.LoadBitmapByString(paths, 0x000000);
 }
 
 game_framework::CMovingBitmap EffectTextures::GetWinObjectEffectTexture54() {
@@ -37,6 +50,14 @@ game_framework::CMovingBitmap EffectTextures::GetWinObjectEffectTexture54() {
 
 game_framework::CMovingBitmap EffectTextures::GetWinObjectEffectTexture108() {
 	return winObjectEffectTexture108;
+}
+
+game_framework::CMovingBitmap EffectTextures::GetDispearTexture54() {
+	return dispearTexture54;
+}
+
+game_framework::CMovingBitmap EffectTextures::GetDispearTexture108() {
+	return dispearTexture108;
 }
 
 
@@ -92,4 +113,32 @@ void WinObjectEffect::updateTexture() {
 		texture.SetFrameIndexOfBitmap(++textureChangeCount);
 	}
 	frameCount++;
+}
+
+
+DispearEffect::DispearEffect(POINT centerPosition, int size) {
+	createInfo();
+	loadTexture(size);
+	this -> centerPosition = Point(rand() % 51 - 25, rand() % 51 - 25) * (size / 54) + centerPosition;
+	texture.SetTopLeft(this -> centerPosition.x - texture.GetWidth() / 2, this -> centerPosition.y - texture.GetHeight() / 2);
+}
+
+void DispearEffect::loadTexture(int size) {
+	if (size == 54) {
+		texture = EffectTextures::GetDispearTexture54();
+	}
+	else {
+		texture = EffectTextures::GetDispearTexture108();
+	}
+	texture.SetFrameIndexOfBitmap(0);
+}
+
+void DispearEffect::createInfo() {
+	info.frame = textureCount;
+}
+
+void DispearEffect::updatePosition() {}
+
+void DispearEffect::updateTexture() {
+	texture.SetFrameIndexOfBitmap(frameCount++);
 }

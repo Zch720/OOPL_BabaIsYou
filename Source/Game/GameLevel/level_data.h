@@ -3,6 +3,7 @@
 #include "block.h"
 #include "../../Library/gameutil.h"
 #include "../../Expansion/vector2d.hpp"
+#include "../style.h"
 
 class LevelData {
 public:
@@ -17,6 +18,10 @@ private:
 
 	static game_framework::CMovingBitmap background;
 
+	static std::string worldTitle;
+	static std::string levelTitle;
+	static Style worldMainStyle;
+
 	static vector2d<Block> gameboard;
 	static int genIdCounter;
 	static bool isWin;
@@ -28,6 +33,8 @@ private:
 	static std::vector<Datas> splitLevelDatas(std::string &origionData);
 	static void loadLevel_checkTitle(std::string title, std::string targetTitle);
 	static void loadLevel_Background(int level);
+	static void loadLevel_Title(Datas &data);
+	static void loadLevel_Style(Datas &data);
 	static void loadLevel_GameboardSize(Datas &data);
 	static void loadLevel_TextureOrigionPosition(Datas &data);
 	static void loadLevel_TextureSize(Datas &data);
@@ -49,6 +56,11 @@ public:
 
 	static bool HasTextobjectInBlock(POINT position);
 	
+	static std::string GetWorldTitle();
+	static std::string GetLevelTitle();
+	static std::string GetFullTitle();
+	static Style GetWorldMainStyle();
+
 	static ObjectBase& GetTextobjectInBlock(POINT position);
 	static ObjectBase& GetBlockObject(POINT position, int genId);
 	static ObjectBase& GetBlockObject(ObjectInfo objectInfo);

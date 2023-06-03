@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include "../style.h"
+
 class LevelManager {
 public:
 	void Init();
@@ -9,6 +12,11 @@ public:
 
 	bool IsWin();
 	bool IsMoving();
+
+	std::string GetWorldTitle();
+	std::string GetLevelTitle();
+	std::string GetFullTitle();
+	Style GetWorldMainStyle();
 
 	void Undo();
 

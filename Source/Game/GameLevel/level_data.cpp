@@ -8,6 +8,9 @@
 #include "../../Expansion/log.h"
 
 game_framework::CMovingBitmap LevelData::background = game_framework::CMovingBitmap();
+std::string LevelData::worldTitle = "";
+std::string LevelData::levelTitle = "";
+Style LevelData::worldMainStyle = STYLE_NONE;
 vector2d<Block> LevelData::gameboard = {};
 int LevelData::genIdCounter = 0;
 bool LevelData::isWin = false;
@@ -29,6 +32,8 @@ void LevelData::LoadLevel(int level) {
 	
 	Reset();
 	loadLevel_Background(level);
+	loadLevel_Title(levelDatas[TITLE_TITLE_INDEX]);
+	loadLevel_Style(levelDatas[STYLE_TITLE_INDEX]);
 	loadLevel_GameboardSize(levelDatas[GAMEBOARD_SIZE_TITLE_INDEX]);
 	loadLevel_TextureOrigionPosition(levelDatas[TEXTURE_ORIGION_POSITION_TITLE_INDEX]);
 	loadLevel_TextureSize(levelDatas[TEXTURE_SIZE_TITLE_INDEX]);
@@ -62,6 +67,22 @@ bool LevelData::IsPropertyOverlap(PropertyId propertyId1, PropertyId propertyId2
 
 bool LevelData::HasTextobjectInBlock(POINT position) {
 	return gameboard[position].HasTextobject();
+}
+
+std::string LevelData::GetWorldTitle() {
+	return worldTitle;
+}
+
+std::string LevelData::GetLevelTitle() {
+	return levelTitle;
+}
+
+std::string LevelData::GetFullTitle() {
+	return worldTitle + ": " + levelTitle;
+}
+
+Style LevelData::GetWorldMainStyle() {
+	return worldMainStyle;
 }
 
 ObjectBase& LevelData::GetTextobjectInBlock(POINT position) {
@@ -220,7 +241,7 @@ std::vector<LevelData::Datas> LevelData::splitLevelDatas(std::string &origionDat
 	}
 	result.push_back(Datas(lines.begin() + begin, lines.end()));
 	
-	if (result.size() != 5) {
+	if (result.size() != 7) {
 		Log::LogError("<Level Data> Level file format wrong, there is only %d blocks in file", result.size());
 	}
 	return result;
@@ -235,6 +256,17 @@ void LevelData::loadLevel_checkTitle(std::string title, std::string targetTitle)
 void LevelData::loadLevel_Background(int level) {
 	background = game_framework::CMovingBitmap();
 	background.LoadBitmapByString({ "./resources/LevelBackground/" + intToString(level) + ".bmp" });
+}
+
+void LevelData::loadLevel_Title(Datas &data) {
+	loadLevel_checkTitle(data[0], "[title]");
+	worldTitle = data[1];
+	levelTitle = data[2];
+}
+
+void LevelData::loadLevel_Style(Datas &data) {
+	loadLevel_checkTitle(data[0], "[style]");
+	worldMainStyle = StyleProc::GetStyleByName(data[1]);
 }
 
 void LevelData::loadLevel_GameboardSize(Datas &data) {

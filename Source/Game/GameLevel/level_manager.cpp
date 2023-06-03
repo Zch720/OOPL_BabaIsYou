@@ -37,6 +37,26 @@ bool LevelManager::IsMoving() {
 	return result;
 }
 
+std::string LevelManager::GetWorldTitle() {
+	return LevelData::GetWorldTitle();
+}
+
+std::string LevelManager::GetLevelTitle() {
+	return LevelData::GetLevelTitle();
+}
+
+std::string LevelManager::GetFullTitle() {
+	return LevelData::GetFullTitle();
+}
+
+Style LevelManager::GetWorldMainStyle() {
+	return LevelData::GetWorldMainStyle();
+}
+
+std::vector<std::string> LevelManager::GetRules() {
+	return PropertyManager::GetRules();
+}
+
 void LevelManager::Undo() {
 	if (!LevelUndo::CanUndo()) return;
 	LevelUndo::Undo();

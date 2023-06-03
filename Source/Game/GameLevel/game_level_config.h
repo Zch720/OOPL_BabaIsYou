@@ -14,8 +14,10 @@
 #define CONNECT_LEFT 	        0b100
 #define CONNECT_DOWN 	        0b1000
 
-#define GAMEBOARD_SIZE_TITLE_INDEX              0
-#define TEXTURE_ORIGION_POSITION_TITLE_INDEX    1
-#define TEXTURE_SIZE_TITLE_INDEX                2
-#define NEEDED_TEXTURES_TITLE_INDEX             3
-#define OBJECTS_TITLE_INDEX                     4
+#define TITLE_TITLE_INDEX                       0
+#define STYLE_TITLE_INDEX                       1
+#define GAMEBOARD_SIZE_TITLE_INDEX              2
+#define TEXTURE_ORIGION_POSITION_TITLE_INDEX    3
+#define TEXTURE_SIZE_TITLE_INDEX                4
+#define NEEDED_TEXTURES_TITLE_INDEX             5
+#define OBJECTS_TITLE_INDEX                     6

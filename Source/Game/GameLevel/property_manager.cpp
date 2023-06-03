@@ -1,9 +1,22 @@
 #include "stdafx.h"
+#include <algorithm>
 #include "property_manager.h"
 #include "../../Expansion/log.h"
 
 PropertyManager::ObjectProperties PropertyManager::objectProperties = {};
 PropertyManager::ObjectsConvert PropertyManager::objectsConvert = {};
+std::vector<std::string> PropertyManager::propertyRules = {};
+std::vector<std::string> PropertyManager::convertRules = {};
+std::vector<std::string> PropertyManager::rules = {};
+
+std::vector<std::string> PropertyManager::GetRules() {
+	calculatePropertyRules();
+	calculateConvertRules();
+	rules.clear();
+	rules.insert(rules.end(), propertyRules.begin(), propertyRules.end());
+	rules.insert(rules.end(), convertRules.begin(), convertRules.end());
+	return rules;
+}
 
 PropertyManager::ObjectProperties PropertyManager::GetDefaultObjectProperties() {
 	ObjectProperties result = objectProperties;
@@ -110,5 +123,32 @@ void PropertyManager::removeTextobjectProperty(PropertyId propertyId) {
 		if (ObjectIdProc::IsTextobjectId(objectProperty.first)) {
 			objectProperty.second[propertyId] -= 1;
 		}
+	}
+}
+
+void PropertyManager::calculatePropertyRules() {
+	propertyRules.clear();
+	for (auto &objectProperty : objectProperties) {
+		for (auto &property : objectProperty.second) {
+			if (property.second > 0) {
+				if (ObjectIdProc::IsTextobjectId(objectProperty.first)) continue;
+				std::string objectName = ObjectIdProc::GetNameById(objectProperty.first);
+				std::string propertyName = PropertyIdProc::GetNameById(property.first).substr(5);
+				std::transform(objectName.begin(), objectName.end(), objectName.begin(), ::toupper);
+				std::transform(propertyName.begin(), propertyName.end(), propertyName.begin(), ::toupper);
+				propertyRules.push_back(objectName + " IS " + propertyName);
+			}
+		}
+	}
+}
+
+void PropertyManager::calculateConvertRules() {
+	convertRules.clear();
+	for (auto &objectConvert : objectsConvert) {
+		std::string objectName = ObjectIdProc::GetNameById(objectConvert.first);
+		std::string convertObjectName = ObjectIdProc::GetNameById(objectConvert.second);
+		std::transform(objectName.begin(), objectName.end(), objectName.begin(), ::toupper);
+		std::transform(convertObjectName.begin(), convertObjectName.end(), convertObjectName.begin(), ::toupper);
+		convertRules.push_back(objectName + " IS " + convertObjectName);
 	}
 }

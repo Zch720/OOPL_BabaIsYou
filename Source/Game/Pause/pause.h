@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../UI/button.h"
+#include "../style.h"
 
 class PauseLayout {
 private:
@@ -9,7 +10,6 @@ private:
     static const int RESTART_BUTTON_INDEX;
     static const int SETTING_BUTTON_INDEX;
     static const int RETURN_TO_MENU_BUTTON_INDEX;
-    static const std::string styleToString[4];
     static const POINT buttonPosition[5];
     static const std::string buttonText[5];
     static const POINT chooserPosition[5];
@@ -26,13 +26,6 @@ private:
     void showRulesTwoLine(CDC *pDC);
 
 public:
-    enum Style {
-        STYLE_DEFAULT,
-        STYLE_WATER,
-        STYLE_ISLAND,
-        STYLE_RUIN,
-    };
-
     PauseLayout();
     PauseLayout(Style style, std::string levelTitle, std::vector<std::string> rules);
 

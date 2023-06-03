@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "../style.h"
 
 class LevelManager {
@@ -17,6 +18,7 @@ public:
 	std::string GetLevelTitle();
 	std::string GetFullTitle();
 	Style GetWorldMainStyle();
+	std::vector<std::string> GetRules();
 
 	void Undo();
 

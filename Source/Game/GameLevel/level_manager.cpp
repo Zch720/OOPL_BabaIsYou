@@ -53,6 +53,10 @@ Style LevelManager::GetWorldMainStyle() {
 	return LevelData::GetWorldMainStyle();
 }
 
+std::vector<std::string> LevelManager::GetRules() {
+	return PropertyManager::GetRules();
+}
+
 void LevelManager::Undo() {
 	if (!LevelUndo::CanUndo()) return;
 	LevelUndo::Undo();

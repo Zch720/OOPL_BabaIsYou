@@ -16,11 +16,15 @@ class EffectTextures {
 private:
 	static game_framework::CMovingBitmap winObjectEffectTexture54;
 	static game_framework::CMovingBitmap winObjectEffectTexture108;
+	static game_framework::CMovingBitmap dispearTexture54;
+	static game_framework::CMovingBitmap dispearTexture108;
 
 public:
 	static void Init();
 	static game_framework::CMovingBitmap GetWinObjectEffectTexture54();
 	static game_framework::CMovingBitmap GetWinObjectEffectTexture108();
+	static game_framework::CMovingBitmap GetDispearTexture54();
+	static game_framework::CMovingBitmap GetDispearTexture108();
 };
 
 class EffectObjectBase {
@@ -52,4 +56,18 @@ private:
 
 public:
 	WinObjectEffect(POINT centerPosition, int size);
+};
+
+class DispearEffect : public EffectObjectBase {
+private:
+	static const int textureCount = 19;
+
+	void loadTexture(int size);
+	void createInfo();
+
+	void updatePosition() override;
+	void updateTexture() override;
+
+public:
+	DispearEffect(POINT centerPosition, int size);
 };

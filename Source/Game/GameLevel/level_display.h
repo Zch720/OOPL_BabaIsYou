@@ -18,6 +18,7 @@ private:
     static int floatOffsetCount;
 
 	static std::vector<WinObjectEffect> winObjectEffects;
+	static std::vector<DispearEffect> dispearEffects;
 
     static ShowInfo getObjectShowInfo(ObjectInfo &objectInfo);
     static void showByZIndex(int zIndex);
@@ -25,6 +26,7 @@ private:
     static void updateFloatOffset();
 
 	static void addWinObjectAnimation();
+	static void addDispearAnimation();
 
 	static void showAniations();
 	static void cleanAnimations();

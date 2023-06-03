@@ -3,6 +3,7 @@
 #include "property_manager.h"
 #include "texture_manager.h"
 #include "level_data.h"
+#include "level_property.h"
 #include "level_description.h"
 #include "level_display.h"
 
@@ -13,6 +14,7 @@ Point LevelDisplay::floatOffset = Point(0, 0);
 int LevelDisplay::floatOffsetCount = LevelDisplay::OFFSET_COUNT_OFFSET;
 
 std::vector<WinObjectEffect> LevelDisplay::winObjectEffects = {};
+std::vector<DispearEffect> LevelDisplay::dispearEffects = {};
 
 void LevelDisplay::TextureCounterAdd() {
     if (--nextTextureWaitTime <= 0) {
@@ -34,6 +36,7 @@ void LevelDisplay::UpdateAllObjectTexture() {
 void LevelDisplay::Show() {
     updateFloatOffset();
 	addWinObjectAnimation();
+	addDispearAnimation();
 
     LevelData::GetBackground().ShowBitmap();
     for (int i = 1; i < MAX_OBJECT_Z_INDEX; i++) {
@@ -100,8 +103,25 @@ void LevelDisplay::addWinObjectAnimation() {
 	});
 }
 
+void LevelDisplay::addDispearAnimation() {
+	std::vector<Point> points = LevelProperty::GetDeleteObjectPoints();
+	LevelProperty::ClearDeleteObjectPoints();
+	for (Point &point : points) {
+		int time = rand() % 3 + 5;
+		Point position = TextureManager::GetTextureOrogionPosition();
+		position += point * TextureManager::GetTextureSize();
+		position += Point(1, 1) * (TextureManager::GetTextureSize() / 2);
+		while (time--) {
+			dispearEffects.push_back(DispearEffect(position, TextureManager::GetTextureSize()));
+		}
+	}
+}
+
 void LevelDisplay::showAniations() {
 	for (WinObjectEffect &effect : winObjectEffects) {
+		effect.Show();
+	}
+	for (DispearEffect &effect : dispearEffects) {
 		effect.Show();
 	}
 }
@@ -110,6 +130,12 @@ void LevelDisplay::cleanAnimations() {
 	for (size_t i = 0; i < winObjectEffects.size(); i++) {
 		if (winObjectEffects[i].IsEnd()) {
 			winObjectEffects.erase(winObjectEffects.begin() + i);
+			i--;
+		}
+	}
+	for (size_t i = 0; i < dispearEffects.size(); i++) {
+		if (dispearEffects[i].IsEnd()) {
+			dispearEffects.erase(dispearEffects.begin() + i);
 			i--;
 		}
 	}

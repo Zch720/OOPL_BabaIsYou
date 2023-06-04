@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "pause.h"
+#include "../AudioManager/audio_manager.h"
 #include "../../Expansion/center_text.h"
 
 
@@ -91,10 +92,12 @@ void PauseLayout::MouseClick(CPoint point) {
 void PauseLayout::ChooserMoveUp() {
     if (--chooserIndex == -1) chooserIndex = 4;
     chooser.SetTopLeft(chooserPosition[chooserIndex].x, chooserPosition[chooserIndex].y);
+    AudioManager::PlayChooseButtonSound();
 }
 void PauseLayout::ChooserMoveDown() {
     if (++chooserIndex == 5) chooserIndex = 0;
     chooser.SetTopLeft(chooserPosition[chooserIndex].x, chooserPosition[chooserIndex].y);
+    AudioManager::PlayChooseButtonSound();
 }
 void PauseLayout::Choose() {
     buttons[chooserIndex].Click();

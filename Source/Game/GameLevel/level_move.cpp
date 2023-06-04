@@ -30,12 +30,21 @@ std::unordered_set<ObjectInfo> LevelMove::hasPropertyYouObjects = {};
 std::unordered_set<ObjectInfo> LevelMove::hasPropertyMoveObjects = {};
 std::unordered_set<LevelMove::MoveInfo> LevelMove::moveObjects = {};
 vector2d<int8_t> LevelMove::moveable = {};
+bool LevelMove::hasObjectMove = false;
 
 void LevelMove::CreateMoveableMap() {
 	moveable.clear();
 	for (int i = 0; i < LevelData::GetGameboardWidth(); i++){
 		moveable.push_back(std::vector<int8_t>(LevelData::GetGameboardHeight(), -1));
 	}
+}
+
+void LevelMove::ClearObjectMoveFlag() {
+	hasObjectMove = false;
+}
+
+bool LevelMove::HasObjectMove() {
+	return hasObjectMove;
 }
 
 void LevelMove::MoveWait() {
@@ -50,6 +59,7 @@ void LevelMove::MoveWait() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, oppositeDirection));
 		}
 	}
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 
@@ -64,6 +74,7 @@ void LevelMove::MoveUp() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, DIRECTION_UP));
 		}
 	}
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 
@@ -78,6 +89,7 @@ void LevelMove::MoveDown() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, DIRECTION_DOWN));
 		}
 	}
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 
@@ -92,6 +104,7 @@ void LevelMove::MoveLeft() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, DIRECTION_LEFT));
 		}
 	}
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 
@@ -106,6 +119,7 @@ void LevelMove::MoveRight() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, DIRECTION_RIGHT));
 		}
 	}
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 

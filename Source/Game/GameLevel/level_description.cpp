@@ -86,6 +86,10 @@ bool LevelDescription::Description::operator==(const Description &other) {
     return true;
 }
 
+bool LevelDescription::Description::operator!=(const Description &other) {
+    return !(*this == other);
+}
+
 LevelDescription::Description LevelDescription::Description::operator+(const Description &other) {
     Description result;
     plusObjectInfos(mainPrefix, other.mainPrefix, result.mainPrefix);
@@ -122,6 +126,7 @@ void LevelDescription::Description::plusObjectInfos(ObjectInfos infos, ObjectInf
 }
 
 
+std::vector<LevelDescription::Description> LevelDescription::previousDescriptions = {};
 std::vector<LevelDescription::Description> LevelDescription::descriptions = {};
 std::unordered_set<ObjectInfo> LevelDescription::connectedTextobjetcs = {};
 std::unordered_set<ObjectInfo> LevelDescription::usableTextobjetcs = {};
@@ -137,6 +142,7 @@ void LevelDescription::CalculateTextInfo() {
 }
 
 void LevelDescription::CalculateAllDescription() {
+    previousDescriptions = descriptions;
     descriptions.clear();
     findDescription_Is();
 }
@@ -159,6 +165,17 @@ void LevelDescription::CalculateUsableTextobject() {
             checkPropertyDescriptionUsable(description);
         }
     }
+}
+
+bool LevelDescription::HasNewDescription() {
+    if (previousDescriptions.size() < descriptions.size()) return true;
+    for (size_t i = 0, j = 0; i < descriptions.size(); i++) {
+        for (; j < previousDescriptions.size(); j++) {
+            if (descriptions[i] == previousDescriptions[j]) break;
+        }
+        if (j == previousDescriptions.size()) return true;
+    }
+    return false;
 }
 
 bool LevelDescription::IsConnectedTextobject(ObjectInfo objectInfo) {

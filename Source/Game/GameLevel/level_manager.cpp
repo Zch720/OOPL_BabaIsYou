@@ -66,6 +66,7 @@ void LevelManager::Undo() {
 }
 
 void LevelManager::MoveWait() {
+	LevelMove::Reset();
 	LevelMove::MoveWait();
     LevelDescription::CalculateAllDescription();
 	LevelProperty::SetProperties();
@@ -77,6 +78,7 @@ void LevelManager::MoveWait() {
 }
 
 void LevelManager::MoveUp() {
+	LevelMove::Reset();
 	LevelMove::MoveUp();
 	LevelMove::MoveWait();
     LevelDescription::CalculateAllDescription();
@@ -89,6 +91,7 @@ void LevelManager::MoveUp() {
 }
 
 void LevelManager::MoveDown() {
+	LevelMove::Reset();
 	LevelMove::MoveDown();
 	LevelMove::MoveWait();
     LevelDescription::CalculateAllDescription();
@@ -101,6 +104,7 @@ void LevelManager::MoveDown() {
 }
 
 void LevelManager::MoveLeft() {
+	LevelMove::Reset();
 	LevelMove::MoveLeft();
 	LevelMove::MoveWait();
     LevelDescription::CalculateAllDescription();
@@ -113,6 +117,7 @@ void LevelManager::MoveLeft() {
 }
 
 void LevelManager::MoveRight() {
+	LevelMove::Reset();
 	LevelMove::MoveRight();
 	LevelMove::MoveWait();
     LevelDescription::CalculateAllDescription();

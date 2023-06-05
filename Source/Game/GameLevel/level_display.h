@@ -19,6 +19,7 @@ private:
 
 	static std::vector<WinObjectEffect> winObjectEffects;
 	static std::vector<DispearEffect> dispearEffects;
+    static std::vector<EffectObjectBase*> moveEffects;
 
     static ShowInfo getObjectShowInfo(ObjectInfo &objectInfo);
     static void showByZIndex(int zIndex);
@@ -27,8 +28,11 @@ private:
 
 	static void addWinObjectAnimation();
 	static void addDispearAnimation();
+    static void addMoveAnimation();
 
-	static void showAniations();
+	static void showWinAniations();
+	static void showDispearAniations();
+	static void showMoveAniations();
 	static void cleanAnimations();
 
 public:

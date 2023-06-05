@@ -6,6 +6,7 @@
 #include "level_property.h"
 #include "level_description.h"
 #include "level_display.h"
+#include "level_move.h"
 
 int LevelDisplay::nextTextureWaitTime = LevelDisplay::MAX_TEXTURE_WAIT_TIME;
 int LevelDisplay::textureCount = 0;
@@ -15,6 +16,7 @@ int LevelDisplay::floatOffsetCount = LevelDisplay::OFFSET_COUNT_OFFSET;
 
 std::vector<WinObjectEffect> LevelDisplay::winObjectEffects = {};
 std::vector<DispearEffect> LevelDisplay::dispearEffects = {};
+std::vector<EffectObjectBase*> LevelDisplay::moveEffects = {};
 
 void LevelDisplay::TextureCounterAdd() {
     if (--nextTextureWaitTime <= 0) {
@@ -37,18 +39,21 @@ void LevelDisplay::Show() {
     updateFloatOffset();
 	addWinObjectAnimation();
 	addDispearAnimation();
+    addMoveAnimation();
 
     LevelData::GetBackground().ShowBitmap();
     for (int i = 1; i < MAX_OBJECT_Z_INDEX; i++) {
         showByZIndex(i);
-    }
-    LevelData::AllObjectForeach([](ObjectBase &object) {
+    }    
+	LevelData::AllObjectForeach([](ObjectBase &object) {
         if (!LevelDescription::IsConnectedTextobject(object.GetInfo())) return;
         if (LevelDescription::IsUsableTextobject(object.GetInfo())) return;
         object.ShowCrossed();
     });
 
-	showAniations();
+    showMoveAniations();
+    showDispearAniations();
+	showWinAniations();
 	cleanAnimations();
 }
 
@@ -117,13 +122,44 @@ void LevelDisplay::addDispearAnimation() {
 	}
 }
 
-void LevelDisplay::showAniations() {
+void LevelDisplay::addMoveAnimation() {
+    std::vector<LevelMove::MoveInfo> moveInfos = LevelMove::GetMoveObjects();
+    for (LevelMove::MoveInfo &moveInfo : moveInfos) {
+        Point position = TextureManager::GetTextureOrogionPosition();
+        position += moveInfo.position * TextureManager::GetTextureSize();
+        position += Point(1, 1) * (TextureManager::GetTextureSize() / 2);
+
+        if (moveInfo.moveDirection == DIRECTION_UP) {
+            moveEffects.push_back(new MoveUpEffect(position, TextureManager::GetTextureSize()));
+        }
+        else if (moveInfo.moveDirection == DIRECTION_DOWN) {
+            moveEffects.push_back(new MoveDownEffect(position, TextureManager::GetTextureSize()));
+        }
+        else if (moveInfo.moveDirection == DIRECTION_LEFT) {
+            moveEffects.push_back(new MoveLeftEffect(position, TextureManager::GetTextureSize()));
+        }
+        else if (moveInfo.moveDirection == DIRECTION_RIGHT) {
+            moveEffects.push_back(new MoveRightEffect(position, TextureManager::GetTextureSize()));
+        }
+    }
+}
+
+void LevelDisplay::showWinAniations() {
 	for (WinObjectEffect &effect : winObjectEffects) {
 		effect.Show();
 	}
-	for (DispearEffect &effect : dispearEffects) {
-		effect.Show();
-	}
+}
+
+void LevelDisplay::showDispearAniations() {
+    for (DispearEffect &effect : dispearEffects) {
+        effect.Show();
+    }
+}
+
+void LevelDisplay::showMoveAniations() {
+    for (EffectObjectBase *effect : moveEffects) {
+        effect -> Show();
+    }
 }
 
 void LevelDisplay::cleanAnimations() {
@@ -139,4 +175,11 @@ void LevelDisplay::cleanAnimations() {
 			i--;
 		}
 	}
+    for (size_t i = 0; i < moveEffects.size(); i++) {
+        if (moveEffects[i] -> IsEnd()) {
+            delete moveEffects[i];
+            moveEffects.erase(moveEffects.begin() + i);
+            i--;
+        }
+    }
 }

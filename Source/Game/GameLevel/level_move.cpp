@@ -29,7 +29,11 @@ size_t std::hash<LevelMove::MoveInfo>::operator()(const LevelMove::MoveInfo &inf
 std::unordered_set<ObjectInfo> LevelMove::hasPropertyYouObjects = {};
 std::unordered_set<ObjectInfo> LevelMove::hasPropertyMoveObjects = {};
 std::unordered_set<LevelMove::MoveInfo> LevelMove::moveObjects = {};
+std::vector<LevelMove::MoveInfo> LevelMove::moveObjectsWait = {};
+std::vector<LevelMove::MoveInfo> LevelMove::moveObjectsNormal = {};
 vector2d<int8_t> LevelMove::moveable = {};
+
+bool LevelMove::moveObjectGetted = true;
 
 void LevelMove::CreateMoveableMap() {
 	moveable.clear();
@@ -38,8 +42,25 @@ void LevelMove::CreateMoveableMap() {
 	}
 }
 
+std::vector<LevelMove::MoveInfo> LevelMove::GetMoveObjects() {
+	if (moveObjectGetted) return {};
+	moveObjectGetted = true;
+	std::vector<MoveInfo> moveObjects;
+	moveObjects.insert(moveObjects.end(), moveObjectsWait.begin(), moveObjectsWait.end());
+	moveObjects.insert(moveObjects.end(), moveObjectsNormal.begin(), moveObjectsNormal.end());
+	return moveObjects;
+}
+
+void LevelMove::Reset() {
+	hasPropertyYouObjects.clear();
+	hasPropertyMoveObjects.clear();
+	moveObjectsWait.clear();
+	moveObjectsNormal.clear();
+}
+
 void LevelMove::MoveWait() {
-	reset();
+	resetMoveableMap();
+	moveObjects.clear();
 	findAllMoveObject();
 	for (ObjectInfo objectInfo : hasPropertyMoveObjects) {
 		Direction direction = objectInfo.textureDirection;
@@ -50,11 +71,14 @@ void LevelMove::MoveWait() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, oppositeDirection));
 		}
 	}
+	moveObjectsWait.insert(moveObjectsWait.end(), moveObjects.begin(), moveObjects.end());
+	moveObjectGetted = false;
 	moveAllObjects();
 }
 
 void LevelMove::MoveUp() {
-	reset();
+	resetMoveableMap();
+	moveObjects.clear();
 	findAllYouObject();
 	for (ObjectInfo objectInfo : hasPropertyYouObjects) {
 		if (objectInfo.position.y == 0) continue;
@@ -64,11 +88,14 @@ void LevelMove::MoveUp() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, DIRECTION_UP));
 		}
 	}
+	moveObjectsNormal.insert(moveObjectsNormal.end(), moveObjects.begin(), moveObjects.end());
+	moveObjectGetted = false;
 	moveAllObjects();
 }
 
 void LevelMove::MoveDown() {
-	reset();
+	resetMoveableMap();
+	moveObjects.clear();
 	findAllYouObject();
 	for (ObjectInfo objectInfo : hasPropertyYouObjects) {
 		if (objectInfo.position.y == LevelData::GetGameboardHeight() - 1) continue;
@@ -78,11 +105,14 @@ void LevelMove::MoveDown() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, DIRECTION_DOWN));
 		}
 	}
+	moveObjectsNormal.insert(moveObjectsNormal.end(), moveObjects.begin(), moveObjects.end());
+	moveObjectGetted = false;
 	moveAllObjects();
 }
 
 void LevelMove::MoveLeft() {
-	reset();
+	resetMoveableMap();
+	moveObjects.clear();
 	findAllYouObject();
 	for (ObjectInfo objectInfo : hasPropertyYouObjects) {
 		if (objectInfo.position.x == 0) continue;
@@ -92,11 +122,14 @@ void LevelMove::MoveLeft() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, DIRECTION_LEFT));
 		}
 	}
+	moveObjectsNormal.insert(moveObjectsNormal.end(), moveObjects.begin(), moveObjects.end());
+	moveObjectGetted = false;
 	moveAllObjects();
 }
 
 void LevelMove::MoveRight() {
-	reset();
+	resetMoveableMap();
+	moveObjects.clear();
 	findAllYouObject();
 	for (ObjectInfo objectInfo : hasPropertyYouObjects) {
 		if (objectInfo.position.x == LevelData::GetGameboardWidth() - 1) continue;
@@ -106,13 +139,12 @@ void LevelMove::MoveRight() {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, DIRECTION_RIGHT));
 		}
 	}
+	moveObjectsNormal.insert(moveObjectsNormal.end(), moveObjects.begin(), moveObjects.end());
+	moveObjectGetted = false;
 	moveAllObjects();
 }
 
-void LevelMove::reset() {
-	hasPropertyYouObjects.clear();
-	hasPropertyMoveObjects.clear();
-	moveObjects.clear();
+void LevelMove::resetMoveableMap() {
 	moveable.foreach([](int8_t &value) {
 		value = -1;
 	});

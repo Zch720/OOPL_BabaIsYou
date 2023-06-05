@@ -9,6 +9,11 @@ private:
 	static PropertyManager::ObjectsConvert newObjectsConvert;
 	static std::vector<Point> deleteObjectPoints;
 
+	static bool hasObjectDefeat;
+	static bool hasObjectSink;
+	static bool hasObjectMelt;
+	static bool hasObjectOpen;
+
 	static void propertyPairProcess(std::pair<ObjectId, ObjectId> &propPair);
     static void processGameobject(ObjectId textobjectId, ObjectId convertTextobjectId);
     static void processProperty(ObjectId textobjectId, ObjectId propertyTextobjectId);
@@ -19,11 +24,11 @@ private:
 	static void addPropertyUndo();
 	static void addConvertUndo();
 
-	static void deleteFirstOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2);
-	static void deleteBothOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2);
+	static bool deleteFirstOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2);
+	static bool deleteBothOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2);
 
-	static void deleteFirstOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2);
-	static void deleteBothOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2);
+	static bool deleteFirstOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2);
+	static bool deleteBothOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2);
 
 	static void checkPropertySink(Block &block);
 	static void checkPropertyDefeat(Block &block);
@@ -37,4 +42,10 @@ public:
     static void SetProperties();
 	static void GameobjectConvert();
 	static void UpdateOverlapProperty();
+
+	static void ClearObjectActionFlags();
+	static bool HasObjectDefeat();
+	static bool HasObjectSink();
+	static bool HasObjectMelt();
+	static bool HasObjectOpen();
 };

@@ -32,6 +32,7 @@ std::unordered_set<LevelMove::MoveInfo> LevelMove::moveObjects = {};
 std::vector<LevelMove::MoveInfo> LevelMove::moveObjectsWait = {};
 std::vector<LevelMove::MoveInfo> LevelMove::moveObjectsNormal = {};
 vector2d<int8_t> LevelMove::moveable = {};
+bool LevelMove::hasObjectMove = false;
 
 bool LevelMove::moveObjectGetted = true;
 
@@ -58,6 +59,14 @@ void LevelMove::Reset() {
 	moveObjectsNormal.clear();
 }
 
+void LevelMove::ClearObjectMoveFlag() {
+	hasObjectMove = false;
+}
+
+bool LevelMove::HasObjectMove() {
+	return hasObjectMove;
+}
+
 void LevelMove::MoveWait() {
 	resetMoveableMap();
 	moveObjects.clear();
@@ -73,6 +82,7 @@ void LevelMove::MoveWait() {
 	}
 	moveObjectsWait.insert(moveObjectsWait.end(), moveObjects.begin(), moveObjects.end());
 	moveObjectGetted = false;
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 
@@ -90,6 +100,7 @@ void LevelMove::MoveUp() {
 	}
 	moveObjectsNormal.insert(moveObjectsNormal.end(), moveObjects.begin(), moveObjects.end());
 	moveObjectGetted = false;
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 
@@ -107,6 +118,7 @@ void LevelMove::MoveDown() {
 	}
 	moveObjectsNormal.insert(moveObjectsNormal.end(), moveObjects.begin(), moveObjects.end());
 	moveObjectGetted = false;
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 
@@ -124,6 +136,7 @@ void LevelMove::MoveLeft() {
 	}
 	moveObjectsNormal.insert(moveObjectsNormal.end(), moveObjects.begin(), moveObjects.end());
 	moveObjectGetted = false;
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 
@@ -141,6 +154,7 @@ void LevelMove::MoveRight() {
 	}
 	moveObjectsNormal.insert(moveObjectsNormal.end(), moveObjects.begin(), moveObjects.end());
 	moveObjectGetted = false;
+	hasObjectMove |= (moveObjects.size() != 0);
 	moveAllObjects();
 }
 

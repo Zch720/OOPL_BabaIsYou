@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "button.h"
+#include "../AudioManager/audio_manager.h"
 #include "../../Expansion/log.h"
 #include "../../Expansion/center_text.h"
 
@@ -69,11 +70,14 @@ void Button::CheckMouseMove(CPoint position) {
 	if (!isLoaded) return;
 	if (isClicked) return;
 
-	if (isHover = checkMouseOverlap(position)) {
+	if (checkMouseOverlap(position)) {
+		if (!isHover) AudioManager::PlayChooseButtonSound();
 		texture.SetFrameIndexOfBitmap(HOVER_TEXTURE_INDEX);
+		isHover = true;
 	}
 	else {
 		texture.SetFrameIndexOfBitmap(DEFAULT_TEXTURE_INDEX);
+		isHover = false;
 	}
 }
 

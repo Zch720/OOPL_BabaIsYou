@@ -26,6 +26,7 @@ private:
 	static std::vector<MoveInfo> moveObjectsWait;
 	static std::vector<MoveInfo> moveObjectsNormal;
 	static vector2d<int8_t> moveable;
+	static bool hasObjectMove;
 
 	static bool moveObjectGetted;
 
@@ -59,6 +60,10 @@ private:
 public:
 	static void CreateMoveableMap();
 	static void Reset();
+
+	static void ClearObjectMoveFlag();
+	static bool HasObjectMove();
+
 	static void MoveWait();
 	static void MoveUp();
 	static void MoveDown();

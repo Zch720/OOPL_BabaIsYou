@@ -24,6 +24,7 @@ private:
 	static std::unordered_set<ObjectInfo> hasPropertyMoveObjects;
 	static std::unordered_set<MoveInfo> moveObjects;
 	static vector2d<int8_t> moveable;
+	static bool hasObjectMove;
 
 	static void reset();
 
@@ -54,6 +55,10 @@ private:
 
 public:
 	static void CreateMoveableMap();
+
+	static void ClearObjectMoveFlag();
+	static bool HasObjectMove();
+
 	static void MoveWait();
 	static void MoveUp();
 	static void MoveDown();

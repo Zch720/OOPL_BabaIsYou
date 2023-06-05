@@ -9,6 +9,11 @@ PropertyManager::ObjectProperties LevelProperty::newObjectProperties = {};
 PropertyManager::ObjectsConvert LevelProperty::newObjectsConvert = {};
 std::vector<Point> LevelProperty::deleteObjectPoints = {};
 
+bool LevelProperty::hasObjectDefeat = false;
+bool LevelProperty::hasObjectSink = false;
+bool LevelProperty::hasObjectMelt = false;
+bool LevelProperty::hasObjectOpen = false;
+
 std::vector<Point> LevelProperty::GetDeleteObjectPoints() {
 	return deleteObjectPoints;
 }
@@ -50,6 +55,29 @@ void LevelProperty::UpdateOverlapProperty() {
         checkPropertyMeltHot(block);
         checkPropertyOpenShut(block);
 	});
+}
+
+void LevelProperty::ClearObjectActionFlags() {
+    hasObjectDefeat = false;
+    hasObjectSink = false;
+    hasObjectMelt = false;
+    hasObjectOpen = false;
+}
+
+bool LevelProperty::HasObjectDefeat() {
+    return hasObjectDefeat;
+}
+
+bool LevelProperty::HasObjectSink() {
+    return hasObjectSink;
+}
+
+bool LevelProperty::HasObjectMelt() {
+    return hasObjectMelt;
+}
+
+bool LevelProperty::HasObjectOpen() {
+    return hasObjectOpen;
 }
 
 void LevelProperty::propertyPairProcess(std::pair<ObjectId, ObjectId> &propPair) {
@@ -151,18 +179,23 @@ void LevelProperty::GameobjectConvert() {
     });
 }
 
-void LevelProperty::deleteFirstOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2) {
-	if (!block.HasPropertyIdWithoutFloat(propertyId2)) return;
+bool LevelProperty::deleteFirstOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2) {
+    bool result = false;
+	if (!block.HasPropertyIdWithoutFloat(propertyId2)) return false;
     while (block.HasPropertyIdWithoutFloat(propertyId1)) {
+        result = true;
         ObjectInfo object1Info = LevelData::GetFirstObjectWithPropertyWithoutFloat(block.GetBlockPosition(), propertyId1).GetInfo();
 		deleteObjectPoints.push_back(object1Info.position);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, object1Info);
         LevelData::DeleteObject(object1Info.position, object1Info.genId);
     }
+    return result;
 }
 
-void LevelProperty::deleteBothOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2) {
+ bool LevelProperty::deleteBothOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2) {
+    bool result = false;
     while (block.HasPropertyIdWithoutFloat(propertyId1) && block.HasPropertyIdWithoutFloat(propertyId2)) {
+        result = true;
         ObjectInfo object1Info = LevelData::GetFirstObjectWithPropertyWithoutFloat(block.GetBlockPosition(), propertyId1).GetInfo();
         ObjectInfo object2Info = LevelData::GetFirstObjectWithPropertyWithoutFloat(block.GetBlockPosition(), propertyId2).GetInfo();
 		deleteObjectPoints.push_back(object1Info.position);
@@ -174,20 +207,26 @@ void LevelProperty::deleteBothOverlapProperty(Block &block, PropertyId propertyI
             LevelData::DeleteObject(object2Info.position, object2Info.genId);
         }
     }
+    return result;
 }
 
-void LevelProperty::deleteFirstOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2) {
-    if (!block.HasPropertyIdWithFloat(propertyId2)) return;
+bool LevelProperty::deleteFirstOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2) {
+    bool result = false;
+    if (!block.HasPropertyIdWithFloat(propertyId2)) return false;
     while (block.HasPropertyIdWithFloat(propertyId1)) {
+        result = true;
         ObjectInfo object1Info = LevelData::GetFirstObjectWithPropertyWithFloat(block.GetBlockPosition(), propertyId1).GetInfo();
 		deleteObjectPoints.push_back(object1Info.position);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, object1Info);
         LevelData::DeleteObject(object1Info.position, object1Info.genId);
     }
+    return result;
 }
 
-void LevelProperty::deleteBothOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2) {
+bool LevelProperty::deleteBothOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2) {
+    bool result = false;
     while (block.HasPropertyIdWithFloat(propertyId1) && block.HasPropertyIdWithFloat(propertyId2)) {
+        result = true;
         ObjectInfo object1Info = LevelData::GetFirstObjectWithPropertyWithFloat(block.GetBlockPosition(), propertyId1).GetInfo();
         ObjectInfo object2Info = LevelData::GetFirstObjectWithPropertyWithFloat(block.GetBlockPosition(), propertyId2).GetInfo();
 		deleteObjectPoints.push_back(object1Info.position);
@@ -199,10 +238,12 @@ void LevelProperty::deleteBothOverlapPropertyWithFloat(Block &block, PropertyId 
             LevelData::DeleteObject(object2Info.position, object2Info.genId);
         }
     }
+    return result;
 }
 
 void LevelProperty::checkPropertySink(Block &block) {
 	while (block.HasPropertyIdWithoutFloat(PROPERTY_SINK) && block.GetObjectsSizeWithoutFloat() > 1) {
+        hasObjectSink = true;
 	    ObjectInfo sinkObjectInfo = LevelData::GetFirstObjectWithPropertyWithoutFloat(block.GetBlockPosition(), PROPERTY_SINK).GetInfo();
         ObjectInfo sinkedObjectInfo = LevelData::GetFirstObjectWithoutGenIdWithoutFloat(block.GetBlockPosition(), sinkObjectInfo.genId).GetInfo();
 		deleteObjectPoints.push_back(sinkObjectInfo.position);
@@ -213,6 +254,7 @@ void LevelProperty::checkPropertySink(Block &block) {
         LevelData::DeleteObject(sinkedObjectInfo.position, sinkedObjectInfo.genId);
     }
     while (block.HasPropertyIdWithFloat(PROPERTY_SINK) && block.GetObjectsSizeWithFloat() > 1) {
+        hasObjectSink = true;
         ObjectInfo sinkObjectInfo = LevelData::GetFirstObjectWithPropertyWithFloat(block.GetBlockPosition(), PROPERTY_SINK).GetInfo();
         ObjectInfo sinkedObjectInfo = LevelData::GetFirstObjectWithoutGenIdWithFloat(block.GetBlockPosition(), sinkObjectInfo.genId).GetInfo();
 		deleteObjectPoints.push_back(sinkObjectInfo.position);
@@ -225,16 +267,16 @@ void LevelProperty::checkPropertySink(Block &block) {
 }
 
 void LevelProperty::checkPropertyDefeat(Block &block) {
-	deleteFirstOverlapProperty(block, PROPERTY_YOU, PROPERTY_DEFEAT);
-	deleteFirstOverlapPropertyWithFloat(block, PROPERTY_YOU, PROPERTY_DEFEAT);
+	hasObjectDefeat |= deleteFirstOverlapProperty(block, PROPERTY_YOU, PROPERTY_DEFEAT);
+	hasObjectDefeat |= deleteFirstOverlapPropertyWithFloat(block, PROPERTY_YOU, PROPERTY_DEFEAT);
 }
 
 void LevelProperty::checkPropertyMeltHot(Block &block) {
-    deleteFirstOverlapProperty(block, PROPERTY_MELT, PROPERTY_HOT);
-    deleteFirstOverlapPropertyWithFloat(block, PROPERTY_MELT, PROPERTY_HOT);
+    hasObjectMelt |= deleteFirstOverlapProperty(block, PROPERTY_MELT, PROPERTY_HOT);
+    hasObjectMelt |= deleteFirstOverlapPropertyWithFloat(block, PROPERTY_MELT, PROPERTY_HOT);
 }
 
 void LevelProperty::checkPropertyOpenShut(Block &block) {
-    deleteBothOverlapProperty(block, PROPERTY_OPEN, PROPERTY_SHUT);
-    deleteBothOverlapPropertyWithFloat(block, PROPERTY_OPEN, PROPERTY_SHUT);
+    hasObjectOpen |= deleteBothOverlapProperty(block, PROPERTY_OPEN, PROPERTY_SHUT);
+    hasObjectOpen |= deleteBothOverlapPropertyWithFloat(block, PROPERTY_OPEN, PROPERTY_SHUT);
 }

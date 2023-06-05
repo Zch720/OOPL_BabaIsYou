@@ -47,10 +47,12 @@ private:
         std::vector<ObjectInfo> GetAllExistObject();
 
         bool operator==(const Description &other);
+        bool operator!=(const Description &other);
         Description operator+(const Description &other);
         Description& operator+=(const Description &other);
     };
 
+    static std::vector<Description> previousDescriptions;
     static std::vector<Description> descriptions;
     static std::unordered_set<ObjectInfo> connectedTextobjetcs;
     static std::unordered_set<ObjectInfo> usableTextobjetcs;
@@ -76,6 +78,8 @@ public:
     static void CalculateAllDescription();
     static void CalculateConnectedTextobject();
     static void CalculateUsableTextobject();
+
+    static bool HasNewDescription();
 
     static bool IsConnectedTextobject(ObjectInfo objectInfo);
     static bool IsUsableTextobject(ObjectInfo objectInfo);

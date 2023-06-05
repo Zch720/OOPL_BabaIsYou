@@ -50,6 +50,8 @@ private:
     static ObjectUndoInfos objectUndoInfosBuffer;
     static PropertyUndoInfos propertyUndoInfosBuffer;
 
+    static bool didUndo;
+
     static ObjectUndoInfo objectInfoToUndoInfo(ObjectInfo &objectInfo);
 
     static void objectUndo();
@@ -71,6 +73,8 @@ private:
 public:
     static void Reset();
     static void AddBufferToObjectUndo();
+
+    static bool HasDidUndo();
 
     static bool HasObjectUndo();
     

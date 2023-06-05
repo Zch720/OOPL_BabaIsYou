@@ -38,6 +38,9 @@
     <Filter Include="MyGame\CloudAnimation">
       <UniqueIdentifier>{e489c35b-f619-4cfc-84dd-fbe7658f7aa6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyGame\AudioManager">
+      <UniqueIdentifier>{9e9284c8-fadf-4844-ac75-06cd5fe21c23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="RES\GAME.RC2">
@@ -183,6 +186,9 @@
     <ClCompile Include="Source\Game\CloudAnimation\cloud_animation.cpp">
       <Filter>MyGame\CloudAnimation</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\AudioManager\audio_manager.cpp">
+      <Filter>MyGame\AudioManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -316,6 +322,9 @@
     </ClInclude>
     <ClInclude Include="Source\Game\CloudAnimation\cloud_animation.h">
       <Filter>MyGame\CloudAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\AudioManager\audio_manager.h">
+      <Filter>MyGame\AudioManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

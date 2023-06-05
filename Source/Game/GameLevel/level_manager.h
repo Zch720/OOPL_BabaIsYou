@@ -5,6 +5,9 @@
 #include "../style.h"
 
 class LevelManager {
+private:
+	void playObjectSound();
+
 public:
 	void Init();
 	void Clean();

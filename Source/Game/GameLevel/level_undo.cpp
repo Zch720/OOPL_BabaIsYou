@@ -9,6 +9,8 @@ std::stack<LevelUndo::PropertyUndoInfos> LevelUndo::propertyUndoStack = {};
 LevelUndo::ObjectUndoInfos LevelUndo::objectUndoInfosBuffer = {};
 LevelUndo::PropertyUndoInfos LevelUndo::propertyUndoInfosBuffer = {};
 
+bool LevelUndo::didUndo = false;
+
 void LevelUndo::Reset() {
     while (!objectUndoStack.empty()) {
         objectUndoStack.pop();
@@ -28,6 +30,10 @@ void LevelUndo::AddBufferToObjectUndo() {
 
 bool LevelUndo::CanUndo() {
     return !objectUndoStack.empty();
+}
+
+bool LevelUndo::HasDidUndo() {
+    return !objectUndoInfosBuffer.empty();
 }
 
 bool LevelUndo::HasObjectUndo() {
@@ -57,6 +63,8 @@ void LevelUndo::AddConvertUndo(PropertyUndoType undoType, ObjectId objectId, Obj
 }
 
 void LevelUndo::Undo() {
+    didUndo = CanUndo();
+    if (!CanUndo()) return;
     objectUndo();
     propertyUndo();
 }

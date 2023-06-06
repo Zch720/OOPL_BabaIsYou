@@ -1,41 +1,35 @@
-﻿#pragma once
+#pragma once
 
-#include <unordered_set>
-#include <stack>
-#include <functional>
-#include "gameobject.h"
-#include "gameobject_id.h"
-#include "property_id.h"
+#include <string>
+#include <vector>
+#include "../style.h"
 
 class LevelManager {
 private:
-	typedef std::function<bool(Gameobject*)> CheckCanShowFunc;
-
-	// texture status
-	int textureAnimationCount = 0;
-	int nextTextureWaitTime = 0;
-
-	void updateProperties();
-	void addUndo();
-	void showGameobjects(std::unordered_set<Gameobject*>&, CheckCanShowFunc);
-	void showNotMovingGameobjects(std::unordered_set<Gameobject*>&);
-	void showMovingGameobjects(std::unordered_set<Gameobject*>&);
+	void playObjectSound();
 
 public:
-	LevelManager();
-	~LevelManager();
+	void Init();
+	void Clean();
 
 	void LoadLevel(int level);
+
+	bool IsWin();
+	bool IsMoving();
+
+	std::string GetWorldTitle();
+	std::string GetLevelTitle();
+	std::string GetFullTitle();
+	Style GetWorldMainStyle();
+	std::vector<std::string> GetRules();
+
+	void Undo();
 
 	void MoveWait();
 	void MoveUp();
 	void MoveDown();
 	void MoveLeft();
 	void MoveRight();
-	void Undo();
-
-	bool IsMoving();
-	bool IsWin();
 
 	void Show();
 };

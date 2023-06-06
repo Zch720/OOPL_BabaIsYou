@@ -31,6 +31,7 @@ public:
 	static void ChooserEnter();
 	static void SetContieuePlayingFunc(ButtonOnClickFunc func);
 	static void SetStartTheGameFunc(ButtonOnClickFunc func);
+	static void SetSettingsFunc(ButtonOnClickFunc func);
 	static void SetExitTheGameFunc(ButtonOnClickFunc func);
 	static void ShowImage();
 	static void ShowText(CDC *pDC);

@@ -1,0 +1,140 @@
+[title]
+LEVEL ISLAND-4
+BRIDGE BUILDING?
+[style]
+style_lake
+[game board size]
+24
+18
+[texture origin position]
+312
+54
+[texture size]
+54
+[needed texture]
+baba prop_none 1
+hedge prop_none 1
+rock prop_none 1
+water prop_none 1
+flag prop_none 1
+text_is prop_none 1
+text_rock prop_none 1
+text_flag prop_none 1
+text_baba prop_none 1
+text_water prop_none 1
+text_hedge prop_none 1
+text_float prop_none 1
+text_win prop_none 1
+text_push prop_none 1
+text_you prop_none 1
+text_sink prop_none 1
+text_stop prop_none 1
+[objects]
+baba 8 8 0
+hedge 6 12 0
+hedge 6 11 0
+hedge 6 10 0
+hedge 6 9 0
+hedge 6 8 0
+hedge 6 7 0
+hedge 6 6 0
+hedge 7 6 0
+hedge 8 6 0
+hedge 9 6 0
+hedge 9 5 0
+hedge 9 4 0
+hedge 9 3 0
+hedge 10 3 0
+hedge 10 2 0
+hedge 11 2 0
+hedge 12 2 0
+hedge 13 2 0
+hedge 14 2 0
+hedge 15 2 0
+hedge 16 2 0
+hedge 17 2 0
+hedge 18 2 0
+hedge 18 3 0
+hedge 18 4 0
+hedge 18 5 0
+hedge 18 6 0
+hedge 18 7 0
+hedge 18 8 0
+hedge 18 9 0
+hedge 18 10 0
+hedge 18 11 0
+hedge 18 12 0
+hedge 18 13 0
+hedge 18 14 0
+hedge 18 15 0
+hedge 17 15 0
+hedge 16 15 0
+hedge 15 15 0
+hedge 14 15 0
+hedge 13 15 0
+hedge 12 15 0
+hedge 11 15 0
+hedge 10 15 0
+hedge 9 15 0
+hedge 8 15 0
+hedge 7 15 0
+hedge 6 15 0
+hedge 6 14 0
+hedge 5 14 0
+hedge 5 13 0
+hedge 5 12 0
+hedge 5 11 0
+hedge 5 10 0
+hedge 5 9 0
+hedge 12 14 0
+hedge 13 14 0
+hedge 13 13 0
+hedge 13 12 0
+hedge 13 11 0
+hedge 14 11 0
+hedge 15 11 0
+hedge 16 11 0
+hedge 17 11 0
+hedge 14 14 0
+hedge 14 13 0
+hedge 14 12 0
+hedge 15 12 0
+hedge 16 12 0
+hedge 17 12 0
+rock 10 7 0
+rock 10 9 0
+water 13 3 0
+water 13 4 0
+water 13 5 0
+water 13 6 0
+water 13 7 0
+water 13 8 0
+water 13 9 0
+water 13 10 0
+water 14 3 0
+water 14 4 0
+water 14 5 0
+water 14 6 0
+water 14 7 0
+water 14 8 0
+water 14 9 0
+water 14 10 0
+flag 16 8 0
+text_is 6 2 0
+text_is 16 5 0
+text_is 9 11 0
+text_is 7 13 0
+text_is 16 13 0
+text_is 16 14 0
+text_rock 6 1 0
+text_flag 16 4 0
+text_rock 8 11 0
+text_baba 6 13 0
+text_water 15 13 0
+text_hedge 15 14 0
+text_float 6 3 0
+text_win 16 6 0
+text_push 10 11 0
+text_you 8 13 0
+text_sink 17 13 0
+text_stop 17 14 0

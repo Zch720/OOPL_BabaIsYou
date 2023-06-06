@@ -1,0 +1,229 @@
+[title]
+LEVEL ISLAND-10
+WIRELESS CONNECTION
+[style]
+style_island
+[game board size]
+28
+16
+[texture origin position]
+204
+108
+[texture size]
+54
+[needed texture]
+baba prop_none 2
+pipe prop_none 2
+reed prop_none 2
+bog prop_none 2
+tile prop_none 2
+flag prop_none 2
+cog prop_none 2
+robot prop_none 2
+text_is prop_none 2
+text_and prop_none 2
+text_pipe prop_none 2
+text_baba prop_none 2
+text_flag prop_none 2
+text_bog prop_none 2
+text_cog prop_none 2
+text_robot prop_none 2
+text_rock prop_none 2
+text_stop prop_none 2
+text_you prop_none 2
+text_defeat prop_none 2
+text_move prop_none 2
+text_push prop_none 2
+text_win prop_none 2
+[objects]
+baba 6 7 3
+pipe 3 0 0
+pipe 3 1 0
+pipe 3 2 0
+pipe 3 3 0
+pipe 3 4 0
+pipe 3 5 0
+pipe 3 6 0
+pipe 3 7 0
+pipe 4 1 0
+pipe 5 1 0
+pipe 5 0 0
+pipe 0 1 0
+pipe 1 1 0
+pipe 2 1 0
+pipe 0 3 0
+pipe 1 3 0
+pipe 2 3 0
+pipe 0 5 0
+pipe 1 5 0
+pipe 2 5 0
+pipe 0 7 0
+pipe 1 7 0
+pipe 2 7 0
+pipe 5 15 0
+pipe 5 14 0
+pipe 5 13 0
+pipe 5 12 0
+pipe 6 12 0
+pipe 7 12 0
+pipe 8 12 0
+pipe 9 12 0
+pipe 9 13 0
+pipe 9 14 0
+pipe 9 15 0
+pipe 10 14 0
+pipe 11 14 0
+pipe 12 14 0
+pipe 13 14 0
+pipe 13 15 0
+pipe 25 0 0
+pipe 25 1 0
+pipe 25 2 0
+pipe 25 3 0
+pipe 25 4 0
+pipe 25 5 0
+pipe 26 5 0
+pipe 26 6 0
+pipe 26 7 0
+pipe 26 8 0
+pipe 27 8 0
+pipe 21 1 0
+pipe 23 1 0
+pipe 24 1 0
+pipe 21 3 0
+pipe 23 3 0
+pipe 24 3 0
+pipe 21 5 0
+pipe 23 5 0
+pipe 24 5 0
+reed 13 0 0
+reed 17 1 0
+reed 14 5 0
+reed 14 7 0
+reed 17 10 0
+reed 14 13 0
+reed 18 13 0
+reed 17 15 0
+bog 0 12 0
+bog 0 13 0
+bog 1 13 0
+bog 0 14 0
+bog 1 14 0
+bog 0 15 0
+bog 1 15 0
+bog 2 15 0
+bog 27 11 0
+bog 27 12 0
+bog 25 13 0
+bog 26 13 0
+bog 27 13 0
+bog 24 14 0
+bog 25 14 0
+bog 26 14 0
+bog 27 14 0
+bog 23 15 0
+bog 24 15 0
+bog 25 15 0
+bog 26 15 0
+bog 15 0 0
+bog 15 1 0
+bog 15 2 0
+bog 15 3 0
+bog 15 4 0
+bog 15 5 0
+bog 15 6 0
+bog 15 7 0
+bog 15 8 0
+bog 15 9 0
+bog 15 10 0
+bog 15 11 0
+bog 15 12 0
+bog 15 13 0
+bog 15 14 0
+bog 15 15 0
+bog 16 0 0
+bog 16 1 0
+bog 16 2 0
+bog 16 3 0
+bog 16 4 0
+bog 16 5 0
+bog 16 6 0
+bog 16 7 0
+bog 16 8 0
+bog 16 9 0
+bog 16 10 0
+bog 16 11 0
+bog 16 12 0
+bog 16 13 0
+bog 16 14 0
+bog 16 15 0
+tile 4 0 0
+tile 6 3 0
+tile 7 3 0
+tile 8 3 0
+tile 6 4 0
+tile 7 4 0
+tile 8 4 0
+tile 6 5 0
+tile 7 5 0
+tile 8 5 0
+tile 9 5 0
+tile 10 5 0
+tile 6 6 0
+tile 7 6 0
+tile 8 6 0
+tile 9 6 0
+tile 10 6 0
+tile 6 7 0
+tile 7 7 0
+tile 8 7 0
+tile 9 7 0
+tile 10 7 0
+tile 6 8 0
+tile 7 8 0
+tile 8 8 0
+tile 6 9 0
+tile 7 9 0
+tile 8 9 0
+tile 10 15 0
+tile 11 15 0
+tile 12 15 0
+tile 26 0 0
+tile 26 1 0
+tile 26 2 0
+tile 26 3 0
+tile 26 4 0
+tile 27 0 0
+tile 27 1 0
+tile 27 2 0
+tile 27 3 0
+tile 27 4 0
+tile 27 5 0
+tile 27 6 0
+tile 27 7 0
+flag 6 5 0
+cog 8 5 0
+robot 8 7 3
+text_is 1 0 0
+text_is 1 2 0
+text_is 1 4 0
+text_is 1 6 0
+text_is 7 3 0
+text_is 7 9 0
+text_and 10 7 0
+text_pipe 0 0 0
+text_baba 0 2 0
+text_flag 0 4 0
+text_flag 2 4 0
+text_flag 22 1 0
+text_bog 0 6 0
+text_cog 6 3 0
+text_robot 6 9 0
+text_rock 22 3 0
+text_stop 2 0 0
+text_stop 8 3 0
+text_you 2 2 0
+text_defeat 2 6 0
+text_move 10 5 0
+text_push 8 9 0
+text_win 22 5 0

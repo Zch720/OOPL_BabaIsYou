@@ -1,0 +1,141 @@
+[title]
+LEVEL LAKE-4
+PILLAR YARD
+[style]
+style_lake
+[game board size]
+24
+14
+[texture origin position]
+312
+162
+[texture size]
+54
+[needed texture]
+baba prop_none 1
+algae prop_none 1
+pillar prop_none 1
+brick prop_none 1
+wall prop_none 1
+tile prop_none 1
+star prop_none 1
+flag prop_none 1
+text_is prop_none 1
+text_flag prop_none 1
+text_pillar prop_none 1
+text_wall prop_none 1
+text_baba prop_none 1
+text_star prop_none 1
+text_win prop_none 1
+text_push prop_none 1
+text_stop prop_none 1
+text_you prop_none 1
+text_defeat prop_none 1
+[objects]
+baba 6 7 0
+algae 1 1 0
+algae 16 1 0
+algae 17 2 0
+algae 22 2 0
+algae 20 3 0
+algae 10 8 0
+algae 20 8 0
+algae 1 11 0
+algae 15 12 0
+algae 19 12 0
+algae 14 13 0
+pillar 18 1 0
+pillar 10 2 0
+pillar 12 3 0
+pillar 8 7 0
+pillar 11 11 0
+pillar 17 12 0
+brick 5 4 0
+brick 4 4 0
+brick 3 4 0
+brick 3 5 0
+brick 3 6 0
+brick 3 7 0
+brick 3 8 0
+brick 3 9 0
+brick 3 10 0
+brick 4 10 0
+brick 7 4 0
+brick 9 4 0
+brick 9 5 0
+brick 9 6 0
+brick 9 7 0
+brick 9 8 0
+brick 9 9 0
+brick 9 10 0
+brick 8 10 0
+brick 7 10 0
+brick 10 7 0
+brick 11 7 0
+brick 12 7 0
+brick 13 7 0
+brick 14 7 0
+brick 14 6 0
+brick 16 6 0
+brick 17 6 0
+brick 18 6 0
+brick 18 7 0
+brick 18 8 0
+brick 17 8 0
+brick 16 8 0
+brick 16 7 0
+wall 8 6 0
+wall 8 5 0
+wall 7 5 0
+wall 6 5 0
+wall 5 5 0
+wall 4 5 0
+wall 4 6 0
+wall 4 7 0
+wall 4 8 0
+wall 4 9 0
+wall 5 9 0
+wall 6 9 0
+wall 7 9 0
+wall 8 9 0
+wall 8 8 0
+tile 5 6 0
+tile 6 6 0
+tile 7 6 0
+tile 7 7 0
+tile 7 8 0
+tile 6 8 0
+tile 5 8 0
+tile 5 7 0
+star 15 5 0
+star 16 5 0
+star 17 5 0
+star 18 5 0
+star 19 5 0
+star 19 6 0
+star 19 7 0
+star 19 8 0
+star 19 9 0
+star 18 9 0
+star 17 9 0
+star 16 9 0
+star 15 9 0
+star 15 8 0
+star 15 7 0
+star 15 6 0
+flag 17 7 0
+text_is 1 0 0
+text_is 6 2 0
+text_is 0 7 0
+text_is 6 12 0
+text_is 22 13 0
+text_flag 0 0 0
+text_pillar 5 2 0
+text_wall 0 6 0
+text_baba 5 12 0
+text_star 21 13 0
+text_win 2 0 0
+text_push 7 2 0
+text_stop 0 8 0
+text_you 7 12 0
+text_defeat 23 13 0

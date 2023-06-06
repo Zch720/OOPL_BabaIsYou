@@ -1,0 +1,53 @@
+[title]
+LEVEL ISLAND-5
+VICTORY SPRING
+[style]
+style_island
+[game board size]
+15
+8
+[texture origin position]
+150
+108
+[texture size]
+108
+[needed texture]
+baba prop_none 2
+water prop_none 2
+cog prop_none 2
+text_is prop_none 2
+text_water prop_none 2
+text_baba prop_none 2
+text_cog prop_none 2
+text_text prop_none 2
+text_sink prop_none 2
+text_you prop_none 2
+text_push prop_none 2
+text_float prop_none 2
+text_win prop_none 2
+[objects]
+baba 11 4 2
+water 6 3 0
+water 7 3 0
+water 8 3 0
+water 6 4 0
+water 7 4 0
+water 8 4 0
+water 6 5 0
+water 7 5 0
+water 8 5 0
+cog 13 3 0
+cog 12 5 0
+text_is 1 0 0
+text_is 7 0 0
+text_is 13 0 0
+text_is 2 4 0
+text_water 0 0 0
+text_baba 6 0 0
+text_cog 12 0 0
+text_text 1 4 0
+text_sink 2 0 0
+text_you 8 0 0
+text_push 14 0 0
+text_float 3 4 0
+text_win 7 4 0

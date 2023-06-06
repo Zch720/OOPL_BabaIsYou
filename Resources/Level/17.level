@@ -1,0 +1,94 @@
+[title]
+LEVEL LAKE-5
+BRICK WALL
+[style]
+style_lake
+[game board size]
+15
+8
+[texture origin position]
+150
+108
+[texture size]
+108
+[needed texture]
+baba prop_none 1
+algae prop_none 1
+tile prop_none 1
+wall prop_none 1
+brick prop_none 1
+flag prop_none 1
+text_is prop_none 1
+text_baba prop_none 1
+text_flag prop_none 1
+text_wall prop_none 1
+text_you prop_none 1
+text_win prop_none 1
+text_stop prop_none 1
+[objects]
+baba 1 4 0
+algae 1 0 0
+algae 13 0 0
+algae 0 1 0
+algae 2 7 0
+algae 12 7 0
+tile 3 1 0
+tile 4 1 0
+tile 5 1 0
+tile 6 1 0
+tile 7 1 0
+tile 7 2 0
+tile 7 3 0
+tile 6 3 0
+tile 5 3 0
+tile 4 3 0
+tile 3 3 0
+tile 3 2 0
+tile 3 4 0
+tile 4 4 0
+tile 5 4 0
+tile 6 4 0
+tile 7 4 0
+tile 7 5 0
+tile 7 6 0
+tile 6 6 0
+tile 5 6 0
+tile 4 6 0
+tile 3 6 0
+tile 3 5 0
+wall 14 2 0
+wall 13 2 0
+wall 12 2 0
+wall 11 2 0
+wall 10 2 0
+wall 9 2 0
+wall 9 3 0
+wall 9 4 0
+wall 9 5 0
+wall 9 6 0
+wall 10 6 0
+wall 11 6 0
+wall 12 6 0
+wall 13 6 0
+wall 14 6 0
+wall 13 3 0
+wall 13 4 0
+wall 13 5 0
+brick 10 3 0
+brick 11 3 0
+brick 12 3 0
+brick 12 4 0
+brick 12 5 0
+brick 11 5 0
+brick 10 5 0
+brick 10 4 0
+flag 11 4 0
+text_is 5 2 0
+text_is 5 5 0
+text_is 14 4 0
+text_baba 4 2 0
+text_flag 4 5 0
+text_wall 14 3 0
+text_you 6 2 0
+text_win 6 5 0
+text_stop 14 5 0

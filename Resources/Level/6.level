@@ -1,0 +1,187 @@
+[title]
+LEVEL 6
+OFF LIMITS
+[style]
+style_default
+[game board size]
+24
+14
+[texture origin position]
+312
+162
+[texture size]
+54
+[needed texture]
+baba prop_none 0
+rock prop_none 0
+wall prop_none 0
+grass prop_none 0
+skull prop_none 0
+flower prop_none 0
+brick prop_none 0
+tile prop_none 0
+flag prop_none 0
+text_is prop_none 0
+text_rock prop_none 0
+text_skull prop_none 0
+text_flag prop_none 0
+text_wall prop_none 0
+text_baba prop_none 0
+text_stop prop_none 0
+text_defeat prop_none 0
+text_win prop_none 0
+text_you prop_none 0
+[objects]
+baba 8 6 0
+rock 4 0 0
+rock 4 1 0
+rock 4 2 0
+rock 4 3 0
+rock 4 4 0
+rock 4 5 0
+rock 4 6 0
+rock 3 6 0
+rock 2 6 0
+rock 1 6 0
+rock 0 6 0
+wall 11 1 0
+wall 10 1 0
+wall 10 2 0
+wall 10 3 0
+wall 10 4 0
+wall 10 5 0
+wall 9 4 0
+wall 8 4 0
+wall 7 4 0
+wall 6 4 0
+wall 6 5 0
+wall 6 6 0
+wall 6 7 0
+wall 6 8 0
+wall 7 8 0
+wall 8 8 0
+wall 9 8 0
+wall 10 7 0
+wall 10 8 0
+wall 10 9 0
+wall 10 10 0
+wall 10 11 0
+wall 11 11 0
+wall 12 11 0
+wall 13 11 0
+wall 14 11 0
+wall 15 11 0
+wall 15 10 0
+wall 15 9 0
+wall 15 8 0
+wall 13 1 0
+wall 14 1 0
+wall 15 1 0
+wall 16 1 0
+wall 17 1 0
+wall 18 1 0
+wall 19 1 0
+wall 19 2 0
+wall 19 3 0
+wall 19 4 0
+wall 19 5 0
+wall 18 5 0
+wall 17 5 0
+wall 16 5 0
+wall 15 4 0
+wall 15 5 0
+wall 15 6 0
+wall 14 6 0
+wall 13 6 0
+wall 15 2 0
+grass 5 0 0
+grass 6 0 0
+grass 7 0 0
+grass 8 0 0
+grass 9 0 0
+grass 6 1 0
+grass 7 1 0
+grass 21 0 0
+grass 22 0 0
+grass 23 0 0
+grass 22 1 0
+grass 23 1 0
+grass 23 2 0
+grass 2 9 0
+grass 1 10 0
+grass 2 10 0
+grass 3 10 0
+grass 2 11 0
+grass 3 11 0
+grass 21 12 0
+grass 22 12 0
+grass 19 13 0
+grass 20 13 0
+grass 21 13 0
+grass 22 13 0
+grass 23 13 0
+skull 12 0 3
+skull 12 1 3
+skull 12 2 3
+skull 12 3 3
+skull 12 4 3
+skull 12 5 3
+skull 12 6 3
+skull 12 7 3
+skull 13 7 3
+skull 14 7 3
+skull 15 7 3
+skull 16 7 3
+skull 17 7 3
+skull 18 7 3
+skull 19 7 3
+skull 20 7 3
+skull 21 7 3
+skull 22 7 3
+skull 23 7 3
+flower 8 1 0
+flower 22 5 0
+flower 3 7 0
+flower 21 9 0
+flower 19 10 0
+flower 17 12 0
+brick 9 2 0
+brick 8 3 0
+brick 9 3 0
+brick 16 6 0
+brick 17 6 0
+brick 16 8 0
+brick 17 8 0
+brick 16 9 0
+tile 7 5 0
+tile 8 5 0
+tile 9 5 0
+tile 7 6 0
+tile 9 6 0
+tile 7 7 0
+tile 8 7 0
+tile 9 7 0
+tile 16 2 0
+tile 17 2 0
+tile 18 2 0
+tile 16 3 0
+tile 18 3 0
+tile 16 4 0
+tile 17 4 0
+tile 18 4 0
+flag 17 3 0
+text_is 1 0 0
+text_is 1 2 0
+text_is 1 4 0
+text_is 13 9 0
+text_is 8 11 0
+text_rock 0 0 0
+text_skull 0 2 0
+text_flag 0 4 0
+text_wall 12 9 10
+text_baba 8 10 0
+text_stop 2 0 0
+text_stop 14 9 0
+text_defeat 2 2 0
+text_win 2 4 0
+text_you 8 12 0

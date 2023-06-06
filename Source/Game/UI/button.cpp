@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "button.h"
+#include "../AudioManager/audio_manager.h"
 #include "../../Expansion/log.h"
+#include "../../Expansion/center_text.h"
 
 #define DEFAULT_TEXTURE_INDEX	0
 #define HOVER_TEXTURE_INDEX		1
@@ -14,7 +16,17 @@ void Button::SetActivity(bool activity) {
 	isActivity = activity;
 }
 
+void Button::SetButtonCenterPosition(CPoint centerPosition) {
+	this -> buttonCenterPosition = centerPosition;
+}
+
+void Button::SetButtonTexture(game_framework::CMovingBitmap texture) {
+	this -> texture = texture;
+	isLoaded = true;
+}
+
 void Button::SetButtonTexture(CPoint centerPosition, std::vector<std::string> texturePaths) {
+	texture = game_framework::CMovingBitmap();
 	texture.LoadBitmapByString(texturePaths, 0x00FF00);
 	texture.SetFrameIndexOfBitmap(DEFAULT_TEXTURE_INDEX);
 
@@ -39,6 +51,11 @@ void Button::SetOnClickFunc(ButtonOnClickFunc func) {
 	onClickFunc = func;
 }
 
+void Button::CopyButtonTexture(Button &button) {
+	this -> texture = button.texture;
+	isLoaded = true;
+}
+
 void Button::CheckMouseClick(CPoint position) {
 	if (!isActivity) return;
 	if (!isLoaded) return;
@@ -53,11 +70,14 @@ void Button::CheckMouseMove(CPoint position) {
 	if (!isLoaded) return;
 	if (isClicked) return;
 
-	if (isHover = checkMouseOverlap(position)) {
+	if (checkMouseOverlap(position)) {
+		if (!isHover) AudioManager::PlayChooseButtonSound();
 		texture.SetFrameIndexOfBitmap(HOVER_TEXTURE_INDEX);
+		isHover = true;
 	}
 	else {
 		texture.SetFrameIndexOfBitmap(DEFAULT_TEXTURE_INDEX);
+		isHover = false;
 	}
 }
 
@@ -95,10 +115,5 @@ void Button::updateButtonStatus() {
 }
 
 void Button::ShowText(CDC *pDC) {
-	game_framework::CTextDraw::Print(
-		pDC,
-		buttonCenterPosition.x - texture.GetWidth() / 2,
-		buttonCenterPosition.y - texture.GetHeight() / 2,
-		buttonText
-	);
+	CenterTextDraw::Print(pDC, buttonCenterPosition.x, buttonCenterPosition.y, buttonText);
 }

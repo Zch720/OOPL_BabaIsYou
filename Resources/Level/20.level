@@ -1,0 +1,142 @@
+[title]
+LEVEL LAKE-8
+LOCKED IN
+[style]
+style_lake
+[game board size]
+24
+14
+[texture origin position]
+312
+162
+[texture size]
+54
+[needed texture]
+baba prop_none 1
+algae prop_none 1
+star prop_none 1
+wall prop_none 1
+tile prop_none 1
+jelly prop_none 1
+text_is prop_none 1
+text_wall prop_none 1
+text_flag prop_none 1
+text_baba prop_none 1
+text_jelly prop_none 1
+text_stop prop_none 1
+text_win prop_none 1
+text_you prop_none 1
+text_defeat prop_none 1
+[objects]
+baba 9 3 0
+algae 5 0 0
+algae 18 1 0
+algae 22 2 0
+algae 1 3 0
+algae 20 6 0
+algae 6 7 0
+algae 21 7 0
+algae 4 9 0
+algae 2 10 0
+algae 18 10 0
+algae 21 13 0
+star 3 2 0
+star 20 9 0
+wall 8 2 0
+wall 9 2 0
+wall 10 2 0
+wall 11 2 0
+wall 12 2 0
+wall 13 2 0
+wall 14 2 0
+wall 15 2 0
+wall 16 2 0
+wall 16 3 0
+wall 16 4 0
+wall 16 5 0
+wall 16 6 0
+wall 16 7 0
+wall 16 8 0
+wall 16 9 0
+wall 16 10 0
+wall 16 11 0
+wall 15 11 0
+wall 14 11 0
+wall 13 11 0
+wall 12 11 0
+wall 11 11 0
+wall 10 11 0
+wall 9 11 0
+wall 8 11 0
+wall 8 10 0
+wall 8 9 0
+wall 8 8 0
+wall 8 7 0
+wall 8 6 0
+wall 8 5 0
+wall 8 4 0
+wall 8 3 0
+tile 10 3 0
+tile 11 3 0
+tile 12 3 0
+tile 13 3 0
+tile 14 3 0
+tile 15 3 0
+tile 9 4 0
+tile 10 4 0
+tile 12 4 0
+tile 13 4 0
+tile 15 4 0
+tile 12 5 0
+tile 13 5 0
+tile 15 5 0
+tile 9 6 0
+tile 10 6 0
+tile 11 6 0
+tile 12 6 0
+tile 13 6 0
+tile 15 6 0
+tile 9 7 0
+tile 10 7 0
+tile 11 7 0
+tile 12 7 0
+tile 13 7 0
+tile 14 7 0
+tile 15 7 0
+tile 9 8 0
+tile 13 8 0
+tile 14 8 0
+tile 15 8 0
+tile 9 9 0
+tile 10 9 0
+tile 11 9 0
+tile 12 9 0
+tile 13 9 0
+tile 14 9 0
+tile 15 9 0
+tile 9 10 0
+tile 10 10 0
+tile 11 10 0
+tile 12 10 0
+tile 13 10 0
+tile 14 10 0
+tile 15 10 0
+jelly 9 5 0
+jelly 10 5 0
+jelly 11 5 0
+jelly 11 4 0
+text_is 14 5 0
+text_is 3 5 0
+text_is 3 7 0
+text_is 11 8 0
+text_is 1 13 0
+text_wall 14 4 0
+text_wall 0 13 0
+text_flag 2 5 0
+text_baba 2 7 0
+text_jelly 10 8 0
+text_stop 14 6 0
+text_stop 12 8 0
+text_win 4 5 0
+text_you 4 7 0
+text_defeat 2 13 0

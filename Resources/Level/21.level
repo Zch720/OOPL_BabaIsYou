@@ -1,0 +1,64 @@
+[title]
+LEVEL LAKE-9
+CHANGELESS
+[style]
+style_lake
+[game board size]
+15
+8
+[texture origin position]
+150
+108
+[texture size]
+108
+[needed texture]
+baba prop_none 1
+wall prop_none 1
+algae prop_none 1
+flag prop_none 1
+rock prop_none 1
+text_is prop_none 1
+text_rock prop_none 1
+text_wall prop_none 1
+text_flag prop_none 1
+text_baba prop_none 1
+text_stop prop_none 1
+text_you prop_none 1
+text_win prop_none 1
+[objects]
+baba 3 3 0
+wall 5 0 0
+wall 6 0 0
+wall 7 0 0
+wall 8 0 0
+wall 9 0 0
+wall 0 6 0
+wall 1 6 0
+wall 2 6 0
+wall 3 6 0
+wall 3 7 0
+wall 14 6 0
+wall 13 6 0
+wall 12 6 0
+wall 11 6 0
+wall 11 7 0
+algae 13 0 0
+algae 14 1 0
+algae 1 2 0
+algae 4 7 0
+flag 7 3 0
+text_is 7 1 0
+text_is 14 4 0
+text_is 7 5 0
+text_is 1 7 0
+text_is 13 7 0
+text_rock 6 1 0
+text_rock 8 1 0
+text_rock 8 5 0
+text_wall 14 3 0
+text_flag 6 5 0
+text_flag 12 7 0
+text_baba 0 7 0
+text_stop 	14 5 0
+text_you 2 7 0
+text_win 14 7 0

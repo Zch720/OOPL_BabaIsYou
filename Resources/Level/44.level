@@ -1,0 +1,237 @@
+[title]
+LEVEL ISLAND-EXTRA 5
+DUNGEON
+[style]
+style_island
+[game board size]
+33
+18
+[texture origin position]
+70
+54
+[texture size]
+54
+[needed texture]
+baba prop_none 2
+keke prop_none 2
+grass prop_none 2
+wall prop_none 2
+flower prop_none 2
+tile prop_none 2
+text_is prop_none 2
+text_baba prop_none 2
+text_keke prop_none 2
+text_wall prop_none 2
+text_you prop_none 2
+text_stop prop_none 2
+text_win prop_none 2
+[objects]
+baba 14 7 0
+keke 16 7 2
+grass 20 0 0
+grass 31 0 0
+grass 32 0 0
+grass 2 1 0
+grass 10 1 0
+grass 11 1 0
+grass 18 1 0
+grass 32 1 0
+grass 6 2 0
+grass 7 2 0
+grass 25 2 0
+grass 7 3 0
+grass 30 4 0
+grass 31 4 0
+grass 31 5 0
+grass 4 6 0
+grass 1 7 0
+grass 24 7 0
+grass 24 8 0
+grass 25 8 0
+grass 25 9 0
+grass 8 11 0
+grass 7 12 0
+grass 28 12 0
+grass 2 13 0
+grass 10 14 0
+grass 10 15 0
+grass 11 15 0
+grass 12 15 0
+grass 23 15 0
+grass 24 15 0
+grass 31 15 0
+grass 4 16 0
+grass 5 16 0
+grass 11 16 0
+grass 16 16 0
+grass 23 16 0
+grass 30 16 0
+wall 10 2 0
+wall 11 2 0
+wall 12 2 0
+wall 13 2 0
+wall 14 2 0
+wall 15 2 0
+wall 16 2 0
+wall 17 2 0
+wall 18 2 0
+wall 19 2 0
+wall 20 2 0
+wall 20 3 0
+wall 20 4 0
+wall 20 5 0
+wall 20 6 0
+wall 20 7 0
+wall 21 7 0
+wall 22 7 0
+wall 23 7 0
+wall 23 8 0
+wall 23 9 0
+wall 23 10 0
+wall 23 11 0
+wall 23 12 0
+wall 23 13 0
+wall 22 13 0
+wall 21 13 0
+wall 20 13 0
+wall 19 13 0
+wall 18 13 0
+wall 17 13 0
+wall 16 13 0
+wall 15 13 0
+wall 14 13 0
+wall 13 13 0
+wall 12 13 0
+wall 11 13 0
+wall 10 13 0
+wall 10 12 0
+wall 10 11 0
+wall 10 10 0
+wall 10 9 0
+wall 10 8 0
+wall 10 7 0
+wall 10 6 0
+wall 10 5 0
+wall 10 4 0
+wall 10 3 0
+flower 2 3 0
+flower 27 4 0
+flower 5 9 0
+flower 30 9 0
+flower 4 10 0
+flower 1 16 0
+flower 28 16 0
+tile 11 3 0
+tile 12 3 0
+tile 13 3 0
+tile 14 3 0
+tile 15 3 0
+tile 16 3 0
+tile 17 3 0
+tile 18 3 0
+tile 19 3 0
+tile 11 4 0
+tile 12 4 0
+tile 13 4 0
+tile 14 4 0
+tile 15 4 0
+tile 16 4 0
+tile 17 4 0
+tile 18 4 0
+tile 19 4 0
+tile 11 5 0
+tile 12 5 0
+tile 13 5 0
+tile 14 5 0
+tile 15 5 0
+tile 16 5 0
+tile 17 5 0
+tile 18 5 0
+tile 19 5 0
+tile 11 6 0
+tile 12 6 0
+tile 13 6 0
+tile 14 6 0
+tile 15 6 0
+tile 16 6 0
+tile 17 6 0
+tile 18 6 0
+tile 19 6 0
+tile 11 7 0
+tile 12 7 0
+tile 13 7 0
+tile 14 7 0
+tile 15 7 0
+tile 16 7 0
+tile 17 7 0
+tile 18 7 0
+tile 19 7 0
+tile 11 8 0
+tile 12 8 0
+tile 13 8 0
+tile 14 8 0
+tile 15 8 0
+tile 16 8 0
+tile 17 8 0
+tile 18 8 0
+tile 19 8 0
+tile 20 8 0
+tile 21 8 0
+tile 22 8 0
+tile 11 9 0
+tile 12 9 0
+tile 13 9 0
+tile 14 9 0
+tile 15 9 0
+tile 16 9 0
+tile 17 9 0
+tile 18 9 0
+tile 19 9 0
+tile 20 9 0
+tile 21 9 0
+tile 22 9 0
+tile 11 10 0
+tile 12 10 0
+tile 13 10 0
+tile 14 10 0
+tile 15 10 0
+tile 16 10 0
+tile 17 10 0
+tile 18 10 0
+tile 19 10 0
+tile 20 10 0
+tile 21 10 0
+tile 22 10 0
+tile 11 11 0
+tile 12 11 0
+tile 13 11 0
+tile 14 11 0
+tile 15 11 0
+tile 16 11 0
+tile 17 11 0
+tile 18 11 0
+tile 19 11 0
+tile 20 11 0
+tile 21 11 0
+tile 22 11 0
+tile 11 12 0
+tile 12 12 0
+tile 13 12 0
+tile 14 12 0
+tile 15 12 0
+tile 16 12 0
+tile 17 12 0
+tile 18 12 0
+tile 19 12 0
+tile 20 12 0
+tile 21 12 0
+tile 22 12 0
+text_is 15 5 0
+text_is 15 9 0
+text_is 22 10 0
+text_baba 14 5 0
+text_keke 14 9 0
+text_wall 22 9 0
+text_you 16 5 0
+text_stop 22 11 0
+text_win 22 5 0

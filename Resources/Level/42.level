@@ -1,0 +1,129 @@
+[title]
+LEVEL ISLAND-EXTRA 3
+TINY ISLE
+[style]
+style_island
+[game board size]
+24
+14
+[texture origin position]
+312
+162
+[texture size]
+54
+[needed texture]
+baba prop_none 2
+grass prop_none 22
+cog prop_none 2
+tile prop_none 2
+water prop_none 2
+flag prop_none 2
+key prop_none 2
+text_is prop_none 2
+text_and prop_none 2
+text_baba prop_none 2
+text_flag prop_none 2
+text_key prop_none 2
+text_water prop_none 2
+text_you prop_none 2
+text_open prop_none 2
+text_win prop_none 2
+text_stop prop_none 2
+text_shut prop_none 2
+[objects]
+baba 11 3 0
+grass 0 0 0
+grass 1 0 0
+grass 2 0 0
+grass 3 0 0
+grass 4 0 0
+grass 5 0 0
+grass 0 1 0
+grass 1 1 0
+grass 2 1 0
+grass 3 1 0
+grass 0 2 0
+grass 0 3 0
+grass 17 0 0
+grass 18 0 0
+grass 20 0 0
+grass 21 0 0
+grass 22 0 0
+grass 23 0 0
+grass 22 1 0
+grass 23 1 0
+grass 23 2 0
+grass 23 3 0
+grass 23 7 0
+grass 23 8 0
+grass 22 9 0
+grass 23 9 0
+grass 21 10 0
+grass 22 10 0
+grass 23 10 0
+grass 21 11 0
+grass 22 11 0
+grass 23 11 0
+cog 13 1 0
+cog 2 6 0
+cog 1 7 0
+cog 22 5 0
+cog 16 10 0
+cog 15 11 0
+cog 10 12 0
+tile 8 3 0
+tile 9 3 0
+tile 9 4 0
+tile 14 3 0
+tile 12 4 0
+tile 13 4 0
+tile 14 4 0
+tile 15 4 0
+tile 14 5 0
+tile 15 5 0
+tile 14 6 0
+tile 7 8 0
+tile 8 9 0
+tile 9 9 0
+tile 8 10 0
+tile 10 7 0
+tile 11 6 0
+tile 12 6 0
+tile 12 7 0
+water 9 8 0
+water 9 7 0
+water 9 6 0
+water 9 5 0
+water 10 5 0
+water 11 5 0
+water 12 5 0
+water 13 5 0
+water 13 6 0
+water 13 7 0
+water 13 8 0
+water 12 8 0
+water 11 8 0
+water 10 8 0
+water 10 6 0
+water 23 12 0
+water 22 12 0
+water 21 12 0
+water 20 12 0
+water 19 12 0
+water 18 12 0
+water 18 13 0
+flag 2 10 0
+key 4 10 0
+text_is 8 5 0
+text_is 20 13 0
+text_and 8 7 0
+text_and 22 13 0
+text_baba 8 4 0
+text_flag 2 9 0
+text_key 4 9 0
+text_water 19 13 0
+text_you 8 6 0
+text_open 8 8 0
+text_win 11 7 0
+text_stop 21 13 0
+text_shut 23 13 0

@@ -1,0 +1,96 @@
+[title]
+LEVEL 0
+BABA IS YOU
+[style]
+style_default
+[game board size]
+33
+18
+[texture origin position]
+70
+54
+[texture size]
+54
+[needed texture]
+baba prop_none 0
+wall prop_none 0
+flag prop_none 0
+rock prop_none 0
+tile prop_none 0
+text_is prop_none 0
+text_baba prop_none 0
+text_wall prop_none 0
+text_flag prop_none 0
+text_rock prop_none 0
+text_you prop_none 0
+text_stop prop_none 0
+text_push prop_none 0
+text_win prop_none 0
+[objects]
+baba 12 10 0
+wall 11 8 0
+wall 12 8 0
+wall 13 8 0
+wall 14 8 0
+wall 15 8 0
+wall 16 8 0
+wall 17 8 0
+wall 18 8 0
+wall 19 8 0
+wall 20 8 0
+wall 21 8 0
+wall 11 12 0
+wall 12 12 0
+wall 13 12 0
+wall 14 12 0
+wall 15 12 0
+wall 16 12 0
+wall 17 12 0
+wall 18 12 0
+wall 19 12 0
+wall 20 12 0
+wall 21 12 0
+flag 20 10 0
+rock 16 9 0
+rock 16 10 0
+rock 16 11 0
+tile 11 9 0
+tile 12 9 0
+tile 13 9 0
+tile 14 9 0
+tile 15 9 0
+tile 17 9 0
+tile 18 9 0
+tile 19 9 0
+tile 20 9 0
+tile 21 9 0
+tile 11 10 0
+tile 13 10 0
+tile 14 10 0
+tile 15 10 0
+tile 17 10 0
+tile 18 10 0
+tile 19 10 0
+tile 21 10 0
+tile 11 11 0
+tile 12 11 0
+tile 13 11 0
+tile 14 11 0
+tile 15 11 0
+tile 17 11 0
+tile 18 11 0
+tile 19 11 0
+tile 20 11 0
+tile 21 11 0
+text_is 12 6 0
+text_is 12 14 0
+text_is 20 6 0
+text_is 20 14 0
+text_baba 11 6 0
+text_wall 11 14 0
+text_flag 19 6 0
+text_rock 19 14 0
+text_you 13 6 0
+text_stop 13 14 0
+text_push 21 14 0
+text_win 21 6 0

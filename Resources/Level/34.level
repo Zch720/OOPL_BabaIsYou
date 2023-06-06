@@ -1,0 +1,217 @@
+[title]
+LEVEL ISLAND-6
+ASSEMBLY TEAM
+[style]
+style_island
+[game board size]
+24
+18
+[texture origin position]
+312
+54
+[texture size]
+54
+[needed texture]
+baba prop_none 2
+grass prop_none 2
+pipe prop_none 2
+robot prop_none 2
+water prop_none 2
+flag prop_none 2
+text_is prop_none 2
+text_robot prop_none 2
+text_flag prop_none 2
+text_baba prop_none 2
+text_water prop_none 2
+text_pipe prop_none 2
+text_you prop_none 2
+text_stop prop_none 2
+text_win prop_none 2
+text_sink prop_none 2
+text_stop prop_none 2
+[objects]
+baba 16 11 0
+grass 1 0 0
+grass 2 0 0
+grass 3 0 0
+grass 4 0 0
+grass 5 0 0
+grass 2 1 0
+grass 3 1 0
+grass 4 1 0
+grass 18 0 0
+grass 19 0 0
+grass 20 0 0
+grass 21 0 0
+grass 22 0 0
+grass 23 0 0
+grass 21 1 0
+grass 22 1 0
+grass 23 1 0
+grass 23 2 0
+grass 0 9 0
+grass 1 8 0
+grass 1 9 0
+grass 1 10 0
+grass 2 9 0
+grass 0 11 0
+grass 0 12 0
+grass 0 13 0
+grass 0 14 0
+grass 0 15 0
+grass 1 13 0
+grass 3 17 0
+grass 4 17 0
+grass 5 17 0
+grass 6 17 0
+grass 4 16 0
+grass 5 16 0
+grass 23 9 0
+grass 23 10 0
+grass 23 12 0
+grass 22 17 0
+grass 23 17 0
+grass 23 16 0
+pipe 0 2 0
+pipe 1 2 0
+pipe 0 3 0
+pipe 1 3 0
+pipe 2 3 0
+pipe 3 3 0
+pipe 4 3 0
+pipe 5 3 0
+pipe 0 5 0
+pipe 1 5 0
+pipe 1 4 0
+pipe 0 6 0
+pipe 1 6 0
+pipe 2 6 0
+pipe 3 6 0
+pipe 2 7 0
+pipe 2 8 0
+pipe 3 8 0
+pipe 0 17 0
+pipe 1 17 0
+pipe 2 17 0
+pipe 2 16 0
+pipe 2 15 0
+pipe 2 14 0
+pipe 2 13 0
+pipe 2 12 0
+pipe 3 12 0
+pipe 15 14 0
+pipe 15 15 0
+pipe 16 15 0
+pipe 15 16 0
+pipe 16 16 0
+pipe 17 16 0
+pipe 17 17 0
+pipe 20 16 0
+pipe 21 16 0
+pipe 22 16 0
+pipe 21 15 0
+pipe 23 4 0
+pipe 22 4 0
+pipe 22 5 0
+pipe 22 6 0
+pipe 21 6 0
+pipe 20 6 0
+pipe 21 7 0
+pipe 21 8 0
+pipe 21 11 0
+pipe 20 11 0
+pipe 10 0 0
+pipe 10 1 0
+pipe 10 2 0
+pipe 11 2 0
+pipe 14 0 0
+pipe 14 1 0
+pipe 13 1 0
+pipe 12 1 0
+pipe 12 2 0
+pipe 12 3 0
+pipe 4 4 0
+pipe 5 4 0
+pipe 6 4 0
+pipe 7 4 0
+pipe 8 4 0
+pipe 9 4 0
+pipe 10 4 0
+pipe 11 4 0
+pipe 12 4 0
+pipe 13 4 0
+pipe 14 4 0
+pipe 15 4 0
+pipe 16 4 0
+pipe 17 4 0
+pipe 18 4 0
+pipe 19 4 0
+pipe 19 5 0
+pipe 19 6 0
+pipe 19 7 0
+pipe 19 8 0
+pipe 19 9 0
+pipe 19 10 0
+pipe 19 11 0
+pipe 19 12 0
+pipe 19 13 0
+pipe 18 13 0
+pipe 17 13 0
+pipe 16 13 0
+pipe 15 13 0
+pipe 14 13 0
+pipe 13 13 0
+pipe 12 13 0
+pipe 11 13 0
+pipe 10 13 0
+pipe 9 13 0
+pipe 8 13 0
+pipe 7 13 0
+pipe 6 13 0
+pipe 5 13 0
+pipe 4 13 0
+pipe 4 12 0
+pipe 4 11 0
+pipe 4 10 0
+pipe 4 9 0
+pipe 4 8 0
+pipe 4 7 0
+pipe 4 6 0
+pipe 4 5 0
+pipe 13 5 0
+pipe 13 6 0
+pipe 13 7 0
+pipe 13 8 0
+pipe 13 9 0
+pipe 13 10 0
+pipe 13 11 0
+pipe 13 12 0
+robot 6 6 3
+robot 6 11 3
+water 9 5 0
+water 9 6 0
+water 9 7 0
+water 9 8 0
+water 9 9 0
+water 9 10 0
+water 9 11 0
+water 9 12 0
+flag 16 6 0
+text_is 8 2 0
+text_is 8 3 0
+text_is 16 3 0
+text_is 11 9 0
+text_is 9 14 0
+text_is 9 15 0
+text_robot 7 2 0
+text_robot 7 3 0
+text_flag 15 3 0
+text_baba 7 8 0
+text_water 8 14 0
+text_pipe 8 15 0
+text_you 9 2 0
+text_you 11 10 0
+text_stop 9 3 0
+text_win 17 3 0
+text_sink 10 14 0
+text_stop 10 15 0

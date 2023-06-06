@@ -1,154 +1,179 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "level_manager.h"
+#include "effect_object.h"
 #include "level_data.h"
-#include "level_gameboard_proc.h"
-#include "level_description_proc.h"
-#include "level_property_proc.h"
-#include "level_move_proc.h"
-#include "level_undo_proc.h"
-#include "texture_manager.h"
-#include "gameobject_properties_manager.h"
-#include "../../Expansion/dataio.h"
-#include "../../Expansion/string_proc.h"
-#include "../../Expansion/log.h"
+#include "level_undo.h"
+#include "level_move.h"
+#include "level_description.h"
+#include "level_display.h"
+#include "level_property.h"
+#include "../AudioManager/audio_manager.h"
 
+void LevelManager::Init() {
+	EffectTextures::Init();
+	LevelDisplay::Init();
+}
 
-LevelManager::LevelManager() {}
-LevelManager::~LevelManager() {
-	LevelData::Clear();
-	UndoProc::Clear();
-	DescriptionProc::Clear();
+void LevelManager::Clean() {
+	LevelDisplay::AnimationsClear();
 }
 
 void LevelManager::LoadLevel(int level) {
-	UndoProc::Clear();
-	DescriptionProc::Clear();
+	LevelUndo::Reset();
 	LevelData::LoadLevel(level);
-	MoveProc::CreateBlockMoveableRecord();
-	PropertyProc::LoadTextObjectsPushProp();
-	DescriptionProc::CalculateAllDescription();
-	PropertyProc::UpdatePropsManager();
-	GameboardProc::UpdateGameobjectTextureColor();
+	LevelMove::CreateMoveableMap();
+    LevelDescription::CalculateAllDescription();
+	LevelProperty::SetBeginProperties();
+	LevelDescription::CalculateTextInfo();
+	LevelDisplay::UpdateAllObjectTexture();
 }
 
-void LevelManager::MoveWait() {
-	if (LevelData::GetTouchWin()) return;
-	UndoProc::ClearBuffer();
-
-	MoveProc::MoveWait();
-	updateProperties();
-	addUndo();
-}
-void LevelManager::MoveUp() {
-	if (LevelData::GetTouchWin()) return;
-	UndoProc::ClearBuffer();
-
-	MoveProc::MoveUp();
-	MoveProc::MoveWait();
-	updateProperties();
-	addUndo();
-}
-void LevelManager::MoveDown() {
-	if (LevelData::GetTouchWin()) return;
-	UndoProc::ClearBuffer();
-
-	MoveProc::MoveDown();
-	MoveProc::MoveWait();
-	updateProperties();
-	addUndo();
-}
-void LevelManager::MoveLeft() {
-	if (LevelData::GetTouchWin()) return;
-	UndoProc::ClearBuffer();
-
-	MoveProc::MoveLeft();
-	MoveProc::MoveWait();
-	updateProperties();
-	addUndo();
-}
-void LevelManager::MoveRight() {
-	if (LevelData::GetTouchWin()) return;
-	UndoProc::ClearBuffer();
-
-	MoveProc::MoveRight();
-	MoveProc::MoveWait();
-	updateProperties();
-	addUndo();
-}
-void LevelManager::Undo() {
-	UndoProc::Undo();
-	DescriptionProc::Undo();
-	PropertyProc::UpdatePropsManager();
-	GameboardProc::UpdateGameobjectTextureColor();
+bool LevelManager::IsWin() {
+	return LevelData::IsWin();
 }
 
 bool LevelManager::IsMoving() {
 	bool result = false;
-	LevelData::Gameboard.foreach([&](Block &block) {
-		for (Gameobject *gameobject : block) {
-			if (gameobject->IsMoving()) {
-				result = true;
-			}
-		}
+	LevelData::AllObjectForeach([&result](ObjectBase &object) {
+		result |= object.IsMoving();
 	});
 	return result;
 }
-bool LevelManager::IsWin() {
-	return LevelData::GetTouchWin();
+
+std::string LevelManager::GetWorldTitle() {
+	return LevelData::GetWorldTitle();
+}
+
+std::string LevelManager::GetLevelTitle() {
+	return LevelData::GetLevelTitle();
+}
+
+std::string LevelManager::GetFullTitle() {
+	return LevelData::GetFullTitle();
+}
+
+Style LevelManager::GetWorldMainStyle() {
+	return LevelData::GetWorldMainStyle();
+}
+
+std::vector<std::string> LevelManager::GetRules() {
+	return PropertyManager::GetRules();
+}
+
+void LevelManager::Undo() {
+	if (!LevelUndo::CanUndo()) return;
+	LevelUndo::Undo();
+	LevelProperty::ClearObjectActionFlags();
+	LevelDescription::CalculateAllDescription();
+	LevelDescription::CalculateTextInfo();
+	LevelDisplay::UpdateAllObjectTexture();
+	playObjectSound();
+}
+
+void LevelManager::MoveWait() {
+	LevelMove::Reset();
+	LevelMove::ClearObjectMoveFlag();
+	LevelMove::MoveWait();
+    LevelDescription::CalculateAllDescription();
+	LevelProperty::ClearObjectActionFlags();
+	LevelProperty::SetProperties();
+	LevelDescription::CalculateTextInfo();
+	LevelProperty::GameobjectConvert();
+	LevelProperty::UpdateOverlapProperty();
+	LevelUndo::AddBufferToObjectUndo();
+	LevelDisplay::UpdateAllObjectTexture();
+	playObjectSound();
+}
+
+void LevelManager::MoveUp() {
+	LevelMove::Reset();
+	LevelMove::ClearObjectMoveFlag();
+	LevelMove::MoveUp();
+	LevelMove::MoveWait();
+    LevelDescription::CalculateAllDescription();
+	LevelProperty::ClearObjectActionFlags();
+	LevelProperty::SetProperties();
+	LevelDescription::CalculateTextInfo();
+	LevelProperty::GameobjectConvert();
+	LevelProperty::UpdateOverlapProperty();
+	LevelUndo::AddBufferToObjectUndo();
+	LevelDisplay::UpdateAllObjectTexture();
+	playObjectSound();
+}
+
+void LevelManager::MoveDown() {
+	LevelMove::Reset();
+	LevelMove::ClearObjectMoveFlag();
+	LevelMove::MoveDown();
+	LevelMove::MoveWait();
+    LevelDescription::CalculateAllDescription();
+	LevelProperty::ClearObjectActionFlags();
+	LevelProperty::SetProperties();
+	LevelDescription::CalculateTextInfo();
+	LevelProperty::GameobjectConvert();
+	LevelProperty::UpdateOverlapProperty();
+	LevelUndo::AddBufferToObjectUndo();
+	LevelDisplay::UpdateAllObjectTexture();
+	playObjectSound();
+}
+
+void LevelManager::MoveLeft() {
+	LevelMove::Reset();
+	LevelMove::ClearObjectMoveFlag();
+	LevelMove::MoveLeft();
+	LevelMove::MoveWait();
+    LevelDescription::CalculateAllDescription();
+	LevelProperty::ClearObjectActionFlags();
+	LevelProperty::SetProperties();
+	LevelDescription::CalculateTextInfo();
+	LevelProperty::GameobjectConvert();
+	LevelProperty::UpdateOverlapProperty();
+	LevelUndo::AddBufferToObjectUndo();
+	LevelDisplay::UpdateAllObjectTexture();
+	playObjectSound();
+}
+
+void LevelManager::MoveRight() {
+	LevelMove::Reset();
+	LevelMove::ClearObjectMoveFlag();
+	LevelMove::MoveRight();
+	LevelMove::MoveWait();
+    LevelDescription::CalculateAllDescription();
+	LevelProperty::ClearObjectActionFlags();
+	LevelProperty::SetProperties();
+	LevelDescription::CalculateTextInfo();
+	LevelProperty::GameobjectConvert();
+	LevelProperty::UpdateOverlapProperty();
+	LevelUndo::AddBufferToObjectUndo();
+	LevelDisplay::UpdateAllObjectTexture();
+	playObjectSound();
 }
 
 void LevelManager::Show() {
-	LevelData::ShowBackground();
+	LevelDisplay::TextureCounterAdd();
+	LevelDisplay::Show();
+}
 
-	std::unordered_set<Gameobject*> connectedTextObjects = DescriptionProc::GetConnectedTextObjects();
-	
-	showNotMovingGameobjects(connectedTextObjects);
-	showMovingGameobjects(connectedTextObjects);
-
-	if (nextTextureWaitTime-- == 0) {
-		LevelData::Gameboard.foreach([](Block &block) {
-			for (Gameobject *gameobject : block) gameobject->UpdateTextureCount();
-		});
-		nextTextureWaitTime = 6;
+void LevelManager::playObjectSound() {
+	if (LevelProperty::HasObjectDefeat()) {
+		AudioManager::PlayDefeatSound();
 	}
-}
-
-void LevelManager::updateProperties() {
-	DescriptionProc::CalculateAllDescription();
-	PropertyProc::UpdatePropsManager();
-	PropertyProc::UpdateAllReplaceProp();
-	PropertyProc::CheckAllOverlapProp();
-	GameboardProc::UpdateGameobjectTextureColor();
-}
-
-void LevelManager::addUndo() {
-	if (!UndoProc::AddBufferToStack()) {
-		DescriptionProc::Undo();
-		PropertyProc::UpdatePropsManager();
-		GameboardProc::UpdateGameobjectTextureColor();
+	if (LevelProperty::HasObjectSink()) {
+		AudioManager::PlaySinkSound();
 	}
-}
-
-void LevelManager::showGameobjects(std::unordered_set<Gameobject*> &connectedTextObjects, CheckCanShowFunc checkCanShow) {
-	LevelData::Gameboard.foreach([&, this] (Block &block) {
-		for (Gameobject *gameobject : block) {
-			if (!checkCanShow(gameobject)) continue;
-			if (gameobject->GetInfo().type == OBJECT_TYPE_TILED) {
-				gameobject->Show(GameboardProc::GetGameobjectConnectStatus(gameobject));
-			}
-			else if (gameobject->GetInfo().type == OBJECT_TYPE_TEXT) {
-				gameobject->Show(connectedTextObjects.find(gameobject) != connectedTextObjects.end());
-			}
-			else {
-				gameobject->Show(textureAnimationCount);
-			}
-		}
-	});
-}
-
-void LevelManager::showNotMovingGameobjects(std::unordered_set<Gameobject*> &connectedTextObjects) {
-	showGameobjects(connectedTextObjects, [](Gameobject* gameobject) { return !gameobject->IsMoving(); });
-}
-void LevelManager::showMovingGameobjects(std::unordered_set<Gameobject*> &connectedTextObjects) {
-	showGameobjects(connectedTextObjects, [](Gameobject* gameobject) { return gameobject->IsMoving(); });
+	if (LevelProperty::HasObjectMelt()) {
+		AudioManager::PlayMeltSound();
+	}
+	if (LevelProperty::HasObjectOpen()) {
+		AudioManager::PlayOpenSound();
+	}
+	if (LevelDescription::HasNewDescription()) {
+		AudioManager::PlayDescriptionSound();
+	}
+	if (LevelMove::HasObjectMove()) {
+		AudioManager::PlayMoveSound();
+	}
+	if (LevelUndo::HasDidUndo()) {
+		AudioManager::PlayUndoSound();
+	}
 }

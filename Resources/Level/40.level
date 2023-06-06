@@ -1,0 +1,68 @@
+[title]
+LEVEL ISLAND-EXTRA 1
+BOILING RIVER
+[style]
+style_island
+[game board size]
+15
+8
+[texture origin position]
+150
+108
+[texture size]
+108
+[needed texture]
+baba prop_none 2
+water prop_none 2
+skull prop_none 2
+flag prop_none 2
+text_is prop_none 2
+text_and prop_none 2
+text_water prop_none 2
+text_flag prop_none 2
+text_baba prop_none 2
+text_skull prop_none 2
+text_hot prop_none 2
+text_win prop_none 2
+text_you prop_none 2
+text_float prop_none 2
+text_melt prop_none 2
+text_defeat prop_none 2
+[objects]
+baba 6 3 0
+water 8 0 0
+water 8 1 0
+water 8 2 0
+water 8 3 0
+water 8 4 0
+water 8 5 0
+water 8 6 0
+water 8 7 0
+skull 11 0 2
+skull 11 1 2
+skull 11 2 2
+skull 12 3 3
+skull 13 3 3
+skull 14 3 3
+flag 13 1 0
+text_is 0 3 0
+text_is 13 0 0
+text_is 4 2 0
+text_is 1 7 0
+text_is 11 7 0
+text_and 0 5 0
+text_and 4 4 0
+text_and 13 7 0
+text_water 0 2 0
+text_water 0 4 0
+text_flag 12 0 0
+text_baba 4 1 0
+text_baba 0 7 0
+text_skull 10 7 0
+text_hot 0 6 0
+text_win 14 0 0
+text_you 4 3 0
+text_float 4 5 0
+text_float 14 7 0
+text_melt 2 7 0
+text_defeat 12 7 0

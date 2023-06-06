@@ -5,6 +5,10 @@ Point::Point() {
 	this->x = 0;
 	this->y = 0;
 }
+Point::Point(POINT point) {
+	this->x = point.x;
+	this->y = point.y;
+}
 Point::Point(int x, int y) {
 	this->x = x;
 	this->y = y;
@@ -17,6 +21,12 @@ bool Point::operator!=(const POINT point) {
 	return {this->x != point.x || this->y != point.y};
 }
 
+Point Point::operator=(const POINT point) {
+	this->x = point.x;
+	this->y = point.y;
+	return *this;
+}
+
 Point Point::operator+(const POINT point) {
 	return Point(this->x + point.x, this->y + point.y);
 }
@@ -25,6 +35,9 @@ Point Point::operator-(const POINT point) {
 }
 Point Point::operator*(const int number) {
 	return Point(this->x * number, this->y * number);
+}
+Point operator*(const int number, Point point) {
+	return Point(point.x * number, point.y * number);
 }
 
 Point Point::operator+=(const POINT point) {
@@ -41,6 +54,11 @@ Point Point::operator*=(const int number) {
 	this->x *= number;
 	this->y *= number;
 	return *this;
+}
+Point operator*=(const int number, Point point) {
+	point.x *= number;
+	point.y *= number;
+	return point;
 }
 
 Point Point::Up() {

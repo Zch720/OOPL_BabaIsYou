@@ -14,9 +14,32 @@ bool LevelDisplay::changeTexture = false;
 Point LevelDisplay::floatOffset = Point(0, 0);
 int LevelDisplay::floatOffsetCount = LevelDisplay::OFFSET_COUNT_OFFSET;
 
+game_framework::CMovingBitmap LevelDisplay::deadUndoHint = {};
+game_framework::CMovingBitmap LevelDisplay::deadRestartHint = {};
+bool LevelDisplay::showDeadTimming = false;
+bool LevelDisplay::shouldShowDeadHint = false;
+clock_t LevelDisplay::showDeadHintTimer = 0;
+
 std::vector<WinObjectEffect> LevelDisplay::winObjectEffects = {};
 std::vector<DispearEffect> LevelDisplay::dispearEffects = {};
 std::vector<EffectObjectBase*> LevelDisplay::moveEffects = {};
+
+void LevelDisplay::Init() {
+    deadUndoHint.LoadBitmapByString({
+        "./resources/DeadHint/undo/0.bmp",
+        "./resources/DeadHint/undo/1.bmp",
+        "./resources/DeadHint/undo/2.bmp",
+    }, 0x000000);
+    deadUndoHint.SetAnimation(200, false);
+    deadUndoHint.SetTopLeft(600, 10);
+    deadRestartHint.LoadBitmapByString({
+        "./resources/DeadHint/restart/0.bmp",
+        "./resources/DeadHint/restart/1.bmp",
+        "./resources/DeadHint/restart/2.bmp",
+    }, 0x000000);
+    deadRestartHint.SetAnimation(200, false);
+    deadRestartHint.SetTopLeft(1170, 10);
+}
 
 void LevelDisplay::TextureCounterAdd() {
     if (--nextTextureWaitTime <= 0) {
@@ -40,6 +63,7 @@ void LevelDisplay::Show() {
 	addWinObjectAnimation();
 	addDispearAnimation();
     addMoveAnimation();
+    checkDeadHint();
 
     LevelData::GetBackground().ShowBitmap();
     for (int i = 1; i < MAX_OBJECT_Z_INDEX; i++) {
@@ -50,6 +74,8 @@ void LevelDisplay::Show() {
         if (LevelDescription::IsUsableTextobject(object.GetInfo())) return;
         object.ShowCrossed();
     });
+
+    showDeadHint();
 
     showMoveAniations();
     showDispearAniations();
@@ -93,6 +119,31 @@ void LevelDisplay::updateFloatOffset() {
         -abs(floatOffsetCount / OFFSET_SPEED - OFFSET_COUNT_CENTER) + OFFSET_COUNT_OFFSET
     );
     if (TextureManager::GetTextureSize() == 108) floatOffset *= 2;
+}
+
+void LevelDisplay::checkDeadHint() {
+    if (LevelData::HasYouObjectInGameboard()) {
+        showDeadTimming = false;
+        shouldShowDeadHint = false;
+        return;
+    }
+    if (shouldShowDeadHint) return;
+
+    if (!showDeadTimming) {
+        showDeadTimming = true;
+        showDeadHintTimer = clock();
+    }
+    else if (clock() - showDeadHintTimer > SHOW_DEAD_HINT_TIME) {
+        shouldShowDeadHint = true;
+        showDeadTimming = false;
+    }
+}
+
+void LevelDisplay::showDeadHint() {
+    if (shouldShowDeadHint) {
+        deadUndoHint.ShowBitmap();
+        deadRestartHint.ShowBitmap();
+    }
 }
 
 void LevelDisplay::addWinObjectAnimation() {

@@ -11,6 +11,7 @@
 
 void LevelManager::Init() {
 	EffectTextures::Init();
+	LevelDisplay::Init();
 }
 
 void LevelManager::Clean() {

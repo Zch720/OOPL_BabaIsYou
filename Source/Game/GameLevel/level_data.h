@@ -54,6 +54,7 @@ public:
 	static bool IsPropertyOverlapBlock(POINT position, PropertyId propertyId1, PropertyId propertyId2);
 	static bool IsPropertyOverlap(PropertyId propertyId1, PropertyId propertyId2);
 
+	static bool HasYouObjectInGameboard();
 	static bool HasTextobjectInBlock(POINT position);
 	
 	static std::string GetWorldTitle();

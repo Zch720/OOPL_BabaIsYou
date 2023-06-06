@@ -39,26 +39,18 @@
 */
 
 #include "game_control.h"
+#include "Pause/pause.h"
 #include <queue>
 
 namespace game_framework {
-	/////////////////////////////////////////////////////////////////////////////
-	// Constants
-	/////////////////////////////////////////////////////////////////////////////
-
-	enum AUDIO_ID {				// 定義各種音效的編號
-		AUDIO_DING,				// 0
-		AUDIO_LAKE,				// 1
-		AUDIO_NTUT				// 2
-	};
-
 	enum KeyInputType {
 		INPUT_MOVE_UP,
 		INPUT_MOVE_DOWN,
 		INPUT_MOVE_LEFT,
 		INPUT_MOVE_RIGHT,
 		INPUT_ENTER,
-		INPUT_BACK
+		INPUT_BACK,
+		INPUT_PAUSE,
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -78,6 +70,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		CMovingBitmap logo;	
+		bool initialized = false;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -103,6 +96,9 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		std::queue<KeyInputType> inputBuffer;
+		bool isPause = false;
+		PauseLayout pausePage;
+
 		void clearInputBuffer();							// csie的logo
 		void mainPageInit();
 		void mainPageKeyDown(KeyInputType inputType);
@@ -110,6 +106,9 @@ namespace game_framework {
 		void mainPageMouseMove(CPoint point);
 		void levelMapKeyDown(KeyInputType inputType);
 		void gameLevelKeyDown(KeyInputType inputType);
+		void createMapPausePage();
+		void createLevelPausePage();
+		void pauseKeyDown(KeyInputType inputType);
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

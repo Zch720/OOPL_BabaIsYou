@@ -34,8 +34,7 @@ void CGameStateOver::OnBeginState()
 
 void CGameStateOver::OnInit()
 {
-	//ShowInitProgress(66, "Initialize...");
-	//ShowInitProgress(100, "OK!");
+	ShowInitProgress(100, "OK!");
 }
 
 void CGameStateOver::OnShow()

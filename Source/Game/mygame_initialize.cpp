@@ -7,15 +7,19 @@
 #include "../Library/gamecore.h"
 #include "mygame.h"
 
+bool enterGame = true;
 bool mainPageInited = false;
 bool gameEnd = false;
 bool atMainMenu = true;
+int currentShowingLayout = 0;
 int currentLevel = 1000;
 int lastestMap = 1000;
 Map levelMap = Map();
 POINT map1000BoxPosition = {0, 13};
 POINT map1001BoxPosition = {4, 9};
-LevelManager levelManager = LevelManager();
+LevelManager levelManager;
+AudioManager audioManager;
+CloudAnimation cloudAnimation;
 
 using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
@@ -28,7 +32,14 @@ CGameStateInit::CGameStateInit(CGame *g) : CGameState(g)
 
 void CGameStateInit::OnInit()
 {
-	//ShowInitProgress(0, "Start Initialize...");
+	ShowInitProgress(0, "Start Initialize...");
+	audioManager.Init();
+	ShowInitProgress(25, "Initialize Audio...");
+	cloudAnimation.Init();
+	ShowInitProgress(50, "Initialize Animation...");
+	levelManager.Init();
+	ShowInitProgress(75, "Initialize Level...");
+	initialized = true;
 }
 
 void CGameStateInit::OnBeginState()
@@ -48,7 +59,7 @@ void CGameStateInit::OnBeginState()
 			levelManager.LoadLevel(currentLevel);
 		}
 	}
-	GotoGameState(GAME_STATE_RUN);
+	if (initialized) GotoGameState(GAME_STATE_RUN);
 }
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -61,6 +72,7 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 }
 
 void CGameStateInit::OnMove() {
+	if (initialized) GotoGameState(GAME_STATE_RUN);
 }
 void CGameStateInit::OnShow()
 {

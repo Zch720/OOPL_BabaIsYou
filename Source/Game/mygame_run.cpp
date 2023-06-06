@@ -29,19 +29,48 @@ void CGameStateRun::OnBeginState()
 		mainPageInit();
 		mainPageInited = true;
 	}
+
+	if (!enterGame) {
+		cloudAnimation.StartCloudOpen();
+	} else {
+		enterGame = false;
+	}
+
+	if (atMainMenu) {
+		currentShowingLayout = 0;
+		audioManager.PlayMenuBGM();
+	}
+	else if (currentLevel >= 1000) {
+		currentShowingLayout = 1;
+		audioManager.PlayMapBGM();
+	}
+	else {
+		currentShowingLayout = 2;
+		audioManager.PlayBabaBGM();
+	}
 }
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
-	if (!atMainMenu && currentLevel < 1000 && levelManager.IsWin()) {
+	if (!atMainMenu && currentLevel < 1000 && !cloudAnimation.IsShowing() && levelManager.IsWin()) {
 		currentLevel = lastestMap;
 		clearInputBuffer();
+		audioManager.PlayCongratulationSound();
+		cloudAnimation.StartCloudCloseWithCongratulation();
+	}
+	if (cloudAnimation.IsCloudClosing() && cloudAnimation.IsCloudCloseEnd()) {
+		cloudAnimation.StopCloudClose();
 		GotoGameState(GAME_STATE_OVER);
+	}
+	if (cloudAnimation.IsCloudOpenEnd()) {
+		cloudAnimation.StopCloudOpen();
 	}
 	if (!inputBuffer.empty()) {
 		KeyInputType inputKey = inputBuffer.front();
 		inputBuffer.pop();
-		if (atMainMenu) {
+		if (isPause) {
+			pauseKeyDown(inputKey);
+		} else if (atMainMenu) {
 			mainPageKeyDown(inputKey);
 		} else if (currentLevel >= 1000) {
 			levelMapKeyDown(inputKey);
@@ -57,15 +86,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_ESCAPE) {
-		gameEnd = true;
-		GotoGameState(GAME_STATE_OVER);
-	}
-
-	if (!atMainMenu && currentLevel < 1000 && nChar == 'Q') {
-		currentLevel = lastestMap;
-		GotoGameState(GAME_STATE_OVER);
-	}
+	if (cloudAnimation.IsShowing()) return;
 	if (nChar == VK_UP || nChar == 'W') {
 		inputBuffer.push(INPUT_MOVE_UP);
 	}
@@ -83,6 +104,9 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	else if (nChar == VK_BACK || nChar == 'Z') {
 		inputBuffer.push(INPUT_BACK);
+	}
+	else if (nChar == VK_ESCAPE || nChar == 'P') {
+		inputBuffer.push(INPUT_PAUSE);
 	}
 }
 
@@ -119,23 +143,26 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
-	if (atMainMenu) {
+	if (isPause) {
+		pausePage.ShowImage();
+		CDC *pDC = CDDraw::GetBackCDC();
+		pausePage.ShowText(pDC);
+		CDDraw::ReleaseBackCDC();
+	}
+	else if (currentShowingLayout == 0) {
 		MainPage::ShowImage();
 		CDC *pDC = CDDraw::GetBackCDC();
 		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0xFFFFFF);
 		MainPage::ShowText(pDC);
 		CDDraw::ReleaseBackCDC();
 	}
-	else if (currentLevel >= 1000) {
+	else if (currentShowingLayout == 1) {
 		levelMap.Show();
 	}
-	else {
+	else if (currentShowingLayout == 2) {
 		levelManager.Show();
 	}
-	//CDC *pDC = CDDraw::GetBackCDC();
-	//CTextDraw::ChangeFontLog(pDC, 40, "BABAmoji", 0xFFFFFF);
-	//CTextDraw::Print(pDC, 0, 0, "test TEST");
-	//CDDraw::ReleaseBackCDC();
+	cloudAnimation.Show();
 }
 
 void CGameStateRun::clearInputBuffer() {
@@ -146,13 +173,17 @@ void CGameStateRun::mainPageInit() {
 	MainPage::MainpageInit();
 	MainPage::SetContieuePlayingFunc([this]() {
 		atMainMenu = false;
+		currentLevel = lastestMap;
 		clearInputBuffer();
-		GotoGameState(GAME_STATE_OVER);
+		audioManager.PlayChangeSceneSound();
+		cloudAnimation.StartCloudClose();
 	});
 	MainPage::SetStartTheGameFunc([this]() {
 		atMainMenu = false;
+		currentLevel = lastestMap;
 		clearInputBuffer();
-		GotoGameState(GAME_STATE_OVER);
+		audioManager.PlayChangeSceneSound();
+		cloudAnimation.StartCloudClose();
 	});
 	MainPage::SetExitTheGameFunc([this]() {
 		gameEnd = true;
@@ -208,8 +239,12 @@ void CGameStateRun::levelMapKeyDown(KeyInputType inputType) {
 				map1001BoxPosition = levelMap.GetBoxPosition();
 			}
 			currentLevel = levelMap.CheckIndex();
-			GotoGameState(GAME_STATE_OVER);
+			cloudAnimation.StartCloudClose();
 		}
+	}
+	else if (inputType == INPUT_PAUSE) {
+		isPause = true;
+		createMapPausePage();
 	}
 }
 
@@ -231,5 +266,96 @@ void CGameStateRun::gameLevelKeyDown(KeyInputType inputType) {
 	}
 	else if (inputType == INPUT_BACK) {
 		levelManager.Undo();
+	}
+	else if (inputType == INPUT_PAUSE) {
+		isPause = true;
+		createLevelPausePage();
+	}
+}
+
+void CGameStateRun::createMapPausePage() {
+	Style style;
+	std::string title;
+	std::vector<std::string> rules = {};
+	if (currentLevel == 1000) {
+		style = STYLE_DEFAULT;
+		title = "MAP";
+	}
+	else if (currentLevel == 1001) {
+		style = STYLE_LAKE;
+		title = "1. THE LAKE";
+	}
+	else if (currentLevel == 1002) {
+		style = STYLE_ISLAND;
+		title = "2. SOLITARY ISLAND";
+	}
+	pausePage = PauseLayout(
+		style,
+		title,
+		rules
+	);
+	pausePage.SetResumeButtonOnClickFunc([this]() {
+		isPause = false;
+	});
+
+	if (currentLevel != 1000) {
+		pausePage.SetReturnMapButtonOnClickFunc([this]() {
+			isPause = false;
+			currentLevel = 1000;
+			audioManager.PlayChangeSceneSound();
+			cloudAnimation.StartCloudClose();
+		});
+	}
+	
+	pausePage.SetRestartButtonOnClickFunc([this]() {
+		isPause = false;
+		audioManager.PlayRestartSound();
+		cloudAnimation.StartCloudClose();
+	});
+	pausePage.SetReturnMenuButtonOnClickFunc([this]() {
+		isPause = false;
+		atMainMenu = true;
+		audioManager.PlayChangeSceneSound();
+		cloudAnimation.StartCloudClose();
+	});
+}
+
+void CGameStateRun::createLevelPausePage() {
+	pausePage = PauseLayout(
+		levelManager.GetWorldMainStyle(),
+		levelManager.GetFullTitle(),
+		levelManager.GetRules()
+	);
+	pausePage.SetResumeButtonOnClickFunc([this]() {
+		isPause = false;
+	});
+	pausePage.SetReturnMapButtonOnClickFunc([this]() {
+		isPause = false;
+		currentLevel = lastestMap;
+		audioManager.PlayChangeSceneSound();
+		cloudAnimation.StartCloudClose();
+	});
+	pausePage.SetRestartButtonOnClickFunc([this]() {
+		isPause = false;
+		audioManager.PlayRestartSound();
+		cloudAnimation.StartCloudClose();
+	});
+	pausePage.SetReturnMenuButtonOnClickFunc([this]() {
+		isPause = false;
+		atMainMenu = true;
+		audioManager.PlayChangeSceneSound();
+		cloudAnimation.StartCloudClose();
+	});
+}
+
+void CGameStateRun::pauseKeyDown(KeyInputType inputKey) {
+	if (inputKey == INPUT_MOVE_UP) {
+		pausePage.ChooserMoveUp();
+	} else if (inputKey == INPUT_MOVE_DOWN) {
+		pausePage.ChooserMoveDown();
+	} else if (inputKey == INPUT_ENTER) {
+		pausePage.Choose();
+	} else if (inputKey == INPUT_PAUSE) {
+		isPause = false;
 	}
 }

@@ -6,11 +6,11 @@
 class CloudAnimation {
 public:
 	void Init();
-	void StartCloudClose(Style style);
+	void StartCloudClose();
 	void StopCloudClose();
-	void StartCloudOpen(Style style);
+	void StartCloudOpen();
 	void StopCloudOpen();
-	void StartCloudCloseWithCongratulation(Style style);
+	void StartCloudCloseWithCongratulation();
 
 	bool IsShowing();
 	bool IsCloudClosing();
@@ -26,10 +26,10 @@ private:
 	static const int CONGRATULATION_SHOW_FRAME = 44;
 	static const int CONGRATULATION_LOOP_FRAME = 9;
 
-	static game_framework::CMovingBitmap cloudCloseNone;
-	static game_framework::CMovingBitmap cloudOpenNone;
-	static game_framework::CMovingBitmap congratulationShowNone;
-	static game_framework::CMovingBitmap congratulationLoopNone;
+	static game_framework::CMovingBitmap cloudCloseDefault;
+	static game_framework::CMovingBitmap cloudOpenDefault;
+	static game_framework::CMovingBitmap congratulationShowDefault;
+	static game_framework::CMovingBitmap congratulationLoopDefault;
 	
 	game_framework::CMovingBitmap cloudCloseAnimation;
 	game_framework::CMovingBitmap cloudOpenAnimation;
@@ -40,6 +40,8 @@ private:
 	int openFrameCount = OPEN_FRAME;
 	int congratulationShowFrameCount = CONGRATULATION_SHOW_FRAME;
 	int congratulationLoopFrameCount = CONGRATULATION_LOOP_FRAME;
+
+	void loadTexture(std::string path, game_framework::CMovingBitmap& bitmap, int frameCount, int ignoreColor);
 
 	bool showCloudClose = false;
 	bool showCloudOpen = false;

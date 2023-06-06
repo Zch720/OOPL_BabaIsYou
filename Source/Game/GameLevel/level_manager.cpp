@@ -19,6 +19,7 @@ void LevelManager::Clean() {
 }
 
 void LevelManager::LoadLevel(int level) {
+	LevelUndo::Reset();
 	LevelData::LoadLevel(level);
 	LevelMove::CreateMoveableMap();
     LevelDescription::CalculateAllDescription();

@@ -39,18 +39,37 @@ void CloudAnimation::Init() {
 	congratulationLoopNone.LoadBitmapByString(files, 0x000000);
 }
 
-void CloudAnimation::StartCloud(Style style) {
+void CloudAnimation::StartCloudClose(Style style) {
 	loadCloseTexture(style);
-	loadOpenTexture(style);
+	// loadOpenTexture(style);
+	showCloudClose = true;
 	showCongratulation = false;
 	closeFrameCount = 0;
 }
 
-void CloudAnimation::StartCloudWithCongratulation(Style style) {
-	loadCloseTexture(style);
+void CloudAnimation::StopCloudClose() {
+	showCloudClose = false;
+	showCongratulation = false;
+}
+
+void CloudAnimation::StartCloudOpen(Style style) {
+	// loadCloseTexture(style);
 	loadOpenTexture(style);
+	showCloudOpen = true;
+	showCongratulation = false;
+	openFrameCount = 0;
+}
+
+void CloudAnimation::StopCloudOpen() {
+	showCloudOpen = false;
+}
+
+void CloudAnimation::StartCloudCloseWithCongratulation(Style style) {
+	loadCloseTexture(style);
+	// loadOpenTexture(style);
 	loadCongratulationShowTexture(style);
 	loadCongratulationLoopTexture(style);
+	showCloudClose = true;
 	showCongratulation = true;
 	closeFrameCount = 0;
 	congratulationShowFrameCount = 0;
@@ -58,20 +77,28 @@ void CloudAnimation::StartCloudWithCongratulation(Style style) {
 }
 
 bool CloudAnimation::IsShowing() {
-	return IsCloudClosing() || IsCloudOpening();
+	return showCloudClose || showCloudOpen;
 }
 
 bool CloudAnimation::IsCloudClosing() {
-	return closeFrameCount != CLOSE_FRAME;
+	return showCloudClose;
+}
+
+bool CloudAnimation::IsCloudCloseEnd() {
+	return showCloudClose && closeFrameCount == CLOSE_FRAME;
 }
 
 bool CloudAnimation::IsCloudOpening() {
-	return openFrameCount != OPEN_FRAME;
+	return showCloudOpen;
 }
 
-bool CloudAnimation::IsSwitch() {
-	return openFrameCount == 0;
+bool CloudAnimation::IsCloudOpenEnd() {
+	return showCloudOpen && openFrameCount == OPEN_FRAME;
 }
+
+// bool CloudAnimation::IsSwitch() {
+// 	return openFrameCount == 0;
+// }
 
 void CloudAnimation::Show() {
 	if (showCongratulation) {
@@ -91,7 +118,6 @@ void CloudAnimation::Show() {
 		cloudCloseAnimation.SetFrameIndexOfBitmap(closeFrameCount++);
 		cloudCloseAnimation.ShowBitmap();
 		if (closeFrameCount == CLOSE_FRAME) {
-			openFrameCount = 0;
 			showCongratulation = false;
 		}
 	} else if (openFrameCount != OPEN_FRAME) {

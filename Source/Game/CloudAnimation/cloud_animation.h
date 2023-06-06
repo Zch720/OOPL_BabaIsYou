@@ -6,13 +6,17 @@
 class CloudAnimation {
 public:
 	void Init();
-	void StartCloud(Style style);
-	void StartCloudWithCongratulation(Style style);
+	void StartCloudClose(Style style);
+	void StopCloudClose();
+	void StartCloudOpen(Style style);
+	void StopCloudOpen();
+	void StartCloudCloseWithCongratulation(Style style);
 
 	bool IsShowing();
 	bool IsCloudClosing();
+	bool IsCloudCloseEnd();
 	bool IsCloudOpening();
-	bool IsSwitch();
+	bool IsCloudOpenEnd();
 
 	void Show();
 
@@ -37,6 +41,8 @@ private:
 	int congratulationShowFrameCount = CONGRATULATION_SHOW_FRAME;
 	int congratulationLoopFrameCount = CONGRATULATION_LOOP_FRAME;
 
+	bool showCloudClose = false;
+	bool showCloudOpen = false;
 	bool showCongratulation = false;
 
 	void loadCloseTexture(Style style);

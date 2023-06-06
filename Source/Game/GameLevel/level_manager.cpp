@@ -11,6 +11,7 @@
 
 void LevelManager::Init() {
 	EffectTextures::Init();
+	LevelDisplay::Init();
 }
 
 void LevelManager::Clean() {
@@ -69,6 +70,7 @@ void LevelManager::Undo() {
 }
 
 void LevelManager::MoveWait() {
+	LevelMove::Reset();
 	LevelMove::ClearObjectMoveFlag();
 	LevelMove::MoveWait();
     LevelDescription::CalculateAllDescription();
@@ -83,6 +85,7 @@ void LevelManager::MoveWait() {
 }
 
 void LevelManager::MoveUp() {
+	LevelMove::Reset();
 	LevelMove::ClearObjectMoveFlag();
 	LevelMove::MoveUp();
 	LevelMove::MoveWait();
@@ -98,6 +101,7 @@ void LevelManager::MoveUp() {
 }
 
 void LevelManager::MoveDown() {
+	LevelMove::Reset();
 	LevelMove::ClearObjectMoveFlag();
 	LevelMove::MoveDown();
 	LevelMove::MoveWait();
@@ -113,6 +117,7 @@ void LevelManager::MoveDown() {
 }
 
 void LevelManager::MoveLeft() {
+	LevelMove::Reset();
 	LevelMove::ClearObjectMoveFlag();
 	LevelMove::MoveLeft();
 	LevelMove::MoveWait();
@@ -128,6 +133,7 @@ void LevelManager::MoveLeft() {
 }
 
 void LevelManager::MoveRight() {
+	LevelMove::Reset();
 	LevelMove::ClearObjectMoveFlag();
 	LevelMove::MoveRight();
 	LevelMove::MoveWait();

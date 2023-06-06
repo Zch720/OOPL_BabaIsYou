@@ -65,6 +65,15 @@ bool LevelData::IsPropertyOverlap(PropertyId propertyId1, PropertyId propertyId2
 	return result;
 }
 
+bool LevelData::HasYouObjectInGameboard() {
+	bool result = false;
+	AllObjectForeach([&result](ObjectBase &object) {
+		if (result) return;
+		result |= object.HasProperty(PROPERTY_YOU);
+	});
+	return result;
+}
+
 bool LevelData::HasTextobjectInBlock(POINT position) {
 	return gameboard[position].HasTextobject();
 }

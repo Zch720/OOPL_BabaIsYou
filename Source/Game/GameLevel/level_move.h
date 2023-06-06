@@ -23,10 +23,14 @@ private:
 	static std::unordered_set<ObjectInfo> hasPropertyYouObjects;
 	static std::unordered_set<ObjectInfo> hasPropertyMoveObjects;
 	static std::unordered_set<MoveInfo> moveObjects;
+	static std::vector<MoveInfo> moveObjectsWait;
+	static std::vector<MoveInfo> moveObjectsNormal;
 	static vector2d<int8_t> moveable;
 	static bool hasObjectMove;
 
-	static void reset();
+	static bool moveObjectGetted;
+
+	static void resetMoveableMap();
 
 	static bool isMoveableObject(ObjectId objectId);
 	static bool isMoveableObjectWithoutYou(ObjectId objectId);
@@ -55,6 +59,7 @@ private:
 
 public:
 	static void CreateMoveableMap();
+	static void Reset();
 
 	static void ClearObjectMoveFlag();
 	static bool HasObjectMove();
@@ -64,6 +69,8 @@ public:
 	static void MoveDown();
 	static void MoveLeft();
 	static void MoveRight();
+
+	static std::vector<MoveInfo> GetMoveObjects();
 };
 
 namespace std{

@@ -26,6 +26,7 @@ private:
 	static game_framework::CMovingBitmap moveLeft108;
 	static game_framework::CMovingBitmap moveRight54;
 	static game_framework::CMovingBitmap moveRight108;
+	static game_framework::CMovingBitmap deadHintBubble;
 
 	static void loadTexture(std::string path, int count, game_framework::CMovingBitmap& texture);
 
@@ -43,6 +44,7 @@ public:
 	static game_framework::CMovingBitmap GetMoveLeftTexture108();
 	static game_framework::CMovingBitmap GetMoveRightTexture54();
 	static game_framework::CMovingBitmap GetMoveRightTexture108();
+	static game_framework::CMovingBitmap GetDeadHintBubbleTexture();
 };
 
 class EffectObjectBase {
@@ -144,4 +146,19 @@ private:
 
 public:
 	MoveRightEffect(POINT centerPosition, int size);
+};
+
+
+class DeadHintBubbleEffect : public EffectObjectBase {
+private:
+	static const int textureCount = 4;
+
+	void loadTexture();
+	void createInfo();
+
+	void updatePosition() override;
+	void updateTexture() override;
+
+public:
+	DeadHintBubbleEffect(POINT centerPosition, int width);
 };

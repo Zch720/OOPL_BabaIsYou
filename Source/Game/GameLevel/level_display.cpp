@@ -22,6 +22,7 @@ clock_t LevelDisplay::showDeadHintTimer = 0;
 
 std::vector<WinObjectEffect> LevelDisplay::winObjectEffects = {};
 std::vector<DispearEffect> LevelDisplay::dispearEffects = {};
+std::vector<DeadHintBubbleEffect> LevelDisplay::deadHintBubbleEffects = {};
 std::vector<EffectObjectBase*> LevelDisplay::moveEffects = {};
 
 void LevelDisplay::Init() {
@@ -76,6 +77,7 @@ void LevelDisplay::Show() {
     });
 
     showDeadHint();
+    showDeadHintBubbleAniations();
 
     showMoveAniations();
     showDispearAniations();
@@ -123,6 +125,9 @@ void LevelDisplay::updateFloatOffset() {
 
 void LevelDisplay::checkDeadHint() {
     if (LevelData::HasYouObjectInGameboard()) {
+        if (shouldShowDeadHint) {
+            addDeadHintBubbleAnimation();
+        }
         showDeadTimming = false;
         shouldShowDeadHint = false;
         return;
@@ -134,6 +139,7 @@ void LevelDisplay::checkDeadHint() {
         showDeadHintTimer = clock();
     }
     else if (clock() - showDeadHintTimer > SHOW_DEAD_HINT_TIME) {
+        addDeadHintBubbleAnimation();
         shouldShowDeadHint = true;
         showDeadTimming = false;
     }
@@ -173,6 +179,23 @@ void LevelDisplay::addDispearAnimation() {
 	}
 }
 
+void LevelDisplay::addDeadHintBubbleAnimation() {
+    POINT undoCenter = {
+        deadUndoHint.GetLeft() + deadUndoHint.GetWidth() / 2,
+        deadUndoHint.GetTop() + deadUndoHint.GetHeight() / 2
+    };
+    POINT restartCenter = {
+        deadRestartHint.GetLeft() + deadRestartHint.GetWidth() / 2,
+        deadRestartHint.GetTop() + deadRestartHint.GetHeight() / 2
+    };
+    for (int i = 0; i < 30; i++) {
+        deadHintBubbleEffects.push_back(DeadHintBubbleEffect(undoCenter, deadUndoHint.GetWidth() - 16));
+    }
+    for (int i = 0; i < 40; i++) {
+        deadHintBubbleEffects.push_back(DeadHintBubbleEffect(restartCenter, deadRestartHint.GetWidth() - 16));
+    }
+}
+
 void LevelDisplay::addMoveAnimation() {
     std::vector<LevelMove::MoveInfo> moveInfos = LevelMove::GetMoveObjects();
     for (LevelMove::MoveInfo &moveInfo : moveInfos) {
@@ -207,6 +230,12 @@ void LevelDisplay::showDispearAniations() {
     }
 }
 
+void LevelDisplay::showDeadHintBubbleAniations() {
+    for (DeadHintBubbleEffect &effect : deadHintBubbleEffects) {
+        effect.Show();
+    }
+}
+
 void LevelDisplay::showMoveAniations() {
     for (EffectObjectBase *effect : moveEffects) {
         effect -> Show();
@@ -223,6 +252,12 @@ void LevelDisplay::cleanAnimations() {
 	for (size_t i = 0; i < dispearEffects.size(); i++) {
 		if (dispearEffects[i].IsEnd()) {
 			dispearEffects.erase(dispearEffects.begin() + i);
+			i--;
+		}
+	}
+    for (size_t i = 0; i < deadHintBubbleEffects.size(); i++) {
+		if (deadHintBubbleEffects[i].IsEnd()) {
+			deadHintBubbleEffects.erase(deadHintBubbleEffects.begin() + i);
 			i--;
 		}
 	}

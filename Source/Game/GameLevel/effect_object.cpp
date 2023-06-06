@@ -18,6 +18,7 @@ game_framework::CMovingBitmap EffectTextures::moveLeft54 = {};
 game_framework::CMovingBitmap EffectTextures::moveLeft108 = {};
 game_framework::CMovingBitmap EffectTextures::moveRight54 = {};
 game_framework::CMovingBitmap EffectTextures::moveRight108 = {};
+game_framework::CMovingBitmap EffectTextures::deadHintBubble = {};
 
 void EffectTextures::loadTexture(std::string path, int count, game_framework::CMovingBitmap& texture) {
 	std::vector<std::string> paths;
@@ -44,6 +45,7 @@ void EffectTextures::Init() {
 	loadTexture("./resources/effect/move_left/108/", 18, moveLeft108);
 	loadTexture("./resources/effect/move_right/54/", 18, moveRight54);
 	loadTexture("./resources/effect/move_right/108/", 18, moveRight108);
+	loadTexture("./resources/effect/dead_bubble/", 4, deadHintBubble);
 }
 
 game_framework::CMovingBitmap EffectTextures::GetWinObjectEffectTexture54() {
@@ -92,6 +94,10 @@ game_framework::CMovingBitmap EffectTextures::GetMoveRightTexture54() {
 
 game_framework::CMovingBitmap EffectTextures::GetMoveRightTexture108() {
 	return moveRight108;
+}
+
+game_framework::CMovingBitmap EffectTextures::GetDeadHintBubbleTexture() {
+	return deadHintBubble;
 }
 
 
@@ -307,4 +313,47 @@ void MoveRightEffect::updatePosition() {
 
 void MoveRightEffect::updateTexture() {
 	texture.SetFrameIndexOfBitmap(frameCount++);
+}
+
+
+DeadHintBubbleEffect::DeadHintBubbleEffect(POINT centerPosition, int width) {
+	createInfo();
+	loadTexture();
+	this -> centerPosition = {
+		centerPosition.x + (rand() % width) - width / 2,
+		centerPosition.y
+	} ;
+}
+
+void DeadHintBubbleEffect::loadTexture() {
+	texture = EffectTextures::GetDeadHintBubbleTexture();
+	texture.SetFrameIndexOfBitmap(0);
+}
+
+void DeadHintBubbleEffect::createInfo() {
+	info.startDistance = rand() % 12 + 7;
+	info.endDistance = rand() % 37 + 40;
+	info.totalDistance = info.endDistance - info.startDistance;
+	info.degree = PI * (rand() % 360) / 180;
+	info.frame = (int)(info.totalDistance / 2);
+	int frameTime = 1;
+	for (int i = 0; i < textureCount - 2; i++) {
+		frameTime += rand() % (info.frame - 5 - frameTime);
+		info.changeFrameIndex.push_back(frameTime);
+	}
+	info.changeFrameIndex.push_back(info.frame - (rand() % 5) - 1);
+}
+
+void DeadHintBubbleEffect::updatePosition() {
+	double currentDistance = (double)info.totalDistance * frameCount / info.frame + info.startDistance;
+	int x = (int)(currentDistance * cos(info.degree) + centerPosition.x);
+	int y = (int)(currentDistance * sin(info.degree) + centerPosition.y);
+	texture.SetTopLeft(x - texture.GetWidth() / 2, y - texture.GetHeight() / 2);
+}
+
+void DeadHintBubbleEffect::updateTexture() {
+	if (textureChangeCount < textureCount - 1 && info.changeFrameIndex[textureChangeCount] == frameCount) {
+		texture.SetFrameIndexOfBitmap(++textureChangeCount);
+	}
+	frameCount++;
 }

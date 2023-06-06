@@ -26,6 +26,7 @@ private:
 
 	static std::vector<WinObjectEffect> winObjectEffects;
 	static std::vector<DispearEffect> dispearEffects;
+    static std::vector<DeadHintBubbleEffect> deadHintBubbleEffects;
     static std::vector<EffectObjectBase*> moveEffects;
 
     static ShowInfo getObjectShowInfo(ObjectInfo &objectInfo);
@@ -38,10 +39,12 @@ private:
 
 	static void addWinObjectAnimation();
 	static void addDispearAnimation();
+    static void addDeadHintBubbleAnimation();
     static void addMoveAnimation();
 
 	static void showWinAniations();
 	static void showDispearAniations();
+    static void showDeadHintBubbleAniations();
 	static void showMoveAniations();
 	static void cleanAnimations();
 

@@ -22,7 +22,10 @@ void CloudAnimation::Init() {
 	loadTexture("./resources/effect/cloud_open_default", cloudOpenDefault, OPEN_FRAME, 0xFFFFFF);
 	loadTexture("./resources/effect/cloud_close_default", cloudCloseDefault, CLOSE_FRAME, 0xFFFFFF);
 	loadTexture("./resources/effect/congratulation_show_default", congratulationShowDefault, CONGRATULATION_SHOW_FRAME, 0x000000);
+	congratulationShowDefault.SetTopLeft(545, 370);
 	loadTexture("./resources/effect/congratulation_loop_default", congratulationLoopDefault, CONGRATULATION_LOOP_FRAME, 0x000000);
+	congratulationLoopDefault.SetTopLeft(545, 370);
+
 }
 
 void CloudAnimation::StartCloudClose() {

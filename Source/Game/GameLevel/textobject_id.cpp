@@ -36,6 +36,12 @@ std::unordered_map<ObjectId, ObjectId> TextobjectIdProc::textobjectToGameobject 
 	{ TEXTOBJECT_BOLT, GAMEOBJECT_BOLT },
 	{ TEXTOBJECT_REED, GAMEOBJECT_REED },
 	{ TEXTOBJECT_BOG, GAMEOBJECT_BOG },
+	{ TEXTOBJECT_BOX, GAMEOBJECT_BOX },
+	{ TEXTOBJECT_HUSK, GAMEOBJECT_HUSK },
+	{ TEXTOBJECT_STUMP, GAMEOBJECT_STUMP },
+	{ TEXTOBJECT_TREE, GAMEOBJECT_TREE },
+	{ TEXTOBJECT_GHOST, GAMEOBJECT_GHOST },
+	{ TEXTOBJECT_STATUE, GAMEOBJECT_STATUE },
 };
 std::unordered_map<ObjectId, PropertyId> TextobjectIdProc::textobjectToProperty = {
 	{ TEXTOBJECT_YOU, PROPERTY_YOU },
@@ -52,6 +58,7 @@ std::unordered_map<ObjectId, PropertyId> TextobjectIdProc::textobjectToProperty 
 	{ TEXTOBJECT_RED, PROPERTY_RED },
 	{ TEXTOBJECT_BLUE, PROPERTY_BLUE },
 	{ TEXTOBJECT_FLOAT, PROPERTY_FLOAT },
+	{ TEXTOBJECT_WEAK, PROPERTY_WEAK },
 };
 
 

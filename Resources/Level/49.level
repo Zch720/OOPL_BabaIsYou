@@ -1,0 +1,208 @@
+[title]
+LEVEL RUINS-4:
+UNREACHABLE SHORES
+[style]
+style_ruin
+[game board size]
+28
+16
+[texture origin position]
+204
+108
+[texture size]
+54
+[needed texture]
+keke prop_none 3
+wall prop_none 3
+water prop_none 3
+husk prop_none 3
+brick prop_none 3
+stump prop_none 3
+flag prop_none 3
+box prop_none 3
+text_is prop_none 3
+text_has prop_none 3
+text_box prop_none 3
+text_love prop_none 3
+text_flag prop_none 3
+text_keke prop_none 3
+text_text prop_none 3
+text_wall prop_none 3
+text_water prop_none 3
+text_defeat prop_none 3
+text_push prop_none 3
+text_win prop_none 3
+text_you prop_none 3
+text_float prop_none 3
+text_stop prop_none 3
+text_sink prop_none 3
+[objects]
+keke 9 9 3
+wall 5 6 0
+wall 4 6 0
+wall 3 6 0
+wall 3 5 0
+wall 3 4 0
+wall 3 3 0
+wall 3 2 0
+wall 3 1 0
+wall 4 1 0
+wall 5 1 0
+wall 6 1 0
+wall 7 1 0
+wall 8 1 0
+wall 9 1 0
+wall 10 1 0
+wall 11 1 0
+wall 11 2 0
+wall 11 3 0
+wall 11 4 0
+wall 11 5 0
+wall 11 6 0
+wall 10 6 0
+wall 9 6 0
+wall 8 6 0
+wall 7 6 0
+wall 0 14 0
+wall 1 14 0
+wall 2 14 0
+wall 3 14 0
+wall 3 15 0
+wall 8 12 0
+wall 9 12 0
+wall 9 13 0
+water 14 0 0
+water 14 1 0
+water 14 2 0
+water 14 3 0
+water 14 4 0
+water 14 5 0
+water 14 6 0
+water 14 7 0
+water 14 8 0
+water 14 9 0
+water 14 10 0
+water 14 11 0
+water 14 12 0
+water 14 13 0
+water 14 14 0
+water 14 15 0
+water 15 0 0
+water 15 1 0
+water 15 2 0
+water 15 3 0
+water 15 4 0
+water 15 5 0
+water 15 6 0
+water 15 7 0
+water 15 8 0
+water 15 9 0
+water 15 10 0
+water 15 11 0
+water 15 12 0
+water 15 13 0
+water 15 14 0
+water 15 15 0
+water 16 0 0
+water 16 1 0
+water 16 2 0
+water 16 3 0
+water 16 4 0
+water 16 5 0
+water 16 6 0
+water 16 7 0
+water 16 8 0
+water 16 9 0
+water 16 10 0
+water 16 11 0
+water 16 12 0
+water 16 13 0
+water 16 14 0
+water 16 15 0
+water 17 0 0
+water 17 1 0
+water 17 2 0
+water 17 3 0
+water 17 4 0
+water 17 5 0
+water 17 6 0
+water 17 7 0
+water 17 8 0
+water 17 9 0
+water 17 10 0
+water 17 11 0
+water 17 12 0
+water 17 13 0
+water 17 14 0
+water 17 15 0
+water 18 0 0
+water 18 1 0
+water 18 2 0
+water 18 3 0
+water 18 4 0
+water 18 5 0
+water 18 6 0
+water 18 7 0
+water 18 8 0
+water 18 9 0
+water 18 10 0
+water 18 11 0
+water 18 12 0
+water 18 13 0
+water 18 14 0
+water 18 15 0
+husk 20 1 0
+husk 26 1 0
+husk 23 2 0
+husk 25 4 0
+husk 20 7 0
+husk 27 9 0
+brick 4 2 0
+brick 4 3 0
+brick 4 4 0
+brick 4 5 0
+brick 5 5 0
+brick 6 5 0
+brick 6 4 0
+brick 7 5 0
+brick 8 5 0
+brick 8 4 0
+brick 8 3 0
+brick 6 2 0
+brick 7 2 0
+brick 8 2 0
+brick 9 2 0
+brick 10 2 0
+stump 21 4 0
+stump 21 10 0
+stump 23 12 0
+stump 20 13 0
+flag 24 8 0
+box 3 10 0
+text_is 9 4 0
+text_is 10 4 0
+text_is 3 8 0
+text_is 7 13 0
+text_is 1 15 0
+text_is 24 6 0
+text_is 26 14 0
+text_is 26 15 0
+text_has 6 3 0 
+text_box 5 3 0 
+text_box 2 8 0
+text_love 7 3 0
+text_love 9 3 0
+text_love 10 3 0
+text_love 10 5 0
+text_flag 23 6 0
+text_keke 6 13 0
+text_text 0 15 0
+text_wall 25 14 0
+text_water 25 15 0
+text_defeat 9 5 0
+text_push 4 8 0
+text_win 25 6 0
+text_you 8 13 0
+text_float 2 15 0
+text_stop 27 14 0
+text_sink 27 15 0

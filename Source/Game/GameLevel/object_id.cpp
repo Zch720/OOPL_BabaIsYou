@@ -38,9 +38,16 @@ std::unordered_map<std::string, ObjectId> ObjectIdProc::objectNameAndId = {
 	{"bolt", GAMEOBJECT_BOLT},
 	{"reed", GAMEOBJECT_REED},
 	{"bog", GAMEOBJECT_BOG},
+	{"box", GAMEOBJECT_BOX},
+	{"husk", GAMEOBJECT_HUSK},
+	{"stump", GAMEOBJECT_STUMP},
+	{"tree", GAMEOBJECT_TREE},
+	{"ghost", GAMEOBJECT_GHOST},
+	{"statue", GAMEOBJECT_STATUE},
 	
 	{"text_is", TEXTOBJECT_IS},
 	{"text_and", TEXTOBJECT_AND},
+	{"text_has", TEXTOBJECT_HAS},
 
 	{"text_text", TEXTOBJECT_TEXT},
 	{"text_baba", TEXTOBJECT_BABA},
@@ -74,6 +81,12 @@ std::unordered_map<std::string, ObjectId> ObjectIdProc::objectNameAndId = {
 	{"text_bolt", TEXTOBJECT_BOLT},
 	{"text_reed", TEXTOBJECT_REED},
 	{"text_bog", TEXTOBJECT_BOG},
+	{"text_box", TEXTOBJECT_BOX},
+	{"text_husk", TEXTOBJECT_HUSK},
+	{"text_stump", TEXTOBJECT_STUMP},
+	{"text_tree", TEXTOBJECT_TREE},
+	{"text_ghost", TEXTOBJECT_GHOST},
+	{"text_statue", TEXTOBJECT_STATUE},
 
 	{"text_you", TEXTOBJECT_YOU},
 	{"text_win", TEXTOBJECT_WIN},
@@ -89,6 +102,7 @@ std::unordered_map<std::string, ObjectId> ObjectIdProc::objectNameAndId = {
 	{"text_red", TEXTOBJECT_RED},
 	{"text_blue", TEXTOBJECT_BLUE},
 	{"text_float", TEXTOBJECT_FLOAT},
+	{"text_weak", TEXTOBJECT_WEAK},
 };
 
 

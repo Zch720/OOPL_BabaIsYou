@@ -12,32 +12,15 @@ std::string loadFile(std::string filepath) {
 		Log::LogError("can't load file '%s'", filepath.c_str());
 	}
 
-	try {
-		// 取得檔案大小（字串長度）
-		inputFile.seekg(0, inputFile.end);
-		int dataLength = (int)inputFile.tellg();
-		inputFile.seekg(0, inputFile.beg);
+	std::string data = "";
+	std::string line;
 
-		// 讀取內容
-		std::string data(dataLength, ' ');
-		inputFile.read(&data[0], dataLength);
-
-		// 取得實際讀取字元數量
-		dataLength = (int)inputFile.gcount();
-		data[dataLength] = '\0';
-
-		// 關閉檔案
-		inputFile.close();
-
-		return data;
+	while (std::getline(inputFile, line)) {
+		data += line + "\n";
 	}
-	catch (std::exception e) {
-		// 關閉檔案
-		inputFile.close();
 
-		Log::LogError("can't load file '%s'", filepath.c_str());
-		return "";
-	}
+	inputFile.close();
+	return data;
 }
 
 bool saveFile(std::string filepath, std::string data) {

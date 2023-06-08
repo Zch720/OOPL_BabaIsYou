@@ -275,9 +275,10 @@ bool LevelMove::moveBlockPreviousUnmoveable(POINT position, Direction moveDirect
 			objectIds.push_back(object.GetObjectId());
 		}
 	});
-	// LevelData::GetBlockObjectIds(position);
 
 	PropertyManager::RemoveOffsetObjects(objectIds, previousObjectIds);
+
+	if (objectIds.size() == 0) return moveable[position] = 1;
 
 	for (ObjectId objectId : previousObjectIds) {
 		if (isUnmoveableObject(objectId)) return moveable[position] = 0;
@@ -312,11 +313,6 @@ bool LevelMove::moveBlockPreviousUnmoveableWithMove(POINT position, Direction mo
 		if (isMoveableObjectWithoutYou(objectId)) return moveable[position] = 0;
 	}
 
-	// LevelData::BlockObjectForeach(position, [moveDirection](ObjectBase &object) {
-	// 	if (isMoveableObject(object.GetObjectId())) {
-	// 		moveObjects.insert(MoveInfo::FromObjectInfo(object.GetInfo(), moveDirection));
-	// 	}
-	// });
 	return moveable[position] = 1;
 }
 
@@ -334,6 +330,15 @@ bool LevelMove::moveBlockPreviousUnmoveableWithYouMove(POINT position, Direction
 	});
 
 	PropertyManager::RemoveOffsetObjects(objectIds, previousObjectIds);
+	
+	if (objectIds.size() == 0) {
+		if (!LevelData::IsBlockEmpty(position)) {
+			LevelData::GenObjectInfo genObjectInfo;
+			genObjectInfo.objectId = OBJECT_NONE;
+			genObjectInfo.textureDirection = DIRECTION_NONE;
+			LevelData::GenNewObject(position, genObjectInfo);
+		}
+	}
 
 	for (ObjectId objectId : previousObjectIds) {
 		if (isUnmoveableObject(objectId)) return moveable[position] = 0;

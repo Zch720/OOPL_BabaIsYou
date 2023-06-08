@@ -10,6 +10,7 @@ PropertyManager::ObjectProperties LevelProperty::newObjectProperties = {};
 PropertyManager::ObjectsConvert LevelProperty::newObjectsConvert = {};
 PropertyManager::ObjectsHas LevelProperty::newObjectsHas = {};
 std::vector<Point> LevelProperty::deleteObjectPoints = {};
+std::unordered_set<int> LevelProperty::newObjectGenIdFromObject = {};
 
 bool LevelProperty::hasObjectDefeat = false;
 bool LevelProperty::hasObjectSink = false;
@@ -63,13 +64,16 @@ void LevelProperty::SetProperties() {
 
 void LevelProperty::UpdateOverlapProperty() {
 	deleteObjectPoints.clear();
+    newObjectGenIdFromObject.clear();
 	LevelData::SetIsWin(LevelData::IsPropertyOverlap(PROPERTY_YOU, PROPERTY_WIN));
 	LevelData::GameboardForeach([](Block &block) {
+        checkPropertyWeak(block);
 		checkPropertySink(block);
 		checkPropertyDefeat(block);
         checkPropertyMeltHot(block);
         checkPropertyOpenShut(block);
 	});
+    LevelData::RemoveEmptyObjects();
 }
 
 void LevelProperty::ClearObjectActionFlags() {
@@ -307,6 +311,25 @@ bool LevelProperty::deleteBothOverlapPropertyWithFloat(Block &block, PropertyId 
     return result;
 }
 
+void LevelProperty::checkPropertyWeak(Block &block) {
+	while (block.HasPropertyIdWithoutFloat(PROPERTY_WEAK) && block.GetObjectsSizeWithoutFloat() > 1) {
+	    ObjectInfo weakObjectInfo = LevelData::GetFirstObjectWithPropertyWithoutFloat(block.GetBlockPosition(), PROPERTY_WEAK).GetInfo();
+        if (newObjectGenIdFromObject.find(weakObjectInfo.genId) != newObjectGenIdFromObject.end()) break;
+		deleteObjectPoints.push_back(weakObjectInfo.position);
+        genDispearObjectHasObjects(weakObjectInfo);
+        LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, weakObjectInfo);
+        LevelData::DeleteObject(weakObjectInfo.position, weakObjectInfo.genId);
+    }
+    while (block.HasPropertyIdWithFloat(PROPERTY_WEAK) && block.GetObjectsSizeWithFloat() > 1) {
+        ObjectInfo weakObjectInfo = LevelData::GetFirstObjectWithPropertyWithFloat(block.GetBlockPosition(), PROPERTY_WEAK).GetInfo();
+        if (newObjectGenIdFromObject.find(weakObjectInfo.genId) != newObjectGenIdFromObject.end()) break;
+		deleteObjectPoints.push_back(weakObjectInfo.position);
+        genDispearObjectHasObjects(weakObjectInfo);
+        LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, weakObjectInfo);
+        LevelData::DeleteObject(weakObjectInfo.position, weakObjectInfo.genId);
+    }
+}
+
 void LevelProperty::checkPropertySink(Block &block) {
 	while (block.HasPropertyIdWithoutFloat(PROPERTY_SINK) && block.GetObjectsSizeWithoutFloat() > 1) {
         hasObjectSink = true;
@@ -360,5 +383,6 @@ void LevelProperty::genDispearObjectHasObjects(ObjectInfo &info) {
         };
         ObjectInfo newObject = LevelData::GenNewObject(info.position, genInfo);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_GEN, newObject);
+        newObjectGenIdFromObject.insert(newObject.genId);
     }
 }

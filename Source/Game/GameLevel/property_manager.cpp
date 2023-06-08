@@ -86,6 +86,8 @@ PropertyId PropertyManager::GetObjectColor(ObjectId objectId) {
 }
 
 void PropertyManager::RemoveOffsetObjects(std::vector<ObjectId> &objects1, std::vector<ObjectId> &objects2) {
+	removeObjectIdWithWeak(objects1);
+	removeObjectIdWithWeak(objects2);
 	for (size_t i = 0; i < objects1.size(); i++) {
 		for (size_t j = 0; j < objects2.size(); j++) {
 			if (canBeOffset(objects1[i], objects2[j])) {
@@ -127,6 +129,15 @@ bool PropertyManager::ObjectHasObject(ObjectId objectId, ObjectId hasObjectId) {
 
 std::vector<ObjectId> PropertyManager::GetObjectHas(ObjectId objectId) {
 	return objectsHas[objectId];
+}
+
+void PropertyManager::removeObjectIdWithWeak(std::vector<ObjectId> &objectIds) {
+	for (size_t i = 0; i < objectIds.size(); i++) {
+		if (PropertyManager::ObjectHasProperty(objectIds[i], PROPERTY_WEAK)) {
+			objectIds.erase(objectIds.begin() + i);
+			i--;
+		}
+	}
 }
 
 bool PropertyManager::canBeOffset(ObjectId objectId1, ObjectId objectId2) {

@@ -21,6 +21,7 @@ private:
 	static std::vector<std::string> hasRules;
 	static std::vector<std::string> rules;
 
+	static void removeObjectIdWithWeak(std::vector<ObjectId> &objectIds);
 	static bool canBeOffset(ObjectId objectId1, ObjectId objectId2);
 	static bool propertyOffset_OpenShut(ObjectId propertyId1, ObjectId propertyId2);
 

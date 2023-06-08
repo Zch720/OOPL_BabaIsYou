@@ -52,6 +52,10 @@ bool LevelData::IsInsideGameboard(POINT position) {
 	);
 }
 
+bool LevelData::IsBlockEmpty(POINT position) {
+	return gameboard[position].IsEmpty();
+}
+
 bool LevelData::IsPropertyOverlapBlock(POINT position, PropertyId propertyId1, PropertyId propertyId2) {
 	return gameboard[position].IsPropertyOverlap(propertyId1, propertyId2);
 }
@@ -213,6 +217,12 @@ void LevelData::ReplaceObject(ObjectInfo objectInfo, ObjectId convertObjectId) {
 	GenObjectWithGenId(objectInfo.position, {convertObjectId, objectInfo.textureDirection}, objectInfo.genId);
 }
 
+void LevelData::RemoveEmptyObjects() {
+	gameboard.foreach([](Block &block) {
+		block.RemoveEmptyObjects();
+	});
+}
+
 void LevelData::GameboardForeach(vector2d<Block>::ElementProcFunc procFunc) {
 	gameboard.foreach(procFunc);
 }
@@ -228,7 +238,8 @@ void LevelData::createGameboard(int width, int height) {
 }
 
 ObjectBase* LevelData::getNewObject(ObjectType objectType) {
-	if (objectType == TYPE_TEXT) return new TextObject();
+	if (objectType == TYPE_NONE) return new EmptyObject();
+	else if (objectType == TYPE_TEXT) return new TextObject();
 	else if (objectType == TYPE_TILED) return  new TiledObject();
 	else if (objectType == TYPE_STATIC) return new StaticObject();
 	else if (objectType == TYPE_CHARACTER) return new CharacterObject();

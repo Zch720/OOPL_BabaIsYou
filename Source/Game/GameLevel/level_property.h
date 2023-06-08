@@ -1,5 +1,6 @@
 #pragma once
 
+#include <unordered_set>
 #include "object_id.h"
 #include "property_manager.h"
 
@@ -9,6 +10,7 @@ private:
 	static PropertyManager::ObjectsConvert newObjectsConvert;
 	static PropertyManager::ObjectsHas newObjectsHas;
 	static std::vector<Point> deleteObjectPoints;
+	static std::unordered_set<int> newObjectGenIdFromObject;
 
 	static bool hasObjectDefeat;
 	static bool hasObjectSink;
@@ -33,6 +35,7 @@ private:
 	static bool deleteFirstOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2);
 	static bool deleteBothOverlapPropertyWithFloat(Block &block, PropertyId propertyId1, PropertyId propertyId2);
 
+	static void checkPropertyWeak(Block &block);
 	static void checkPropertySink(Block &block);
 	static void checkPropertyDefeat(Block &block);
     static void checkPropertyMeltHot(Block &block);

@@ -10,12 +10,15 @@ class PropertyManager {
 public:
 	typedef std::unordered_map<ObjectId, std::unordered_map<PropertyId, int>> ObjectProperties;
 	typedef std::unordered_map<ObjectId, ObjectId> ObjectsConvert;
+	typedef std::unordered_map<ObjectId, std::vector<ObjectId>> ObjectsHas;
 
 private:
 	static ObjectProperties objectProperties;
 	static ObjectsConvert objectsConvert;
+	static ObjectsHas objectsHas;
 	static std::vector<std::string> propertyRules;
 	static std::vector<std::string> convertRules;
+	static std::vector<std::string> hasRules;
 	static std::vector<std::string> rules;
 
 	static bool canBeOffset(ObjectId objectId1, ObjectId objectId2);
@@ -26,6 +29,7 @@ private:
 
 	static void calculatePropertyRules();
 	static void calculateConvertRules();
+	static void calculateHasRules();
 
 public:
 	static void Clear();
@@ -38,6 +42,8 @@ public:
 	static void SetObjectProperties(ObjectProperties &objectProperties);
 	static ObjectsConvert& GetObjectsConvert();
 	static void SetObjectsConvert(ObjectsConvert &objectsConvert);
+	static ObjectsHas& GetObjectsHas();
+	static void SetObjectsHas(ObjectsHas &objectsHas);
 
 	static void AddObjectProperty(ObjectId objectId, PropertyId propertyId);
 	static void RemoveObjectProperty(ObjectId objectId, PropertyId propertyId);
@@ -48,6 +54,11 @@ public:
 	static void AddObjectConvert(ObjectId objectId, ObjectId convertObjectId);
 	static void RemoveObjectConvert(ObjectId objectId);
 	static ObjectId GetObjectConvert(ObjectId objectId);
+
+	static void AddObjectHas(ObjectId objectId, ObjectId hasObjectId);
+	static void RemoveObjectHas(ObjectId objectId, ObjectId hasObjectId);
+	static bool ObjectHasObject(ObjectId objectId, ObjectId hasObjectId);
+	static std::vector<ObjectId> GetObjectHas(ObjectId objectId);
 	
 	static void RemoveOffsetObjects(std::vector<ObjectId> &objects1, std::vector<ObjectId> &objects2);
 };

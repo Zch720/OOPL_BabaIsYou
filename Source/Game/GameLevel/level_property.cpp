@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <algorithm>
 #include "textobject_id.h"
 #include "level_data.h"
 #include "level_property.h"
@@ -7,6 +8,7 @@
 
 PropertyManager::ObjectProperties LevelProperty::newObjectProperties = {};
 PropertyManager::ObjectsConvert LevelProperty::newObjectsConvert = {};
+PropertyManager::ObjectsHas LevelProperty::newObjectsHas = {};
 std::vector<Point> LevelProperty::deleteObjectPoints = {};
 
 bool LevelProperty::hasObjectDefeat = false;
@@ -23,27 +25,40 @@ void LevelProperty::ClearDeleteObjectPoints() {
 }
 
 void LevelProperty::SetBeginProperties() {
-    std::vector<std::pair<ObjectId, ObjectId>> descriptions = LevelDescription::GetDescriptions();
+    std::vector<std::pair<ObjectId, ObjectId>> descriptionsIs = LevelDescription::GetDescriptionsIs();
+    std::vector<std::pair<ObjectId, ObjectId>> descriptionsHas = LevelDescription::GetDescriptionsHas();
     newObjectProperties = PropertyManager::GetDefaultObjectProperties();
     newObjectsConvert.clear();
-    for (std::pair<ObjectId, ObjectId> &propPair : descriptions) {
+    newObjectsHas.clear();
+    for (std::pair<ObjectId, ObjectId> &propPair : descriptionsIs) {
         propertyPairProcess(propPair);
+    }
+    for (std::pair<ObjectId, ObjectId> &propPair : descriptionsHas) {
+        processHas(propPair.first, propPair.second);
     }
     PropertyManager::SetObjectProperties(newObjectProperties);
     PropertyManager::SetObjectsConvert(newObjectsConvert);
+    PropertyManager::SetObjectsHas(newObjectsHas);
 }
 
 void LevelProperty::SetProperties() {
-    std::vector<std::pair<ObjectId, ObjectId>> descriptions = LevelDescription::GetDescriptions();
+    std::vector<std::pair<ObjectId, ObjectId>> descriptionsIs = LevelDescription::GetDescriptionsIs();
+    std::vector<std::pair<ObjectId, ObjectId>> descriptionsHas = LevelDescription::GetDescriptionsHas();
     newObjectProperties = PropertyManager::GetDefaultObjectProperties();
     newObjectsConvert.clear();
-    for (std::pair<ObjectId, ObjectId> &propPair : descriptions) {
+    newObjectsHas.clear();
+    for (std::pair<ObjectId, ObjectId> &propPair : descriptionsIs) {
         propertyPairProcess(propPair);
+    }
+    for (std::pair<ObjectId, ObjectId> &propPair : descriptionsHas) {
+        processHas(propPair.first, propPair.second);
     }
     addPropertyUndo();
     addConvertUndo();
+    addHasUndo();
     PropertyManager::SetObjectProperties(newObjectProperties);
     PropertyManager::SetObjectsConvert(newObjectsConvert);
+    PropertyManager::SetObjectsHas(newObjectsHas);
 }
 
 void LevelProperty::UpdateOverlapProperty() {
@@ -102,6 +117,13 @@ void LevelProperty::processProperty(ObjectId textobjectId, ObjectId propertyText
     PropertyId propertyId = TextobjectIdProc::GetPropertyId(propertyTextobjectId);
     if (gameobjectId == GAMEOBJECT_TEXTS) addTextobjectProperty(propertyId);
     else newObjectProperties[gameobjectId][propertyId] += 1;
+}
+
+void LevelProperty::processHas(ObjectId textobjectId, ObjectId hasTextobjectId) {
+    ObjectId gameobjectId = TextobjectIdProc::GetGameobjectId(textobjectId);
+    ObjectId hasGameobjectId = TextobjectIdProc::GetGameobjectId(hasTextobjectId);
+    newObjectsHas[gameobjectId].push_back(hasGameobjectId);
+    std::sort(newObjectsHas[gameobjectId].begin(), newObjectsHas[gameobjectId].end());
 }
 
 void LevelProperty::addTextobjectProperty(PropertyId propertyId) {
@@ -169,6 +191,44 @@ void LevelProperty::addConvertUndo() {
     }
 }
 
+void LevelProperty::addHasUndo() {
+    PropertyManager::ObjectsHas &objectsHas = PropertyManager::GetObjectsHas();
+    for (auto &objectHas : objectsHas) {
+        if (newObjectsHas.find(objectHas.first) == newObjectsHas.end()) {
+            for (auto &has : objectHas.second) {
+                LevelUndo::AddHasObjectUndo(LevelUndo::UNDO_REMOVE_HAS_OBJECT, objectHas.first, has);
+            }
+            continue;
+        }
+        size_t oldIndex = 0, newIndex = 0;
+        for (; oldIndex < objectHas.second.size() && newIndex < newObjectsHas[objectHas.first].size();) {
+            if (objectHas.second[oldIndex] == newObjectsHas[objectHas.first][newIndex]) {
+                oldIndex++;
+                newIndex++;
+            } else if (objectHas.second[oldIndex] < newObjectsHas[objectHas.first][newIndex]) {
+                LevelUndo::AddHasObjectUndo(LevelUndo::UNDO_REMOVE_HAS_OBJECT, objectHas.first, objectHas.second[oldIndex]);
+                oldIndex++;
+            } else {
+                LevelUndo::AddHasObjectUndo(LevelUndo::UNDO_ADD_HAS_OBJECT, objectHas.first, newObjectsHas[objectHas.first][newIndex]);
+                newIndex++;
+            }
+        }
+        for (; oldIndex < objectHas.second.size(); oldIndex++) {
+            LevelUndo::AddHasObjectUndo(LevelUndo::UNDO_REMOVE_HAS_OBJECT, objectHas.first, objectHas.second[oldIndex]);
+        }
+        for (; newIndex < newObjectsHas[objectHas.first].size(); newIndex++) {
+            LevelUndo::AddHasObjectUndo(LevelUndo::UNDO_ADD_HAS_OBJECT, objectHas.first, newObjectsHas[objectHas.first][newIndex]);
+        }
+    }
+    for (auto &newObjectHas : newObjectsHas) {
+        if (objectsHas.find(newObjectHas.first) == objectsHas.end()) {
+            for (auto &has : newObjectHas.second) {
+                LevelUndo::AddHasObjectUndo(LevelUndo::UNDO_ADD_HAS_OBJECT, newObjectHas.first, has);
+            }
+        }
+    }
+}
+
 void LevelProperty::GameobjectConvert() {
     LevelData::AllObjectForeach([](ObjectBase &object) {
         ObjectId convertGameobjectId = PropertyManager::GetObjectConvert(object.GetObjectId());
@@ -186,6 +246,7 @@ bool LevelProperty::deleteFirstOverlapProperty(Block &block, PropertyId property
         result = true;
         ObjectInfo object1Info = LevelData::GetFirstObjectWithPropertyWithoutFloat(block.GetBlockPosition(), propertyId1).GetInfo();
 		deleteObjectPoints.push_back(object1Info.position);
+        genDispearObjectHasObjects(object1Info);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, object1Info);
         LevelData::DeleteObject(object1Info.position, object1Info.genId);
     }
@@ -199,10 +260,12 @@ bool LevelProperty::deleteFirstOverlapProperty(Block &block, PropertyId property
         ObjectInfo object1Info = LevelData::GetFirstObjectWithPropertyWithoutFloat(block.GetBlockPosition(), propertyId1).GetInfo();
         ObjectInfo object2Info = LevelData::GetFirstObjectWithPropertyWithoutFloat(block.GetBlockPosition(), propertyId2).GetInfo();
 		deleteObjectPoints.push_back(object1Info.position);
+        genDispearObjectHasObjects(object1Info);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, object1Info);
         LevelData::DeleteObject(object1Info.position, object1Info.genId);
         if (object1Info.genId != object2Info.genId) {
 			deleteObjectPoints.push_back(object2Info.position);
+            genDispearObjectHasObjects(object2Info);
             LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, object2Info);
             LevelData::DeleteObject(object2Info.position, object2Info.genId);
         }
@@ -217,6 +280,7 @@ bool LevelProperty::deleteFirstOverlapPropertyWithFloat(Block &block, PropertyId
         result = true;
         ObjectInfo object1Info = LevelData::GetFirstObjectWithPropertyWithFloat(block.GetBlockPosition(), propertyId1).GetInfo();
 		deleteObjectPoints.push_back(object1Info.position);
+        genDispearObjectHasObjects(object1Info);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, object1Info);
         LevelData::DeleteObject(object1Info.position, object1Info.genId);
     }
@@ -230,10 +294,12 @@ bool LevelProperty::deleteBothOverlapPropertyWithFloat(Block &block, PropertyId 
         ObjectInfo object1Info = LevelData::GetFirstObjectWithPropertyWithFloat(block.GetBlockPosition(), propertyId1).GetInfo();
         ObjectInfo object2Info = LevelData::GetFirstObjectWithPropertyWithFloat(block.GetBlockPosition(), propertyId2).GetInfo();
 		deleteObjectPoints.push_back(object1Info.position);
+        genDispearObjectHasObjects(object1Info);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, object1Info);
         LevelData::DeleteObject(object1Info.position, object1Info.genId);
         if (object1Info.genId != object2Info.genId) {
 			deleteObjectPoints.push_back(object2Info.position);
+            genDispearObjectHasObjects(object2Info);
             LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, object2Info);
             LevelData::DeleteObject(object2Info.position, object2Info.genId);
         }
@@ -248,6 +314,8 @@ void LevelProperty::checkPropertySink(Block &block) {
         ObjectInfo sinkedObjectInfo = LevelData::GetFirstObjectWithoutGenIdWithoutFloat(block.GetBlockPosition(), sinkObjectInfo.genId).GetInfo();
 		deleteObjectPoints.push_back(sinkObjectInfo.position);
 		deleteObjectPoints.push_back(sinkedObjectInfo.position);
+        genDispearObjectHasObjects(sinkObjectInfo);
+        genDispearObjectHasObjects(sinkedObjectInfo);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, sinkObjectInfo);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, sinkedObjectInfo);
         LevelData::DeleteObject(sinkObjectInfo.position, sinkObjectInfo.genId);
@@ -259,6 +327,8 @@ void LevelProperty::checkPropertySink(Block &block) {
         ObjectInfo sinkedObjectInfo = LevelData::GetFirstObjectWithoutGenIdWithFloat(block.GetBlockPosition(), sinkObjectInfo.genId).GetInfo();
 		deleteObjectPoints.push_back(sinkObjectInfo.position);
 		deleteObjectPoints.push_back(sinkedObjectInfo.position);
+        genDispearObjectHasObjects(sinkObjectInfo);
+        genDispearObjectHasObjects(sinkedObjectInfo);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, sinkObjectInfo);
         LevelUndo::AddObjectUndo(LevelUndo::UNDO_DELETE, sinkedObjectInfo);
         LevelData::DeleteObject(sinkObjectInfo.position, sinkObjectInfo.genId);
@@ -279,4 +349,16 @@ void LevelProperty::checkPropertyMeltHot(Block &block) {
 void LevelProperty::checkPropertyOpenShut(Block &block) {
     hasObjectOpen |= deleteBothOverlapProperty(block, PROPERTY_OPEN, PROPERTY_SHUT);
     hasObjectOpen |= deleteBothOverlapPropertyWithFloat(block, PROPERTY_OPEN, PROPERTY_SHUT);
+}
+
+void LevelProperty::genDispearObjectHasObjects(ObjectInfo &info) {
+    std::vector<ObjectId> hasObjects = newObjectsHas[info.objectId];
+    for (ObjectId objectId : hasObjects) {
+        LevelData::GenObjectInfo genInfo = {
+            objectId,
+            info.textureDirection
+        };
+        ObjectInfo newObject = LevelData::GenNewObject(info.position, genInfo);
+        LevelUndo::AddObjectUndo(LevelUndo::UNDO_GEN, newObject);
+    }
 }

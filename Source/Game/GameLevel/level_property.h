@@ -7,6 +7,7 @@ class LevelProperty {
 private:
 	static PropertyManager::ObjectProperties newObjectProperties;
 	static PropertyManager::ObjectsConvert newObjectsConvert;
+	static PropertyManager::ObjectsHas newObjectsHas;
 	static std::vector<Point> deleteObjectPoints;
 
 	static bool hasObjectDefeat;
@@ -17,12 +18,14 @@ private:
 	static void propertyPairProcess(std::pair<ObjectId, ObjectId> &propPair);
     static void processGameobject(ObjectId textobjectId, ObjectId convertTextobjectId);
     static void processProperty(ObjectId textobjectId, ObjectId propertyTextobjectId);
+	static void processHas(ObjectId textobjectId, ObjectId hasTextobjectId);
 
 	static void addTextobjectProperty(PropertyId propertyId);
 	static void removeTextobjectProperty(PropertyId propertyId);
 
 	static void addPropertyUndo();
 	static void addConvertUndo();
+	static void addHasUndo();
 
 	static bool deleteFirstOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2);
 	static bool deleteBothOverlapProperty(Block &block, PropertyId propertyId1, PropertyId propertyId2);
@@ -34,6 +37,8 @@ private:
 	static void checkPropertyDefeat(Block &block);
     static void checkPropertyMeltHot(Block &block);
     static void checkPropertyOpenShut(Block &block);
+
+	static void genDispearObjectHasObjects(ObjectInfo &info);
 
 public:
 	static std::vector<Point> GetDeleteObjectPoints();

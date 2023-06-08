@@ -181,7 +181,7 @@ void LevelData::SetIsWin(bool isWin) {
 	LevelData::isWin = isWin;
 }
 
-void LevelData::GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int genId) {
+ObjectInfo LevelData::GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int genId) {
 	ObjectBase *object = getNewObject(ObjectTypeProc::GetType(genInfo.objectId));
 	object -> SetGenId(genId);
 	object -> SetPosition(position);
@@ -189,10 +189,11 @@ void LevelData::GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int ge
 	object -> SetTextureDirection(genInfo.textureDirection);
 	object -> LoadTexture();
 	gameboard[position].AddObject(object);
+	return object -> GetInfo();
 }
 
-void LevelData::GenNewObject(POINT position, GenObjectInfo genInfo) {
-	GenObjectWithGenId(position, genInfo, genIdCounter++);
+ObjectInfo LevelData::GenNewObject(POINT position, GenObjectInfo genInfo) {
+	return GenObjectWithGenId(position, genInfo, genIdCounter++);
 }
 
 void LevelData::DeleteObject(POINT position, int genId) {

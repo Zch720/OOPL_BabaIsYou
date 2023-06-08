@@ -85,8 +85,8 @@ public:
 
 	static void SetIsWin(bool isWin);
 
-	static void GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int genId);
-	static void GenNewObject(POINT position, GenObjectInfo genInfo);
+	static ObjectInfo GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int genId);
+	static ObjectInfo GenNewObject(POINT position, GenObjectInfo genInfo);
 	static void DeleteObject(POINT position, int genId);
 	static void MoveObject(ObjectInfo info, POINT position);
 	static void ReplaceObject(ObjectInfo info, ObjectId convertObjectId);

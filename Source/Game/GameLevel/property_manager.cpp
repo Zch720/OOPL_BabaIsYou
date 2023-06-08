@@ -5,16 +5,20 @@
 
 PropertyManager::ObjectProperties PropertyManager::objectProperties = {};
 PropertyManager::ObjectsConvert PropertyManager::objectsConvert = {};
+PropertyManager::ObjectsHas PropertyManager::objectsHas = {};
 std::vector<std::string> PropertyManager::propertyRules = {};
 std::vector<std::string> PropertyManager::convertRules = {};
+std::vector<std::string> PropertyManager::hasRules = {};
 std::vector<std::string> PropertyManager::rules = {};
 
 std::vector<std::string> PropertyManager::GetRules() {
 	calculatePropertyRules();
 	calculateConvertRules();
+	calculateHasRules();
 	rules.clear();
 	rules.insert(rules.end(), propertyRules.begin(), propertyRules.end());
 	rules.insert(rules.end(), convertRules.begin(), convertRules.end());
+	rules.insert(rules.end(), hasRules.begin(), hasRules.end());
 	return rules;
 }
 
@@ -40,9 +44,17 @@ PropertyManager::ObjectsConvert& PropertyManager::GetObjectsConvert() {
 void PropertyManager::SetObjectsConvert(ObjectsConvert &objectsConvert) {
 	PropertyManager::objectsConvert = objectsConvert;
 }
+PropertyManager::ObjectsHas& PropertyManager::GetObjectsHas() {
+	return objectsHas;
+}
+void PropertyManager::SetObjectsHas(ObjectsHas &objectsHas) {
+	PropertyManager::objectsHas = objectsHas;
+}
 
 void PropertyManager::Clear() {
 	objectProperties.clear();
+	objectsConvert.clear();
+	objectsHas.clear();
 }
 void PropertyManager::Reset() {
 	for (auto &objectProperty : objectProperties) {
@@ -99,6 +111,24 @@ ObjectId PropertyManager::GetObjectConvert(ObjectId objectId) {
 	return objectsConvert[objectId];
 }
 
+void PropertyManager::AddObjectHas(ObjectId objectId, ObjectId hasObjectId) {
+	objectsHas[objectId].push_back(hasObjectId);
+}
+
+void PropertyManager::RemoveObjectHas(ObjectId objectId, ObjectId hasObjectId) {
+	auto &hasObjects = objectsHas[objectId];
+	hasObjects.erase(std::remove(hasObjects.begin(), hasObjects.end(), hasObjectId), hasObjects.end());
+}
+
+bool PropertyManager::ObjectHasObject(ObjectId objectId, ObjectId hasObjectId) {
+	auto &hasObjects = objectsHas[objectId];
+	return std::find(hasObjects.begin(), hasObjects.end(), hasObjectId) != hasObjects.end();
+}
+
+std::vector<ObjectId> PropertyManager::GetObjectHas(ObjectId objectId) {
+	return objectsHas[objectId];
+}
+
 bool PropertyManager::canBeOffset(ObjectId objectId1, ObjectId objectId2) {
 	return propertyOffset_OpenShut(objectId1, objectId2);
 }
@@ -150,5 +180,18 @@ void PropertyManager::calculateConvertRules() {
 		std::transform(objectName.begin(), objectName.end(), objectName.begin(), ::toupper);
 		std::transform(convertObjectName.begin(), convertObjectName.end(), convertObjectName.begin(), ::toupper);
 		convertRules.push_back(objectName + " IS " + convertObjectName);
+	}
+}
+
+void PropertyManager::calculateHasRules() {
+	hasRules.clear();
+	for (auto &objectHas : objectsHas) {
+		std::string objectName = ObjectIdProc::GetNameById(objectHas.first);
+		std::transform(objectName.begin(), objectName.end(), objectName.begin(), ::toupper);
+		for (auto &hasObjectId : objectHas.second) {
+			std::string hasObjectName = ObjectIdProc::GetNameById(hasObjectId);
+			std::transform(hasObjectName.begin(), hasObjectName.end(), hasObjectName.begin(), ::toupper);
+			hasRules.push_back(objectName + " HAS " + hasObjectName);
+		}
 	}
 }

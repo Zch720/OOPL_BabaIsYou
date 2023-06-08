@@ -18,6 +18,7 @@ door prop_none 3
 love prop_none 3
 grass prop_none 3
 wall prop_none 3
+key prop_none 3
 text_is prop_none 3
 text_and prop_none 3
 text_has prop_none 3

@@ -19,6 +19,7 @@ grass prop_none 3
 brick prop_none 3
 water prop_none 3
 flag prop_none 3
+rock prop_none 3
 text_is prop_none 3
 text_has prop_none 3
 text_wall prop_none 3

@@ -33,6 +33,7 @@ public:
 	Block(POINT position);
 	~Block();
 
+	bool IsEmpty();
 	bool IsPropertyOverlap(PropertyId propertyId1, PropertyId propertyId2);
 
 	bool HasObjectId(ObjectId objectId);
@@ -49,6 +50,7 @@ public:
 
 	void AddObject(ObjectBase *object);
 	void RemoveObject(int genId);
+	void RemoveEmptyObjects();
 
 	void foreach(ObjectProcFunc procFunc);
 };

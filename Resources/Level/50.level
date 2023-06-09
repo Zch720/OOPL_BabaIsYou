@@ -20,6 +20,8 @@ flag prop_none 3
 door prop_none 3
 tile prop_none 3
 brick prop_none 3
+box prop_none 3
+key prop_none 3
 text_is prop_none 3
 text_and prop_none 3
 text_has prop_none 3
@@ -154,7 +156,7 @@ text_is 12 11 0
 text_is 1 15 0
 text_is 26 14 0
 text_is 26 15 0
-text_and 4 15 0
+text_and 3 15 0
 text_and 9 8 0
 text_has 15 8 0
 text_key 0 0 0

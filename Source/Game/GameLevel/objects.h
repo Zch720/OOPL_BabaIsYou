@@ -96,6 +96,12 @@ public:
 	void UndoMoveRight(Direction textureDirection);
 };
 
+class EmptyObject : public ObjectBase {
+public:
+	EmptyObject();
+	void updateTexture(ShowInfo showInfo);
+};
+
 class TextObject : public ObjectBase {
 public:
 	TextObject();

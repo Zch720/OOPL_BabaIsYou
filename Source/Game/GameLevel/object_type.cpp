@@ -3,6 +3,8 @@
 #include "../../Expansion/log.h"
 
 std::unordered_map<ObjectId, ObjectType> ObjectTypeProc::gameobjectIdAndType = {
+	{OBJECT_NONE, TYPE_NONE},
+
 	{TEXTOBJECT_IS, TYPE_TEXT},
 	{TEXTOBJECT_AND, TYPE_TEXT},
 	{TEXTOBJECT_HAS, TYPE_TEXT},

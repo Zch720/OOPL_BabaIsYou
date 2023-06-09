@@ -51,6 +51,7 @@ public:
 
 	static bool IsWin();
 	static bool IsInsideGameboard(POINT position);
+	static bool IsBlockEmpty(POINT position);
 	static bool IsPropertyOverlapBlock(POINT position, PropertyId propertyId1, PropertyId propertyId2);
 	static bool IsPropertyOverlap(PropertyId propertyId1, PropertyId propertyId2);
 
@@ -85,11 +86,12 @@ public:
 
 	static void SetIsWin(bool isWin);
 
-	static void GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int genId);
-	static void GenNewObject(POINT position, GenObjectInfo genInfo);
+	static ObjectInfo GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int genId);
+	static ObjectInfo GenNewObject(POINT position, GenObjectInfo genInfo);
 	static void DeleteObject(POINT position, int genId);
 	static void MoveObject(ObjectInfo info, POINT position);
 	static void ReplaceObject(ObjectInfo info, ObjectId convertObjectId);
+	static void RemoveEmptyObjects();
 
 	static void GameboardForeach(vector2d<Block>::ElementProcFunc procFunc);
 	static void BlockObjectForeach(POINT position, ObjectProcFunc procFunc);

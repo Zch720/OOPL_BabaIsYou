@@ -96,6 +96,7 @@ void ObjectBase::CheckColorUpdate() {
 }
 
 void ObjectBase::LoadTexture() {
+	if (info.objectId == OBJECT_NONE) return;
 	currentColor = PropertyManager::GetObjectColor(info.objectId);
 	texture = TextureManager::GetTexture(info.objectId, currentColor);
 	texture.SetTopLeft(texturePosition.x, texturePosition.y);
@@ -236,6 +237,11 @@ int ObjectBase::getTextureMoveDistance() {
 	return TextureManager::GetTextureSize() / MAX_TEXTURE_STEP + 
 		(textureRemainStep <= TextureManager::GetTextureSize() % MAX_TEXTURE_STEP);
 }
+
+
+EmptyObject::EmptyObject() : ObjectBase(TYPE_NONE) {}
+
+void EmptyObject::updateTexture(ShowInfo showInfo) {}
 
 
 TextObject::TextObject() : ObjectBase(TYPE_TEXT) {}

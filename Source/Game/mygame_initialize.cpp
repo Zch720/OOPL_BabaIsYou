@@ -20,6 +20,7 @@ POINT map1001BoxPosition = {4, 9};
 LevelManager levelManager;
 AudioManager audioManager;
 CloudAnimation cloudAnimation;
+MainPage mainPage;
 
 using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////

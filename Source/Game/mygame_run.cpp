@@ -6,7 +6,6 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
-#include "MainPage/mainpage.h"
 #include "../Expansion/log.h"
 
 using namespace game_framework;
@@ -150,10 +149,10 @@ void CGameStateRun::OnShow()
 		CDDraw::ReleaseBackCDC();
 	}
 	else if (currentShowingLayout == 0) {
-		MainPage::ShowImage();
+		mainPage.ShowImage();
 		CDC *pDC = CDDraw::GetBackCDC();
 		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0xFFFFFF);
-		MainPage::ShowText(pDC);
+		mainPage.ShowText(pDC);
 		CDDraw::ReleaseBackCDC();
 	}
 	else if (currentShowingLayout == 1) {
@@ -170,22 +169,22 @@ void CGameStateRun::clearInputBuffer() {
 }
 
 void CGameStateRun::mainPageInit() {
-	MainPage::MainpageInit();
-	MainPage::SetContieuePlayingFunc([this]() {
+	mainPage.MainpageInit();
+	mainPage.SetContieuePlayingFunc([this]() {
 		atMainMenu = false;
 		currentLevel = lastestMap;
 		clearInputBuffer();
 		audioManager.PlayChangeSceneSound();
 		cloudAnimation.StartCloudClose();
 	});
-	MainPage::SetStartTheGameFunc([this]() {
+	mainPage.SetStartTheGameFunc([this]() {
 		atMainMenu = false;
 		currentLevel = lastestMap;
 		clearInputBuffer();
 		audioManager.PlayChangeSceneSound();
 		cloudAnimation.StartCloudClose();
 	});
-	MainPage::SetExitTheGameFunc([this]() {
+	mainPage.SetExitTheGameFunc([this]() {
 		gameEnd = true;
 		GotoGameState(GAME_STATE_OVER);
 	});
@@ -193,28 +192,28 @@ void CGameStateRun::mainPageInit() {
 
 void CGameStateRun::mainPageKeyDown(KeyInputType inputType) {
 	if (inputType == INPUT_MOVE_UP) {
-		MainPage::ChooserMove(0);
+		mainPage.ChooserMove(0);
 	}
 	else if (inputType == INPUT_MOVE_DOWN) {
-		MainPage::ChooserMove(1);
+		mainPage.ChooserMove(1);
 	}
 	else if (inputType == INPUT_MOVE_LEFT) {
-		MainPage::ChooserMove(2);
+		mainPage.ChooserMove(2);
 	}
 	else if (inputType == INPUT_MOVE_RIGHT) {
-		MainPage::ChooserMove(3);
+		mainPage.ChooserMove(3);
 	}
 	else if (inputType == INPUT_ENTER) {
-		MainPage::ChooserEnter();
-		MainPage::SwitchCheck();
+		mainPage.ChooserEnter();
+		mainPage.SwitchCheck();
 	}
 }
 void CGameStateRun::mainPageLeftButtonDown(CPoint point) {
-	MainPage::CheckMouseClick(point);
-	MainPage::SwitchCheck();
+	mainPage.CheckMouseClick(point);
+	mainPage.SwitchCheck();
 }
 void CGameStateRun::mainPageMouseMove(CPoint point) {
-	MainPage::CheckMouseMove(point);
+	mainPage.CheckMouseMove(point);
 }
 
 void CGameStateRun::levelMapKeyDown(KeyInputType inputType) {

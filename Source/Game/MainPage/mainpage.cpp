@@ -150,11 +150,13 @@ void MainPage::ShowImage() {
 }
 
 void MainPage::ShowText(CDC *pDC) {
-	CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0xFFFFFF);
 	if (screenSwitch == true) {
-		continuePlaying.ShowText(pDC);
+		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x85E2ED);
 		startTheGame.ShowText(pDC);
+		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x47BDFF);
 		playLevel.ShowText(pDC);
+		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0xFFFFFF);
+		continuePlaying.ShowText(pDC);
 		levelEditor.ShowText(pDC);
 		settings.ShowText(pDC);
 		credits.ShowText(pDC);

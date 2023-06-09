@@ -4,6 +4,7 @@
 #include "object_id.h"
 
 enum ObjectType {
+	TYPE_NONE,
 	TYPE_TEXT,
 	TYPE_TILED,
 	TYPE_STATIC,

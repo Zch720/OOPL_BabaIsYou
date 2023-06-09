@@ -16,6 +16,14 @@ Block::~Block() {
 	}
 }
 
+bool Block::IsEmpty() {
+	bool result = true;
+	for (ObjectBase *object : objects) {
+		if (object -> GetObjectType() != TYPE_NONE) return false;
+	}
+	return result;
+}
+
 bool Block::IsPropertyOverlap(PropertyId propertyId1, PropertyId propertyId2) {
 	bool hasProperty1 = false;
 	bool hasProperty2 = false;
@@ -126,7 +134,7 @@ ObjectBase* Block::GetFirstObjectWithoutFloat() {
 
 ObjectBase* Block::GetFirstObjectWithoutGenIdWithoutFloat(int genId) {
 	for (ObjectBase *object : objects) {
-		if (object -> GetGenId() != genId && !object -> HasProperty(PROPERTY_FLOAT)) {
+		if (object -> GetObjectType() != TYPE_NONE && object -> GetGenId() != genId && !object -> HasProperty(PROPERTY_FLOAT)) {
 			return object;
 		}
 	}
@@ -186,7 +194,7 @@ ObjectBase* Block::GetFirstObjectWithFloat() {
 
 ObjectBase* Block::GetFirstObjectWithoutGenIdWithFloat(int genId) {
 	for (ObjectBase *object : objects) {
-		if (object -> GetGenId() != genId && object -> HasProperty(PROPERTY_FLOAT)) {
+		if (object -> GetObjectType() != TYPE_NONE &&object -> GetGenId() != genId && object -> HasProperty(PROPERTY_FLOAT)) {
 			return object;
 		}
 	}
@@ -252,6 +260,16 @@ void Block::RemoveObject(int genId) {
 		}
 	}
 	Log::LogError("<Block> can't find object with genId %d at position (%d, %d)", genId, blockPosition.x, blockPosition.y);
+}
+
+void Block::RemoveEmptyObjects() {
+	for (size_t i = 0; i < objects.size(); i++) {
+		if (objects[i] -> GetObjectType() == TYPE_NONE) {
+			delete objects[i];
+			objects.erase(objects.begin() + i);
+			i--;
+		}
+	}
 }
 
 void Block::foreach(ObjectProcFunc procFunc) {

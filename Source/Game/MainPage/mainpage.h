@@ -5,34 +5,34 @@
 using namespace game_framework;
 class MainPage {
 private:
-	static CMovingBitmap standbyBackgroung;
-	static CMovingBitmap startScreenTitle;
-	static CMovingBitmap startScreenLine;
-	static CMovingBitmap chooser;
-	static Button continuePlaying;
-	static Button startTheGame;
-	static Button playLevel;
-	static Button levelEditor;
-	static Button settings;
-	static Button credits;
-	static Button exitTheGame;
-	static POINT chooserLocation[8];
-	static CPoint chooserPoint;
-	static bool screenSwitch;
+	CMovingBitmap standbyBackgroung;
+	CMovingBitmap startScreenTitle;
+	CMovingBitmap startScreenLine;
+	CMovingBitmap chooser;
+	Button continuePlaying;
+	Button startTheGame;
+	Button playLevel;
+	Button levelEditor;
+	Button settings;
+	Button credits;
+	Button exitTheGame;
+	POINT chooserLocation[8] = { {615, 569}, {264, 677}, {264, 758}, {264, 839}, {615, 569},  {965, 677}, {965, 758}, {965, 839} };
+	CPoint chooserPoint;
+	bool screenSwitch = false;
 
 public:
-	static void MainpageInit();
-	static void StandbyScreenInit();
-	static void StartScreenInit();
-	static void SwitchCheck();
-	static void ChooserMove(int direction);	// 0:up, 1:down, 2:left, 3:right
-	static void CheckMouseMove(CPoint point);
-	static void CheckMouseClick(CPoint point);
-	static void ChooserEnter();
-	static void SetContieuePlayingFunc(ButtonOnClickFunc func);
-	static void SetStartTheGameFunc(ButtonOnClickFunc func);
-	static void SetSettingsFunc(ButtonOnClickFunc func);
-	static void SetExitTheGameFunc(ButtonOnClickFunc func);
-	static void ShowImage();
-	static void ShowText(CDC *pDC);
+	void MainpageInit();
+	void StandbyScreenInit();
+	void StartScreenInit();
+	void SwitchCheck();
+	void ChooserMove(int direction);	// 0:up, 1:down, 2:left, 3:right
+	void CheckMouseMove(CPoint point);
+	void CheckMouseClick(CPoint point);
+	void ChooserEnter();
+	void SetContieuePlayingFunc(ButtonOnClickFunc func);
+	void SetStartTheGameFunc(ButtonOnClickFunc func);
+	void SetSettingsFunc(ButtonOnClickFunc func);
+	void SetExitTheGameFunc(ButtonOnClickFunc func);
+	void ShowImage();
+	void ShowText(CDC *pDC);
 };

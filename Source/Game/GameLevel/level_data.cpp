@@ -52,6 +52,10 @@ bool LevelData::IsInsideGameboard(POINT position) {
 	);
 }
 
+bool LevelData::IsBlockEmpty(POINT position) {
+	return gameboard[position].IsEmpty();
+}
+
 bool LevelData::IsPropertyOverlapBlock(POINT position, PropertyId propertyId1, PropertyId propertyId2) {
 	return gameboard[position].IsPropertyOverlap(propertyId1, propertyId2);
 }
@@ -181,7 +185,7 @@ void LevelData::SetIsWin(bool isWin) {
 	LevelData::isWin = isWin;
 }
 
-void LevelData::GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int genId) {
+ObjectInfo LevelData::GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int genId) {
 	ObjectBase *object = getNewObject(ObjectTypeProc::GetType(genInfo.objectId));
 	object -> SetGenId(genId);
 	object -> SetPosition(position);
@@ -189,10 +193,11 @@ void LevelData::GenObjectWithGenId(POINT position, GenObjectInfo genInfo, int ge
 	object -> SetTextureDirection(genInfo.textureDirection);
 	object -> LoadTexture();
 	gameboard[position].AddObject(object);
+	return object -> GetInfo();
 }
 
-void LevelData::GenNewObject(POINT position, GenObjectInfo genInfo) {
-	GenObjectWithGenId(position, genInfo, genIdCounter++);
+ObjectInfo LevelData::GenNewObject(POINT position, GenObjectInfo genInfo) {
+	return GenObjectWithGenId(position, genInfo, genIdCounter++);
 }
 
 void LevelData::DeleteObject(POINT position, int genId) {
@@ -212,6 +217,12 @@ void LevelData::ReplaceObject(ObjectInfo objectInfo, ObjectId convertObjectId) {
 	GenObjectWithGenId(objectInfo.position, {convertObjectId, objectInfo.textureDirection}, objectInfo.genId);
 }
 
+void LevelData::RemoveEmptyObjects() {
+	gameboard.foreach([](Block &block) {
+		block.RemoveEmptyObjects();
+	});
+}
+
 void LevelData::GameboardForeach(vector2d<Block>::ElementProcFunc procFunc) {
 	gameboard.foreach(procFunc);
 }
@@ -227,7 +238,8 @@ void LevelData::createGameboard(int width, int height) {
 }
 
 ObjectBase* LevelData::getNewObject(ObjectType objectType) {
-	if (objectType == TYPE_TEXT) return new TextObject();
+	if (objectType == TYPE_NONE) return new EmptyObject();
+	else if (objectType == TYPE_TEXT) return new TextObject();
 	else if (objectType == TYPE_TILED) return  new TiledObject();
 	else if (objectType == TYPE_STATIC) return new StaticObject();
 	else if (objectType == TYPE_CHARACTER) return new CharacterObject();

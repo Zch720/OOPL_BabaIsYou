@@ -19,6 +19,7 @@ std::unordered_map<std::string, PropertyId> PropertyIdProc::propertyNameAndId = 
 	{"prop_red", PROPERTY_RED},
 	{"prop_blue", PROPERTY_BLUE},
 	{"prop_float", PROPERTY_FLOAT},
+	{"prop_weak", PROPERTY_WEAK},
 };
 std::unordered_map<PropertyId, std::string> PropertyIdProc::propertyColor = {
 	{PROPERTY_NONE, "default"},

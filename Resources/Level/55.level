@@ -1,0 +1,174 @@
+[title]
+LEVEL RUINS-EXTRA 1
+FURTHER FILEDS
+[style]
+style_ruin
+[game board size]
+24
+18
+[texture origin position]
+312
+54
+[texture size]
+54
+[needed texture]
+baba prop_none 3
+keke prop_none 3
+flag prop_none 3
+brick prop_none 3
+grass prop_none 3
+wall prop_none 3
+text_is prop_none 3
+text_and prop_none 3
+text_wall prop_none 3
+text_baba prop_none 3
+text_grass prop_none 3
+text_keke prop_none 3
+text_flag prop_none 3
+text_stop prop_none 3
+text_move prop_none 3
+text_defeat prop_none 3
+text_you prop_none 3
+text_push prop_none 3
+text_win prop_none 3
+[objects]
+baba 3 3 2
+baba 6 11 2
+baba 2 14 0
+keke 5 7 0
+flag 18 12 0
+brick 0 0 0
+brick 1 0 0
+brick 0 1 0
+brick 1 1 0
+brick 0 2 0
+brick 0 3 0
+brick 4 1 0
+brick 9 0 0
+brick 8 1 0
+brick 9 1 0
+brick 10 1 0
+brick 9 2 0
+brick 10 2 0
+brick 10 3 0
+brick 3 7 0
+brick 2 8 0
+brick 3 8 0
+brick 4 8 0
+brick 2 9 0
+brick 3 9 0
+brick 4 9 0
+brick 3 10 0
+brick 0 12 0
+brick 0 13 0
+brick 0 14 0
+brick 3 16 0
+brick 2 17 0
+brick 3 17 0
+brick 4 17 0
+brick 9 13 0
+brick 8 14 0
+brick 9 14 0
+brick 10 14 0
+brick 9 15 0
+brick 22 0 0
+brick 22 1 0
+brick 22 2 0
+brick 22 3 0
+brick 22 4 0
+brick 22 5 0
+brick 22 6 0
+brick 23 0 0
+brick 23 1 0
+brick 23 2 0
+brick 23 3 0
+brick 23 4 0
+brick 23 5 0
+brick 23 6 0
+brick 23 7 0
+brick 22 16 0
+brick 22 17 0
+brick 23 15 0
+brick 23 16 0
+brick 23 17 0
+grass 11 0 0
+grass 11 1 0
+grass 11 2 0
+grass 11 3 0
+grass 11 4 0
+grass 11 5 0
+grass 11 6 0
+grass 11 7 0
+grass 11 8 0
+grass 11 9 0
+grass 11 10 0
+grass 11 11 0
+grass 11 12 0
+grass 11 13 0
+grass 11 14 0
+grass 11 15 0
+grass 11 16 0
+grass 11 17 0
+grass 12 0 0
+grass 12 1 0
+grass 12 2 0
+grass 12 3 0
+grass 12 4 0
+grass 12 5 0
+grass 12 6 0
+grass 12 7 0
+grass 12 8 0
+grass 12 9 0
+grass 12 10 0
+grass 12 11 0
+grass 12 12 0
+grass 12 13 0
+grass 12 14 0
+grass 12 15 0
+grass 12 16 0
+grass 12 17 0
+wall 17 0 0
+wall 17 1 0
+wall 18 1 0
+wall 19 1 0
+wall 20 1 0
+wall 21 0 0
+wall 21 1 0
+wall 21 2 0
+wall 21 3 0
+wall 21 4 0
+wall 21 5 0
+wall 21 6 0
+wall 21 7 0
+wall 22 7 0
+wall 22 8 0
+wall 23 8 0
+wall 23 14 0
+wall 22 14 0
+wall 22 15 0
+wall 21 15 0
+wall 21 16 0
+wall 21 17 0
+wall 19 5 0
+wall 18 7 0
+wall 15 16 0
+text_is 19 0 0
+text_is 20 3 0
+text_is 19 6 0
+text_is 5 5 0
+text_is 8 8 0
+text_is 18 14 0
+text_and 20 5 0
+text_wall 18 0 0
+text_baba 20 2 0
+text_baba 20 4 0
+text_baba 4 5 0
+text_grass 18 6 0
+text_keke 8 7 0
+text_flag 17 14 0
+text_stop 20 0 0
+text_move 6 5 0
+text_defeat 20 6 0
+text_you 8 9 0
+text_push 5 9 0
+text_win 19 14 0

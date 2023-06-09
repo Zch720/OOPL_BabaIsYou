@@ -24,6 +24,8 @@ public:
         UNDO_ADD_CONVERT,
         UNDO_CHANGE_CONVERT,
         UNDO_REMOVE_CONVERT,
+        UNDO_ADD_HAS_OBJECT,
+        UNDO_REMOVE_HAS_OBJECT,
     };
 
 private:
@@ -38,7 +40,7 @@ private:
     struct PropertyUndoInfo {
         PropertyUndoType type;
         ObjectId objectId;
-        ObjectId convertObjectId = OBJECT_NONE;
+        ObjectId otherObjectId = OBJECT_NONE;
         PropertyId propertyId = PROPERTY_NONE;
     };
 
@@ -69,6 +71,8 @@ private:
     static void undoAddConvert(PropertyUndoInfo &undoInfo);
     static void undoChangeConvert(PropertyUndoInfo &undoInfo);
     static void undoRemoveConvert(PropertyUndoInfo &undoInfo);
+    static void undoAddHasObject(PropertyUndoInfo &undoInfo);
+    static void undoRemoveHasObject(PropertyUndoInfo &undoInfo);
 
 public:
     static void Reset();
@@ -81,6 +85,7 @@ public:
     static void AddObjectUndo(ObjectUndoType undoType, ObjectInfo &objectInfo);
     static void AddPropertyUndo(PropertyUndoType undoType, ObjectId objectId, PropertyId peoprtyId);
     static void AddConvertUndo(PropertyUndoType undoType, ObjectId objectId, ObjectId convertObjectId);
+    static void AddHasObjectUndo(PropertyUndoType undoType, ObjectId objectId, ObjectId hasObjectId);
 
     static bool CanUndo();
     static void Undo();

@@ -107,6 +107,15 @@ int GetMapobjectIdByName(std::string mapobjectName) {
 	if (mapobjectName == "level_ex3") {
 		return LEVELEX3;
 	}
+	if (mapobjectName == "level_ex4") {
+		return LEVELEX4;
+	}
+	if (mapobjectName == "level_ex5") {
+		return LEVELEX5;
+	}
+	if (mapobjectName == "level_ex6") {
+		return LEVELEX6;
+	}
 
 	if (mapobjectName == "map") {
 		return MAP;
@@ -209,6 +218,12 @@ std::string GetMapobjectNameById(MapobjectId mapobjectId) {
 		return "level_ex2";
 	case LEVELEX3:
 		return "level_ex3";
+	case LEVELEX4:
+		return "level_ex4";
+	case LEVELEX5:
+		return "level_ex5";
+	case LEVELEX6:
+		return "level_ex6";
 
 	case MAP:
 		return "map";

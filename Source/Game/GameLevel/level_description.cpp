@@ -145,6 +145,7 @@ void LevelDescription::CalculateAllDescription() {
     previousDescriptions = descriptions;
     descriptions.clear();
     findDescription_Is();
+    findDescription_Has();
 }
 
 void LevelDescription::CalculateConnectedTextobject() {
@@ -159,10 +160,14 @@ void LevelDescription::CalculateConnectedTextobject() {
 void LevelDescription::CalculateUsableTextobject() {
     usableTextobjetcs.clear();
     for (Description &description : descriptions) {
-        if (TextobjectIdProc::IsGameobjectTextobject(description.GetSubObject().objectId)) {
-            checkGameobjectDescriptionUsable(description);
-        } else {
-            checkPropertyDescriptionUsable(description);
+        if (description.GetCenterOperator().objectId == TEXTOBJECT_IS) {
+            if (TextobjectIdProc::IsGameobjectTextobject(description.GetSubObject().objectId)) {
+                checkGameobjectDescriptionUsable(description);
+            } else {
+                checkPropertyDescriptionUsable(description);
+            }
+        } else if (description.GetCenterOperator().objectId == TEXTOBJECT_HAS) {
+            checkHasDescriptionUsable(description);
         }
     }
 }
@@ -186,10 +191,22 @@ bool LevelDescription::IsUsableTextobject(ObjectInfo objectInfo) {
     return usableTextobjetcs.find(objectInfo) != usableTextobjetcs.end();
 }
 
-std::vector<std::pair<ObjectId, ObjectId>> LevelDescription::GetDescriptions() {
+std::vector<std::pair<ObjectId, ObjectId>> LevelDescription::GetDescriptionsIs() {
     std::vector<std::pair<ObjectId, ObjectId>> result = {};
 
     for (Description &description : descriptions) {
+        if (description.GetCenterOperator().objectId == TEXTOBJECT_HAS) continue;
+        result.push_back({description.GetMainObject().objectId, description.GetSubObject().objectId});
+    }
+
+    return result;
+}
+
+std::vector<std::pair<ObjectId, ObjectId>> LevelDescription::GetDescriptionsHas() {
+    std::vector<std::pair<ObjectId, ObjectId>> result = {};
+
+    for (Description &description : descriptions) {
+        if (description.GetCenterOperator().objectId == TEXTOBJECT_IS) continue;
         result.push_back({description.GetMainObject().objectId, description.GetSubObject().objectId});
     }
 
@@ -210,7 +227,7 @@ void LevelDescription::checkDescriptionHorizontal_Is(ObjectInfo isObject) {
     Description description = {};
     description.SetCenterOperator(isObject);
     std::vector<Description> mainTexts = getMainObjectHorizontal(isObject.position.Left());
-    std::vector<Description> subTexts = getSubObjectHorizontal(isObject.position.Right());
+    std::vector<Description> subTexts = getSubObjectHorizontalHasProperty(isObject.position.Right());
     for (Description &mainText : mainTexts) {
         for (Description &subText : subTexts) {
             descriptions.push_back(mainText + subText + description);
@@ -222,7 +239,41 @@ void LevelDescription::checkDescriptionVertical_Is(ObjectInfo isObject) {
     Description description = {};
     description.SetCenterOperator(isObject);
     std::vector<Description> mainTexts = getMainObjectVertical(isObject.position.Up());
-    std::vector<Description> subTexts = getSubObjectVertical(isObject.position.Down());
+    std::vector<Description> subTexts = getSubObjectVerticalHasProperty(isObject.position.Down());
+    for (Description &mainText : mainTexts) {
+        for (Description &subText : subTexts) {
+            descriptions.push_back(mainText + subText + description);
+        }
+    }
+}
+
+void LevelDescription::findDescription_Has() {
+    LevelData::AllObjectForeach([](ObjectBase &object) {
+        if (object.GetObjectId() == TEXTOBJECT_HAS) {
+            ObjectInfo hasObject = object.GetInfo();
+            checkDescriptionHorizontal_Has(hasObject);
+            checkDescriptionVertical_Has(hasObject);
+        }
+    });
+}
+
+void LevelDescription::checkDescriptionHorizontal_Has(ObjectInfo hasObject) {
+    Description description = {};
+    description.SetCenterOperator(hasObject);
+    std::vector<Description> mainTexts = getMainObjectHorizontal(hasObject.position.Left());
+    std::vector<Description> subTexts = getSubObjectHorizontal(hasObject.position.Right());
+    for (Description &mainText : mainTexts) {
+        for (Description &subText : subTexts) {
+            descriptions.push_back(mainText + subText + description);
+        }
+    }
+}
+
+void LevelDescription::checkDescriptionVertical_Has(ObjectInfo hasObject) {
+    Description description = {};
+    description.SetCenterOperator(hasObject);
+    std::vector<Description> mainTexts = getMainObjectVertical(hasObject.position.Up());
+    std::vector<Description> subTexts = getSubObjectVertical(hasObject.position.Down());
     for (Description &mainText : mainTexts) {
         for (Description &subText : subTexts) {
             descriptions.push_back(mainText + subText + description);
@@ -247,11 +298,24 @@ std::vector<LevelDescription::Description> LevelDescription::getSubObjectHorizon
     if (!LevelData::IsInsideGameboard(position)) return {};
     if (!LevelData::HasTextobjectInBlock(position)) return {};
     ObjectInfo textobject = LevelData::GetTextobjectInBlock(position).GetInfo();
-    if (TextobjectIdProc::IsOperatorTextobject(textobject.objectId)) return {};
+    if (!TextobjectIdProc::IsGameobjectTextobject(textobject.objectId)) return {};
     Description description = {};
     description.SetSubObject(textobject);
 
     std::vector<Description> result = getSubConnectHorizontal(position.Right());
+    result.push_back(description);
+    return result;
+}
+
+std::vector<LevelDescription::Description> LevelDescription::getSubObjectHorizontalHasProperty(Point position) {
+    if (!LevelData::IsInsideGameboard(position)) return {};
+    if (!LevelData::HasTextobjectInBlock(position)) return {};
+    ObjectInfo textobject = LevelData::GetTextobjectInBlock(position).GetInfo();
+    if (TextobjectIdProc::IsOperatorTextobject(textobject.objectId)) return {};
+    Description description = {};
+    description.SetSubObject(textobject);
+
+    std::vector<Description> result = getSubConnectHorizontalHasProperty(position.Right());
     result.push_back(description);
     return result;
 }
@@ -274,11 +338,24 @@ std::vector<LevelDescription::Description> LevelDescription::getSubObjectVertica
     if (!LevelData::IsInsideGameboard(position)) return {};
     if (!LevelData::HasTextobjectInBlock(position)) return {};
     ObjectInfo textobject = LevelData::GetTextobjectInBlock(position).GetInfo();
-    if (TextobjectIdProc::IsOperatorTextobject(textobject.objectId)) return {};
+    if (!TextobjectIdProc::IsGameobjectTextobject(textobject.objectId)) return {};
     Description description = {};
     description.SetSubObject(textobject);
 
     std::vector<Description> result = getSubConnectVertical(position.Down());
+    result.push_back(description);
+    return result;
+}
+
+std::vector<LevelDescription::Description> LevelDescription::getSubObjectVerticalHasProperty(Point position) {
+    if (!LevelData::IsInsideGameboard(position)) return {};
+    if (!LevelData::HasTextobjectInBlock(position)) return {};
+    ObjectInfo textobject = LevelData::GetTextobjectInBlock(position).GetInfo();
+    if (TextobjectIdProc::IsOperatorTextobject(textobject.objectId)) return {};
+    Description description = {};
+    description.SetSubObject(textobject);
+
+    std::vector<Description> result = getSubConnectVerticalHasProperty(position.Down());
     result.push_back(description);
     return result;
 }
@@ -305,6 +382,20 @@ std::vector<LevelDescription::Description> LevelDescription::getSubConnectHorizo
     description.SetSubConnect(textobject);
 
     std::vector<Description> result = getSubObjectHorizontal(position.Right());
+    if (result.size() == 0) return {};
+    result[result.size() - 1] += description;
+    return result;
+}
+
+std::vector<LevelDescription::Description> LevelDescription::getSubConnectHorizontalHasProperty(Point position) {
+    if (!LevelData::IsInsideGameboard(position)) return {};
+    if (!LevelData::HasTextobjectInBlock(position)) return {};
+    ObjectInfo textobject = LevelData::GetTextobjectInBlock(position).GetInfo();
+    if (textobject.objectId != TEXTOBJECT_AND) return {};
+    Description description = {};
+    description.SetSubConnect(textobject);
+
+    std::vector<Description> result = getSubObjectHorizontalHasProperty(position.Right());
     if (result.size() == 0) return {};
     result[result.size() - 1] += description;
     return result;
@@ -338,6 +429,20 @@ std::vector<LevelDescription::Description> LevelDescription::getSubConnectVertic
     return result;
 }
 
+std::vector<LevelDescription::Description> LevelDescription::getSubConnectVerticalHasProperty(Point position) {
+    if (!LevelData::IsInsideGameboard(position)) return {};
+    if (!LevelData::HasTextobjectInBlock(position)) return {};
+    ObjectInfo textobject = LevelData::GetTextobjectInBlock(position).GetInfo();
+    if (textobject.objectId != TEXTOBJECT_AND) return {};
+    Description description = {};
+    description.SetSubConnect(textobject);
+
+    std::vector<Description> result = getSubObjectVerticalHasProperty(position.Down());
+    if (result.size() == 0) return {};
+    result[result.size() - 1] += description;
+    return result;
+}
+
 void LevelDescription::checkGameobjectDescriptionUsable(Description &description) {
     ObjectId mainObject = TextobjectIdProc::GetGameobjectId(description.GetMainObject().objectId);
     ObjectId subObject = TextobjectIdProc::GetGameobjectId(description.GetSubObject().objectId);
@@ -352,6 +457,11 @@ void LevelDescription::checkPropertyDescriptionUsable(Description &description) 
     PropertyId propertyId = TextobjectIdProc::GetPropertyId(description.GetSubObject().objectId);
     if (!PropertyManager::ObjectHasProperty(mainObjectId, propertyId)) return;
     
+    std::vector<ObjectInfo> existObject = description.GetAllExistObject();
+    usableTextobjetcs.insert(existObject.begin(), existObject.end());
+}
+
+void LevelDescription::checkHasDescriptionUsable(Description &description) {
     std::vector<ObjectInfo> existObject = description.GetAllExistObject();
     usableTextobjetcs.insert(existObject.begin(), existObject.end());
 }

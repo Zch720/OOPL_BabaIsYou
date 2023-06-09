@@ -1,0 +1,126 @@
+[title]
+LEVEL RUINS-1
+FRAGILITY
+[style]
+style_ruin
+[game board size]
+24
+18
+[texture origin position]
+312
+54
+[texture size]
+54
+[needed texture]
+baba prop_none 3
+wall prop_none 3
+grass prop_none 3
+rock prop_none 3
+skull prop_none 3
+flag prop_none 3
+text_is prop_none 3
+text_wall prop_none 3
+text_baba prop_none 3
+text_skull prop_none 3
+text_rock prop_none 3
+text_flag prop_none 3
+text_stop prop_none 3
+text_you prop_none 3
+text_weak prop_none 3
+text_defeat prop_none 3
+text_push prop_none 3
+text_win prop_none 3
+[objects]
+baba 6 7 0
+wall 0 9 0
+wall 1 9 0
+wall 2 9 0
+wall 3 9 0
+wall 4 9 0
+wall 5 9 0
+wall 6 9 0
+wall 7 9 0
+wall 8 9 0
+wall 9 9 0
+wall 10 9 0
+wall 10 10 0
+wall 11 10 0
+wall 12 10 0
+wall 13 10 0
+wall 14 10 0
+wall 15 10 0
+wall 16 10 0
+wall 16 9 0
+wall 12 11 0
+wall 12 12 0
+wall 12 13 0
+wall 8 0 0
+wall 8 1 0
+wall 8 2 0
+wall 8 3 0
+wall 9 3 0
+wall 10 3 0
+wall 11 3 0
+wall 12 3 0
+wall 13 3 0
+wall 14 3 0
+wall 15 3 0
+wall 16 3 0
+wall 17 3 0
+wall 18 3 0
+wall 19 3 0
+wall 20 3 0
+wall 20 4 0
+wall 20 5 0
+wall 20 6 0
+wall 20 7 0
+wall 20 8 0
+wall 20 9 0
+wall 20 10 0
+wall 20 11 0
+wall 20 12 0
+wall 20 13 0
+wall 20 14 0
+wall 20 15 0
+wall 20 16 0
+wall 19 16 0
+wall 18 16 0
+wall 17 16 0
+wall 16 16 0
+wall 15 16 0
+wall 14 16 0
+wall 13 16 0
+wall 12 15 0
+wall 12 16 0
+wall 12 17 0
+wall 10 14 0
+grass 9 5 0
+grass 9 6 0
+grass 9 7 0
+grass 9 8 0
+rock 18 7 0
+rock 12 14 0
+skull 17 9 3
+skull 18 9 3
+skull 19 9 3
+skull 17 10 3
+skull 18 10 3
+skull 19 10 3
+flag 7 15 0
+text_is 10 2 0
+text_is 13 6 0
+text_is 12 7 0
+text_is 18 4 0
+text_is 7 13 0
+text_is 14 11 0
+text_wall 9 2 0
+text_baba 12 6 0
+text_skull 17 4 0
+text_rock 13 11 0
+text_flag 6 13 0
+text_stop 11 2 0
+text_you 14 6 0
+text_weak 12 8 0
+text_defeat 19 4 0
+text_push 15 11 0
+text_win 8 13 0

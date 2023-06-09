@@ -19,6 +19,7 @@ enum PropertyId {
 	PROPERTY_RED,
 	PROPERTY_BLUE,
 	PROPERTY_FLOAT,
+	PROPERTY_WEAK,
 };
 
 class PropertyIdProc {

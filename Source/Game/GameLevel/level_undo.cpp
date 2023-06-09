@@ -58,7 +58,15 @@ void LevelUndo::AddConvertUndo(PropertyUndoType undoType, ObjectId objectId, Obj
     PropertyUndoInfo undoInfo;
     undoInfo.type = undoType;
     undoInfo.objectId = objectId;
-    undoInfo.convertObjectId = convertObjectId;
+    undoInfo.otherObjectId = convertObjectId;
+    propertyUndoInfosBuffer.push_back(undoInfo);
+}
+
+void LevelUndo::AddHasObjectUndo(PropertyUndoType undoType, ObjectId objectId, ObjectId hasObjectId) {
+    PropertyUndoInfo undoInfo;
+    undoInfo.type = undoType;
+    undoInfo.objectId = objectId;
+    undoInfo.otherObjectId = hasObjectId;
     propertyUndoInfosBuffer.push_back(undoInfo);
 }
 
@@ -138,6 +146,8 @@ void LevelUndo::propertyUndo() {
         else if (undoInfoIt -> type == UNDO_ADD_CONVERT) undoAddConvert(*undoInfoIt);
         else if (undoInfoIt -> type == UNDO_CHANGE_CONVERT) undoChangeConvert(*undoInfoIt);
         else if (undoInfoIt -> type == UNDO_REMOVE_CONVERT) undoRemoveConvert(*undoInfoIt);
+        else if (undoInfoIt -> type == UNDO_ADD_HAS_OBJECT) undoAddHasObject(*undoInfoIt);
+        else if (undoInfoIt -> type == UNDO_REMOVE_HAS_OBJECT) undoRemoveHasObject(*undoInfoIt);
     }
 }
 
@@ -154,9 +164,17 @@ void LevelUndo::undoAddConvert(PropertyUndoInfo &undoInfo) {
 }
 
 void LevelUndo::undoChangeConvert(PropertyUndoInfo &undoInfo) {
-    PropertyManager::AddObjectConvert(undoInfo.objectId, undoInfo.convertObjectId);
+    PropertyManager::AddObjectConvert(undoInfo.objectId, undoInfo.otherObjectId);
 }
 
 void LevelUndo::undoRemoveConvert(PropertyUndoInfo &undoInfo) {
-    PropertyManager::AddObjectConvert(undoInfo.objectId, undoInfo.convertObjectId);
+    PropertyManager::AddObjectConvert(undoInfo.objectId, undoInfo.otherObjectId);
+}
+
+void LevelUndo::undoAddHasObject(PropertyUndoInfo &undoInfo) {
+    PropertyManager::RemoveObjectHas(undoInfo.objectId, undoInfo.otherObjectId);
+}
+
+void LevelUndo::undoRemoveHasObject(PropertyUndoInfo &undoInfo) {
+    PropertyManager::AddObjectHas(undoInfo.objectId, undoInfo.otherObjectId);   
 }

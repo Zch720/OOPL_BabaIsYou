@@ -1,0 +1,153 @@
+[title]
+LEVEL RUINS-7
+PERILOUS GANG
+[style]
+style_ruin
+[game board size]
+24
+18
+[texture origin position]
+312
+54
+[texture size]
+54
+[needed texture]
+baba prop_none 3
+wall prop_none 3
+tree prop_none 3
+skull prop_none 3
+brick prop_none 3
+ghost prop_none 3
+text_is prop_none 3
+text_wall prop_none 3
+text_baba prop_none 3
+text_flag prop_none 3
+text_ghost prop_none 3
+text_skull prop_none 3
+text_stop prop_none 3
+text_you prop_none 3
+text_win prop_none 3
+text_push prop_none 3
+text_move prop_none 3
+text_defeat prop_none 3
+[objects]
+baba 4 15 0
+wall 0 2 0
+wall 1 2 0
+wall 2 2 0
+wall 3 2 0
+wall 3 1 0
+wall 3 0 0
+wall 0 9 0
+wall 1 9 0
+wall 2 9 0
+wall 3 9 0
+wall 4 9 0
+wall 5 9 0
+wall 6 9 0
+wall 7 9 0
+wall 8 9 0
+wall 9 9 0
+wall 10 9 0
+wall 11 9 0
+wall 12 9 0
+wall 12 10 0
+wall 12 11 0
+wall 23 8 0
+wall 22 8 0
+wall 21 8 0
+wall 20 8 0
+wall 20 9 0
+wall 20 10 0
+wall 20 11 0
+wall 20 12 0
+wall 20 13 0
+wall 21 13 0
+wall 22 13 0
+wall 23 13 0
+tree 6 1 0
+tree 18 1 0
+tree 7 3 0
+tree 15 3 0
+tree 21 3 0
+tree 5 4 0
+tree 16 4 0
+tree 2 6 0
+tree 9 6 0
+tree 19 6 0
+skull 0 8 3
+skull 1 8 3
+skull 2 8 3
+skull 3 8 3
+skull 4 8 3
+skull 5 8 3
+skull 6 8 3
+skull 7 8 3
+skull 8 8 3
+skull 9 8 3
+skull 10 8 3
+skull 11 8 3
+skull 12 8 3
+skull 13 8 3
+skull 14 8 3
+skull 15 8 3
+skull 16 8 3
+skull 17 8 3
+skull 18 8 3
+skull 10 10 3
+skull 10 11 3
+skull 10 12 3
+skull 10 13 3
+skull 10 14 3
+skull 10 15 3
+skull 10 16 2
+skull 10 17 3
+skull 11 10 3
+skull 11 11 3
+skull 11 12 3
+skull 11 13 3
+skull 11 14 3
+skull 11 15 3
+skull 11 16 2
+skull 11 17 3
+brick 13 9 0
+brick 14 9 0
+brick 13 10 0
+brick 18 9 0
+brick 19 9 0
+brick 19 10 0
+brick 19 11 0
+brick 12 16 0
+brick 12 17 0
+brick 13 17 0
+brick 14 17 0
+brick 17 17 0
+brick 18 17 0
+brick 20 17 0
+brick 21 17 0
+brick 22 17 0
+brick 23 17 0
+brick 22 16 0
+brick 23 16 0
+brick 23 15 0
+brick 22 14 0
+brick 23 14 0
+ghost 1 12 0
+ghost 1 15 0
+text_is 1 0 0
+text_is 1 1 0
+text_is 12 4 0
+text_is 6 12 0
+text_is 7 14 0
+text_is 18 13 0
+text_wall 0 0 0
+text_baba 0 1 0
+text_flag 11 4 0
+text_ghost 5 12 0
+text_skull 17 13 0
+text_stop 2 0 0
+text_you 2 1 0
+text_win 13 4 0
+text_push 7 12 0
+text_move 7 16 0
+text_defeat 19 13 0

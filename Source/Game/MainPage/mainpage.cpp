@@ -1,21 +1,6 @@
 #include "stdafx.h"
 #include "mainpage.h"
 
-CMovingBitmap MainPage::standbyBackgroung = CMovingBitmap();
-CMovingBitmap MainPage::startScreenTitle = CMovingBitmap();
-CMovingBitmap MainPage::startScreenLine = CMovingBitmap();
-CMovingBitmap MainPage::chooser = CMovingBitmap();
-Button MainPage::continuePlaying = Button();
-Button MainPage::startTheGame = Button();
-Button MainPage::playLevel = Button();
-Button MainPage::levelEditor = Button();
-Button MainPage::settings = Button();
-Button MainPage::credits = Button();
-Button MainPage::exitTheGame = Button();
-POINT MainPage::chooserLocation[8] = { {575, 484}, {220, 610}, {220, 710}, {220, 810}, {575, 484},  {940, 610}, {940, 710}, {940, 810} };
-CPoint MainPage::chooserPoint = CPoint();
-bool MainPage::screenSwitch = false;
-
 void MainPage::StandbyScreenInit() {
 	standbyBackgroung.LoadBitmapByString({ 
 		"Resources/mainpage/standbyscreen/start_1.bmp",
@@ -39,23 +24,23 @@ void MainPage::StartScreenInit() {
 	startScreenLine.SetTopLeft(508, 425);
 	startScreenLine.SetAnimation(250, false);
 
-	continuePlaying.SetButtonTexture(CPoint(960, 525) , {"Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	continuePlaying.SetButtonTexture(CPoint(960, 593) , {"Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
 	continuePlaying.SetButtonText("CONTINUE PLAYING");
-	startTheGame.SetButtonTexture(CPoint(600, 650), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	startTheGame.SetButtonTexture(CPoint(609, 701), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
 	startTheGame.SetButtonText("START THE GAME");
-	playLevel.SetButtonTexture(CPoint(1320, 650), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	playLevel.SetButtonTexture(CPoint(1310, 701), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
 	playLevel.SetButtonText("PLAY LEVELS");
-	levelEditor.SetButtonTexture(CPoint(600, 750), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	levelEditor.SetButtonTexture(CPoint(609, 782), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
 	levelEditor.SetButtonText("LEVEL EDITOR");
-	settings.SetButtonTexture(CPoint(1320, 750), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	settings.SetButtonTexture(CPoint(1310, 782), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
 	settings.SetButtonText("SETTINGS");
-	credits.SetButtonTexture(CPoint(600, 850), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	credits.SetButtonTexture(CPoint(609, 863), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
 	credits.SetButtonText("CREDITS");
-	exitTheGame.SetButtonTexture(CPoint(1320, 850), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
+	exitTheGame.SetButtonTexture(CPoint(1310, 863), { "Resources/mainpage/startscreen/button1.bmp", "Resources/mainpage/startscreen/button2.bmp" , "Resources/mainpage/startscreen/button3.bmp" });
 	exitTheGame.SetButtonText("EXIT THE GAME");
 
 	chooser.LoadBitmapByString({ "Resources/mainpage/startscreen/chooser1.bmp", "Resources/mainpage/startscreen/chooser2.bmp" , "Resources/mainpage/startscreen/chooser3.bmp" }, 0x00FF00);
-	chooser.SetTopLeft(575, 484);
+	chooser.SetTopLeft(615, 569);
 	chooser.SetAnimation(250, false);
 }
 
@@ -166,9 +151,12 @@ void MainPage::ShowImage() {
 
 void MainPage::ShowText(CDC *pDC) {
 	if (screenSwitch == true) {
-		continuePlaying.ShowText(pDC);
+		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x85E2ED);
 		startTheGame.ShowText(pDC);
+		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x47BDFF);
 		playLevel.ShowText(pDC);
+		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0xFFFFFF);
+		continuePlaying.ShowText(pDC);
 		levelEditor.ShowText(pDC);
 		settings.ShowText(pDC);
 		credits.ShowText(pDC);

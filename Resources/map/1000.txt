@@ -38,10 +38,10 @@ line_7 6 3 -1
 line_8 6 2 -1
 line_5 7 6 -1
 line_5 7 3 -1
-mountain 8 6 -1
+mountain 8 6 1002
 line_10 8 5 -1
 line_10 8 4 -1
-pillar 8 3 -1
+pillar 8 3 1003
 line_5 9 6 -1
 line_5 9 3 -1
 line_3 10 10 -1

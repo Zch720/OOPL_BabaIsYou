@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Library/gameutil.h"
 #include "../UI/button.h"
+#include "../style.h"
 
 #define languageSetup 0
 #define controls 1
@@ -19,36 +20,64 @@
 
 class ObjectButton : public Button {
 public:
+	ObjectButton();
 	ObjectButton(Button button);
-	bool objectButtonDo = false;
+	bool objectButtonDo;
 };
 
 using namespace game_framework;
 class Setting {
 private:
-	int settingWorld;
-	Button worldDefault;
-	Button world0Default;
-	Button world1Default;
-	Button world2Default;
-	Button world3Default;
-	Button world4Default;
-	Button worldDo;
-	Button world0Do;
-	Button world1Do;
-	Button world2Do;
-	Button world3Do;
-	Button world4Do;
+	CMovingBitmap worldDefault;
+	CMovingBitmap worldDo;
+	CMovingBitmap worldDefaultShort;
+	CMovingBitmap worldDoShort;
+	CMovingBitmap chooser;
+	CMovingBitmap bar0;
+	CMovingBitmap bar1;
+	CMovingBitmap bar2;
+	CMovingBitmap barPoint;
 	std::vector<ObjectButton> buttonVector = vector<ObjectButton>(14);
+	std::vector<CMovingBitmap> barPointVector = vector<CMovingBitmap>(3);
+	std::vector<int> chooser_x = vector<int>(5);
+	std::vector<int> chooser_y = vector<int>(15);
+	int chooserPoint_x;
+	int chooserPoint_y;
+	int whichPointClick = -1;
+	void SetChooserx(int chooserWhere_y);
 	void LoadButton();
 	void SwitchButtonDo(int switchingButton, bool objectButtonDo);
+	void SwitchButtonShortDo(int switchingButton);
 
 public:
-	void SettingInit();
 	void CheckMouseMove(CPoint point);
 	void CheckMouseClick(CPoint point);
 	void ShowImage();
 	void ShowText(CDC *pDC);
-	void SetButtonWorld(int world);
-	void SetLanguageSetupFunc();
+	void SetButtonWorld(Style style);
+
+	void ChooserMoveUp();
+	void ChooserMoveDown();
+	void ChooserMoveLeft();
+	void ChooserMoveRight();
+	void ChooserClick();
+
+	void MouseDown(POINT point);
+	void MouseUp();
+	void MouseMove(POINT point);
+
+	void SetLanguageSetupFunc(ButtonOnClickFunc func);
+	void SetControlsFunc(ButtonOnClickFunc func);
+	void SetToggleFullscreenFunc(ButtonOnClickFunc func);
+	void SetEnableGridFunc(ButtonOnClickFunc func);
+	void SetDisableWobbleEffectFunc(ButtonOnClickFunc func);
+	void SetDisableParticalEffectFunc(ButtonOnClickFunc func);
+	void SetDisableScreenshackFunc(ButtonOnClickFunc func);
+	void SetForceHighcontrastColoursFunc(ButtonOnClickFunc func);
+	void SetPreventBlingkingColoursFunc(ButtonOnClickFunc func);
+	void SetDoNotPromptOnRestartFunc(ButtonOnClickFunc func);
+	void SetNoneFunc(ButtonOnClickFunc func);
+	void SetDefaultFunc(ButtonOnClickFunc func);
+	void SetStretchFunc(ButtonOnClickFunc func);
+	void SetBackFunc(ButtonOnClickFunc func);
 };

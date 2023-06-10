@@ -17,6 +17,7 @@ private:
 	Button credits;
 	Button exitTheGame;
 	POINT chooserLocation[8] = { {615, 569}, {264, 677}, {264, 758}, {264, 839}, {615, 569},  {965, 677}, {965, 758}, {965, 839} };
+	std::vector<CMovingBitmap> background = vector<CMovingBitmap>(9);
 	CPoint chooserPoint;
 	bool screenSwitch = false;
 
@@ -31,8 +32,12 @@ public:
 	void ChooserEnter();
 	void SetContieuePlayingFunc(ButtonOnClickFunc func);
 	void SetStartTheGameFunc(ButtonOnClickFunc func);
+	void SetPlayLevelFunc(ButtonOnClickFunc func);
+	void SetLevelEditorFunc(ButtonOnClickFunc func);
 	void SetSettingsFunc(ButtonOnClickFunc func);
+	void SetCreditsFunc(ButtonOnClickFunc func);
 	void SetExitTheGameFunc(ButtonOnClickFunc func);
+	void BackgroundOnMove();
 	void ShowImage();
 	void ShowText(CDC *pDC);
 };

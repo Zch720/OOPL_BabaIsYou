@@ -64,10 +64,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	if (cloudAnimation.IsCloudOpenEnd()) {
 		cloudAnimation.StopCloudOpen();
 	}
+	updateLongPressInput();
 	if (!inputBuffer.empty()) {
 		KeyInputType inputKey = inputBuffer.front();
 		inputBuffer.pop();
-		if (isPause) {
+		if (isSetting) {
+			settingKeyDown(inputKey);
+		} else if (isPause) {
 			pauseKeyDown(inputKey);
 		} else if (atMainMenu) {
 			mainPageKeyDown(inputKey);
@@ -87,21 +90,39 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (cloudAnimation.IsShowing()) return;
 	if (nChar == VK_UP || nChar == 'W') {
+		upPress.isPress = true;
+		upPress.pressTime = clock();
+		upPress.lastPressTime = clock();
 		inputBuffer.push(INPUT_MOVE_UP);
 	}
 	else if (nChar == VK_DOWN || nChar == 'S') {
+		downPress.isPress = true;
+		downPress.pressTime = clock();
+		downPress.lastPressTime = clock();
 		inputBuffer.push(INPUT_MOVE_DOWN);
 	}
 	else if (nChar == VK_LEFT || nChar == 'A') {
+		leftPress.isPress = true;
+		leftPress.pressTime = clock();
+		leftPress.lastPressTime = clock();
 		inputBuffer.push(INPUT_MOVE_LEFT);
 	}
 	else if (nChar == VK_RIGHT || nChar == 'D') {
+		rightPress.isPress = true;
+		rightPress.pressTime = clock();
+		rightPress.lastPressTime = clock();
 		inputBuffer.push(INPUT_MOVE_RIGHT);
 	}
 	else if (nChar == VK_SPACE || nChar == VK_RETURN) {
+		waitPress.isPress = true;
+		waitPress.pressTime = clock();
+		waitPress.lastPressTime = clock();
 		inputBuffer.push(INPUT_ENTER);
 	}
 	else if (nChar == VK_BACK || nChar == 'Z') {
+		undoPress.isPress = true;
+		undoPress.pressTime = clock();
+		undoPress.lastPressTime = clock();
 		inputBuffer.push(INPUT_BACK);
 	}
 	else if (nChar == VK_ESCAPE || nChar == 'P') {
@@ -109,25 +130,54 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 }
 
-void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	
+void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) {
+	if (nChar == VK_UP || nChar == 'W') {
+		upPress.isPress = false;
+	}
+	else if (nChar == VK_DOWN || nChar == 'S') {
+		downPress.isPress = false;
+	}
+	else if (nChar == VK_LEFT || nChar == 'A') {
+		leftPress.isPress = false;
+	}
+	else if (nChar == VK_RIGHT || nChar == 'D') {
+		rightPress.isPress = false;
+	}
+	else if (nChar == VK_SPACE || nChar == VK_RETURN) {
+		waitPress.isPress = false;
+	}
+	else if (nChar == VK_BACK || nChar == 'Z') {
+		undoPress.isPress = false;
+	}
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
-	if (atMainMenu) {
+	if (isSetting) {
+		settingPage.MouseDown(point);
+		settingPage.CheckMouseClick(point);
+	} else if (isPause) {
+		pausePage.MouseClick(point);
+	} else if (atMainMenu) {
 		mainPageLeftButtonDown(point);
 	}
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
+	if (isSetting) {
+		settingPage.MouseUp();
+	}
 }
 
 void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
-	if (atMainMenu) {
+	if (isSetting) {
+		settingPage.MouseMove(point);
+		settingPage.CheckMouseMove(point);
+	} else if (isPause) {
+		pausePage.MouseMove(point);
+	} else if (atMainMenu) {
 		mainPageMouseMove(point);
 	}
 }
@@ -142,7 +192,13 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
-	if (isPause) {
+	if (isSetting) {
+		settingPage.ShowImage();
+		CDC *pDC = CDDraw::GetBackCDC();
+		settingPage.ShowText(pDC);
+		CDDraw::ReleaseBackCDC();
+	}
+	else if (isPause) {
 		pausePage.ShowImage();
 		CDC *pDC = CDDraw::GetBackCDC();
 		pausePage.ShowText(pDC);
@@ -168,6 +224,45 @@ void CGameStateRun::clearInputBuffer() {
 	while(!inputBuffer.empty()) inputBuffer.pop();
 }
 
+void CGameStateRun::updateLongPressInput() {
+	if (upPress.isPress) {
+		if (clock() - upPress.pressTime > PRESS_WAIT_TIME && clock() - upPress.lastPressTime > PRESS_INTERVAL) {
+			upPress.lastPressTime = clock();
+			inputBuffer.push(INPUT_MOVE_UP);
+		}
+	}
+	else if (downPress.isPress) {
+		if (clock() - downPress.pressTime > PRESS_WAIT_TIME && clock() - downPress.lastPressTime > PRESS_INTERVAL) {
+			downPress.lastPressTime = clock();
+			inputBuffer.push(INPUT_MOVE_DOWN);
+		}
+	}
+	else if (leftPress.isPress) {
+		if (clock() - leftPress.pressTime > PRESS_WAIT_TIME && clock() - leftPress.lastPressTime > PRESS_INTERVAL) {
+			leftPress.lastPressTime = clock();
+			inputBuffer.push(INPUT_MOVE_LEFT);
+		}
+	}
+	else if (rightPress.isPress) {
+		if (clock() - rightPress.pressTime > PRESS_WAIT_TIME && clock() - rightPress.lastPressTime > PRESS_INTERVAL) {
+			rightPress.lastPressTime = clock();
+			inputBuffer.push(INPUT_MOVE_RIGHT);
+		}
+	}
+	else if (waitPress.isPress) {
+		if (clock() - waitPress.pressTime > PRESS_WAIT_TIME && clock() - waitPress.lastPressTime > PRESS_INTERVAL) {
+			waitPress.lastPressTime = clock();
+			inputBuffer.push(INPUT_ENTER);
+		}
+	}
+	else if (undoPress.isPress) {
+		if (clock() - undoPress.pressTime > PRESS_WAIT_TIME && clock() - undoPress.lastPressTime > PRESS_INTERVAL) {
+			undoPress.lastPressTime = clock();
+			inputBuffer.push(INPUT_BACK);
+		}
+	}
+}
+
 void CGameStateRun::mainPageInit() {
 	mainPage.MainpageInit();
 	mainPage.SetContieuePlayingFunc([this]() {
@@ -183,6 +278,11 @@ void CGameStateRun::mainPageInit() {
 		clearInputBuffer();
 		audioManager.PlayChangeSceneSound();
 		cloudAnimation.StartCloudClose();
+	});
+	mainPage.SetSettingsFunc([this]() {
+		isSetting = true;
+		audioManager.PlayChooseSettingSound();
+		createMenuSettingPage();
 	});
 	mainPage.SetExitTheGameFunc([this]() {
 		gameEnd = true;
@@ -275,7 +375,6 @@ void CGameStateRun::gameLevelKeyDown(KeyInputType inputType) {
 void CGameStateRun::createMapPausePage() {
 	Style style;
 	std::string title;
-	std::vector<std::string> rules = {};
 	if (currentLevel == 1000) {
 		style = STYLE_DEFAULT;
 		title = "MAP";
@@ -288,11 +387,11 @@ void CGameStateRun::createMapPausePage() {
 		style = STYLE_ISLAND;
 		title = "2. SOLITARY ISLAND";
 	}
-	pausePage = PauseLayout(
-		style,
-		title,
-		rules
-	);
+	else if (currentLevel == 1003) {
+		style = STYLE_RUIN;
+		title = "3. TEMPLE RUINS";
+	}
+	pausePage = PauseLayout(style, title, {});
 	pausePage.SetResumeButtonOnClickFunc([this]() {
 		isPause = false;
 	});
@@ -310,6 +409,11 @@ void CGameStateRun::createMapPausePage() {
 		isPause = false;
 		audioManager.PlayRestartSound();
 		cloudAnimation.StartCloudClose();
+	});
+	pausePage.SetSettingButtonOnClickFunc([this]() {
+		isSetting = true;
+		audioManager.PlayChooseSettingSound();
+		createMapSettingPage();
 	});
 	pausePage.SetReturnMenuButtonOnClickFunc([this]() {
 		isPause = false;
@@ -339,6 +443,11 @@ void CGameStateRun::createLevelPausePage() {
 		audioManager.PlayRestartSound();
 		cloudAnimation.StartCloudClose();
 	});
+	pausePage.SetSettingButtonOnClickFunc([this]() {
+		isSetting = true;
+		audioManager.PlayChooseSettingSound();
+		createLevelSettingPage();
+	});
 	pausePage.SetReturnMenuButtonOnClickFunc([this]() {
 		isPause = false;
 		atMainMenu = true;
@@ -356,5 +465,53 @@ void CGameStateRun::pauseKeyDown(KeyInputType inputKey) {
 		pausePage.Choose();
 	} else if (inputKey == INPUT_PAUSE) {
 		isPause = false;
+	}
+}
+
+void CGameStateRun::createMenuSettingPage() {
+	settingPage.SetButtonWorld(STYLE_DEFAULT);
+	settingPage.SetBackFunc([this]() {
+		isSetting = false;
+		audioManager.PlayChooseButtonSound();
+	});
+}
+
+void CGameStateRun::createMapSettingPage() {
+	if (currentLevel == 1000) {
+		settingPage.SetButtonWorld(STYLE_DEFAULT);
+	} else if (currentLevel == 1001) {
+		settingPage.SetButtonWorld(STYLE_LAKE);
+	} else if (currentLevel == 1002) {
+		settingPage.SetButtonWorld(STYLE_ISLAND);
+	} else if (currentLevel == 1003) {
+		settingPage.SetButtonWorld(STYLE_RUIN);
+	}
+	settingPage.SetBackFunc([this]() {
+		isSetting = false;
+		audioManager.PlayChooseButtonSound();
+	});
+}
+
+void CGameStateRun::createLevelSettingPage() {
+	settingPage.SetButtonWorld(levelManager.GetWorldMainStyle());
+	settingPage.SetBackFunc([this]() {
+		isSetting = false;
+		audioManager.PlayChooseButtonSound();
+	});
+}
+
+void CGameStateRun::settingKeyDown(KeyInputType inputType) {
+	if (inputType == INPUT_MOVE_UP) {
+		settingPage.ChooserMoveUp();
+	} else if (inputType == INPUT_MOVE_DOWN) {
+		settingPage.ChooserMoveDown();
+	} else if (inputType == INPUT_MOVE_LEFT) {
+		settingPage.ChooserMoveLeft();
+	} else if (inputType == INPUT_MOVE_RIGHT) {
+		settingPage.ChooserMoveRight();
+	} else if (inputType == INPUT_ENTER) {
+		settingPage.ChooserClick();
+	} else if (inputType == INPUT_PAUSE) {
+		isSetting = false;
 	}
 }

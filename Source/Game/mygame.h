@@ -40,6 +40,7 @@
 
 #include "game_control.h"
 #include "Pause/pause.h"
+#include "Setting/setting.h"
 #include <queue>
 
 namespace game_framework {
@@ -95,20 +96,47 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
+		struct KeyPress {
+			clock_t pressTime;
+			clock_t lastPressTime;
+			bool isPress = false;
+		};
+
+		static const clock_t PRESS_WAIT_TIME = 600;
+		static const clock_t PRESS_INTERVAL = 150;
+
 		std::queue<KeyInputType> inputBuffer;
 		bool isPause = false;
+		bool isSetting = false;
 		PauseLayout pausePage;
+		Setting settingPage;
 
-		void clearInputBuffer();							// csie的logo
+		KeyPress upPress;
+		KeyPress downPress;
+		KeyPress leftPress;
+		KeyPress rightPress;
+		KeyPress waitPress;
+		KeyPress undoPress;
+
+		void clearInputBuffer();
+
+		void updateLongPressInput();
+
 		void mainPageInit();
 		void mainPageKeyDown(KeyInputType inputType);
 		void mainPageLeftButtonDown(CPoint point);
 		void mainPageMouseMove(CPoint point);
 		void levelMapKeyDown(KeyInputType inputType);
 		void gameLevelKeyDown(KeyInputType inputType);
+
 		void createMapPausePage();
 		void createLevelPausePage();
 		void pauseKeyDown(KeyInputType inputType);
+
+		void createMenuSettingPage();
+		void createMapSettingPage();
+		void createLevelSettingPage();
+		void settingKeyDown(KeyInputType inputType);
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

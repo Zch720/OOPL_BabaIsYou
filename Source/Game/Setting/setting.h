@@ -37,17 +37,25 @@ private:
 	CMovingBitmap bar1;
 	CMovingBitmap bar2;
 	CMovingBitmap barPoint;
+	Button english;
+	Button backToSetting;
 	std::vector<ObjectButton> buttonVector = vector<ObjectButton>(14);
 	std::vector<CMovingBitmap> barPointVector = vector<CMovingBitmap>(3);
 	std::vector<int> chooser_x = vector<int>(5);
 	std::vector<int> chooser_y = vector<int>(15);
 	int chooserPoint_x;
 	int chooserPoint_y;
+	int languageChooserPosition = 0;
 	int whichPointClick = -1;
+	int where = 0;	//0: setting, 1: language setup
 	void SetChooserx(int chooserWhere_y);
 	void LoadButton();
 	void SwitchButtonDo(int switchingButton, bool objectButtonDo);
 	void SwitchButtonShortDo(int switchingButton);
+	void SetSettingActive();
+	void SetSettingUnActive();
+	void SetLanguageActive();
+	void SetLanguageUnActive();
 
 public:
 	void CheckMouseMove(CPoint point);
@@ -80,4 +88,5 @@ public:
 	void SetDefaultFunc(ButtonOnClickFunc func);
 	void SetStretchFunc(ButtonOnClickFunc func);
 	void SetBackFunc(ButtonOnClickFunc func);
+	void SetBackToSettingFunc(ButtonOnClickFunc func);
 };

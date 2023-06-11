@@ -73,74 +73,74 @@ void Setting::LoadButton() {
 	buttonVector[languageSetup].SetButtonCenterPosition(CPoint(960, 405));
 	buttonVector[languageSetup].SetButtonText("LANGUAGE SETUP");
 	buttonVector[languageSetup].objectButtonDo = false;
-	buttonVector[languageSetup].SetActivity(true);
+	
 	SetLanguageSetupFunc([]() {});
 	buttonVector[controls].SetButtonTexture(worldDefault);
 	buttonVector[controls].SetButtonCenterPosition(CPoint(960, 459));
 	buttonVector[controls].SetButtonText("CONTROLS");
 	buttonVector[controls].objectButtonDo = false;
-	buttonVector[controls].SetActivity(true);
+
 	SetControlsFunc([]() {});
 	buttonVector[toggleFullscreen].SetButtonTexture(worldDefault);
 	buttonVector[toggleFullscreen].SetButtonCenterPosition(CPoint(960, 513));
 	buttonVector[toggleFullscreen].SetButtonText("TOGGLE FULL SCREEN");
 	buttonVector[toggleFullscreen].objectButtonDo = false;
-	buttonVector[toggleFullscreen].SetActivity(true);
+
 	SetToggleFullscreenFunc([]() {});
 	buttonVector[enableGrid].SetButtonTexture(worldDefault);
 	buttonVector[enableGrid].SetButtonCenterPosition(CPoint(960, 567));
 	buttonVector[enableGrid].SetButtonText("ENABLE GRID");
 	buttonVector[enableGrid].objectButtonDo = false;
-	buttonVector[enableGrid].SetActivity(true);
+
 	SetEnableGridFunc([]() {});
 	buttonVector[disableWobbleEffect].SetButtonTexture(worldDefault);
 	buttonVector[disableWobbleEffect].SetButtonCenterPosition(CPoint(960, 621));
 	buttonVector[disableWobbleEffect].SetButtonText("DISABLE WOBBLE EFFECT");
 	buttonVector[disableWobbleEffect].objectButtonDo = false;
-	buttonVector[disableWobbleEffect].SetActivity(true);
+
 	SetDisableWobbleEffectFunc([]() {});
 	buttonVector[disableParticalEffect].SetButtonTexture(worldDefault);
 	buttonVector[disableParticalEffect].SetButtonCenterPosition(CPoint(960, 675));
 	buttonVector[disableParticalEffect].SetButtonText("DISABLE PARTICAL EFFECT");
 	buttonVector[disableParticalEffect].objectButtonDo = false;
-	buttonVector[disableParticalEffect].SetActivity(true);
+
 	SetDisableParticalEffectFunc([]() {});
 	buttonVector[disableScreenshack].SetButtonTexture(worldDefault);
 	buttonVector[disableScreenshack].SetButtonCenterPosition(CPoint(960, 729));
 	buttonVector[disableScreenshack].SetButtonText("DISABLE SCREENSHACK");
 	buttonVector[disableScreenshack].objectButtonDo = false;
-	buttonVector[disableScreenshack].SetActivity(true);
+
 	SetDisableScreenshackFunc([]() {});
 	buttonVector[forceHighcontrastColours].SetButtonTexture(worldDefault);
 	buttonVector[forceHighcontrastColours].SetButtonCenterPosition(CPoint(960, 783));
 	buttonVector[forceHighcontrastColours].SetButtonText("FORCE HIGH-CONTRAST COLOURS");
 	buttonVector[forceHighcontrastColours].objectButtonDo = false;
-	buttonVector[forceHighcontrastColours].SetActivity(true);
+
 	SetForceHighcontrastColoursFunc([]() {});
 	buttonVector[preventBlingkingColours].SetButtonTexture(worldDefault);
 	buttonVector[preventBlingkingColours].SetButtonCenterPosition(CPoint(960, 837));
 	buttonVector[preventBlingkingColours].SetButtonText("PREVENT BLINGKING COLOURS");
 	buttonVector[preventBlingkingColours].objectButtonDo = false;
-	buttonVector[preventBlingkingColours].SetActivity(true);
+
 	SetPreventBlingkingColoursFunc([]() {});
 	buttonVector[doNotPromptOnRestart].SetButtonTexture(worldDefault);
 	buttonVector[doNotPromptOnRestart].SetButtonCenterPosition(CPoint(960, 891));
 	buttonVector[doNotPromptOnRestart].SetButtonText("DO NOT PROMPT ON RESTART");
 	buttonVector[doNotPromptOnRestart].objectButtonDo = false;
-	buttonVector[doNotPromptOnRestart].SetActivity(true);
+
 	SetDoNotPromptOnRestartFunc([]() {});
 	buttonVector[None].SetButtonTexture(worldDefaultShort);
 	buttonVector[None].SetButtonCenterPosition(CPoint(717, 946));
 	buttonVector[None].SetButtonText("NONE");
 	buttonVector[None].objectButtonDo = false;
-	buttonVector[None].SetActivity(true);
+
 	SetNoneFunc([]() {});
 	buttonVector[deFault].SetButtonTexture(worldDoShort);
 	buttonVector[deFault].SetButtonCenterPosition(CPoint(1148, 946));
 	buttonVector[deFault].SetButtonText("DEFAULT");
 	buttonVector[deFault].objectButtonDo = true;
-	buttonVector[deFault].SetActivity(true);
 	SetDefaultFunc([]() {});
+
 	buttonVector[stretch].SetButtonTexture(worldDefaultShort);
 	buttonVector[stretch].SetButtonCenterPosition(CPoint(1580, 946));
 	buttonVector[stretch].SetButtonText("STRETCH");
@@ -151,8 +151,15 @@ void Setting::LoadButton() {
 	buttonVector[Back].SetButtonCenterPosition(CPoint(960, 1001));
 	buttonVector[Back].SetButtonText("RETURN");
 	buttonVector[Back].objectButtonDo = false;
-	buttonVector[Back].SetActivity(true);
+	SetSettingActive();
 	SetBackFunc([]() {});
+	english.SetButtonTexture(worldDefault);
+	english.SetButtonCenterPosition(CPoint(960, 200));
+	english.SetButtonText("ENGLISH");
+	backToSetting.SetButtonTexture(worldDefault);
+	backToSetting.SetButtonCenterPosition(CPoint(960, 900));
+	backToSetting.SetButtonText("RETURN");
+	SetBackToSettingFunc([]() {});
 }
 
 void Setting::CheckMouseMove(CPoint point) {
@@ -170,6 +177,8 @@ void Setting::CheckMouseMove(CPoint point) {
 	buttonVector[deFault].CheckMouseMove(point);
 	buttonVector[stretch].CheckMouseMove(point);
 	buttonVector[Back].CheckMouseMove(point);
+	english.CheckMouseMove(point);
+	backToSetting.CheckMouseMove(point);
 }
 
 void Setting::CheckMouseClick(CPoint point) {
@@ -187,6 +196,8 @@ void Setting::CheckMouseClick(CPoint point) {
 	buttonVector[deFault].CheckMouseClick(point);
 	buttonVector[stretch].CheckMouseClick(point);
 	buttonVector[Back].CheckMouseClick(point);
+	english.CheckMouseClick(point);
+	backToSetting.CheckMouseClick(point);
 }
 
 void Setting::SwitchButtonDo(int switchingButton,bool objectButtonDo) {
@@ -228,7 +239,14 @@ void Setting::SwitchButtonShortDo(int switchingButton) {
 }
 
 void Setting::SetLanguageSetupFunc(ButtonOnClickFunc func) {
-	buttonVector[languageSetup].SetOnClickFunc(func);
+	buttonVector[languageSetup].SetOnClickFunc([this, func]() {
+		where = 1;
+		languageChooserPosition = 0;
+		chooser.SetTopLeft(428, 176);
+		SetLanguageActive();
+		SetSettingUnActive();
+		func();
+	});
 }
 
 void Setting::SetControlsFunc(ButtonOnClickFunc func) {
@@ -316,6 +334,18 @@ void Setting::SetBackFunc(ButtonOnClickFunc func) {
 	buttonVector[Back].SetOnClickFunc(func);
 }
 
+void Setting::SetBackToSettingFunc(ButtonOnClickFunc func) {
+	backToSetting.SetOnClickFunc([this, func]() {
+		where = 0;
+		chooserPoint_x = 1;
+		chooserPoint_y = 3;
+		chooser.SetTopLeft(chooser_x[chooserPoint_x], chooser_y[chooserPoint_y]);
+		SetSettingActive();
+		SetLanguageUnActive();
+		func();
+	});
+}
+
 void Setting::SetChooserx(int chooserWhere_y) {
 	if (chooserWhere_y < 3) {
 		chooserPoint_x = 0;
@@ -337,136 +367,192 @@ void Setting::SetChooserx(int chooserWhere_y) {
 }
 
 void Setting::ChooserMoveUp() {
-	if (chooserPoint_y == 0) {
-		chooserPoint_y = 14;
+	if (where == 0) {
+		if (chooserPoint_y == 0) {
+			chooserPoint_y = 14;
+		}
+		else {
+			chooserPoint_y -= 1;
+		}
+		SetChooserx(chooserPoint_y);
+		chooser.SetTopLeft(chooser_x[chooserPoint_x], chooser_y[chooserPoint_y]);
 	}
 	else {
-		chooserPoint_y -= 1;
+		if (languageChooserPosition == 0) {
+			languageChooserPosition = 1;
+			chooser.SetTopLeft(428, 876);
+		}
+		else {
+			languageChooserPosition = 0;
+			chooser.SetTopLeft(428, 176);
+
+		}
 	}
-	SetChooserx(chooserPoint_y);
-	chooser.SetTopLeft(chooser_x[chooserPoint_x], chooser_y[chooserPoint_y]);
 }
 
 void Setting::ChooserMoveDown() {
-	if (chooserPoint_y == 14) {
-		chooserPoint_y = 0;
+	if (where == 0) {
+		if (chooserPoint_y == 14) {
+			chooserPoint_y = 0;
+		}
+		else {
+			chooserPoint_y += 1;
+		}
+		SetChooserx(chooserPoint_y);
+		chooser.SetTopLeft(chooser_x[chooserPoint_x], chooser_y[chooserPoint_y]);
 	}
 	else {
-		chooserPoint_y += 1;
+		if (languageChooserPosition == 1) {
+			languageChooserPosition = 0;
+			chooser.SetTopLeft(428, 176);
+		}
+		else {
+			languageChooserPosition = 1;
+			chooser.SetTopLeft(428, 876);
+		}
 	}
-	SetChooserx(chooserPoint_y);
-	chooser.SetTopLeft(chooser_x[chooserPoint_x], chooser_y[chooserPoint_y]);
 }
 
 void Setting::ChooserMoveLeft() {
-	if (chooserPoint_y == 13) {
-		if (chooserPoint_x == 2) {
-			chooserPoint_x = 4;
+	if (where == 0) {
+		if (chooserPoint_y == 13) {
+			if (chooserPoint_x == 2) {
+				chooserPoint_x = 4;
+			}
+			else {
+				chooserPoint_x -= 1;
+			}
 		}
-		else {
-			chooserPoint_x -= 1;
+		else if (chooserPoint_y < 2) {
+			int x = barPointVector[chooserPoint_y].GetLeft();
+			int y = barPointVector[chooserPoint_y].GetTop();
+			if (x > 1155) {
+				barPointVector[chooserPoint_y].SetTopLeft(x - 2, y);
+			}
 		}
+		else if (chooserPoint_y == 2) {
+			int x = barPointVector[chooserPoint_y].GetLeft();
+			int y = barPointVector[chooserPoint_y].GetTop();
+			if (x > 1155) {
+				barPointVector[chooserPoint_y].SetTopLeft(x - 40, y);
+			}
+		}
+		chooser.SetTopLeft(chooser_x[chooserPoint_x], chooser_y[chooserPoint_y]);
 	}
-	else if (chooserPoint_y < 2) {
-		int x = barPointVector[chooserPoint_y].GetLeft();
-		int y = barPointVector[chooserPoint_y].GetTop();
-		if (x > 1155) {
-			barPointVector[chooserPoint_y].SetTopLeft(x - 2, y);
-		}
-	}
-	else if (chooserPoint_y == 2) {
-		int x = barPointVector[chooserPoint_y].GetLeft();
-		int y = barPointVector[chooserPoint_y].GetTop();
-		if (x > 1155) {
-			barPointVector[chooserPoint_y].SetTopLeft(x - 40, y);
-		}
-	}
-	chooser.SetTopLeft(chooser_x[chooserPoint_x], chooser_y[chooserPoint_y]);
+	else {}
 }
 
 void Setting::ChooserMoveRight() {
-	if (chooserPoint_y == 13) {
-		if (chooserPoint_x == 4) {
-			chooserPoint_x = 2;
+	if (where == 0) {
+		if (chooserPoint_y == 13) {
+			if (chooserPoint_x == 4) {
+				chooserPoint_x = 2;
+			}
+			else {
+				chooserPoint_x += 1;
+			}
 		}
-		else {
-			chooserPoint_x += 1;
+		else if (chooserPoint_y < 2) {
+			int x = barPointVector[chooserPoint_y].GetLeft();
+			int y = barPointVector[chooserPoint_y].GetTop();
+			if (x < 1595) {
+				barPointVector[chooserPoint_y].SetTopLeft(x + 2, y);
+			}
 		}
+		else if (chooserPoint_y == 2) {
+			int x = barPointVector[chooserPoint_y].GetLeft();
+			int y = barPointVector[chooserPoint_y].GetTop();
+			if (x < 1595) {
+				barPointVector[chooserPoint_y].SetTopLeft(x + 40, y);
+			}
+		}
+		chooser.SetTopLeft(chooser_x[chooserPoint_x], chooser_y[chooserPoint_y]);
 	}
-	else if (chooserPoint_y < 2) {
-		int x = barPointVector[chooserPoint_y].GetLeft();
-		int y = barPointVector[chooserPoint_y].GetTop();
-		if (x < 1595) {
-			barPointVector[chooserPoint_y].SetTopLeft(x + 2, y);
-		}
-	}
-	else if (chooserPoint_y == 2) {
-		int x = barPointVector[chooserPoint_y].GetLeft();
-		int y = barPointVector[chooserPoint_y].GetTop();
-		if (x < 1595) {
-			barPointVector[chooserPoint_y].SetTopLeft(x + 40, y);
-		}
-	}
-	chooser.SetTopLeft(chooser_x[chooserPoint_x], chooser_y[chooserPoint_y]);
+	else {}
 }
 
 void Setting::ChooserClick() {
-	if (chooserPoint_y > 2 && chooserPoint_y < 13) {
-		buttonVector[chooserPoint_y - 3].Click();
+	if (where == 0) {
+		if (chooserPoint_y > 2 && chooserPoint_y < 13) {
+			buttonVector[chooserPoint_y - 3].Click();
+		}
+		else if (chooserPoint_y == 13) {
+			buttonVector[chooserPoint_x + 8].Click();
+		}
+		else if (chooserPoint_y == 14) {
+			buttonVector[chooserPoint_y - 1].Click();
+		}
 	}
-	else if (chooserPoint_y == 13) {
-		buttonVector[chooserPoint_x + 8].Click();
-	}
-	else if (chooserPoint_y == 14) {
-		buttonVector[chooserPoint_y - 1].Click();
+	else {
+		if (languageChooserPosition == 1) {
+			backToSetting.Click();
+		}
 	}
 }
 
 void Setting::ShowImage() {
-	chooser.ShowBitmap();
-	buttonVector[languageSetup].ShowImage();
-	buttonVector[controls].ShowImage();
-	buttonVector[toggleFullscreen].ShowImage();
-	buttonVector[enableGrid].ShowImage();
-	buttonVector[disableWobbleEffect].ShowImage();
-	buttonVector[disableParticalEffect].ShowImage();
-	buttonVector[disableScreenshack].ShowImage();
-	buttonVector[forceHighcontrastColours].ShowImage();
-	buttonVector[preventBlingkingColours].ShowImage();
-	buttonVector[doNotPromptOnRestart].ShowImage();
-	buttonVector[None].ShowImage();
-	buttonVector[deFault].ShowImage();
-	buttonVector[stretch].ShowImage();
-	buttonVector[Back].ShowImage();
-	bar0.ShowBitmap();
-	bar1.ShowBitmap();
-	bar2.ShowBitmap();
-	barPointVector[0].ShowBitmap();
-	barPointVector[1].ShowBitmap();
-	barPointVector[2].ShowBitmap();
+	if (where == 0) {
+		chooser.ShowBitmap();
+		buttonVector[languageSetup].ShowImage();
+		buttonVector[controls].ShowImage();
+		buttonVector[toggleFullscreen].ShowImage();
+		buttonVector[enableGrid].ShowImage();
+		buttonVector[disableWobbleEffect].ShowImage();
+		buttonVector[disableParticalEffect].ShowImage();
+		buttonVector[disableScreenshack].ShowImage();
+		buttonVector[forceHighcontrastColours].ShowImage();
+		buttonVector[preventBlingkingColours].ShowImage();
+		buttonVector[doNotPromptOnRestart].ShowImage();
+		buttonVector[None].ShowImage();
+		buttonVector[deFault].ShowImage();
+		buttonVector[stretch].ShowImage();
+		buttonVector[Back].ShowImage();
+		bar0.ShowBitmap();
+		bar1.ShowBitmap();
+		bar2.ShowBitmap();
+		barPointVector[0].ShowBitmap();
+		barPointVector[1].ShowBitmap();
+		barPointVector[2].ShowBitmap();
+
+	}
+	else {
+		chooser.ShowBitmap();
+		english.ShowImage();
+		backToSetting.ShowImage();
+	}
 }
 
 void Setting::ShowText(CDC *pDC) {
-	CTextDraw::ChangeFontLog(pDC, 38, "Darumadrop One", 0xFFFFFF);
-	buttonVector[languageSetup].ShowText(pDC);
-	buttonVector[controls].ShowText(pDC);
-	buttonVector[toggleFullscreen].ShowText(pDC);
-	buttonVector[enableGrid].ShowText(pDC);
-	buttonVector[disableWobbleEffect].ShowText(pDC);
-	buttonVector[disableParticalEffect].ShowText(pDC);
-	buttonVector[disableScreenshack].ShowText(pDC);
-	buttonVector[forceHighcontrastColours].ShowText(pDC);
-	buttonVector[preventBlingkingColours].ShowText(pDC);
-	buttonVector[doNotPromptOnRestart].ShowText(pDC);
-	buttonVector[None].ShowText(pDC);
-	buttonVector[deFault].ShowText(pDC);
-	buttonVector[stretch].ShowText(pDC);
-	buttonVector[Back].ShowText(pDC);
-	CenterTextDraw::Print(pDC, 960, 100, "SETTING:");
-	CenterTextDraw::Print(pDC, 500, 200, "MUSIC VOLUME:");
-	CenterTextDraw::Print(pDC, 500, 250, "SOUND VILUME:");
-	CenterTextDraw::Print(pDC, 578, 300, "INPUT REPEAT DELAY:");
-	CenterTextDraw::Print(pDC, 237, 946, "ZOOM MODE:");
+	if (where == 0) {
+		CTextDraw::ChangeFontLog(pDC, 38, "Darumadrop One", 0xFFFFFF);
+		buttonVector[languageSetup].ShowText(pDC);
+		buttonVector[controls].ShowText(pDC);
+		buttonVector[toggleFullscreen].ShowText(pDC);
+		buttonVector[enableGrid].ShowText(pDC);
+		buttonVector[disableWobbleEffect].ShowText(pDC);
+		buttonVector[disableParticalEffect].ShowText(pDC);
+		buttonVector[disableScreenshack].ShowText(pDC);
+		buttonVector[forceHighcontrastColours].ShowText(pDC);
+		buttonVector[preventBlingkingColours].ShowText(pDC);
+		buttonVector[doNotPromptOnRestart].ShowText(pDC);
+		buttonVector[None].ShowText(pDC);
+		buttonVector[deFault].ShowText(pDC);
+		buttonVector[stretch].ShowText(pDC);
+		buttonVector[Back].ShowText(pDC);
+		CenterTextDraw::Print(pDC, 960, 100, "SETTING:");
+		CenterTextDraw::Print(pDC, 500, 200, "MUSIC VOLUME:");
+		CenterTextDraw::Print(pDC, 500, 250, "SOUND VILUME:");
+		CenterTextDraw::Print(pDC, 578, 300, "INPUT REPEAT DELAY:");
+		CenterTextDraw::Print(pDC, 237, 946, "ZOOM MODE:");
+	}
+	else {
+		CTextDraw::ChangeFontLog(pDC, 35, "Darumadrop One", 0xFFFFFF);
+		CenterTextDraw::Print(pDC, 960, 400, "ARE YOU EXPECTING A CHINESE TRANSLATION?");
+		english.ShowText(pDC);
+		backToSetting.ShowText(pDC);
+		CTextDraw::ChangeFontLog(pDC, 100, "Darumadrop One", 0x0000FF);
+		CenterTextDraw::Print(pDC, 960, 700, "NO WAY");
+	}
 }
 
 void Setting::MouseDown(POINT point) {
@@ -526,4 +612,46 @@ void Setting::MouseMove(POINT point) {
 			}
 		}
 	}
+}
+
+void Setting::SetSettingActive() {
+	buttonVector[languageSetup].SetActivity(true);
+	buttonVector[controls].SetActivity(true);
+	buttonVector[toggleFullscreen].SetActivity(true);
+	buttonVector[enableGrid].SetActivity(true);
+	buttonVector[disableWobbleEffect].SetActivity(true);
+	buttonVector[disableParticalEffect].SetActivity(true);
+	buttonVector[disableScreenshack].SetActivity(true);
+	buttonVector[forceHighcontrastColours].SetActivity(true);
+	buttonVector[preventBlingkingColours].SetActivity(true);
+	buttonVector[doNotPromptOnRestart].SetActivity(true);
+	buttonVector[None].SetActivity(true);
+	buttonVector[deFault].SetActivity(true);
+	buttonVector[Back].SetActivity(true);
+}
+
+void Setting::SetSettingUnActive() {
+	buttonVector[languageSetup].SetActivity(false);
+	buttonVector[controls].SetActivity(false);
+	buttonVector[toggleFullscreen].SetActivity(false);
+	buttonVector[enableGrid].SetActivity(false);
+	buttonVector[disableWobbleEffect].SetActivity(false);
+	buttonVector[disableParticalEffect].SetActivity(false);
+	buttonVector[disableScreenshack].SetActivity(false);
+	buttonVector[forceHighcontrastColours].SetActivity(false);
+	buttonVector[preventBlingkingColours].SetActivity(false);
+	buttonVector[doNotPromptOnRestart].SetActivity(false);
+	buttonVector[None].SetActivity(false);
+	buttonVector[deFault].SetActivity(false);
+	buttonVector[Back].SetActivity(false);
+}
+
+void Setting::SetLanguageActive() {
+	english.SetActivity(true);
+	backToSetting.SetActivity(true);
+}
+
+void Setting::SetLanguageUnActive() {
+	english.SetActivity(false);
+	backToSetting.SetActivity(false);
 }

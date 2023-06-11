@@ -16,6 +16,14 @@ void MainPage::StandbyScreenInit() {
 }
 
 void MainPage::StartScreenInit() {
+	background[0].LoadBitmapByString({ "./Resources/mainpage/startscreen/background.bmp" });
+	for (int i = 1; i < 9; i++) {
+		background[i] = background[0];
+	}
+	for (int i = 0; i < 9; i++) {
+		background[i].SetTopLeft(1782 * (i % 3), 972 * (i / 3));
+	}
+
 	startScreenTitle.LoadBitmapByString({"Resources/mainpage/startscreen/title1.bmp","Resources/mainpage/startscreen/title2.bmp","Resources/mainpage/startscreen/title3.bmp",});
 	startScreenTitle.SetTopLeft(531, 150);
 	startScreenTitle.SetAnimation(250, false);
@@ -78,6 +86,18 @@ void MainPage::ChooserEnter() {
 	else if (chooserPoint.x == 0 && chooserPoint.y == 1) {
 		startTheGame.Click();
 	}
+	else if (chooserPoint.x == 1 && chooserPoint.y == 1) {
+		playLevel.Click();
+	}
+	else if (chooserPoint.x == 0 && chooserPoint.y == 2) {
+		levelEditor.Click();
+	}
+	else if (chooserPoint.x == 1 && chooserPoint.y == 2) {
+		settings.Click();
+	}
+	else if (chooserPoint.x == 0 && chooserPoint.y == 3) {
+		credits.Click();
+	}
 	else if (chooserPoint.x == 1 && chooserPoint.y == 3) {
 		exitTheGame.Click();
 	}
@@ -111,8 +131,20 @@ void MainPage::SetStartTheGameFunc(ButtonOnClickFunc func) {
 	startTheGame.SetOnClickFunc(func);
 }
 
+void MainPage::SetPlayLevelFunc(ButtonOnClickFunc func) {
+	startTheGame.SetOnClickFunc(func);
+}
+
+void MainPage::SetLevelEditorFunc(ButtonOnClickFunc func) {
+	startTheGame.SetOnClickFunc(func);
+}
+
 void MainPage::SetSettingsFunc(ButtonOnClickFunc func) {
 	settings.SetOnClickFunc(func);
+}
+
+void MainPage::SetCreditsFunc(ButtonOnClickFunc func) {
+	startTheGame.SetOnClickFunc(func);
 }
 
 void MainPage::SetExitTheGameFunc(ButtonOnClickFunc func) {
@@ -130,7 +162,35 @@ void MainPage::SwitchCheck() {
 	exitTheGame.SetActivity(true);
 }
 
+
+void MainPage::BackgroundOnMove() {
+	for (int i = 0; i < 9; i++) {
+		int top = background[i].GetTop();
+		int left = background[i].GetLeft();
+		background[i].SetTopLeft(left - 2, top - 2);
+	}
+	if (background[4].GetTop() < -864) {
+		int top = background[4].GetTop();
+		int left = background[4].GetLeft();
+		for (int i = 0; i < 9; i++) {
+			background[i].SetTopLeft(left + 1782 * (i % 3), top + 972 * (i / 3));
+		}
+	}
+	if (background[0].GetLeft() > 0) {
+		int top = background[0].GetTop();
+		int left = background[0].GetLeft() - 1782;
+		for (int i = 0; i < 9; i++) {
+			background[i].SetTopLeft(left - 1782 * (i % 3), top - 972 * (i / 3));
+		}
+	}
+}
+
+
 void MainPage::ShowImage() {
+	BackgroundOnMove();
+	for (int i = 0; i < 9; i++) {
+		background[i].ShowBitmap();
+	}
 	if (!screenSwitch) {
 		standbyBackgroung.ShowBitmap();
 	}
@@ -150,7 +210,7 @@ void MainPage::ShowImage() {
 }
 
 void MainPage::ShowText(CDC *pDC) {
-	if (screenSwitch == true) {
+	if (screenSwitch) {
 		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x85E2ED);
 		startTheGame.ShowText(pDC);
 		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x47BDFF);

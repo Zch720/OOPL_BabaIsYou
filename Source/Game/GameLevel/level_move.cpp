@@ -278,15 +278,15 @@ bool LevelMove::moveBlockPreviousUnmoveable(POINT position, Direction moveDirect
 
 	PropertyManager::RemoveOffsetObjects(objectIds, previousObjectIds);
 
-	if (objectIds.size() == 0) return moveable[position] = 1;
-
-	for (ObjectId objectId : previousObjectIds) {
-		if (isUnmoveableObject(objectId)) return moveable[position] = 0;
-		if (isMoveableObjectWithoutYou(objectId)) return moveable[position] = 0;
+	if (objectIds.size() != 0) {
+		for (ObjectId objectId : previousObjectIds) {
+			if (isUnmoveableObject(objectId)) return moveable[position] = 0;
+			if (isMoveableObjectWithoutYou(objectId)) return moveable[position] = 0;
+		}
 	}
 
 	LevelData::BlockObjectForeach(position, [moveDirection](ObjectBase &object) {
-		if (isMoveableObject(object.GetObjectId())) {
+		if (isMoveableObject(object.GetObjectId()) && !object.HasProperty(PROPERTY_WEAK)) {
 			moveObjects.insert(MoveInfo::FromObjectInfo(object.GetInfo(), moveDirection));
 		}
 	});

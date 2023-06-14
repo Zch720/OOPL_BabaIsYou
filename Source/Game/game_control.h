@@ -22,3 +22,6 @@ extern LevelManager levelManager;
 extern AudioManager audioManager;
 extern CloudAnimation cloudAnimation;
 extern MainPage mainPage;
+
+void loadGameData();
+void saveGameData();

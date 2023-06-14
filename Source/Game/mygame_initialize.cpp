@@ -5,6 +5,8 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
+#include "../Expansion/dataio.h"
+#include "../Expansion/string_proc.h"
 #include "mygame.h"
 
 bool enterGame = true;
@@ -24,6 +26,36 @@ AudioManager audioManager;
 CloudAnimation cloudAnimation;
 MainPage mainPage;
 
+void loadGameData() {
+    std::string data = loadFile("game_data.txt");
+    if (data == "") return;
+    if (data.find('\r') != std::string::npos)
+        data.erase(data.find('\r'), 1);
+    if (data.find('\n') != std::string::npos)
+        data.erase(data.find('\n'), 1);
+
+    std::vector<std::string> datas = stringSplit(data, '|');
+    
+    lastestMap = std::stoi(datas[0]);
+    map1000BoxPosition = { std::stoi(datas[1]), std::stoi(datas[2]) };
+    map1001BoxPosition = { std::stoi(datas[3]), std::stoi(datas[4]) };
+    map1002BoxPosition = { std::stoi(datas[5]), std::stoi(datas[6]) };
+    map1003BoxPosition = { std::stoi(datas[7]), std::stoi(datas[8]) };
+}
+
+void saveGameData() {
+    std::string data = std::to_string(lastestMap) + "|";
+    data += std::to_string(map1000BoxPosition.x) + "|";
+    data += std::to_string(map1000BoxPosition.y) + "|";
+    data += std::to_string(map1001BoxPosition.x) + "|";
+    data += std::to_string(map1001BoxPosition.y) + "|";
+    data += std::to_string(map1002BoxPosition.x) + "|";
+    data += std::to_string(map1002BoxPosition.y) + "|";
+    data += std::to_string(map1003BoxPosition.x) + "|";
+    data += std::to_string(map1003BoxPosition.y);
+    saveFile("game_data.txt", data);
+}
+
 using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
@@ -42,6 +74,7 @@ void CGameStateInit::OnInit()
 	ShowInitProgress(50, "Initialize Animation...");
 	levelManager.Init();
 	ShowInitProgress(75, "Initialize Level...");
+	loadGameData();
 	initialized = true;
 }
 

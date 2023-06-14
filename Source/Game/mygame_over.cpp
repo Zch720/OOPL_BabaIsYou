@@ -27,6 +27,7 @@ void CGameStateOver::OnBeginState()
 		mainPageClear();
 		mapClear();
 		gameLevelClear();
+		saveGameData();
 		exit(0);
 	}
 	GotoGameState(GAME_STATE_INIT);

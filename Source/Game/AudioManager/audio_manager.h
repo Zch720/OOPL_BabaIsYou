@@ -63,9 +63,14 @@ private:
     };
 
     static AudioId currentBGM;
+    static bool isMusicOn;
+    static bool isSoundOn;
 
 public:
     static void Init();
+
+    static void SetMusicOn(bool isOn);
+    static void SetSoundOn(bool isOn);
 
     static void PlayMenuBGM();
     static void PlayMapBGM();

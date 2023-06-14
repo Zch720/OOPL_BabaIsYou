@@ -5,7 +5,9 @@
 
 using namespace game_framework;
 
-AudioManager::AudioId AudioManager::currentBGM = AUDIO_NONE;
+AudioManager::AudioId AudioManager::currentBGM = MUSIC_BABA;
+bool AudioManager::isMusicOn = true;
+bool AudioManager::isSoundOn = true;
 
 void AudioManager::Init() {
 	//CAudio::Instance()->Open();
@@ -58,9 +60,25 @@ void AudioManager::Init() {
     CAudio::Instance()->Load(EFFECT_OPEN_4, "./resources/audio/sound/open_4.wav");
 }
 
+void AudioManager::SetMusicOn(bool isOn) {
+    if (isMusicOn == isOn) return;
+    isMusicOn = isOn;
+    if (!isOn) {
+        CAudio::Instance()->Stop(currentBGM);
+    } else {
+        CAudio::Instance()->Play(currentBGM, true);
+    }
+}
+
+void AudioManager::SetSoundOn(bool isOn) {
+    if (isSoundOn == isOn) return;
+    isSoundOn = isOn;
+}
+
 void AudioManager::PlayMenuBGM() {
     if (currentBGM != MUSIC_MENU) {
         currentBGM = MUSIC_MENU;
+        if (!isMusicOn) return;
         CAudio::Instance()->Stop(MUSIC_MAP);
         CAudio::Instance()->Stop(MUSIC_BABA);
         CAudio::Instance()->Play(MUSIC_MENU, true);
@@ -70,6 +88,7 @@ void AudioManager::PlayMenuBGM() {
 void AudioManager::PlayMapBGM() {
     if (currentBGM != MUSIC_MAP) {
         currentBGM = MUSIC_MAP;
+        if (!isMusicOn) return;
         CAudio::Instance()->Stop(MUSIC_MENU);
         CAudio::Instance()->Stop(MUSIC_BABA);
         CAudio::Instance()->Play(MUSIC_MAP, true);
@@ -79,6 +98,7 @@ void AudioManager::PlayMapBGM() {
 void AudioManager::PlayBabaBGM() {
     if (currentBGM != MUSIC_BABA) {
         currentBGM = MUSIC_BABA;
+        if (!isMusicOn) return;
         CAudio::Instance()->Stop(MUSIC_MENU);
         CAudio::Instance()->Stop(MUSIC_MAP);
         CAudio::Instance()->Play(MUSIC_BABA, true);
@@ -86,26 +106,32 @@ void AudioManager::PlayBabaBGM() {
 }
 
 void AudioManager::PlayCongratulationSound() {
+    if (!isSoundOn) return;
     CAudio::Instance()->Play(EFFECT_CONGRATULATION);
 }
 
 void AudioManager::PlayChangeSceneSound() {
+    if (!isSoundOn) return;
     CAudio::Instance()->Play(EFFECT_CHANGE_SCENE);
 }
 
 void AudioManager::PlayEnterLevelSound() {
+    if (!isSoundOn) return;
     CAudio::Instance()->Play(EFFECT_ENTER_LEVEL);
 }
 
 void AudioManager::PlayRestartSound() {
+    if (!isSoundOn) return;
     CAudio::Instance()->Play(EFFECT_RESTART);
 }
 
 void AudioManager::PlayChooseSettingSound() {
+    if (!isSoundOn) return;
     CAudio::Instance()->Play(EFFECT_CHOOSE_SETTING);
 }
 
 void AudioManager::PlayChooseButtonSound() {
+    if (!isSoundOn) return;
     int rand = std::rand() % 5;
     if (rand == 0) {
         CAudio::Instance()->Play(EFFECT_CHOOSE_BUTTON_1);
@@ -125,6 +151,7 @@ void AudioManager::PlayChooseButtonSound() {
 }
 
 void AudioManager::PlayDescriptionSound() {
+    if (!isSoundOn) return;
     int rand = std::rand() % 5;
     if (rand == 0) {
         CAudio::Instance()->Play(EFFECT_DESCRIPTION_1);
@@ -144,6 +171,7 @@ void AudioManager::PlayDescriptionSound() {
 }
 
 void AudioManager::PlayMoveSound() {
+    if (!isSoundOn) return;
     int rand = std::rand() % 6;
     if (rand == 0) {
         CAudio::Instance()->Play(EFFECT_MOVE_1);
@@ -166,6 +194,7 @@ void AudioManager::PlayMoveSound() {
 }
 
 void AudioManager::PlayUndoSound() {
+    if (!isSoundOn) return;
     int rand = std::rand() % 5;
     if (rand == 0) {
         CAudio::Instance()->Play(EFFECT_UNDO_1);
@@ -185,6 +214,7 @@ void AudioManager::PlayUndoSound() {
 }
 
 void AudioManager::PlayDefeatSound() {
+    if (!isSoundOn) return;
     int rand = std::rand() % 4;
     if (rand == 0) {
         CAudio::Instance()->Play(EFFECT_DEFEAT_1);
@@ -201,6 +231,7 @@ void AudioManager::PlayDefeatSound() {
 }
 
 void AudioManager::PlaySinkSound() {
+    if (!isSoundOn) return;
     int rand = std::rand() % 4;
     if (rand == 0) {
         CAudio::Instance()->Play(EFFECT_SINK_1);
@@ -217,6 +248,7 @@ void AudioManager::PlaySinkSound() {
 }
 
 void AudioManager::PlayMeltSound() {
+    if (!isSoundOn) return;
     int rand = std::rand() % 4;
     if (rand == 0) {
         CAudio::Instance()->Play(EFFECT_MELT_1);
@@ -233,6 +265,7 @@ void AudioManager::PlayMeltSound() {
 }
 
 void AudioManager::PlayOpenSound() {
+    if (!isSoundOn) return;
     int rand = std::rand() % 4;
     if (rand == 0) {
         CAudio::Instance()->Play(EFFECT_OPEN_1);

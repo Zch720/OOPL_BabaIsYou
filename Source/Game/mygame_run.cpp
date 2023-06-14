@@ -84,6 +84,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
+	settingPage.SetButtonWorld(STYLE_DEFAULT);
+	settingPage.Load();
+	audioManager.SetMusicOn(settingPage.GetMusic());
+	audioManager.SetSoundOn(settingPage.GetSound());
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -175,6 +179,8 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 	if (isSetting) {
 		settingPage.MouseMove(point);
 		settingPage.CheckMouseMove(point);
+		audioManager.SetMusicOn(settingPage.GetMusic());
+		audioManager.SetSoundOn(settingPage.GetSound());
 	} else if (isPause) {
 		pausePage.MouseMove(point);
 	} else if (atMainMenu) {
@@ -224,39 +230,44 @@ void CGameStateRun::clearInputBuffer() {
 	while(!inputBuffer.empty()) inputBuffer.pop();
 }
 
+bool CGameStateRun::checkLongPress(KeyPress &keyPress) {
+	return clock() - keyPress.pressTime > PRESS_WAIT_TIME &&
+		clock() - keyPress.lastPressTime > PRESS_INTERVAL + PRESS_DELAY_ADD_UNIT * settingPage.GetDelay();
+}
+
 void CGameStateRun::updateLongPressInput() {
 	if (upPress.isPress) {
-		if (clock() - upPress.pressTime > PRESS_WAIT_TIME && clock() - upPress.lastPressTime > PRESS_INTERVAL) {
+		if (checkLongPress(upPress)) {
 			upPress.lastPressTime = clock();
 			inputBuffer.push(INPUT_MOVE_UP);
 		}
 	}
 	else if (downPress.isPress) {
-		if (clock() - downPress.pressTime > PRESS_WAIT_TIME && clock() - downPress.lastPressTime > PRESS_INTERVAL) {
+		if (checkLongPress(downPress)) {
 			downPress.lastPressTime = clock();
 			inputBuffer.push(INPUT_MOVE_DOWN);
 		}
 	}
 	else if (leftPress.isPress) {
-		if (clock() - leftPress.pressTime > PRESS_WAIT_TIME && clock() - leftPress.lastPressTime > PRESS_INTERVAL) {
+		if (checkLongPress(leftPress)) {
 			leftPress.lastPressTime = clock();
 			inputBuffer.push(INPUT_MOVE_LEFT);
 		}
 	}
 	else if (rightPress.isPress) {
-		if (clock() - rightPress.pressTime > PRESS_WAIT_TIME && clock() - rightPress.lastPressTime > PRESS_INTERVAL) {
+		if (checkLongPress(rightPress)) {
 			rightPress.lastPressTime = clock();
 			inputBuffer.push(INPUT_MOVE_RIGHT);
 		}
 	}
 	else if (waitPress.isPress) {
-		if (clock() - waitPress.pressTime > PRESS_WAIT_TIME && clock() - waitPress.lastPressTime > PRESS_INTERVAL) {
+		if (checkLongPress(waitPress)) {
 			waitPress.lastPressTime = clock();
 			inputBuffer.push(INPUT_ENTER);
 		}
 	}
 	else if (undoPress.isPress) {
-		if (clock() - undoPress.pressTime > PRESS_WAIT_TIME && clock() - undoPress.lastPressTime > PRESS_INTERVAL) {
+		if (checkLongPress(undoPress)) {
 			undoPress.lastPressTime = clock();
 			inputBuffer.push(INPUT_BACK);
 		}
@@ -528,8 +539,12 @@ void CGameStateRun::settingKeyDown(KeyInputType inputType) {
 		settingPage.ChooserMoveDown();
 	} else if (inputType == INPUT_MOVE_LEFT) {
 		settingPage.ChooserMoveLeft();
+		audioManager.SetMusicOn(settingPage.GetMusic());
+		audioManager.SetSoundOn(settingPage.GetSound());
 	} else if (inputType == INPUT_MOVE_RIGHT) {
 		settingPage.ChooserMoveRight();
+		audioManager.SetMusicOn(settingPage.GetMusic());
+		audioManager.SetSoundOn(settingPage.GetSound());
 	} else if (inputType == INPUT_ENTER) {
 		settingPage.ChooserClick();
 	} else if (inputType == INPUT_PAUSE) {

@@ -104,6 +104,7 @@ namespace game_framework {
 
 		static const clock_t PRESS_WAIT_TIME = 600;
 		static const clock_t PRESS_INTERVAL = 150;
+		static const clock_t PRESS_DELAY_ADD_UNIT = 20;
 
 		std::queue<KeyInputType> inputBuffer;
 		bool isPause = false;
@@ -120,6 +121,7 @@ namespace game_framework {
 
 		void clearInputBuffer();
 
+		bool checkLongPress(KeyPress& keyPress);
 		void updateLongPressInput();
 
 		void mainPageInit();

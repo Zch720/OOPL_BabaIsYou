@@ -292,6 +292,18 @@ void Setting::SwitchButtonShortDo(int switchingButton) {
 	}
 }
 
+bool Setting::GetMusic() {
+	return barPointVector[0].GetLeft() != 1155;
+}
+
+bool Setting::GetSound() {
+	return barPointVector[1].GetLeft() != 1155;
+}
+
+int Setting::GetDelay() {
+	return (barPointVector[2].GetLeft() - 1155) / 40;
+}
+
 void Setting::SetLanguageSetupFunc(ButtonOnClickFunc func) {
 	buttonVector[languageSetup].SetOnClickFunc([this, func]() {
 		where = 1;

@@ -77,6 +77,10 @@ public:
 	void MouseUp();
 	void MouseMove(POINT point);
 
+	bool GetMusic();
+	bool GetSound();
+	int GetDelay();
+
 	void SetLanguageSetupFunc(ButtonOnClickFunc func);
 	void SetControlsFunc(ButtonOnClickFunc func);
 	void SetToggleFullscreenFunc(ButtonOnClickFunc func);

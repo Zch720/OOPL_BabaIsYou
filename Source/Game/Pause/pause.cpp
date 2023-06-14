@@ -53,6 +53,8 @@ PauseLayout::PauseLayout(Style style, std::string levelTitle, std::vector<std::s
         );
         buttons[i].SetButtonText(buttonText[i]);
     }
+    
+    SetActivity(true);
 }
 
 void PauseLayout::SetActivity(bool activity) {

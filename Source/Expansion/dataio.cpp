@@ -9,7 +9,8 @@ std::string loadFile(std::string filepath) {
 
 	// 如果無法存取檔案，回傳空字串
 	if (!inputFile) {
-		Log::LogError("can't load file '%s'", filepath.c_str());
+		Log::LogWarning("can't load file '%s'", filepath.c_str());
+		return "";
 	}
 
 	std::string data = "";
@@ -28,7 +29,8 @@ bool saveFile(std::string filepath, std::string data) {
 
 	// 如果無法開啟檔案，回傳 false
 	if (!outputFile) {
-		Log::LogError("can't save file '%s'", filepath.c_str());
+		Log::LogWarning("can't save file '%s'", filepath.c_str());
+		return false;
 	}
 
 	try {

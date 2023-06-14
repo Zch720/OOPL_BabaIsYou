@@ -13,6 +13,9 @@ void Map::CreateWorldVector() {
 
 void Map::ClearWorld() {
 	worldVector.clear();
+	while (!undoBuffer.empty()) {
+		undoBuffer.pop();
+	}
 }
 
 void Map::LoadWorld(int world) {
@@ -103,6 +106,7 @@ void Map::MoveUp() {
 	if (box.mapobjectPosition.y > 0) {
 		if (checkWalkable(box.mapobjectPosition.Up())) {
 			box.MoveUp(textureOrigionPosition);
+			undoBuffer.push(DIRECTION_DOWN);
 		}
 	}
 }
@@ -111,6 +115,7 @@ void Map::MoveDown() {
 	if (box.mapobjectPosition.y < worldVectorHeight - 1) {
 		if (checkWalkable(box.mapobjectPosition.Down())) {
 			box.MoveDown(textureOrigionPosition);
+			undoBuffer.push(DIRECTION_UP);
 		}
 	}
 }
@@ -119,6 +124,7 @@ void Map::MoveLeft() {
 	if (box.mapobjectPosition.x > 0) {
 		if (checkWalkable(box.mapobjectPosition.Left())) {
 			box.MoveLeft(textureOrigionPosition);
+			undoBuffer.push(DIRECTION_RIGHT);
 		}
 	}
 }
@@ -127,7 +133,27 @@ void Map::MoveRight() {
 	if (box.mapobjectPosition.x < worldVectorWidth - 1) {
 		if (checkWalkable(box.mapobjectPosition.Right())) {
 			box.MoveRight(textureOrigionPosition);
+			undoBuffer.push(DIRECTION_LEFT);
 		}
+	}
+}
+
+void Map::Undo() {
+	if (undoBuffer.empty()) return;
+
+	Direction direction = undoBuffer.top();
+	undoBuffer.pop();
+	if (direction == DIRECTION_UP) {
+		box.MoveUp(textureOrigionPosition);
+	}
+	else if (direction == DIRECTION_DOWN) {
+		box.MoveDown(textureOrigionPosition);
+	}
+	else if (direction == DIRECTION_LEFT) {
+		box.MoveLeft(textureOrigionPosition);
+	}
+	else if (direction == DIRECTION_RIGHT) {
+		box.MoveRight(textureOrigionPosition);
 	}
 }
 

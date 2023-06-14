@@ -1,4 +1,5 @@
 #pragma once
+#include <stack>
 #include "../../Library/gameutil.h"
 #include "map_object.h"
 #include "map_object_id.h"
@@ -11,6 +12,8 @@ private:
 	vector2d<Mapobject> worldVector;
 	Mapobject box;
 	CMovingBitmap worldBackground;
+
+	std::stack<Direction> undoBuffer;
 
 	void CreateWorldVector();
 	bool checkWalkable(POINT position);
@@ -33,4 +36,5 @@ public:
 	void MoveDown();
 	void MoveLeft();
 	void MoveRight();
+	void Undo();
 };

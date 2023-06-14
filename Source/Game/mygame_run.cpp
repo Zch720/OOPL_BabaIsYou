@@ -329,6 +329,9 @@ void CGameStateRun::levelMapKeyDown(KeyInputType inputType) {
 	else if (inputType == INPUT_MOVE_RIGHT) {
 		levelMap.MoveRight();
 	}
+	else if (inputType == INPUT_BACK) {
+		levelMap.Undo();
+	}
 	else if (inputType == INPUT_ENTER) {
 		if (levelMap.CheckIndex() != -1) {
 			if (currentLevel == 1000) {

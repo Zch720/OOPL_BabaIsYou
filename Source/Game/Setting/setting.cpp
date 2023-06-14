@@ -1,9 +1,63 @@
 #include "stdafx.h"
 #include "setting.h"
+#include "../../Expansion/dataio.h"
+#include "../../Expansion/string_proc.h"
 #include "../../Expansion/center_text.h"
 
 ObjectButton::ObjectButton() {}
 ObjectButton::ObjectButton(Button button) : Button(button) {}
+
+
+void Setting::Load() {
+	std::string setting = loadFile("setting.txt");
+	if  (setting == "") return;
+	if (setting.find("\r") != std::string::npos)
+		setting = setting.replace(setting.find("\r"), 1, "");
+	if (setting.find("\n") != std::string::npos)
+		setting = setting.replace(setting.find("\n"), 1, "");
+
+	std::vector<std::string> settingValues = stringSplit(setting, '|');
+
+	barPointVector[0].SetTopLeft(1155 + stringToInt(settingValues[0]), 167);
+	barPointVector[1].SetTopLeft(1155 + stringToInt(settingValues[1]), 221);
+	barPointVector[2].SetTopLeft(1155 + stringToInt(settingValues[2]), 275);
+
+	if (settingValues[3] != "0") SwitchButtonDo(languageSetup, false);
+	if (settingValues[4] != "0") SwitchButtonDo(controls, false);
+	if (settingValues[5] != "0") SwitchButtonDo(toggleFullscreen, false);
+	if (settingValues[6] != "0") SwitchButtonDo(enableGrid, false);
+	if (settingValues[7] != "0") SwitchButtonDo(disableWobbleEffect, false);
+	if (settingValues[8] != "0") SwitchButtonDo(disableParticalEffect, false);
+	if (settingValues[9] != "0") SwitchButtonDo(disableScreenshack, false);
+	if (settingValues[10] != "0") SwitchButtonDo(forceHighcontrastColours, false);
+	if (settingValues[11] != "0") SwitchButtonDo(preventBlingkingColours, false);
+	if (settingValues[12] != "0") SwitchButtonDo(doNotPromptOnRestart, false);
+	if (settingValues[13] != "0") SwitchButtonShortDo(None);
+	if (settingValues[14] != "0") SwitchButtonShortDo(deFault);
+	if (settingValues[15] != "0") SwitchButtonShortDo(stretch);
+}
+
+void Setting::Save() {
+	std::string data = "";
+	data += std::to_string(barPointVector[0].GetLeft() - 1155) + "|";
+	data += std::to_string(barPointVector[1].GetLeft() - 1155) + "|";
+	data += std::to_string(barPointVector[2].GetLeft() - 1155) + "|";
+	data += std::to_string(buttonVector[languageSetup].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[controls].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[toggleFullscreen].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[enableGrid].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[disableWobbleEffect].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[disableParticalEffect].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[disableScreenshack].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[forceHighcontrastColours].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[preventBlingkingColours].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[doNotPromptOnRestart].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[None].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[deFault].objectButtonDo) + "|";
+	data += std::to_string(buttonVector[stretch].objectButtonDo);
+
+	saveFile("setting.txt", data);
+}
 
 void Setting::SetButtonWorld(Style style) {
 

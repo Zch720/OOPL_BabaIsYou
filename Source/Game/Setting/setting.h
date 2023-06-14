@@ -58,6 +58,9 @@ private:
 	void SetLanguageUnActive();
 
 public:
+	void Load();
+	void Save();
+
 	void CheckMouseMove(CPoint point);
 	void CheckMouseClick(CPoint point);
 	void ShowImage();

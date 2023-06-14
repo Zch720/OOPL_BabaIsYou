@@ -485,8 +485,10 @@ void CGameStateRun::createMenuSettingPage() {
 	settingPage.SetButtonWorld(STYLE_DEFAULT);
 	settingPage.SetBackFunc([this]() {
 		isSetting = false;
+		settingPage.Save();
 		audioManager.PlayChooseButtonSound();
 	});
+	settingPage.Load();
 }
 
 void CGameStateRun::createMapSettingPage() {
@@ -502,8 +504,10 @@ void CGameStateRun::createMapSettingPage() {
 	}
 	settingPage.SetBackFunc([this]() {
 		isSetting = false;
+		settingPage.Save();
 		audioManager.PlayChooseButtonSound();
 	});
+	settingPage.Load();
 }
 
 void CGameStateRun::createLevelSettingPage() {
@@ -511,8 +515,10 @@ void CGameStateRun::createLevelSettingPage() {
 	settingPage.SetButtonWorld(levelManager.GetWorldMainStyle());
 	settingPage.SetBackFunc([this]() {
 		isSetting = false;
+		settingPage.Save();
 		audioManager.PlayChooseButtonSound();
 	});
+	settingPage.Load();
 }
 
 void CGameStateRun::settingKeyDown(KeyInputType inputType) {
@@ -528,5 +534,6 @@ void CGameStateRun::settingKeyDown(KeyInputType inputType) {
 		settingPage.ChooserClick();
 	} else if (inputType == INPUT_PAUSE) {
 		isSetting = false;
+		settingPage.Save();
 	}
 }

@@ -469,6 +469,7 @@ void CGameStateRun::pauseKeyDown(KeyInputType inputKey) {
 }
 
 void CGameStateRun::createMenuSettingPage() {
+	settingPage = Setting();
 	settingPage.SetButtonWorld(STYLE_DEFAULT);
 	settingPage.SetBackFunc([this]() {
 		isSetting = false;
@@ -477,6 +478,7 @@ void CGameStateRun::createMenuSettingPage() {
 }
 
 void CGameStateRun::createMapSettingPage() {
+	settingPage = Setting();
 	if (currentLevel == 1000) {
 		settingPage.SetButtonWorld(STYLE_DEFAULT);
 	} else if (currentLevel == 1001) {
@@ -493,6 +495,7 @@ void CGameStateRun::createMapSettingPage() {
 }
 
 void CGameStateRun::createLevelSettingPage() {
+	settingPage = Setting();
 	settingPage.SetButtonWorld(levelManager.GetWorldMainStyle());
 	settingPage.SetBackFunc([this]() {
 		isSetting = false;

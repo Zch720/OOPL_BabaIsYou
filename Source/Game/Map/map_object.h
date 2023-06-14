@@ -2,12 +2,19 @@
 #include "map_object_id.h"
 #include "../../Expansion/point.h"
 #include "../../Library/gameutil.h"
+#include "../../Expansion/direction.h"
 
 class Mapobject {
 private:
 	game_framework::CMovingBitmap texture;
-	int moveStep = 3;
-	
+
+	static const int MAX_MOVE_STEP = 4;
+	int moveRemainStep = 0;
+	Direction moveDirection;
+
+	void clearRemainStep();
+	int getTextureMoveDistance();
+	void updateTexturePosition();
 
 public:
 	Mapobject();
@@ -17,7 +24,7 @@ public:
 	Point mapobjectPosition;
 	int levelIndex;
 
-	void UpdateBoxPosition(Point textureOrigionPosition);
+	bool IsMoving();
 
 	void MoveUp(Point textureOrigionPosition);
 	void MoveDown(Point textureOrigionPosition);
@@ -25,5 +32,7 @@ public:
 	void MoveRight(Point textureOrigionPosition);
 
 	void LoadTexture(int world, Point textureOrigionPosition);
+
+	void SetTexturePosition(Point textureOrigionPosition);
 	void Show();
 };

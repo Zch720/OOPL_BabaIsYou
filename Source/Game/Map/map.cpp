@@ -96,7 +96,7 @@ Point Map::GetBoxPosition() {
 
 void Map::SetBoxPosition(Point boxPosition) {
 	box.mapobjectPosition = boxPosition;
-	box.UpdateBoxPosition(textureOrigionPosition);
+	box.SetTexturePosition(textureOrigionPosition);
 }
 
 void Map::MoveUp() {

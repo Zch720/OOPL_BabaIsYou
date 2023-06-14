@@ -88,6 +88,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	settingPage.Load();
 	audioManager.SetMusicOn(settingPage.GetMusic());
 	audioManager.SetSoundOn(settingPage.GetSound());
+	ShowInitProgress(90, "Initialize Game Setting...");
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)

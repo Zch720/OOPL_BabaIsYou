@@ -69,12 +69,13 @@ void CGameStateInit::OnInit()
 {
 	ShowInitProgress(0, "Start Initialize...");
 	audioManager.Init();
-	ShowInitProgress(25, "Initialize Audio...");
+	ShowInitProgress(10, "Initialize Audio...");
 	cloudAnimation.Init();
 	ShowInitProgress(50, "Initialize Animation...");
 	levelManager.Init();
-	ShowInitProgress(75, "Initialize Level...");
+	ShowInitProgress(65, "Initialize Level...");
 	loadGameData();
+	ShowInitProgress(80, "Initialize Game Data...");
 	initialized = true;
 }
 

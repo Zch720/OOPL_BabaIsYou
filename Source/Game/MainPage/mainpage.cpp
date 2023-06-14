@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "mainpage.h"
+#include "../../Expansion/center_text.h"
 
 void MainPage::StandbyScreenInit() {
 	standbyBackgroung.LoadBitmapByString({ 
@@ -58,6 +59,8 @@ void MainPage::MainpageInit() {
 }
 
 void MainPage::ChooserMove(int direction) {
+	if (showWarning) return;
+
 	if (direction == 0) {
 		chooserPoint.y -= 1;
 		chooserPoint.y &= 3;
@@ -79,6 +82,8 @@ void MainPage::ChooserMove(int direction) {
 }
 
 void MainPage::ChooserEnter() {
+	if (showWarning) return;
+
 	if (!screenSwitch) return;
 	if (chooserPoint.y == 0) {
 		continuePlaying.Click();
@@ -104,6 +109,8 @@ void MainPage::ChooserEnter() {
 }
 
 void MainPage::CheckMouseMove(CPoint point) {
+	if (showWarning) return;
+
 	continuePlaying.CheckMouseMove(point);
 	startTheGame.CheckMouseMove(point);
 	playLevel.CheckMouseMove(point);
@@ -114,6 +121,8 @@ void MainPage::CheckMouseMove(CPoint point) {
 }
 
 void MainPage::CheckMouseClick(CPoint point) {
+	if (showWarning) return;
+
 	continuePlaying.CheckMouseClick(point);
 	startTheGame.CheckMouseClick(point);
 	playLevel.CheckMouseClick(point);
@@ -128,15 +137,24 @@ void MainPage::SetContieuePlayingFunc(ButtonOnClickFunc func) {
 }
 
 void MainPage::SetStartTheGameFunc(ButtonOnClickFunc func) {
-	startTheGame.SetOnClickFunc(func);
+	startTheGame.SetOnClickFunc([this, func]() {
+		func();
+		showWarning = true;
+	});
 }
 
 void MainPage::SetPlayLevelFunc(ButtonOnClickFunc func) {
-	playLevel.SetOnClickFunc(func);
+	playLevel.SetOnClickFunc([this, func]() {
+		func();
+		showWarning = true;
+	});
 }
 
 void MainPage::SetLevelEditorFunc(ButtonOnClickFunc func) {
-	levelEditor.SetOnClickFunc(func);
+	levelEditor.SetOnClickFunc([this, func]() {
+		func();
+		showWarning = true;
+	});
 }
 
 void MainPage::SetSettingsFunc(ButtonOnClickFunc func) {
@@ -185,8 +203,13 @@ void MainPage::BackgroundOnMove() {
 	}
 }
 
+void MainPage::ExitWarning() {
+	showWarning = false;
+}
 
 void MainPage::ShowImage() {
+	if (showWarning) return;
+
 	BackgroundOnMove();
 	for (int i = 0; i < 9; i++) {
 		background[i].ShowBitmap();
@@ -210,7 +233,12 @@ void MainPage::ShowImage() {
 }
 
 void MainPage::ShowText(CDC *pDC) {
-	if (screenSwitch) {
+	if (showWarning) {
+		CTextDraw::ChangeFontLog(pDC, 50, "Darumadrop One", 0xFFFFFF);
+		CenterTextDraw::Print(pDC, 960, 490, "This feature is not implemented");
+		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x85E2ED);
+		CenterTextDraw::Print(pDC, 960, 620, "Please press the ESC key to return");
+	} else if (screenSwitch) {
 		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x85E2ED);
 		startTheGame.ShowText(pDC);
 		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x47BDFF);

@@ -21,6 +21,8 @@ private:
 	CPoint chooserPoint;
 	bool screenSwitch = false;
 
+	bool showWarning = false;
+
 public:
 	void MainpageInit();
 	void StandbyScreenInit();
@@ -38,6 +40,7 @@ public:
 	void SetCreditsFunc(ButtonOnClickFunc func);
 	void SetExitTheGameFunc(ButtonOnClickFunc func);
 	void BackgroundOnMove();
+	void ExitWarning();
 	void ShowImage();
 	void ShowText(CDC *pDC);
 };

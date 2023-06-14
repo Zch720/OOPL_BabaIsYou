@@ -312,6 +312,9 @@ void CGameStateRun::mainPageKeyDown(KeyInputType inputType) {
 		mainPage.ChooserEnter();
 		mainPage.SwitchCheck();
 	}
+	else if (inputType == INPUT_PAUSE) {
+		mainPage.ExitWarning();
+	}
 }
 void CGameStateRun::mainPageLeftButtonDown(CPoint point) {
 	mainPage.CheckMouseClick(point);

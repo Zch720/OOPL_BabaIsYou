@@ -273,16 +273,21 @@ void CGameStateRun::mainPageInit() {
 		cloudAnimation.StartCloudClose();
 	});
 	mainPage.SetStartTheGameFunc([this]() {
-		atMainMenu = false;
-		currentLevel = lastestMap;
-		clearInputBuffer();
-		audioManager.PlayChangeSceneSound();
-		cloudAnimation.StartCloudClose();
+		audioManager.PlayChooseButtonSound();
+	});
+	mainPage.SetPlayLevelFunc([this]() {
+		audioManager.PlayChooseButtonSound();
+	});
+	mainPage.SetLevelEditorFunc([this]() {
+		audioManager.PlayChooseButtonSound();
 	});
 	mainPage.SetSettingsFunc([this]() {
 		isSetting = true;
 		audioManager.PlayChooseSettingSound();
 		createMenuSettingPage();
+	});
+	mainPage.SetCreditsFunc([this]() {
+		audioManager.PlayChooseButtonSound();
 	});
 	mainPage.SetExitTheGameFunc([this]() {
 		gameEnd = true;

@@ -10,8 +10,10 @@ class Map {
 private:
 	vector2d<Mapobject> worldVector;
 	Mapobject box;
-	void CreateWorldVector();
 	CMovingBitmap worldBackground;
+
+	void CreateWorldVector();
+	bool checkWalkable(POINT position);
 
 public:
 	int worldVectorWidth;

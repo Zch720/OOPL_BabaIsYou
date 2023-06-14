@@ -354,18 +354,6 @@ void CGameStateRun::levelMapKeyDown(KeyInputType inputType) {
 	}
 	else if (inputType == INPUT_ENTER) {
 		if (levelMap.CheckIndex() != -1) {
-			if (currentLevel == 1000) {
-				map1000BoxPosition = levelMap.GetBoxPosition();
-			}
-			else if (currentLevel == 1001) {
-				map1001BoxPosition = levelMap.GetBoxPosition();
-			}
-			else if (currentLevel == 1002) {
-				map1002BoxPosition = levelMap.GetBoxPosition();
-			}
-			else if (currentLevel == 1003) {
-				map1003BoxPosition = levelMap.GetBoxPosition();
-			}
 			currentLevel = levelMap.CheckIndex();
 			cloudAnimation.StartCloudClose();
 			AudioManager::PlayEnterLevelSound();
@@ -374,6 +362,19 @@ void CGameStateRun::levelMapKeyDown(KeyInputType inputType) {
 	else if (inputType == INPUT_PAUSE) {
 		isPause = true;
 		createMapPausePage();
+	}
+
+	if (lastestMap == 1000) {
+		map1000BoxPosition = levelMap.GetBoxPosition();
+	}
+	else if (lastestMap == 1001) {
+		map1001BoxPosition = levelMap.GetBoxPosition();
+	}
+	else if (lastestMap == 1002) {
+		map1002BoxPosition = levelMap.GetBoxPosition();
+	}
+	else if (lastestMap == 1003) {
+		map1003BoxPosition = levelMap.GetBoxPosition();
 	}
 }
 

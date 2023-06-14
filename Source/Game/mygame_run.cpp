@@ -342,6 +342,7 @@ void CGameStateRun::levelMapKeyDown(KeyInputType inputType) {
 			}
 			currentLevel = levelMap.CheckIndex();
 			cloudAnimation.StartCloudClose();
+			AudioManager::PlayEnterLevelSound();
 		}
 	}
 	else if (inputType == INPUT_PAUSE) {

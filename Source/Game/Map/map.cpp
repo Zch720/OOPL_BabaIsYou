@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "map.h"
+#include "../AudioManager/audio_manager.h"
 #include "../../Expansion/log.h"
 #include "../../Expansion/dataio.h"
 #include "../../Expansion/string_proc.h"
@@ -107,6 +108,7 @@ void Map::MoveUp() {
 		if (checkWalkable(box.mapobjectPosition.Up())) {
 			box.MoveUp(textureOrigionPosition);
 			undoBuffer.push(DIRECTION_DOWN);
+			AudioManager::PlayMoveSound();
 		}
 	}
 }
@@ -116,6 +118,7 @@ void Map::MoveDown() {
 		if (checkWalkable(box.mapobjectPosition.Down())) {
 			box.MoveDown(textureOrigionPosition);
 			undoBuffer.push(DIRECTION_UP);
+			AudioManager::PlayMoveSound();
 		}
 	}
 }
@@ -125,6 +128,7 @@ void Map::MoveLeft() {
 		if (checkWalkable(box.mapobjectPosition.Left())) {
 			box.MoveLeft(textureOrigionPosition);
 			undoBuffer.push(DIRECTION_RIGHT);
+			AudioManager::PlayMoveSound();
 		}
 	}
 }
@@ -134,6 +138,7 @@ void Map::MoveRight() {
 		if (checkWalkable(box.mapobjectPosition.Right())) {
 			box.MoveRight(textureOrigionPosition);
 			undoBuffer.push(DIRECTION_LEFT);
+			AudioManager::PlayMoveSound();
 		}
 	}
 }
@@ -155,6 +160,7 @@ void Map::Undo() {
 	else if (direction == DIRECTION_RIGHT) {
 		box.MoveRight(textureOrigionPosition);
 	}
+	AudioManager::PlayUndoSound();
 }
 
 bool Map::checkWalkable(POINT position) {

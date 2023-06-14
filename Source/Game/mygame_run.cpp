@@ -359,6 +359,12 @@ void CGameStateRun::levelMapKeyDown(KeyInputType inputType) {
 			else if (currentLevel == 1001) {
 				map1001BoxPosition = levelMap.GetBoxPosition();
 			}
+			else if (currentLevel == 1002) {
+				map1002BoxPosition = levelMap.GetBoxPosition();
+			}
+			else if (currentLevel == 1003) {
+				map1003BoxPosition = levelMap.GetBoxPosition();
+			}
 			currentLevel = levelMap.CheckIndex();
 			cloudAnimation.StartCloudClose();
 			AudioManager::PlayEnterLevelSound();

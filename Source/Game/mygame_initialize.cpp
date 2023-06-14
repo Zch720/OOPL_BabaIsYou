@@ -17,6 +17,8 @@ int lastestMap = 1000;
 Map levelMap = Map();
 POINT map1000BoxPosition = {0, 13};
 POINT map1001BoxPosition = {4, 9};
+POINT map1002BoxPosition = {2, 10};
+POINT map1003BoxPosition = {1, 8};
 LevelManager levelManager;
 AudioManager audioManager;
 CloudAnimation cloudAnimation;
@@ -53,6 +55,12 @@ void CGameStateInit::OnBeginState()
 			}
 			else if (currentLevel == 1001) {
 				levelMap.SetBoxPosition(Point(map1001BoxPosition.x, map1001BoxPosition.y));
+			}
+			else if (currentLevel == 1002) {
+				levelMap.SetBoxPosition(Point(map1002BoxPosition.x, map1002BoxPosition.y));
+			}
+			else if (currentLevel == 1003) {
+				levelMap.SetBoxPosition(Point(map1003BoxPosition.x, map1003BoxPosition.y));
 			}
 			lastestMap = currentLevel;
 		}

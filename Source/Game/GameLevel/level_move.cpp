@@ -76,6 +76,8 @@ void LevelMove::MoveWait() {
 		Direction oppositeDirection = GetOppositeDirection(direction);
 		if (checkBlockMoveable(objectInfo.position + getMoveOffset(direction), direction)) {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, direction));
+		} else if (moveBlockPreviousUnmoveableWithMove(objectInfo.position, direction)) {
+			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, direction));
 		} else if (checkBlockMoveable(objectInfo.position + getMoveOffset(oppositeDirection), oppositeDirection)) {
 			moveObjects.insert(MoveInfo::FromObjectInfo(objectInfo, oppositeDirection));
 		}

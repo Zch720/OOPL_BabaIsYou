@@ -132,11 +132,11 @@ void MainPage::SetStartTheGameFunc(ButtonOnClickFunc func) {
 }
 
 void MainPage::SetPlayLevelFunc(ButtonOnClickFunc func) {
-	startTheGame.SetOnClickFunc(func);
+	playLevel.SetOnClickFunc(func);
 }
 
 void MainPage::SetLevelEditorFunc(ButtonOnClickFunc func) {
-	startTheGame.SetOnClickFunc(func);
+	levelEditor.SetOnClickFunc(func);
 }
 
 void MainPage::SetSettingsFunc(ButtonOnClickFunc func) {
@@ -144,7 +144,7 @@ void MainPage::SetSettingsFunc(ButtonOnClickFunc func) {
 }
 
 void MainPage::SetCreditsFunc(ButtonOnClickFunc func) {
-	startTheGame.SetOnClickFunc(func);
+	credits.SetOnClickFunc(func);
 }
 
 void MainPage::SetExitTheGameFunc(ButtonOnClickFunc func) {

@@ -52,6 +52,7 @@ namespace game_framework {
 		INPUT_ENTER,
 		INPUT_BACK,
 		INPUT_PAUSE,
+		INPUT_RESTART,
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

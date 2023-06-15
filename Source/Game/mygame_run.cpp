@@ -140,6 +140,9 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	else if (nChar == VK_ESCAPE || nChar == 'P') {
 		inputBuffer.push(INPUT_PAUSE);
 	}
+	else if (nChar == 'R') {
+		inputBuffer.push(INPUT_RESTART);
+	}
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -414,6 +417,9 @@ void CGameStateRun::gameLevelKeyDown(KeyInputType inputType) {
 	else if (inputType == INPUT_PAUSE) {
 		isPause = true;
 		createLevelPausePage();
+	}
+	else if (inputType == INPUT_RESTART) {
+		cloudAnimation.StartCloudClose();
 	}
 }
 

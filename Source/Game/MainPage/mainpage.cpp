@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "mainpage.h"
+#include "../AudioManager/audio_manager.h"
 #include "../../Expansion/center_text.h"
 
 void MainPage::StandbyScreenInit() {
@@ -79,18 +80,22 @@ void MainPage::ChooserMove(int direction) {
 	if (direction == 0) {
 		chooserPoint.y -= 1;
 		chooserPoint.y &= 3;
+		AudioManager::PlayChooseButtonSound();
 	}
 	if (direction == 1) {
 		chooserPoint.y += 1;
 		chooserPoint.y &= 3;
+		AudioManager::PlayChooseButtonSound();
 	}
 	if (direction == 2) {
 		chooserPoint.x -= 1;
 		chooserPoint.x &= 1;
+		if (chooserPoint.y != 0) AudioManager::PlayChooseButtonSound();
 	}
 	if (direction == 3) {
 		chooserPoint.x += 1;
 		chooserPoint.x &= 1;
+		if (chooserPoint.y != 0) AudioManager::PlayChooseButtonSound();
 	}
 	POINT whichButton = chooserLocation[4 * chooserPoint.x + chooserPoint.y];
 	chooser.SetTopLeft(whichButton.x, whichButton.y);

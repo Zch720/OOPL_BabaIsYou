@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "setting.h"
+#include "../AudioManager/audio_manager.h"
 #include "../../Expansion/dataio.h"
 #include "../../Expansion/string_proc.h"
 #include "../../Expansion/center_text.h"
@@ -454,6 +455,7 @@ void Setting::ChooserMoveUp() {
 
 		}
 	}
+	AudioManager::PlayChooseButtonSound();
 }
 
 void Setting::ChooserMoveDown() {
@@ -477,6 +479,7 @@ void Setting::ChooserMoveDown() {
 			chooser.SetTopLeft(428, 876);
 		}
 	}
+	AudioManager::PlayChooseButtonSound();
 }
 
 void Setting::ChooserMoveLeft() {
@@ -488,6 +491,7 @@ void Setting::ChooserMoveLeft() {
 			else {
 				chooserPoint_x -= 1;
 			}
+			AudioManager::PlayChooseButtonSound();
 		}
 		else if (chooserPoint_y < 2) {
 			int x = barPointVector[chooserPoint_y].GetLeft();
@@ -517,6 +521,7 @@ void Setting::ChooserMoveRight() {
 			else {
 				chooserPoint_x += 1;
 			}
+			AudioManager::PlayChooseButtonSound();
 		}
 		else if (chooserPoint_y < 2) {
 			int x = barPointVector[chooserPoint_y].GetLeft();
@@ -554,6 +559,7 @@ void Setting::ChooserClick() {
 			backToSetting.Click();
 		}
 	}
+	AudioManager::PlayChooseButtonSound();
 }
 
 void Setting::ShowImage() {

@@ -613,8 +613,8 @@ void Setting::ShowText(CDC *pDC) {
 		buttonVector[Back].ShowText(pDC);
 		CenterTextDraw::Print(pDC, 960, 100, "SETTING:");
 		CenterTextDraw::Print(pDC, 500, 200, "MUSIC VOLUME:");
-		CenterTextDraw::Print(pDC, 500, 250, "SOUND VILUME:");
-		CenterTextDraw::Print(pDC, 578, 300, "INPUT REPEAT DELAY:");
+		CenterTextDraw::Print(pDC, 500, 250, "SOUND VOLUME:");
+		CenterTextDraw::Print(pDC, 560, 300, "INPUT REPEAT DELAY:");
 		CenterTextDraw::Print(pDC, 237, 946, "ZOOM MODE:");
 	}
 	else {

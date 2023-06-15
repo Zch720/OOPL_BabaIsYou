@@ -58,6 +58,21 @@ void MainPage::MainpageInit() {
 	StartScreenInit();
 }
 
+void MainPage::SetShowCredits(bool show) {
+	showCredits = show;
+	if (show) {
+		creditsTextTop = 1080;
+	}
+}
+
+bool MainPage::IsShowCredits() {
+	return showCredits;
+}
+
+bool MainPage::GetCreditsEnd() {
+	return creditsTextTop <= CREDITS_TEXT_TOP_MIN;
+}
+
 void MainPage::ChooserMove(int direction) {
 	if (showWarning) return;
 
@@ -209,6 +224,7 @@ void MainPage::ExitWarning() {
 
 void MainPage::ShowImage() {
 	if (showWarning) return;
+	if (showCredits) return;
 
 	BackgroundOnMove();
 	for (int i = 0; i < 9; i++) {
@@ -238,6 +254,59 @@ void MainPage::ShowText(CDC *pDC) {
 		CenterTextDraw::Print(pDC, 960, 490, "This feature is not implemented");
 		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x85E2ED);
 		CenterTextDraw::Print(pDC, 960, 620, "Please press the ESC key to return");
+	} else if (showCredits) {
+		CTextDraw::ChangeFontLog(pDC, 80, "Darumadrop One", RGB(217, 57, 106));
+		showCreditsLine(pDC, 960, 100, "BABA IS YOU");
+		showCreditsLine(pDC, 960, 3600, "BABA IS YOU");
+		showCreditsLine(pDC, 960, 4100, "BABA IS YOU");
+
+		CTextDraw::ChangeFontLog(pDC, 80, "Darumadrop One", RGB(237, 28, 36));
+		showCreditsLine(pDC, 960, 900, "NO PORTING");
+		showCreditsLine(pDC, 960, 1500, "NOBODY");
+		showCreditsLine(pDC, 960, 1800, "NOBODY");
+		showCreditsLine(pDC, 960, 3100, "UNSPONSORED");
+
+		CTextDraw::ChangeFontLog(pDC, 27, "Darumadrop One", RGB(237, 226, 133));
+		showCreditsLine(pDC, 1390, 120, "COPYCAT VERSION");
+
+		CTextDraw::ChangeFontLog(pDC, 80, "Darumadrop One", RGB(255, 255, 255));
+		showCreditsLine(pDC, 960, 200, "2023");
+		showCreditsLine(pDC, 960, 400, "DESIGN, CODE ETC BY");
+		showCreditsLine(pDC, 960, 600, "MUSIC & SFX BY");
+		showCreditsLine(pDC, 960, 800, "PORTING BY");
+		showCreditsLine(pDC, 960, 1100, "TESTERS");
+		showCreditsLine(pDC, 960, 1400, "AUDIO CONSULTANT");;
+		showCreditsLine(pDC, 960, 1700, "TRANSLATION");
+		showCreditsLine(pDC, 960, 2000, "HELP AND SUGGESTIONS");
+		showCreditsLine(pDC, 960, 2300, "FONT SOURCE");
+		showCreditsLine(pDC, 960, 2600, "THANKS");
+		showCreditsLine(pDC, 960, 3000, "SPECIAL THANKS");
+		showCreditsLine(pDC, 960, 3300, "MUSIC USING");
+		showCreditsLine(pDC, 960, 3500, "BY");
+		showCreditsLine(pDC, 960, 3800, "SOUND USING");
+		showCreditsLine(pDC, 960, 4000, "BY");
+		showCreditsLine(pDC, 960, 4300, "THIS GAME WAS MADE USING");
+		showCreditsLine(pDC, 680, 4500, "BY");
+		showCreditsLine(pDC, 680, 4800, "BY");
+
+		CTextDraw::ChangeFontLog(pDC, 80, "Darumadrop One", RGB(131, 200, 229));
+		showCreditsLine(pDC, 960, 500, "ZCH - DENSUNG");
+		showCreditsLine(pDC, 960, 700, "ZCH - DENSUNG");
+		showCreditsLine(pDC, 960, 3400, "ALL MUSIC COPY");
+		showCreditsLine(pDC, 960, 3900, "ALL SOUND COPY");
+		showCreditsLine(pDC, 960, 4400, "VISUAL STUDIO 2017");
+		showCreditsLine(pDC, 960, 4700, "LEISTUNGSSTARKES GAME FRAMEWORK");
+		
+		CTextDraw::ChangeFontLog(pDC, 80, "Darumadrop One", RGB(235, 145, 202));
+		showCreditsLine(pDC, 960, 1200, "NTUT-XUAN");
+		showCreditsLine(pDC, 960, 2100, "NTUT-XUAN");
+		showCreditsLine(pDC, 960, 2400, "GOOGLE FONT - DARUMADROP ONE");
+		showCreditsLine(pDC, 960, 2700, "SHUO-HAN CHEN");
+		showCreditsLine(pDC, 960, 2800, "NTUT-XUAN");
+		showCreditsLine(pDC, 1050, 4500, "MICROSOFT");
+		showCreditsLine(pDC, 1050, 4800, "NTUT-XUAN");
+
+		creditsTextTop -= 3;
 	} else if (screenSwitch) {
 		CTextDraw::ChangeFontLog(pDC, 40, "Darumadrop One", 0x85E2ED);
 		startTheGame.ShowText(pDC);
@@ -250,4 +319,11 @@ void MainPage::ShowText(CDC *pDC) {
 		credits.ShowText(pDC);
 		exitTheGame.ShowText(pDC);
 	}
+}
+
+void MainPage::showCreditsLine(CDC *pDC, int centerx, int centery, std::string text) {
+	int realCenterY = centery + creditsTextTop;
+	if (realCenterY < -50) return;
+	if (realCenterY > 1130) return;
+	CenterTextDraw::Print(pDC, centerx, realCenterY, text);
 }

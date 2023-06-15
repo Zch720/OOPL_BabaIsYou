@@ -37,6 +37,7 @@ void CGameStateRun::OnBeginState()
 
 	if (atMainMenu) {
 		currentShowingLayout = 0;
+		mainPage.SetShowCredits(showMainMenuCredits);
 		audioManager.PlayMenuBGM();
 	}
 	else if (currentLevel >= 1000) {
@@ -51,6 +52,12 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
+	if (atMainMenu && mainPage.IsShowCredits() && !cloudAnimation.IsShowing()) {
+		if (mainPage.GetCreditsEnd()) {
+			showMainMenuCredits = false;
+			cloudAnimation.StartCloudClose();
+		}
+	}
 	if (!atMainMenu && currentLevel < 1000 && !cloudAnimation.IsShowing() && levelManager.IsWin()) {
 		currentLevel = lastestMap;
 		clearInputBuffer();
@@ -300,6 +307,8 @@ void CGameStateRun::mainPageInit() {
 	});
 	mainPage.SetCreditsFunc([this]() {
 		audioManager.PlayChooseButtonSound();
+		showMainMenuCredits = true;
+		cloudAnimation.StartCloudClose();
 	});
 	mainPage.SetExitTheGameFunc([this]() {
 		gameEnd = true;
@@ -321,8 +330,13 @@ void CGameStateRun::mainPageKeyDown(KeyInputType inputType) {
 		mainPage.ChooserMove(3);
 	}
 	else if (inputType == INPUT_ENTER) {
-		mainPage.ChooserEnter();
-		mainPage.SwitchCheck();
+		if (mainPage.IsShowCredits()) {
+			showMainMenuCredits = false;
+			cloudAnimation.StartCloudClose();
+		} else {
+			mainPage.ChooserEnter();
+			mainPage.SwitchCheck();
+		}
 	}
 	else if (inputType == INPUT_PAUSE) {
 		mainPage.ExitWarning();

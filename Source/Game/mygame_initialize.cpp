@@ -13,6 +13,7 @@ bool enterGame = true;
 bool mainPageInited = false;
 bool gameEnd = false;
 bool atMainMenu = true;
+bool showMainMenuCredits = false;
 int currentShowingLayout = 0;
 int currentLevel = 1000;
 int lastestMap = 1000;

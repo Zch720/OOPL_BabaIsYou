@@ -10,6 +10,7 @@ extern bool enterGame;
 extern bool mainPageInited;
 extern bool gameEnd;
 extern bool atMainMenu;
+extern bool showMainMenuCredits;
 extern int currentShowingLayout;
 extern int currentLevel;
 extern int lastestMap;

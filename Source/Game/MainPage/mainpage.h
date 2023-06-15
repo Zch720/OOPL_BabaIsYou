@@ -22,16 +22,27 @@ private:
 	bool screenSwitch = false;
 
 	bool showWarning = false;
+	bool showCredits = false;
+	int creditsTextTop = 1080;
+	static const int CREDITS_TEXT_TOP_MIN = -5100;
+
+	void showCreditsLine(CDC *pDC, int centerx, int centery, std::string text);
 
 public:
 	void MainpageInit();
 	void StandbyScreenInit();
 	void StartScreenInit();
 	void SwitchCheck();
+
+	void SetShowCredits(bool show);
+	bool IsShowCredits();
+	bool GetCreditsEnd();
+	
 	void ChooserMove(int direction);	// 0:up, 1:down, 2:left, 3:right
 	void CheckMouseMove(CPoint point);
 	void CheckMouseClick(CPoint point);
 	void ChooserEnter();
+
 	void SetContieuePlayingFunc(ButtonOnClickFunc func);
 	void SetStartTheGameFunc(ButtonOnClickFunc func);
 	void SetPlayLevelFunc(ButtonOnClickFunc func);

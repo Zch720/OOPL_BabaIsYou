@@ -159,15 +159,30 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 340, 60
+IDD_ABOUTBOX DIALOGEX 0, 0, 340, 237
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About game"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "Work on Leistungsstarkes Game Framework by ntut-xuan",IDC_STATIC,39,10,300,8,SS_NOPREFIX
-    LTEXT           "This game is made by densungs and zch, copy from Baba is you by Hempuli Oy.",IDC_STATIC,39,23,300,8
-    LTEXT           "Copyright (C) 2023",IDC_STATIC,39,36,119,8
+    ICON            IDR_MAINFRAME,IDC_STATIC,20,25,20,20
+    LTEXT           "Work on Leistungsstarkes Game Framework by ntut-xuan",IDC_STATIC,59,10,300,8,SS_NOPREFIX
+    LTEXT           "This game is made by densungs and zch, copy from Baba is you by Hempuli Oy.",IDC_STATIC,59,23,300,8
+    LTEXT           "Operation method:",IDC_STATIC,59,43,119,8
+    
+    LTEXT           "In Map:", IDC_STATIC,65,56,119,8
+    LTEXT           "Move: WASD or Arrow keys",IDC_STATIC,71,69,119,8
+    LTEXT           "Undo: Z",IDC_STATIC,71,82,119,8
+    LTEXT           "Enter level: Enter or Space",IDC_STATIC,71,95,119,8
+    LTEXT           "Pause: P or ESC",IDC_STATIC,71,108,119,8
+
+    LTEXT           "In Level:", IDC_STATIC, 65, 128, 119, 8
+    LTEXT           "Move: WASD or Arrow keys",IDC_STATIC,71,141,119,8
+    LTEXT           "Wait: Enter or Space",IDC_STATIC,71,154,119,8
+    LTEXT           "Undo: Z",IDC_STATIC,71,167,119,8
+    LTEXT           "Restart: R",IDC_STATIC,71,180,119,8
+    LTEXT           "Pause: P or ESC",IDC_STATIC,71,193,119,8
+
+    LTEXT           "Copyright (C) 2023",IDC_STATIC,59,213,119,8
 END
 
 

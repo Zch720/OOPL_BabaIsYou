@@ -26,11 +26,11 @@ void MainPage::StartScreenInit() {
 		background[i].SetTopLeft(1782 * (i % 3), 972 * (i / 3));
 	}
 
-	startScreenTitle.LoadBitmapByString({"Resources/mainpage/startscreen/title1.bmp","Resources/mainpage/startscreen/title2.bmp","Resources/mainpage/startscreen/title3.bmp",});
+	startScreenTitle.LoadBitmapByString({"Resources/mainpage/startscreen/title1.bmp","Resources/mainpage/startscreen/title2.bmp","Resources/mainpage/startscreen/title3.bmp",}, 0x000000);
 	startScreenTitle.SetTopLeft(531, 150);
 	startScreenTitle.SetAnimation(250, false);
 
-	startScreenLine.LoadBitmapByString({"Resources/mainpage/startscreen/line1.bmp",	"Resources/mainpage/startscreen/line2.bmp", "Resources/mainpage/startscreen/line3.bmp"});
+	startScreenLine.LoadBitmapByString({"Resources/mainpage/startscreen/line1.bmp",	"Resources/mainpage/startscreen/line2.bmp", "Resources/mainpage/startscreen/line3.bmp"}, 0x000000);
 	startScreenLine.SetTopLeft(508, 425);
 	startScreenLine.SetAnimation(250, false);
 
